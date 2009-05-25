@@ -1,0 +1,129 @@
+#include<vector>
+#include <cv.h>
+#include <highgui.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+
+#Include <boost/shared_ptr.hpp>
+
+using namespace std;
+
+class Image
+{
+public:
+  Image(char* name){_im=cvLoadImage(name);};
+  Image(IplImage* im){_im=cvCloneImage(im);};
+  ~Image(){};
+  IplImage* getCvImage(){return _im;};
+private:
+    IplImage* _im;
+};
+//----------------------------------------------------------------------
+//---------
+//..Fonction pour visualiser de images
+//
+void erShowImage(char* name,Image im)
+{
+  cvNamedWindow(name);
+  cvShowImage(name,im.getCvImage());
+  cvWaitKey();
+};
+Image erLoadImage(char* name)
+{
+  return Image(name);
+};
+void erReleaseImage(IplImage* im)
+{
+  cvReleaseImage(&im);
+}
+
+//----------------------------------------------------------------------
+//---------
+//..Class pour la  calibration
+//
+class erCalibration
+{
+public:
+  typedef std::vector<CvPoint2D32f>   CornerContainer;
+  typedef CornerContainer::iterator   CornerIterator;
+  // Constructeurs Destructeurs
+  erCalibration(){};
+  erCalibration(char* name_image_mesure,char* name_image_patron,int board_w,int board_h)
+  { 
+    _board_w              = board_w;
+    _board_h              = board_h;
+    _num_coins            = (board_w-1)*(board_h-1);
+    _image_mesure         = cvLoadImage(name_image_mesure); // Faire les tests de bons chargements
+    _image_patron         = cvLoadImage(name_image_patron);
+    _image_mesure->origin = _image_patron->origin;
+    _board_sz             = cvSize(board_w,board_h);
+    _warp_matrix          = cvCreateMat(3,3,CV_32F);
+    bool idp              = findCorners(_image_patron,_corners_patron);
+    bool idm              = findCorners(_image_mesure,_corners_mesure);
+    _identified = idp * idm;
+    };
+
+  ~erCalibration(){}; 
+  // Methodes d initialisation
+  // Methodes d acces
+  Image getPatron()
+  { 
+    return Image(_image_patron);
+  }
+ Image getMesure()
+  {
+    return Image(_image_mesure);
+  };
+  bool findCorners(IplImage *im,CornerContainer& corners_container)
+  { int          corner_count=0;
+    IplImage     *image ; 
+    CvPoint2D32f corners[_num_coins];
+    bool identified;
+    image = cvCloneImage(im);
+    
+    int found = cvFindChessboardCorners( image, _board_sz, corners, &corner_count, 
+       					   CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
+    if(found==0)
+      {
+	identified = true;
+	cvDrawChessboardCorners(im,_board_sz,corners,corner_count,1);
+	corners_container.insert(corners_container.end(),corners,corners+_num_coins);
+
+      }
+    else
+      {
+	std::cout << "...erCV : Nb coins detectes:" << corner_count << std::endl;
+	identified = false;
+	std::cout << "...erCv : Les coins n ont pas ete detecte..\n";
+      }
+    return identified;
+  };
+  Image operator()(Image ima)
+  {
+    return transformImage(ima);
+  }
+  Image transformImage(Image ima)
+  {
+    IplImage * ir = cvCloneImage(ima.getCvImage());
+    IplImage * im = ima.getCvImage();
+    if(_identified)
+      {
+	cvWarpPerspective(im,ir,_warp_matrix);
+      }
+    else
+      {
+	std::cout << "..Transformation impossible\n";
+      }
+    return Image(ir);
+  };
+ private:
+  bool            _identified;
+  int             _board_w,_board_h,_num_coins;
+  IplImage        *_image_mesure, *_image_patron;  // Voir pour le remplacer par un boost::shared_ptr
+  CvSize          _board_sz;
+  CvMat*          _warp_matrix;
+  CornerContainer _corners_patron,_corners_mesure;
+};
+
+

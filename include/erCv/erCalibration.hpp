@@ -1,0 +1,67 @@
+/** @file erCalibration.hpp 
+ \brief Classe permettant d effectuer la calibration de la camera et
+   de transforme les images prise par la camera dans une configuration
+  @package erCv
+ 
+*/
+/**  @addtogroup cv_group */
+#ifndef _erCalibration_hpp_
+#define _erCalibration_hpp_
+/*@{*/
+#include<vector>
+#include <cv.h>
+//#include <highgui.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+
+#include "erCvBase.hpp"
+
+using namespace std;
+
+
+//----------------------------------------------------------------------
+//---------
+//..Class pour la  calibration
+//
+class erCalibration
+/**
+   Classe permettant de calibrer la prise de vue de la camera et ainsi de se placer 
+   dans le plan perpendiculaire au plan local.
+   Mai-2009: Uniquement une wrap perspective est utilisé pour transformer les 
+   images
+*/
+{
+public:
+  // Quelques definitions de type utile par la suite
+  typedef std::vector<CvPoint2D32f>   CornerContainer;
+  typedef CornerContainer::iterator   CornerIterator;
+  // Constructeurs Destructeurs
+  erCalibration();
+  /** \brief Permet de trouver la matrice de passage de l 
+					 image patron a image mesure 
+					 les entiers correspondent a la taille de l echiquier
+					 Aujourd'hui(mai 2009), uniquement (3,3)
+				       */
+  erCalibration(char*,char*,int ,int);
+  ~erCalibration(); 
+
+  // Methodes d acces
+  /** \brief Permet d extraire l image patron */
+  Image getPatron(); 
+  /** \brief Permet d extraire l image mesure */
+  Image getMesure(); 
+  /** \brief Permet de transformer une Image */
+  Image transformImage(Image); 
+ private:
+  bool  findCorners(IplImage *,CornerContainer&);
+  // Variables membres......
+  bool            _identified;                      // Booleen pour savoir si tous les sommets on ete dectectes
+  int             _board_w,_board_h,_num_coins;
+  IplImage        *_image_mesure, *_image_patron;  // Image OpenCv pour 
+  CvSize          _board_sz;                       
+  CvMat*          _warp_matrix;                    // Matrice de passage pour la transformation perspective
+  CornerContainer _corners_patron,_corners_mesure; // Stocke les sommets
+};
+/*@}*/
+#endif
