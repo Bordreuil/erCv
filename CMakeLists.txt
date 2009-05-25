@@ -20,7 +20,7 @@ if ( CGAL_FOUND )
   include( ${CGAL_USE_FILE} )
 endif()
   
-SET(ERCV_INCLUDE_DIR include)
+SET(ERCV_INCLUDE_DIR include/erCv)
 SET(ERCV_LIBRARY_DIR src)
 
 ADD_SUBDIRECTORY(src)
