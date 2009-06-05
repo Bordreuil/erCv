@@ -1,6 +1,8 @@
-#include "erCvCgal.hpp"
+#include "erCvToCgal.hpp"
+#include "erCgalPolygon2.hpp"
 #include<iterator>
 #include<iostream>
+
 int main()
 {
   std::vector<CvPoint2D32f> cvPts;

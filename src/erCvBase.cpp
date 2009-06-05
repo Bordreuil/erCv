@@ -1,26 +1,45 @@
 #include "erCvBase.hpp" 
+#include "erFileUtilities.hpp"
 
 // Programmation de la classeImage
-Image::Image(){_im=NULL;};
-Image::Image(char* name){_im=cvLoadImage(name);}; // TODO: test si l image existe
-Image::Image(IplImage* im){_im=cvCloneImage(im);};
-Image::~Image(){};
-IplImage* Image::getCvImage(){return _im;};
-//void Image::loadImage(char * name){_im=cvLoadImage(name);};
+erImage::erImage():IplImage(){};
+erImage::erImage(char* name):IplImage(*cvLoadImage(name))
+{
+}; 
+
+erImage::erImage(IplImage* im):IplImage(*im){};
+erImage::~erImage(){};
 
 // Interface pour des fonctions d open cv
-void erShowImage(char* name,Image im)
+void erShowImage(char* name,IplImage* im)
 {
   cvNamedWindow(name);
-  cvShowImage(name,im.getCvImage());
+  cvShowImage(name,im);
   cvWaitKey();
-};
-Image erLoadImage(char* name)
-{
-  return Image(name);
+  cvDestroyWindow(name);
 };
 
-void erSaveImage(char* name,Image im)
+erImage erLoadImage(char* name)
+{ if(erFileExists(name))
+  {
+      return  erImage(name);
+  }
+  else
+    { std::cout << "...Impossible d instancier un objet de type erImage a partir du fichier:" << name << std::endl;
+      IplImage * im = NULL;
+      return erImage(im);
+  };
+};
+
+void erSaveImage(char* name,IplImage* im)
 {
-  cvSaveImage(name,im.getCvImage());
-}
+  cvSaveImage(name,im);
+};
+
+erImage erConvertToBlackAndWhite(IplImage* im)
+{
+   IplImage * ipbw = cvCreateImage( cvGetSize(im), im->depth, 1);
+   cvCvtColor(im, ipbw, CV_RGB2GRAY);
+   erImage bw(ipbw);
+   return bw;
+};

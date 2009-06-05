@@ -13,10 +13,12 @@
 #include<vector>
 
 /**
-   Permet de transferer un point d opencv de type double
+   Permet de transferer un point d opencv de n importe quel type
    vers le point defini dans Cgal (erCgalBase.hpp
  */
-Point_2 cvToCgal(CvPoint2D32f& cv_pt)
+
+template<typename cvPoint>
+Point_2 cvToCgal(cvPoint& cv_pt)
 {
   Point_2 pt(cv_pt.x,cv_pt.y);
   return pt;
@@ -36,6 +38,7 @@ void cvPointsToCgal(InIterator debut,InIterator fin,OutIterator out)
     }
 
 };
+
 
 
 

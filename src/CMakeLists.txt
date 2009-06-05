@@ -12,5 +12,9 @@ LINK_LIBRARIES(${OpenCV_CV_LIBRARY}
 	       ${OpenCV_HIGHGUI_LIBRARY} 
 	       ${OpenCV_CXCORE_LIBRARY} )
 
-ADD_LIBRARY(erCv erCalibration erCvBase erFileUtilities )
+ADD_LIBRARY(erCv erCalibration 
+		 erCvBase 
+		 erFileUtilities 
+		 erCvFilters
+		 erPredicates)
 

@@ -1,3 +1,4 @@
+
 /** @file erCalibration.hpp 
  \brief Classe permettant d effectuer la calibration de la camera et
    de transforme les images prise par la camera dans une configuration
@@ -29,7 +30,7 @@ class erCalibration
    Classe permettant de calibrer la prise de vue de la camera et ainsi de se placer 
    dans le plan perpendiculaire au plan local.
    Mai-2009: Uniquement une wrap perspective est utilisé pour transformer les 
-   images
+   images, pas de correction de distorsions d images
 */
 {
 public:
@@ -48,13 +49,13 @@ public:
 
   // Methodes d acces
   /** \brief Permet d extraire l image patron */
-  Image getPatron(); 
+  erImage get_patron(); 
   /** \brief Permet d extraire l image mesure */
-  Image getMesure(); 
+  erImage get_mesure(); 
   /** \brief Permet de transformer une Image */
-  Image transformImage(Image); 
+  erImage transform_image(erImage); 
  private:
-  bool  findCorners(IplImage *,CornerContainer&);
+  bool  find_corners(IplImage *,CornerContainer&);
   // Variables membres......
   bool            _identified;                      // Booleen pour savoir si tous les sommets on ete dectectes
   int             _board_w,_board_h,_num_coins;

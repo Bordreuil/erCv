@@ -1,3 +1,17 @@
+/** \mainpage
+    Le projet erCv est un module developpe au cours du projet ANR Jeunes Chercheurs
+    TEMMSA 2007 effectue au sein du Laboratoire de Mecanique et Genie Civil/UMR5508 de l' Universite de Montpellier 2. Le module developpe par Edward Romero edward.romero@lmgc.univ-montp2.fr
+    est essentiellement un couplage entre plusieurs bibliotheques OpenSource:
+    - OpenCv : permet de realiser le traitement d image (segmentation, seuillage,calibration,..)
+    -  CGAL 3.4 : permet de quantifier tous les aspects geometriques
+    .
+    
+    L'installation necessite un compilateur C++.
+    L'installation d erCv necessite le logiciel OpenSource CMake http://www.cmake.org
+    Une extension du module est prevu en python et necessite la bibliotheque Boost.python
+    http://www.boost.org 
+ */
+
 /** @file erCvBase.hpp 
   \brief Fichier contenant l encapsulation par une classe de la structure 
    IplImage d openCv ainsi que la redefinition de quelques fonctions d openCv
@@ -15,36 +29,35 @@
 /** \addtogroup cv_group */
 /*@{*/
 
-class Image
+class erImage : public IplImage
 /** 
     Encapsulation de la structure IplImage d openCv
-    pour utiliser Image dans des fonctions d openCv, il faut
-    demander la fonction d acces : getCvImage qui ressort un IplImage*
+    erImage derive de la classe IplImage, on peut utiliser l ensemble des fonctions
+    d opencv directement avec un pointeur sur cette classe.
  */
 {
 public:
-  Image();
-  Image(char* );
-  Image(IplImage* );
-  ~Image();
-/** \brief Retourne le pointeur IplImage */
-  IplImage* getCvImage(); 
-private:
-    IplImage* _im;
+  erImage();
+  erImage(char* );
+  erImage(IplImage* );
+  ~erImage();
+  
 };
 
 // Quelques fonctions utiles d' OpenCv
 /** \brief Fonction permettant de visualiser une Image a l aide
  d openCv
  */
-void erShowImage(char* ,Image);
+void erShowImage(char* ,IplImage*);
 /** \brief Fonction permettant de charge une  Image a l aide
  d openCv
  */
-Image erLoadImage(char* );
+erImage erLoadImage(char* );
 /** \brief Fonction permettant de sauvegarder une image a l aide
  d openCv
  */
-void erSaveImage(char*,Image);
+void erSaveImage(char*,IplImage*);
+/** Fonction permettant de convertir une image en noir et blanc */
+erImage erConvertToBlackAndWhite(IplImage*);
 /*@}*/
 #endif

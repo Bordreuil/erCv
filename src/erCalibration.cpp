@@ -11,7 +11,8 @@ erCalibration::erCalibration(char* name_image_patron,char* name_image_mesure,int
 
     bool mesure_loaded    = erFileExists(name_image_mesure);
     bool patron_loaded    = erFileExists(name_image_patron);
-    bool files_loaded = mesure_loaded*patron_loaded;
+    bool files_loaded     = mesure_loaded*patron_loaded;
+    
     if(files_loaded)
       {
 	_image_mesure         = cvLoadImage(name_image_mesure); // Faire les tests de bons chargements
@@ -20,8 +21,8 @@ erCalibration::erCalibration(char* name_image_patron,char* name_image_mesure,int
 	_board_sz             = cvSize(board_w,board_h);
 	_warp_matrix          = cvCreateMat(3,3,CV_32F);
 
-	bool idp              = findCorners(_image_patron,_corners_patron);
-	bool idm              = findCorners(_image_mesure,_corners_mesure);
+	bool idp              = find_corners(_image_patron,_corners_patron);
+	bool idm              = find_corners(_image_mesure,_corners_mesure);
 	_identified = idp * idm;
 	if(_identified)
       
@@ -43,15 +44,15 @@ erCalibration::~erCalibration(){};
   // Methodes d initialisation
   // Methodes d acces
 
-Image erCalibration::getPatron()
+erImage erCalibration::get_patron()
   { 
-    return Image(_image_patron);
+    return erImage(_image_patron);
   };
-Image erCalibration::getMesure()
+erImage erCalibration::get_mesure()
   {
-    return Image(_image_mesure);
+    return erImage(_image_mesure);
   };
-bool erCalibration::findCorners(IplImage *im,CornerContainer& corners_container)
+bool erCalibration::find_corners(IplImage *im,CornerContainer& corners_container)
   { int          corner_count=0;
     IplImage     *image ; 
     CvPoint2D32f corners[_num_coins];
@@ -76,10 +77,10 @@ bool erCalibration::findCorners(IplImage *im,CornerContainer& corners_container)
     return identified;
   };
 
-Image  erCalibration::transformImage(Image ima)
+erImage  erCalibration::transform_image(erImage ima)
   {
-    IplImage * ir = cvCloneImage(ima.getCvImage());
-    IplImage * im = ima.getCvImage();
+    IplImage * ir = cvCloneImage(&ima);
+    IplImage * im = &ima;
     
 
     if(_identified)
@@ -92,5 +93,5 @@ Image  erCalibration::transformImage(Image ima)
 	std::cout << "..Transformation impossible\n";
       }
  
-    return Image(ir);
+    return erImage(ir);
   };
