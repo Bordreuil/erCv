@@ -9,7 +9,7 @@
 /**  Aide de cgal http://www.cgal.org */
 /**\addtogroup cgal */
 /*@{*/
-#include<CGAL/exact_predicates_inexact_constructions_kernel.h>
+#include<CGAL/Exact_predicates_inexact_constructions_kernel.h>
 
 /** \brief  defintion du type de noyau */
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
