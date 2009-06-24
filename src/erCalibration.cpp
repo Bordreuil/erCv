@@ -3,7 +3,7 @@
 
 
 erCalibration::erCalibration(){};
-erCalibration::erCalibration(char* name_image_patron,char* name_image_mesure,int board_w,int board_h)
+erCalibration::erCalibration( char* name_image_patron, char* name_image_mesure, int board_w, int board_h)
 { 
     _board_w              = board_w;
     _board_h              = board_h;
