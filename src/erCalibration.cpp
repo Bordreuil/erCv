@@ -78,11 +78,10 @@ bool erCalibration::find_corners(IplImage *im,CornerContainer& corners_container
   };
 
 erImage  erCalibration::transform_image(erImage ima)
-  {
-    IplImage * ir = cvCloneImage(&ima);
+  { 
+    IplImage * ir = cvCloneImage(_image_patron);
     IplImage * im = &ima;
-    
-
+ 
     if(_identified)
       {
 	cvWarpPerspective(im,ir,_warp_matrix);
