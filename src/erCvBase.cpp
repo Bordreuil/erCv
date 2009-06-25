@@ -1,5 +1,5 @@
-#include "erCvBase.hpp" 
-#include "erFileUtilities.hpp"
+#include <erCv/erCvBase.hpp> 
+#include <erCv/utilities/erFileUtilities.hpp>
 
 // Programmation de la classeImage
 erImage::erImage():IplImage(){};

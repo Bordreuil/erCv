@@ -10,6 +10,8 @@
     L'installation d erCv necessite le logiciel OpenSource CMake http://www.cmake.org
     Une extension du module est prevu en python et necessite la bibliotheque Boost.python
     http://www.boost.org 
+
+    Les fichiers interfaces (.hpp) sont accessibles dans un programme en specifiant le repertoire include ou include/erCv suivant l utilisation qu'on veut en faire.
  */
 
 /** @file erCvBase.hpp 

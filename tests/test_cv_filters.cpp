@@ -1,15 +1,16 @@
-#include "erCvFilters.hpp"
-#include "erPredicates.hpp"
-#include "erCvExtract.hpp"
-#include "erCvToCgal.hpp"
-#include "erCgalAlphaShape2.hpp"
+#include <erCv/erCvFilters.hpp>
+#include <erCv/utilities/erPredicates.hpp>
+#include <erCv/erCvExtract.hpp>
+#include <erCv/erCvToCgal.hpp>
+#include <erCv/CGAL/erCgalAlphaShape2.hpp>
 #include<list>
 #include<iterator>
+
 int main(){
-  erImage er    = erLoadImage("pos1_cuadro.bmp");
+  erImage er    = erLoadImage("ed20090619_3_02176.bmp");
   erShowImage("base Image",&er);
   erImage bw    = erConvertToBlackAndWhite(&er);
-  erImage ercan = erSmoothAndCanny(bw,1,5);
+  erImage ercan = erSmoothAndCanny(bw,200,1);
   erShowImage("after Canny",&ercan);
   IsEqualTo is_equal_255(255);
   std::list<CvPoint2D32f> cvPts;
@@ -17,5 +18,6 @@ int main(){
   std::list<Point_2> cgalPts;
   cvPointsToCgal(cvPts.begin(),cvPts.end(),std::back_inserter(cgalPts));
   Alpha_shape_2 as2(cgalPts.begin(),cgalPts.end(),FT(10.));
+  std::cout << as2 << std::endl;
   return 0;
 };

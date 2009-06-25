@@ -5,12 +5,9 @@
     a l utilisation du module erCv
 */
 
-#include "erCvBase.hpp"
-#include "erCalibration.hpp"
-#include "erCgalBase.hpp"
-#include "erCvToCgal.hpp"
-
-
-
+#include <erCv/erCvBase.hpp>
+#include <erCv/erCalibration.hpp>
+#include <erCv/CGAL/erCgalBase.hpp>
+#include <erCv/erCvToCgal.hpp>
 
 #endif

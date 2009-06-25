@@ -1,4 +1,4 @@
-#include "erPredicates.hpp"
+#include <erCv/utilities/erPredicates.hpp>
 
 CriteriaFunctor::CriteriaFunctor():__value(0){};
 CriteriaFunctor::CriteriaFunctor(int value):__value(value){};

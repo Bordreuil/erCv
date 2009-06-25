@@ -8,8 +8,8 @@
 #define  _MY_ERCVCGAL_HPP_
 
 
-#include "erCgalBase.hpp"
-#include "erCvBase.hpp"
+#include <erCv/CGAL/erCgalBase.hpp>
+#include <erCv/erCvBase.hpp>
 #include<vector>
 
 /**

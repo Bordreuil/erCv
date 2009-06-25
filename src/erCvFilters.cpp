@@ -1,4 +1,4 @@
-#include "erCvFilters.hpp"
+#include <erCv/erCvFilters.hpp>
 #include <iostream>
 
 erImage erSmoothAndCanny(erImage pic1, int A=1, int B=2)

@@ -1,4 +1,4 @@
-#include "erCv.hpp"
+#include <erCv/erCv.hpp>
 
 int main()
 {
