@@ -2,8 +2,9 @@
 #include <erCv/utilities/erPredicates.hpp>
 #include <erCv/erCvExtract.hpp>
 #include <erCv/erCvToCgal.hpp>
-#include <erCv/CGAL/erCgalAlphaShape2.hpp>
+#include <erCv/geometry/erCgalAlphaShape2.hpp>
 #include<list>
+#include<fstream>
 #include<iterator>
 
 int main(){
@@ -18,6 +19,14 @@ int main(){
   std::list<Point_2> cgalPts;
   cvPointsToCgal(cvPts.begin(),cvPts.end(),std::back_inserter(cgalPts));
   Alpha_shape_2 as2(cgalPts.begin(),cgalPts.end(),FT(10.));
-  std::cout << as2 << std::endl;
+  std::list<Segment_2> segments;
+  alpha_edges( as2, std::back_inserter(segments));
+  std::ofstream ot("edges.dat");
+  std::list<Segment_2>::iterator  is;
+  for(is=segments.begin();is!=segments.end();is++)
+    {
+      ot << *is << std::endl;
+    };
+
   return 0;
 };

@@ -7,7 +7,7 @@
 
 #include <erCv/erCvBase.hpp>
 #include <erCv/erCalibration.hpp>
-#include <erCv/CGAL/erCgalBase.hpp>
+#include <erCv/geometry/erCgalBase.hpp>
 #include <erCv/erCvToCgal.hpp>
 
 #endif

@@ -1,5 +1,5 @@
 #include <erCv/erCvToCgal.hpp>
-#include <erCv/CGAL/erCgalPolygon2.hpp>
+#include <erCv/geometry/erCgalPolygon2.hpp>
 #include<iterator>
 #include<iostream>
 
