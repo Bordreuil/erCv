@@ -16,9 +16,21 @@ int main(){
   IsEqualTo is_equal_255(255);
   std::list<CvPoint2D32f> cvPts;
   erExtractPoints(&ercan,cvPts,is_equal_255);
+  std::ofstream ocv("points_cv.dat");
+  std::list<CvPoint2D32f>::iterator cvi;
+  for(cvi=cvPts.begin();cvi!=cvPts.end();cvi++)
+    {
+      ocv << cvi->x << " "<< cvi->y  << std::endl;
+    }
   std::list<Point_2> cgalPts;
   cvPointsToCgal(cvPts.begin(),cvPts.end(),std::back_inserter(cgalPts));
-  Alpha_shape_2 as2(cgalPts.begin(),cgalPts.end(),FT(10.));
+  std::ofstream op("points_cgal.dat");
+  std::list<Point_2>::iterator ci;
+  for(ci=cgalPts.begin();ci!=cgalPts.end();ci++)
+    {
+      op << *ci << std::endl;
+    }
+  Alpha_shape_2 as2(cgalPts.begin(),cgalPts.end(),FT(50.));
   std::list<Segment_2> segments;
   alpha_edges( as2, std::back_inserter(segments));
   std::ofstream ot("edges.dat");

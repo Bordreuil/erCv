@@ -16,12 +16,12 @@ void erExtractPoints(IplImage * im,Container & pts,Criteria crit)
   typedef typename Container::value_type CvPoint;
   int a;
    for( int y = 0; y < im->height; y++)
-    {
-      int* ptr = (int*)(im->imageData + y*im->widthStep );
+    { 
+      //int* ptr = (int*)(im->imageData + y*im->widthStep );
       for( int x = 0; x < im->width; x++)
-	{
-	  a = ptr[x];
-	  if(crit(a))
+	{ 
+	  CvScalar a = cvGet2D(im,x,y);
+	  if(crit(a.val[0]))
 	    { CvPoint p;
 	      p.x = x;p.y = y;
 	      pts.push_back(p); 
