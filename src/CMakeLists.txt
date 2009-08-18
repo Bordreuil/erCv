@@ -2,7 +2,7 @@
 # This is the CMake script for compiling a CGAL application.
 
 
-INCLUDE_DIRECTORIES(../${ERCV_INCLUDE_DIR} 
+INCLUDE_DIRECTORIES(${ERCV_INCLUDE_DIR} 
                      ${OPENCV_INCLUDE_DIR})
 
 SET(LIBRARY_OUTPUT_PATH ../lib)
