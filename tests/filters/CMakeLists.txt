@@ -10,5 +10,5 @@ MESSAGE(STATUS "erCv include dir:" ${ERCV_INCLUDE_dir})
 MESSAGE(STATUS "Boost Python DIR:" ${Boost_PYTHON_INCLUDE_DIR})
 
 
-ADD_EXECUTABLE(test_ercv2cgal test_ercv2cgal.cpp)
-TARGET_LINK_LIBRARIES(test_ercv2cgal erCv ${CGAL_LIBS})
+ADD_EXECUTABLE(test_cv_filters test_cv_filters.cpp)
+TARGET_LINK_LIBRARIES(test_cv_filters erCv ${OPENCV_LIBS})
