@@ -44,9 +44,9 @@ public:
   erImage(IplImage* );
   erImage(IplImage);
   ~erImage();
- 
+  CvRect  rectan;
 private:
-  CvRect _rect;
+ 
   
 };
 

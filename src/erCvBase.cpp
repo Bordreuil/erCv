@@ -11,6 +11,7 @@ erImage::erImage(char* name):IplImage(*cvLoadImage(name))
 erImage::erImage(IplImage* im):IplImage(*im){};
 erImage::~erImage(){};
 
+//CvRect& erImage::rectan(){return __rect;};
 
 
 // Interface pour des fonctions d open cv
