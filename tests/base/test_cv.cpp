@@ -11,9 +11,14 @@
 
 int main()
 { /* Chargement d une image */
-  erImage im = erLoadImage("../pictures/ed20090619_3_00568.bmp");
+  erImage*   it  ;
+  IplImage * ii  = cvLoadImage("../pictures/ed20090619_3_00568.bmp");
+
+  it             = (erImage*)  ii; // Conversion d une IplImage en erImage (les pointeurs)
+  //it = ii;
+  erImage im     = erLoadImage("../pictures/ed20090619_3_00568.bmp");
   /* Visualisation d une image */
-  erShowImage("toto",&im);
+  erShowImage("toto",it);
   /* On attend que la touche Esc soit tapee */
   cvWaitKey();
   return 0;

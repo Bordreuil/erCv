@@ -42,9 +42,14 @@ public:
   erImage();
   erImage(char* );
   erImage(IplImage* );
+  erImage(IplImage);
   ~erImage();
+ 
+private:
+  CvRect _rect;
   
 };
+
 
 // Quelques fonctions utiles d' OpenCv
 /** \brief Fonction permettant de visualiser une Image a l aide

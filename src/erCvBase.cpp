@@ -3,12 +3,15 @@
 
 // Programmation de la classeImage
 erImage::erImage():IplImage(){};
+erImage::erImage(IplImage im):IplImage(im){};
 erImage::erImage(char* name):IplImage(*cvLoadImage(name))
 {
 }; 
 
 erImage::erImage(IplImage* im):IplImage(*im){};
 erImage::~erImage(){};
+
+
 
 // Interface pour des fonctions d open cv
 void erShowImage(char* name,IplImage* im)

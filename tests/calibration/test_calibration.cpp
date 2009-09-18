@@ -26,8 +26,8 @@ int main()
 
   /* Creation de l image et modification a l aide de la transformation 
      de la calibration */
-  erImage ir;
-  ir=ca.transform_image(im);
+  //erImage ir;
+  erImage ir=ca.transform_image(im);
   cvNamedWindow("Turn");
   cvShowImage("Turn",&ir);
   cvWaitKey();
