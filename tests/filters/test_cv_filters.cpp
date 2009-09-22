@@ -1,13 +1,30 @@
 #include <erCv/erCvFilters.hpp>
 
 
-int main(){
+std::string INFOFILE;
+int main(int HOLA, char** image_name){
   /* Chargement et visualisation de l image de base */
-  erImage er    = erLoadImage("../pictures/ed20090619_3_02176.bmp");
-  erShowImage("base Image",&er);
-  erImage bw    = erConvertToBlackAndWhite(&er); /* Conversion en 8 bit single channel */
-  erImage ercan = erSmoothAndCanny(bw,200,1);    /* Smooth and Canny sur l image convertie */
-  erShowImage("after Canny",&ercan);    
+  INFOFILE = image_name[1];
+  todo = erImage();
+  er = erImage();
+  bw = erImage();
+  er  = erLoadImage( image_name[2]);
+  bw  = erConvertToBlackAndWhite( &er); /* Conversion en 8 bit single channel */
+  todo.image = cvCloneImage( bw.image);
+  erCvDifferencingUser( &bw, &todo);
+  erSave_picture( &bw, image_name);
+  while(todo.image !=NULL)
+    {  
+      er = erLoadImages_series( image_name);
+      if( er.image == NULL) break; 
+      bw = erConvertBlackAndWhite( &erI);
+      erCvDifferencingUser( &bw, &todo);
+      erSave_picture( &bw, image_name);
+    }
+  return(0);
+}
+
+   
   cvWaitKey();
  
 

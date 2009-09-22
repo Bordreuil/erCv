@@ -9,17 +9,32 @@
     18/08/2009: cb 
  */
 
-int main()
-{ /* Chargement d une image */
-  erImage*   it  ;
-  IplImage * ii  = cvLoadImage("../pictures/ed20090619_3_00568.bmp");
+std::string INFOFILE;
 
-  it             = (erImage*)  ii; // Conversion d une IplImage en erImage (les pointeurs)
-  //it = ii;
-  erImage im     = erLoadImage("../pictures/ed20090619_3_00568.bmp");
-  /* Visualisation d une image */
-  erShowImage("toto",it);
-  /* On attend que la touche Esc soit tapee */
-  cvWaitKey();
-  return 0;
-};
+int main( int hola, char** image_name)
+{
+
+  erImage todo, todo1;
+  p_smooth psmo, psmo1;
+  p_threshold pthr;
+  INFOFILE = image_name[1];
+
+  erWrite_Record_File( image_name);
+  todo = erLoadImage( image_name[2]);
+
+  erCvSmoothUser( &todo, &psmo);
+  erCvThresholdUser( &todo, &pthr);
+
+  erSave_picture( &todo, image_name);
+}
+
+
+// int main()
+// { /* Chargement d une image */
+//   erImage im = erLoadImage("../pictures/ed20090619_3_00568.bmp");
+//   /* Visualisation d une image */
+//   erShowImage("toto",&im);
+//   /* On attend que la touche Esc soit tapee */
+//   cvWaitKey();
+//   return 0;
+// };

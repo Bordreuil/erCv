@@ -26,6 +26,11 @@
 
 #include <cv.h>
 #include <highgui.h>
+#include <boost/lexical_cast.hpp>
+#include <vector>
+#include <string>
+
+extern std::string INFOFILE;
 
 // Une classe pour interfacer l image IplImage d OpenCv
 /** \addtogroup cv_group */
@@ -39,6 +44,9 @@ class erImage : public IplImage
  */
 {
 public:
+  /** 
+      Constructeur destructeur
+  **/
   erImage();
   erImage(char* );
   erImage(IplImage* );
@@ -48,6 +56,17 @@ public:
 private:
  
   
+  /**
+     Methodes d acces
+  **/
+
+
+  /**
+     Attributs publics
+  **/
+  //IplImage *image; //Image a traiter
+  CvRect rectan;//Rectangle pour la region d'interet dans l'image de soudages (zone ou on veut travailler)
+  bool drawing; //Indicateur pour les touches de la souris, tracage des zones d'interets
 };
 
 
@@ -56,15 +75,36 @@ private:
  d openCv
  */
 void erShowImage(char* ,IplImage*);
+
+
 /** \brief Fonction permettant de charge une  Image a l aide
  d openCv
  */
-erImage erLoadImage(char* );
+erImage erLoadImage( char*);
+
+
+/** \brief Fonction permettant de charger une serie d Image a l aide
+ d openCv ayant comme extentions une succesion ordonne et continue de intieres
+ */
+erImage erLoadImage_series( char**);
+
+
+
 /** \brief Fonction permettant de sauvegarder une image a l aide
  d openCv
  */
-void erSaveImage(char*,IplImage*);
-/** Fonction permettant de convertir une image en noir et blanc */
-erImage erConvertToBlackAndWhite(IplImage*);
+void erSave_picture( erImage*, char**);
+
+
+/** Fonction permettant de convertir une image en noir et blanc 
+*/
+erImage erConvertToBlackAndWhite( IplImage*);
+
+
+
+/** Fonction permettant d ecrire un ficher de sauvegarde des paramettres utilises pour chaque fonction
+ */
+void erWrite_Record_File( char**);
+
 /*@}*/
 #endif

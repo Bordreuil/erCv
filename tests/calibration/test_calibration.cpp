@@ -9,10 +9,12 @@
 
 
 #include <erCv/erCv.hpp>
+std::string INFOFILE;
 
-int main()
+int main( int hola, char** file_name)
 { /* Chargement et visualisation de l image */
-  erImage im = erLoadImage("../pictures/ed20090619_3_00568.bmp");
+  erImage im = erLoadImage(file_name[2]);
+  INFOFILE = file_name[1];
   erShowImage("toto",&im);
 
   /* Defintion de la calibration et visualisation des images 
