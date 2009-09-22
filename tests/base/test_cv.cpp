@@ -15,26 +15,17 @@ int main( int hola, char** image_name)
 {
 
   erImage todo, todo1;
-  p_smooth psmo, psmo1;
-  p_threshold pthr;
+  erSmoothP psmo, psmo1;
+  erThresP pthr;
   INFOFILE = image_name[1];
 
-  erWrite_Record_File( image_name);
+  erWriteRecordFile( image_name);
   todo = erLoadImage( image_name[2]);
 
   erCvSmoothUser( &todo, &psmo);
   erCvThresholdUser( &todo, &pthr);
 
-  erSave_picture( &todo, image_name);
+  erSaveImage( &todo, image_name);
 }
 
 
-// int main()
-// { /* Chargement d une image */
-//   erImage im = erLoadImage("../pictures/ed20090619_3_00568.bmp");
-//   /* Visualisation d une image */
-//   erShowImage("toto",&im);
-//   /* On attend que la touche Esc soit tapee */
-//   cvWaitKey();
-//   return 0;
-// };

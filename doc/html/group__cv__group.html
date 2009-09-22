@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>&#39;erCv&#39;: erCv</title>
+<title>&#39;erCv&#39;: erCvBase</title>
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <link href="tabs.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -17,7 +17,7 @@
   </div>
 </div>
 <div class="contents">
-<h1>erCv</h1><table border="0" cellpadding="0" cellspacing="0">
+<h1>erCvBase</h1><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Classes</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">class &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classer_calibration.html">erCalibration</a></td></tr>
@@ -31,10 +31,15 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classer_image.html">erImage</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#gb633e41d4013d03fc9bf6f0e17cdc415">erLoadImage</a> (char *)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de charge une Image a l aide d openCv.  <a href="#gb633e41d4013d03fc9bf6f0e17cdc415"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#gd72c829485c8d9c5e0f0485cbdc73aff">erSaveImage</a> (char *, IplImage *)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classer_image.html">erImage</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g3ca7e7acae25a117e28c29597df75f0a">erLoadImageSeries</a> (char **)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de sauvegarder une image a l aide d openCv.  <a href="#gd72c829485c8d9c5e0f0485cbdc73aff"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de charger une serie d Image a l aide d openCv ayant comme extentions une succesion ordonne et continue de intieres.  <a href="#g3ca7e7acae25a117e28c29597df75f0a"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g18e2d5ad774bb23339d8946635f64c26">erSaveImage</a> (IplImage *, char **)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de sauvegarder une image a l aide d openCv.  <a href="#g18e2d5ad774bb23339d8946635f64c26"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classer_image.html">erImage</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g3c75a8bae0b3a870677ad62be0351d14">erConvertToBlackAndWhite</a> (IplImage *)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g12ff25e5fb4f33005c0c9f453486109b">erWriteRecordFile</a> (char **)</td></tr>
 
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename Container , typename Criteria &gt; </td></tr>
 <tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g9a5854ce4ca312dab0909884593b306c">erExtractPoints</a> (IplImage *im, Container &amp;pts, Criteria crit)</td></tr>
@@ -128,20 +133,42 @@ Fonction permettant de charge une Image a l aide d openCv.
 
 </div>
 </div><p>
-<a class="anchor" name="gd72c829485c8d9c5e0f0485cbdc73aff"></a><!-- doxytag: member="erCvBase.hpp::erSaveImage" ref="gd72c829485c8d9c5e0f0485cbdc73aff" args="(char *, IplImage *)" -->
+<a class="anchor" name="g3ca7e7acae25a117e28c29597df75f0a"></a><!-- doxytag: member="erCvBase.hpp::erLoadImageSeries" ref="g3ca7e7acae25a117e28c29597df75f0a" args="(char **)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classer_image.html">erImage</a> erLoadImageSeries           </td>
+          <td>(</td>
+          <td class="paramtype">char **&nbsp;</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Fonction permettant de charger une serie d Image a l aide d openCv ayant comme extentions une succesion ordonne et continue de intieres. 
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="g18e2d5ad774bb23339d8946635f64c26"></a><!-- doxytag: member="erCvBase.hpp::erSaveImage" ref="g18e2d5ad774bb23339d8946635f64c26" args="(IplImage *, char **)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void erSaveImage           </td>
           <td>(</td>
-          <td class="paramtype">char *&nbsp;</td>
+          <td class="paramtype">IplImage *&nbsp;</td>
           <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">IplImage *&nbsp;</td>
+          <td class="paramtype">char **&nbsp;</td>
           <td class="paramname"></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -190,8 +217,28 @@ Fonction permettant de visualiser une Image a l aide d openCv.
 
 </div>
 </div><p>
+<a class="anchor" name="g12ff25e5fb4f33005c0c9f453486109b"></a><!-- doxytag: member="erCvBase.hpp::erWriteRecordFile" ref="g12ff25e5fb4f33005c0c9f453486109b" args="(char **)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void erWriteRecordFile           </td>
+          <td>(</td>
+          <td class="paramtype">char **&nbsp;</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Jun 25 16:01:36 2009 for 'erCv' by&nbsp;
+<div class="memdoc">
+
+<p>
+Fonction permettant d ecrire un ficher de sauvegarde des paramettres utilises pour chaque fonction 
+</div>
+</div><p>
+</div>
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue Sep 22 16:13:36 2009 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

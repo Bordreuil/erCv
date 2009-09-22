@@ -26,13 +26,105 @@
 <a name="l00003"></a>00003 <span class="preprocessor"></span>
 <a name="l00004"></a>00004 <span class="preprocessor">#include "<a class="code" href="er_cv_base_8hpp.html" title="Fichier contenant l encapsulation par une classe de la structure IplImage d openCv...">erCvBase.hpp</a>"</span>
 <a name="l00005"></a>00005 
-<a name="l00007"></a>00007 <a class="code" href="classer_image.html">erImage</a> <a class="code" href="er_cv_filters_8hpp.html#2580b5a85a8960b02ec57446d70411e0">erSmoothAndCanny</a>(<a class="code" href="classer_image.html">erImage</a>, <span class="keywordtype">int</span> , <span class="keywordtype">int</span> );
-<a name="l00008"></a>00008 
-<a name="l00009"></a>00009 
-<a name="l00010"></a>00010 
-<a name="l00011"></a>00011 <span class="preprocessor">#endif</span>
+<a name="l00006"></a>00006 
+<a name="l00011"></a><a class="code" href="struct_drawrec.html">00011</a> <span class="keyword">struct </span><a class="code" href="struct_drawrec.html" title="interface de filtres opencv dans erCv">Drawrec</a>
+<a name="l00012"></a>00012 {
+<a name="l00013"></a><a class="code" href="struct_drawrec.html#8fe23721c1f3c68be4543c3eee3ce96e">00013</a>   CvRect <a class="code" href="struct_drawrec.html#8fe23721c1f3c68be4543c3eee3ce96e">rectan</a>;
+<a name="l00014"></a><a class="code" href="struct_drawrec.html#86a13cc77588b419e8929e50575c9ada">00014</a>   IplImage *<a class="code" href="struct_drawrec.html#86a13cc77588b419e8929e50575c9ada">image</a>;
+<a name="l00015"></a><a class="code" href="struct_drawrec.html#dd72f19c2a7a3b64be1b9056d72416eb">00015</a>   <span class="keywordtype">bool</span> <a class="code" href="struct_drawrec.html#dd72f19c2a7a3b64be1b9056d72416eb">drawing</a>;
+<a name="l00016"></a>00016 };
+<a name="l00017"></a>00017 
+<a name="l00018"></a>00018 <span class="comment">//** \addtogroup filters */</span>
+<a name="l00024"></a><a class="code" href="structer_smooth_p.html">00024</a> <span class="comment"></span><span class="keyword">struct </span><a class="code" href="structer_smooth_p.html" title="Structure contenant les parametre utiles pour un lissage.">erSmoothP</a>
+<a name="l00025"></a>00025 {
+<a name="l00026"></a><a class="code" href="structer_smooth_p.html#39f85b821470e7a409cb87dfeba2cafc">00026</a>   <span class="keywordtype">int</span> <a class="code" href="structer_smooth_p.html#39f85b821470e7a409cb87dfeba2cafc">size</a>; <span class="comment">//** &lt; Beside size (in pixels) of soomthness region </span>
+<a name="l00027"></a><a class="code" href="structer_smooth_p.html#9d48da27102ae12c0f009b0e3f846839">00027</a>   <span class="keywordtype">int</span> <a class="code" href="structer_smooth_p.html#9d48da27102ae12c0f009b0e3f846839">type</a>; <span class="comment">//** &lt; Type of the smooth to be aplied</span>
+<a name="l00028"></a>00028 };
+<a name="l00029"></a>00029 
+<a name="l00033"></a><a class="code" href="structer_sobel_p.html">00033</a> <span class="keyword">struct </span><a class="code" href="structer_sobel_p.html">erSobelP</a>
+<a name="l00034"></a>00034 {
+<a name="l00035"></a><a class="code" href="structer_sobel_p.html#42a35c96b876d92ddbacc57c5a67c8eb">00035</a>   <span class="keywordtype">int</span> <a class="code" href="structer_sobel_p.html#42a35c96b876d92ddbacc57c5a67c8eb">trhX</a>; <span class="comment">//** &lt; Order X derivated in sobel fonction */</span>
+<a name="l00036"></a><a class="code" href="structer_sobel_p.html#d8d37f75ae2e7c52c9b16994d8dcfbd2">00036</a>   <span class="keywordtype">int</span> <a class="code" href="structer_sobel_p.html#d8d37f75ae2e7c52c9b16994d8dcfbd2">trhY</a>; <span class="comment">//** &lt; Order Y derivated in sobel fonction */</span>
+<a name="l00037"></a>00037 };
+<a name="l00038"></a>00038 
+<a name="l00042"></a><a class="code" href="structer_canny_p.html">00042</a> <span class="keyword">struct </span><a class="code" href="structer_canny_p.html">erCannyP</a>
+<a name="l00043"></a>00043 {
+<a name="l00044"></a><a class="code" href="structer_canny_p.html#8fe47c2458c2d0ccd1a8bf73ea607bcd">00044</a>   <span class="keywordtype">int</span> <a class="code" href="structer_canny_p.html#8fe47c2458c2d0ccd1a8bf73ea607bcd">trh1</a>; <span class="comment">//** &lt; Threshold 1 to canny fonction */</span>
+<a name="l00045"></a><a class="code" href="structer_canny_p.html#310729e0b87cf5e362fb19de1bf9e71d">00045</a>   <span class="keywordtype">int</span> <a class="code" href="structer_canny_p.html#310729e0b87cf5e362fb19de1bf9e71d">trh2</a>; <span class="comment">//** &lt; Threshold 2 to canny fonction */</span>
+<a name="l00046"></a>00046 };
+<a name="l00047"></a>00047 
+<a name="l00052"></a><a class="code" href="structer_thres_p.html">00052</a> <span class="keyword">struct </span><a class="code" href="structer_thres_p.html">erThresP</a>
+<a name="l00053"></a>00053 {
+<a name="l00054"></a><a class="code" href="structer_thres_p.html#4e68f2905e160cc153b116f3a4493cf8">00054</a>   <span class="keywordtype">int</span> <a class="code" href="structer_thres_p.html#4e68f2905e160cc153b116f3a4493cf8">trh1</a>; <span class="comment">//** &lt; Threshold principal value in Threshold fonction */</span>
+<a name="l00055"></a><a class="code" href="structer_thres_p.html#b8f8e41f51e2b35d7f8aee79fd0b673a">00055</a>   <span class="keywordtype">int</span> <a class="code" href="structer_thres_p.html#b8f8e41f51e2b35d7f8aee79fd0b673a">trh2</a>; <span class="comment">//** &lt; Threshold secondary value in Threshold fonction */</span>
+<a name="l00056"></a><a class="code" href="structer_thres_p.html#4fa39cf67c55e28d8ab40353c4f9d085">00056</a>   <span class="keywordtype">int</span> <a class="code" href="structer_thres_p.html#4fa39cf67c55e28d8ab40353c4f9d085">type</a>; <span class="comment">//** &lt; Type of Threshold to be applied */</span>
+<a name="l00057"></a>00057 };
+<a name="l00058"></a>00058 
+<a name="l00063"></a><a class="code" href="structer_adapt_thres_p.html">00063</a> <span class="keyword">struct </span><a class="code" href="structer_adapt_thres_p.html">erAdaptThresP</a>
+<a name="l00064"></a>00064 {
+<a name="l00065"></a><a class="code" href="structer_adapt_thres_p.html#6c3001dd648172c7e5b52650eb2e1998">00065</a>   <span class="keywordtype">int</span> <a class="code" href="structer_adapt_thres_p.html#6c3001dd648172c7e5b52650eb2e1998">trhP</a>;  <span class="comment">//** &lt;                           */</span>
+<a name="l00066"></a><a class="code" href="structer_adapt_thres_p.html#d05d9cda39f9c87543e6176f0f4fd509">00066</a>   <span class="keywordtype">int</span> <a class="code" href="structer_adapt_thres_p.html#d05d9cda39f9c87543e6176f0f4fd509">neig</a>;  <span class="comment">//** &lt;                           */</span>
+<a name="l00067"></a><a class="code" href="structer_adapt_thres_p.html#50722a57a9a238c2e836a1ed229e4147">00067</a>   <span class="keywordtype">int</span> <a class="code" href="structer_adapt_thres_p.html#50722a57a9a238c2e836a1ed229e4147">trh0</a>;  <span class="comment">//** &lt;                           */</span>
+<a name="l00068"></a><a class="code" href="structer_adapt_thres_p.html#43c0fd32bb1673c17e02626ff2e49275">00068</a>   <span class="keywordtype">int</span> <a class="code" href="structer_adapt_thres_p.html#43c0fd32bb1673c17e02626ff2e49275">type</a>;  <span class="comment">//** &lt;                           */</span>
+<a name="l00069"></a><a class="code" href="structer_adapt_thres_p.html#ebfac1a474492d8e2aeda37aff4eaa0d">00069</a>   <span class="keywordtype">int</span> <a class="code" href="structer_adapt_thres_p.html#ebfac1a474492d8e2aeda37aff4eaa0d">adpt</a>;  <span class="comment">//** &lt;                           */</span>
+<a name="l00070"></a>00070 };
+<a name="l00076"></a><a class="code" href="structer_pyramid_p.html">00076</a> <span class="keyword">struct </span><a class="code" href="structer_pyramid_p.html">erPyramidP</a>
+<a name="l00077"></a>00077 {
+<a name="l00078"></a><a class="code" href="structer_pyramid_p.html#9dc3f558f978bbcb0db4275518716267">00078</a>   <span class="keywordtype">int</span> <a class="code" href="structer_pyramid_p.html#9dc3f558f978bbcb0db4275518716267">trh1</a>; <span class="comment">//** &lt; Threshold value to link in pyramid fonction */</span>
+<a name="l00079"></a><a class="code" href="structer_pyramid_p.html#a286c99185e25332f6d1f91d183a9fa1">00079</a>   <span class="keywordtype">int</span> <a class="code" href="structer_pyramid_p.html#a286c99185e25332f6d1f91d183a9fa1">trh2</a>; <span class="comment">//** &lt; Threshold value to clustering in pyramid fonction */</span>
+<a name="l00080"></a><a class="code" href="structer_pyramid_p.html#74d0ec1e20467e92a493bbc16aa727f1">00080</a>   <span class="keywordtype">int</span> <a class="code" href="structer_pyramid_p.html#74d0ec1e20467e92a493bbc16aa727f1">levl</a>; <span class="comment">//** &lt; Number of level to pyramid be applied */</span>
+<a name="l00081"></a>00081 };
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083 
+<a name="l00088"></a><a class="code" href="structer_dilate_p.html">00088</a> <span class="keyword">struct </span><a class="code" href="structer_dilate_p.html">erDilateP</a>
+<a name="l00089"></a>00089 {
+<a name="l00090"></a><a class="code" href="structer_dilate_p.html#9ee17e7af66bd630a1b9098e9b2b40d8">00090</a>   <span class="keywordtype">int</span> <a class="code" href="structer_dilate_p.html#9ee17e7af66bd630a1b9098e9b2b40d8">iter</a>; <span class="comment">//** &lt; Iteration number to be applied dilate fonction */</span>
+<a name="l00091"></a>00091 };
+<a name="l00092"></a>00092 
+<a name="l00097"></a><a class="code" href="structer_erode_p.html">00097</a> <span class="keyword">struct </span><a class="code" href="structer_erode_p.html">erErodeP</a>
+<a name="l00098"></a>00098 {
+<a name="l00099"></a><a class="code" href="structer_erode_p.html#126327db12917948f924ad4c261c6ca6">00099</a>   <span class="keywordtype">int</span> <a class="code" href="structer_erode_p.html#126327db12917948f924ad4c261c6ca6">iter</a>; <span class="comment">//** &lt; Iteration number to be applied erode fonction */</span>
+<a name="l00100"></a>00100 };
+<a name="l00101"></a>00101 
+<a name="l00102"></a>00102 
+<a name="l00106"></a>00106 <a class="code" href="classer_image.html">erImage</a> <a class="code" href="group__filters.html#g9966e7483ab97b6a88badba0e6327553" title="Permet d effectuer un lissage et un filtrage sur l image.">erSmoothAndCanny</a>( IplImage*, <span class="keywordtype">int</span> , <span class="keywordtype">int</span> );
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108 
+<a name="l00109"></a>00109 
+<a name="l00113"></a>00113 <span class="keywordtype">void</span> <a class="code" href="group__filters.html#g4dfd0f5f2985867ed36b76f0e49f6be0" title="Permet d effectuer un filtrage par bordes en binaire sur l image.">erCvCanny</a>( IplImage*, <a class="code" href="structer_canny_p.html">erCannyP</a>*);
+<a name="l00114"></a>00114 
+<a name="l00115"></a>00115 
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117 
+<a name="l00121"></a>00121 <span class="keywordtype">void</span> <a class="code" href="group__filters.html#g327e55699a4e5b201ad8f9487420efa0" title="Permet d effectuer une lissage sur l image.">erCvSmooth</a>( IplImage*, <a class="code" href="structer_smooth_p.html" title="Structure contenant les parametre utiles pour un lissage.">erSmoothP</a>*);
+<a name="l00122"></a>00122 
+<a name="l00123"></a>00123 
+<a name="l00124"></a>00124 
+<a name="l00125"></a>00125 
+<a name="l00126"></a>00126 
+<a name="l00130"></a>00130 <span class="keywordtype">void</span> <a class="code" href="group__filters.html#ga7eceac2e8ce86bf1934132342b47016" title="Permet d effectuer une lissage sur l image (parametres definies par l utilisateur)...">erCvSobelUser</a>( IplImage*, <a class="code" href="structer_sobel_p.html">erSobelP</a>*);
+<a name="l00131"></a>00131 
+<a name="l00132"></a>00132 
+<a name="l00133"></a>00133 
+<a name="l00137"></a>00137 <span class="keywordtype">void</span> <a class="code" href="group__filters.html#gf2a0e38cb881aa9fee9913c5d78a5267" title="Permet de filtrer l image par seuils d intensite.">erCvThreshold</a>( IplImage*, <a class="code" href="structer_thres_p.html">erThresP</a>*);
+<a name="l00138"></a>00138 
+<a name="l00139"></a>00139 
+<a name="l00143"></a>00143 <span class="keywordtype">void</span> <a class="code" href="group__filters.html#gbb39b96941bb271cfd52e2c73536aee4" title="Permet d filtrer l image par seuils d intensites adaptes par zones.">erCvAdaptiveThreshold</a>( IplImage* simg, <a class="code" href="structer_adapt_thres_p.html">erAdaptThresP</a>* parm);
+<a name="l00144"></a>00144 
+<a name="l00145"></a>00145 
+<a name="l00146"></a>00146 
+<a name="l00151"></a>00151 <span class="keywordtype">void</span> <a class="code" href="group__filters.html#gc9ca607014d4b8b97b6c00f8b384e179">erCvPyramid</a>( IplImage*, <a class="code" href="structer_pyramid_p.html">erPyramidP</a>*);
+<a name="l00152"></a>00152 
+<a name="l00153"></a>00153 
+<a name="l00154"></a>00154 
+<a name="l00158"></a>00158 <span class="keywordtype">void</span> <a class="code" href="group__filters.html#g12377c735f639548fcf542ece1857505" title="Permet d effectuer un filtrage de l image en reduissant le nombre de pixels avec...">erCvDilate</a>( IplImage*,<a class="code" href="structer_dilate_p.html">erDilateP</a>*);
+<a name="l00159"></a>00159 
+<a name="l00160"></a>00160 
+<a name="l00161"></a>00161 
+<a name="l00165"></a>00165 <span class="keywordtype">void</span> <a class="code" href="group__filters.html#g5829529a1976fc527be80685a581cdb0" title="Permet d effectuer un filtrage de l image en augmentant le nombre de pixels avec...">erCvErode</a>( IplImage*, <a class="code" href="structer_erode_p.html">erErodeP</a>*);
+<a name="l00168"></a>00168 <span class="preprocessor">#endif</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Jun 25 16:01:36 2009 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue Sep 22 16:13:36 2009 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

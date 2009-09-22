@@ -67,7 +67,7 @@ erImage erLoadImage(char* name)
 
 
 /* Read, name files manipulations, and convert to one channel the pictures in the loop */
-erImage erLoadImage_series( char** file_name)
+erImage erLoadImageSeries( char** file_name)
 {
   std::string name( file_name[2]); 
   size_t ext_pos = name.find_last_of( '_' );
@@ -106,7 +106,7 @@ erImage erLoadImage_series( char** file_name)
 
 
 /* Save final images to post processing procedure with CGAL */
-void erSave_picture( erImage* simag, char** file_name)
+void erSaveImage( IplImage* simag, char** file_name)
 {
   std::string name( file_name[2]);
   size_t ext_pos = name.find_last_of( '_' );
@@ -152,7 +152,7 @@ erImage erConvertToBlackAndWhite( IplImage* simag)
 
 
 /* Create the parametters record file of differents fonctions */
-void erWrite_Record_File( char** file_name)
+void erWriteRecordFile( char** file_name)
 {
 //   std::string name;
 //   std::cout << "Analysis type: " << std::endl;

@@ -4,7 +4,8 @@
 #include "erCvBase.hpp"
 
 
-
+/** \defgroup filters erCvFilters */
+/** \brief interface de filtres opencv dans erCv */
 
 
 struct Drawrec
@@ -14,127 +15,154 @@ struct Drawrec
   bool drawing;
 };
 
-
-
-struct p_smooth
+//** \addtogroup filters */
+/*@{*/
+/**
+   \brief Structure contenant les parametre utiles pour 
+   un lissage
+ */
+struct erSmoothP
 {
-  int size; //Beside size (in pixels) of soomthness region 
-  int type; //Type the smooth to be aplied
+  int size; //** < Beside size (in pixels) of soomthness region 
+  int type; //** < Type of the smooth to be aplied
+};
+
+/**
+   \brief 
+ */
+struct erSobelP
+{
+  int trhX; //** < Order X derivated in sobel fonction */
+  int trhY; //** < Order Y derivated in sobel fonction */
+};
+
+/**
+   \brief
+ */
+struct erCannyP
+{
+  int trh1; //** < Threshold 1 to canny fonction */
+  int trh2; //** < Threshold 2 to canny fonction */
+};
+
+/**
+   \brief
+
+ */
+struct erThresP
+{
+  int trh1; //** < Threshold principal value in Threshold fonction */
+  int trh2; //** < Threshold secondary value in Threshold fonction */
+  int type; //** < Type of Threshold to be applied */
+};
+
+/**
+   \brief
+
+ */
+struct erAdaptThresP
+{
+  int trhP;  //** <                           */
+  int neig;  //** <                           */
+  int trh0;  //** <                           */
+  int type;  //** <                           */
+  int adpt;  //** <                           */
+};
+/**
+   \brief
+
+ */
+
+struct erPyramidP
+{
+  int trh1; //** < Threshold value to link in pyramid fonction */
+  int trh2; //** < Threshold value to clustering in pyramid fonction */
+  int levl; //** < Number of level to pyramid be applied */
 };
 
 
-struct p_sobel
+/**
+   \brief
+
+ */
+struct erDilateP
 {
-  int trhX; //Order X derivated in sobel fonction
-  int trhY; //Order Y derivated in sobel fonction
+  int iter; //** < Iteration number to be applied dilate fonction */
+};
+
+/**
+   \brief
+
+ */
+struct erErodeP
+{
+  int iter; //** < Iteration number to be applied erode fonction */
 };
 
 
-struct p_canny
-{
-  int trh1; //Threshold 1 to canny fonction
-  int trh2; //Threshold 2 to canny fonction
-};
-
-
-
-
-struct p_threshold
-{
-  int trh1; //Threshold principal value in Threshold fonction
-  int trh2; //Threshold secondary value in Threshold fonction
-  int type; //Type of Threshold to be applied
-};
-
-
-struct p_adaptivethreshold
-{
-  int trhP;
-  int neig;
-  int trh0;
-  int type;
-  int adpt;
-};
-
-
-struct p_pyramid
-{
-  int trh1; //Threshold value to link in pyramid fonction
-  int trh2; //Threshold value to clustering in pyramid fonction
-  int levl; //Number of level to pyramid be applied
-};
-
-
-struct p_dilate
-{
-  int iter; //Iteration number to be applied dilate fonction
-};
-
-
-struct p_erode
-{
-  int iter; //Iteration number to be applied erode fonction
-};
-
-
-
-
-
-
-
-/** Permet d effectuer un lissage et un filtrage sur l image 
+/** \brief 
+    Permet d effectuer un lissage et un filtrage sur l image 
 */
 erImage erSmoothAndCanny( IplImage*, int , int );
 
 
 
-/** Permet d effectuer un filtrage par bordes en binaire sur l image 
+/** \brief 
+    Permet d effectuer un filtrage par bordes en binaire sur l image 
 */
-void erCvCanny( IplImage*, p_canny*);
+void erCvCanny( IplImage*, erCannyP*);
 
 
 
 
-/** Permet d effectuer une lissage sur l image 
+/** 
+    \brief Permet d effectuer une lissage sur l image 
 */
-void erCvSmooth( IplImage*, p_smooth*);
+void erCvSmooth( IplImage*, erSmoothP*);
 
 
 
 
 
-/** Permet d effectuer une lissage sur l image (peramettres definies par l usager)
+/** \brief
+    Permet d effectuer une lissage sur l image (parametres definies par l utilisateur)
 */
-void erCvSobelUser( IplImage*, p_sobel*);
+void erCvSobelUser( IplImage*, erSobelP*);
 
 
 
-/** Permet de filtrer l image par seuils d intensite
+/** \brief
+    Permet de filtrer l image par seuils d intensite
  */
-void erCvThreshold( IplImage*, p_threshold*);
+void erCvThreshold( IplImage*, erThresP*);
 
 
-/** Permet d filtrer l image par seuils d intensites adaptes par zones 
+/** \brief
+    Permet d filtrer l image par seuils d intensites adaptes par zones 
  */
-void erCvAdaptiveThreshold( IplImage* simg, p_adaptivethreshold* parm);
+void erCvAdaptiveThreshold( IplImage* simg, erAdaptThresP* parm);
 
 
 
-/** Permet d effectuer un filtrage de l image en reagroupant les pixels dans cluosters d interet et en effectuant des liesons entre eux
+/** \bried
+    Permet d effectuer un filtrage de l image en reagroupant les pixels dans clusters 
+    d interet et en effectuant des liaisons entre eux
  */
-void erCvPyramid( IplImage*, p_pyramid*);
+void erCvPyramid( IplImage*, erPyramidP*);
 
 
 
-/** Permet d effectuer un filtrage de l image en reduissant le nombre de pixels avec noir
+/** \brief
+    Permet d effectuer un filtrage de l image en reduissant le nombre de pixels avec noir
  */
-void erCvDilate( IplImage*, p_dilate*);
+void erCvDilate( IplImage*,erDilateP*);
 
 
 
-/** Permet d effectuer un filtrage de l image en augmentant le nombre de pixels avec noir
+/** \brief
+    Permet d effectuer un filtrage de l image en augmentant le nombre de pixels avec noir
  */
-void erCvErode( IplImage*, p_erode*);
-
+void erCvErode( IplImage*, erErodeP*);
+/*@}*/
 
 #endif

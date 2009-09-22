@@ -23,7 +23,7 @@ erImage erSmoothAndCanny( IplImage* pic1, int A=1, int B=2)
 
 
 
-void erCvSmooth( IplImage* simg, p_smooth* parm)
+void erCvSmooth( IplImage* simg, erSmoothP* parm)
 {
   int size, smoothtype;
   size = parm->size;
@@ -39,7 +39,7 @@ void erCvSmooth( IplImage* simg, p_smooth* parm)
 
 
 
-void erCvSobel( IplImage* simg, p_sobel* parm)
+void erCvSobel( IplImage* simg, erSobelP* parm)
 {
   int threshold[2];
   threshold[0] = parm->trhX;
@@ -49,7 +49,7 @@ void erCvSobel( IplImage* simg, p_sobel* parm)
 
 
 
-void erCvCanny( IplImage* simg, p_canny* parm)
+void erCvCanny( IplImage* simg, erCannyP* parm)
 {
   int threshold[2];
   threshold[0] = parm->trh1;
@@ -61,7 +61,7 @@ void erCvCanny( IplImage* simg, p_canny* parm)
 
 
 
-void erCvThreshold( IplImage* simg, p_threshold* parm)
+void erCvThreshold( IplImage* simg, erThresP* parm)
 {
   int threshold[2], threstype;  
   threshold[0] = parm->trh1;
@@ -81,7 +81,7 @@ void erCvThreshold( IplImage* simg, p_threshold* parm)
 
 
 
-void erCvAdaptiveThreshold( IplImage* simg, p_adaptivethreshold* parm)
+void erCvAdaptiveThreshold( IplImage* simg, erAdaptThresP* parm)
 {
   int threshold, maxt, itrak, threstype, adapt, neigh, param;
   
@@ -106,7 +106,7 @@ void erCvAdaptiveThreshold( IplImage* simg, p_adaptivethreshold* parm)
 
 
 
-void erCvPyramid( IplImage* simg, p_pyramid* parm )
+void erCvPyramid( IplImage* simg, erPyramidP* parm )
 {
   int threshold[2], level;
   double a[2];
@@ -136,7 +136,7 @@ void erCvPyramid( IplImage* simg, p_pyramid* parm )
 
 
 
-void erCvDilate( IplImage* simg, p_dilate* parm)
+void erCvDilate( IplImage* simg, erDilateP* parm)
 {
   int iteration; 
   IplConvKernel* ele=NULL;
@@ -148,7 +148,7 @@ void erCvDilate( IplImage* simg, p_dilate* parm)
 
 
 
-void erCvErode( IplImage* simg, p_erode* parm)
+void erCvErode( IplImage* simg, erErodeP* parm)
 {
   int iteration; 
   IplConvKernel* ele=NULL;

@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>&#39;erCv&#39;: include/erCv/CGAL/erCgalAlphaShape2.hpp File Reference</title>
+<title>&#39;erCv&#39;: include/erCv/geometry/erCgalAlphaShape2.hpp File Reference</title>
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <link href="tabs.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -23,7 +23,7 @@
   </div>
 </div>
 <div class="contents">
-<h1>include/erCv/CGAL/erCgalAlphaShape2.hpp File Reference</h1><code>#include &quot;<a class="el" href="er_cgal_base_8hpp-source.html">erCgalBase.hpp</a>&quot;</code><br>
+<h1>include/erCv/geometry/erCgalAlphaShape2.hpp File Reference</h1><code>#include &quot;<a class="el" href="er_cgal_base_8hpp-source.html">erCgalBase.hpp</a>&quot;</code><br>
 <code>#include &lt;CGAL/algorithm.h&gt;</code><br>
 <code>#include &lt;CGAL/Delaunay_triangulation_2.h&gt;</code><br>
 <code>#include &lt;CGAL/Alpha_shape_2.h&gt;</code><br>
@@ -51,6 +51,13 @@ CGAL::Delaunay_triangulation_2<br class="typebreak">
 <tr><td class="memItemLeft" nowrap align="right" valign="top">typedef <a class="el" href="er_cgal_alpha_shape2_8hpp.html#faab254f511cec47db5ea559493a77d2">CGAL::Alpha_shape_2</a><br class="typebreak">
 &lt; <a class="el" href="er_cgal_alpha_shape2_8hpp.html#5ba584d19b97bc379bcc8be281d6307e">Triangulation_2</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="er_cgal_alpha_shape2_8hpp.html#faab254f511cec47db5ea559493a77d2">Alpha_shape_2</a></td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">typedef <br class="typebreak">
+<a class="el" href="er_cgal_alpha_shape2_8hpp.html#4b80b4c9d991d7280d3602a0274bf5c6">Alpha_shape_2::Alpha_shape_edges_iterator</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="er_cgal_alpha_shape2_8hpp.html#4b80b4c9d991d7280d3602a0274bf5c6">Alpha_shape_edges_iterator</a></td></tr>
+
+<tr><td colspan="2"><br><h2>Functions</h2></td></tr>
+<tr><td class="memTemplParams" nowrap colspan="2">template&lt;class OutputIterator &gt; </td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="er_cgal_alpha_shape2_8hpp.html#c0d0de4290660dd054a419e3136dffcf">alpha_edges</a> (const <a class="el" href="er_cgal_alpha_shape2_8hpp.html#faab254f511cec47db5ea559493a77d2">Alpha_shape_2</a> &amp;A, OutputIterator out)</td></tr>
+
 </table>
 <hr><h2>Typedef Documentation</h2>
 <a class="anchor" name="faab254f511cec47db5ea559493a77d2"></a><!-- doxytag: member="erCgalAlphaShape2.hpp::Alpha_shape_2" ref="faab254f511cec47db5ea559493a77d2" args="" -->
@@ -59,6 +66,21 @@ CGAL::Delaunay_triangulation_2<br class="typebreak">
       <table class="memname">
         <tr>
           <td class="memname">typedef <a class="el" href="er_cgal_alpha_shape2_8hpp.html#faab254f511cec47db5ea559493a77d2">CGAL::Alpha_shape_2</a>&lt;<a class="el" href="er_cgal_alpha_shape2_8hpp.html#5ba584d19b97bc379bcc8be281d6307e">Triangulation_2</a>&gt; <a class="el" href="er_cgal_alpha_shape2_8hpp.html#faab254f511cec47db5ea559493a77d2">Alpha_shape_2</a>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="4b80b4c9d991d7280d3602a0274bf5c6"></a><!-- doxytag: member="erCgalAlphaShape2.hpp::Alpha_shape_edges_iterator" ref="4b80b4c9d991d7280d3602a0274bf5c6" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="er_cgal_alpha_shape2_8hpp.html#4b80b4c9d991d7280d3602a0274bf5c6">Alpha_shape_2::Alpha_shape_edges_iterator</a> <a class="el" href="er_cgal_alpha_shape2_8hpp.html#4b80b4c9d991d7280d3602a0274bf5c6">Alpha_shape_edges_iterator</a>          </td>
         </tr>
       </table>
 </div>
@@ -128,8 +150,40 @@ CGAL::Delaunay_triangulation_2<br class="typebreak">
 
 </div>
 </div><p>
+<hr><h2>Function Documentation</h2>
+<a class="anchor" name="c0d0de4290660dd054a419e3136dffcf"></a><!-- doxytag: member="erCgalAlphaShape2.hpp::alpha_edges" ref="c0d0de4290660dd054a419e3136dffcf" args="(const Alpha_shape_2 &amp;A, OutputIterator out)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class OutputIterator &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void alpha_edges           </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="er_cgal_alpha_shape2_8hpp.html#faab254f511cec47db5ea559493a77d2">Alpha_shape_2</a> &amp;&nbsp;</td>
+          <td class="paramname"> <em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">OutputIterator&nbsp;</td>
+          <td class="paramname"> <em>out</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [inline]</code></td>
+        </tr>
+      </table>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Jun 25 16:01:36 2009 for 'erCv' by&nbsp;
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+</div>
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue Sep 22 16:13:36 2009 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

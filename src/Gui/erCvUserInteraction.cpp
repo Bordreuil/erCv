@@ -1,5 +1,5 @@
 #include <erCv/erCvBase.hpp> 
-#include <erCv/erCvUser_interac.hpp>
+#include <erCv/Gui/erCvUserInteraction.hpp>
 #include <erCv/utilities/erFileUtilities.hpp>
 
 

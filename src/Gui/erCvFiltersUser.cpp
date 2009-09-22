@@ -1,4 +1,4 @@
-#include <erCv/erCvFiltersUser.hpp>
+#include <erCv/Gui/erCvFiltersUser.hpp>
 #include <erCv/erCv.hpp>
 #include <iostream>
 #include <fstream>
@@ -55,7 +55,7 @@ void on_mouse_rect( int event, int x, int y, int flags, void* param)
 
 
 
-void erCvCannyUser( IplImage* simg, p_canny* parm)
+void erCvCannyUser( IplImage* simg, erCannyP* parm)
 {
   IplImage* img1;
   int threshold[2], maxt[2], itrak[2];
@@ -96,7 +96,7 @@ void erCvCannyUser( IplImage* simg, p_canny* parm)
 
 
 
-void erCvSmoothUser( IplImage* simg, p_smooth* parm)
+void erCvSmoothUser( IplImage* simg, erSmoothP* parm)
 {
   IplImage *img;
   int size, smoothtype, itrak;
@@ -139,7 +139,7 @@ void erCvSmoothUser( IplImage* simg, p_smooth* parm)
 
 
 
-void erCvSobelUser( IplImage* simg, p_sobel* parm)
+void erCvSobelUser( IplImage* simg,erSobelP* parm)
 {
   IplImage* img;
   int threshold[2], maxt[2], itrak[2];
@@ -181,7 +181,7 @@ void erCvSobelUser( IplImage* simg, p_sobel* parm)
 
 
 
-void erCvThresholdUser( IplImage* simg, p_threshold* parm)
+void erCvThresholdUser( IplImage* simg, erThresP* parm)
 {
   IplImage* img;
   int threshold[2], maxt, itrak[2], threstype;
@@ -236,7 +236,7 @@ void erCvThresholdUser( IplImage* simg, p_threshold* parm)
 
 
 
-void erCvAdaptiveThresholdUser( IplImage* simg, p_adaptivethreshold* parm)
+void erCvAdaptiveThresholdUser( IplImage* simg, erAdaptThresP* parm)
 {
   IplImage* img;
   int threshold, maxt, itrak, threstype, adapt, neigh, param;
@@ -299,7 +299,7 @@ void erCvAdaptiveThresholdUser( IplImage* simg, p_adaptivethreshold* parm)
 
 
 
-void erCvPyramidUser( IplImage* simg, p_pyramid* parm)
+void erCvPyramidUser( IplImage* simg, erPyramidP* parm)
 {
   IplImage* img;
   int threshold[2], maxt[2], itrak[2], level;
@@ -360,7 +360,7 @@ void erCvPyramidUser( IplImage* simg, p_pyramid* parm)
 
 
 
-void erCvDilateUser( IplImage* simg, p_dilate* parm)
+void erCvDilateUser( IplImage* simg, erDilateP* parm)
 {
   IplImage* img;
   int iteration, itrak, maxt; 
@@ -400,7 +400,7 @@ void erCvDilateUser( IplImage* simg, p_dilate* parm)
 
 
 
-void erCvErodeUser( IplImage* simg, p_erode* parm)
+void erCvErodeUser( IplImage* simg, erErodeP* parm)
 {
   IplImage* img;
   int iteration, itrak, maxt, value; 

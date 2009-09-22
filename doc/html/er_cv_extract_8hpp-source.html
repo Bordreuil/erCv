@@ -30,12 +30,12 @@
 <a name="l00016"></a>00016   <span class="keyword">typedef</span> <span class="keyword">typename</span> Container::value_type CvPoint;
 <a name="l00017"></a>00017   <span class="keywordtype">int</span> a;
 <a name="l00018"></a>00018    <span class="keywordflow">for</span>( <span class="keywordtype">int</span> y = 0; y &lt; im-&gt;height; y++)
-<a name="l00019"></a>00019     {
-<a name="l00020"></a>00020       <span class="keywordtype">int</span>* ptr = (<span class="keywordtype">int</span>*)(im-&gt;imageData + y*im-&gt;widthStep );
+<a name="l00019"></a>00019     { 
+<a name="l00020"></a>00020       <span class="comment">//int* ptr = (int*)(im-&gt;imageData + y*im-&gt;widthStep );</span>
 <a name="l00021"></a>00021       <span class="keywordflow">for</span>( <span class="keywordtype">int</span> x = 0; x &lt; im-&gt;width; x++)
-<a name="l00022"></a>00022         {
-<a name="l00023"></a>00023           a = ptr[x];
-<a name="l00024"></a>00024           <span class="keywordflow">if</span>(crit(a))
+<a name="l00022"></a>00022         { 
+<a name="l00023"></a>00023           CvScalar a = cvGet2D(im,x,y);
+<a name="l00024"></a>00024           <span class="keywordflow">if</span>(crit(a.val[0]))
 <a name="l00025"></a>00025             { CvPoint p;
 <a name="l00026"></a>00026               p.x = x;p.y = y;
 <a name="l00027"></a>00027               pts.push_back(p); 
@@ -45,7 +45,7 @@
 <a name="l00031"></a>00031 };
 <a name="l00033"></a>00033 <span class="preprocessor">#endif</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Jun 25 16:01:36 2009 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue Sep 22 16:13:36 2009 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

@@ -18,7 +18,7 @@
   \brief Fichier contenant l encapsulation par une classe de la structure 
    IplImage d openCv ainsi que la redefinition de quelques fonctions d openCv
   @package erCv
-  \defgroup cv_group erCv
+  \defgroup cv_group erCvBase
   Decrit l encapsulation de base d opencv pour les developpements d edward
 */
 #ifndef _erCvBase_hpp
@@ -53,20 +53,14 @@ public:
   erImage(IplImage);
   ~erImage();
   CvRect  rectan;
+  bool    drawing;
 private:
- 
-  
   /**
      Methodes d acces
   **/
 
-
-  /**
-     Attributs publics
-  **/
-  //IplImage *image; //Image a traiter
-  CvRect rectan;//Rectangle pour la region d'interet dans l'image de soudages (zone ou on veut travailler)
-  bool drawing; //Indicateur pour les touches de la souris, tracage des zones d'interets
+ 
+ 
 };
 
 
@@ -86,14 +80,14 @@ erImage erLoadImage( char*);
 /** \brief Fonction permettant de charger une serie d Image a l aide
  d openCv ayant comme extentions une succesion ordonne et continue de intieres
  */
-erImage erLoadImage_series( char**);
+erImage erLoadImageSeries( char**);
 
 
 
 /** \brief Fonction permettant de sauvegarder une image a l aide
  d openCv
  */
-void erSave_picture( erImage*, char**);
+void erSaveImage( IplImage*, char**);
 
 
 /** Fonction permettant de convertir une image en noir et blanc 
@@ -104,7 +98,7 @@ erImage erConvertToBlackAndWhite( IplImage*);
 
 /** Fonction permettant d ecrire un ficher de sauvegarde des paramettres utilises pour chaque fonction
  */
-void erWrite_Record_File( char**);
+void erWriteRecordFile( char**);
 
 /*@}*/
 #endif

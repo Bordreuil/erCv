@@ -4,7 +4,7 @@
 #include "erCvBase.hpp"
 
 
-void erCvDifferencingUser( IplImage*, IplImage*);
+void erCvDifferencing( IplImage*, IplImage*);
 
 IplImage* erCvTemplate( IplImage*);
 

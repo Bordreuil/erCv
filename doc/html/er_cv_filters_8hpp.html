@@ -28,48 +28,57 @@
 <p>
 <a href="er_cv_filters_8hpp-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
+<tr><td colspan="2"><br><h2>Classes</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_drawrec.html">Drawrec</a></td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">interface de filtres opencv dans <a class="el" href="namespaceer_cv.html">erCv</a>  <a href="struct_drawrec.html#_details">More...</a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_smooth_p.html">erSmoothP</a></td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Structure contenant les parametre utiles pour un lissage.  <a href="structer_smooth_p.html#_details">More...</a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_sobel_p.html">erSobelP</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_canny_p.html">erCannyP</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_thres_p.html">erThresP</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_adapt_thres_p.html">erAdaptThresP</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_pyramid_p.html">erPyramidP</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_dilate_p.html">erDilateP</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_erode_p.html">erErodeP</a></td></tr>
+
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classer_image.html">erImage</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="er_cv_filters_8hpp.html#2580b5a85a8960b02ec57446d70411e0">erSmoothAndCanny</a> (<a class="el" href="classer_image.html">erImage</a>, int, int)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classer_image.html">erImage</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#g9966e7483ab97b6a88badba0e6327553">erSmoothAndCanny</a> (IplImage *, int, int)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet d effectuer un lissage et un filtrage sur l image.  <a href="group__filters.html#g9966e7483ab97b6a88badba0e6327553"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#g4dfd0f5f2985867ed36b76f0e49f6be0">erCvCanny</a> (IplImage *, <a class="el" href="structer_canny_p.html">erCannyP</a> *)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet d effectuer un filtrage par bordes en binaire sur l image.  <a href="group__filters.html#g4dfd0f5f2985867ed36b76f0e49f6be0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#g327e55699a4e5b201ad8f9487420efa0">erCvSmooth</a> (IplImage *, <a class="el" href="structer_smooth_p.html">erSmoothP</a> *)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet d effectuer une lissage sur l image.  <a href="group__filters.html#g327e55699a4e5b201ad8f9487420efa0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#ga7eceac2e8ce86bf1934132342b47016">erCvSobelUser</a> (IplImage *, <a class="el" href="structer_sobel_p.html">erSobelP</a> *)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet d effectuer une lissage sur l image (parametres definies par l utilisateur).  <a href="group__filters.html#ga7eceac2e8ce86bf1934132342b47016"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#gf2a0e38cb881aa9fee9913c5d78a5267">erCvThreshold</a> (IplImage *, <a class="el" href="structer_thres_p.html">erThresP</a> *)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet de filtrer l image par seuils d intensite.  <a href="group__filters.html#gf2a0e38cb881aa9fee9913c5d78a5267"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#gbb39b96941bb271cfd52e2c73536aee4">erCvAdaptiveThreshold</a> (IplImage *simg, <a class="el" href="structer_adapt_thres_p.html">erAdaptThresP</a> *parm)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet d filtrer l image par seuils d intensites adaptes par zones.  <a href="group__filters.html#gbb39b96941bb271cfd52e2c73536aee4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#gc9ca607014d4b8b97b6c00f8b384e179">erCvPyramid</a> (IplImage *, <a class="el" href="structer_pyramid_p.html">erPyramidP</a> *)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#g12377c735f639548fcf542ece1857505">erCvDilate</a> (IplImage *, <a class="el" href="structer_dilate_p.html">erDilateP</a> *)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet d effectuer un filtrage de l image en reduissant le nombre de pixels avec noir.  <a href="group__filters.html#g12377c735f639548fcf542ece1857505"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#g5829529a1976fc527be80685a581cdb0">erCvErode</a> (IplImage *, <a class="el" href="structer_erode_p.html">erErodeP</a> *)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet d effectuer un filtrage de l image en augmentant le nombre de pixels avec noir.  <a href="group__filters.html#g5829529a1976fc527be80685a581cdb0"></a><br></td></tr>
 </table>
-<hr><h2>Function Documentation</h2>
-<a class="anchor" name="2580b5a85a8960b02ec57446d70411e0"></a><!-- doxytag: member="erCvFilters.hpp::erSmoothAndCanny" ref="2580b5a85a8960b02ec57446d70411e0" args="(erImage, int, int)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classer_image.html">erImage</a> erSmoothAndCanny           </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classer_image.html">erImage</a>&nbsp;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td></td>
-        </tr>
-      </table>
 </div>
-<div class="memdoc">
-
-<p>
-Permet d effectuer un lissage et un filtrage sur l image 
-</div>
-</div><p>
-</div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Thu Jun 25 16:01:36 2009 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue Sep 22 16:13:36 2009 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>
