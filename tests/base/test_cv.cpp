@@ -1,4 +1,5 @@
 #include <erCv/erCv.hpp>
+#include<boost/utility.hpp>
 /*
   Test des fonctions et des classes de base d erCv:
     - Les fonctions sont definies pour un IplImage*
@@ -17,10 +18,11 @@ int main( int hola, char** image_name)
   erImage todo, todo1;
   erSmoothP psmo, psmo1;
   erThresP pthr;
+  bool loaded;   // loaded permet de savir si le fichier c est charge correctement
   INFOFILE = image_name[1];
 
   erWriteRecordFile( image_name);
-  todo = erLoadImage( image_name[2]);
+  boost::tie(todo,loaded) = erLoadImage( image_name[2]);
 
   erCvSmoothUser( &todo, &psmo);
   erCvThresholdUser( &todo, &pthr);

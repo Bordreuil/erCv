@@ -9,11 +9,13 @@
 
 
 #include <erCv/erCv.hpp>
+#include<boost/utility.hpp>
 std::string INFOFILE;
 
 int main( int hola, char** file_name)
 { /* Chargement et visualisation de l image */
-  erImage im = erLoadImage(file_name[2]);
+  erImage im ;bool loaded;
+  boost::tie(im,loaded)= erLoadImage(file_name[2]);
   INFOFILE = file_name[1];
   erShowImage("toto",&im);
 

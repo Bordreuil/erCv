@@ -6,13 +6,14 @@
 #include<list>
 #include<fstream>
 #include<iterator>
-
+#include<boost/utility.hpp>
 std::string INFOFILE;
 
 int main(int HOLA, char** file_name){
   /* Chargement et visualisation de l image de base */
   INFOFILE = file_name[1];
-  erImage er    = erLoadImage(file_name[2]);
+  erImage er;bool loaded;
+  boost::tie(er,loaded) = erLoadImage(file_name[2]);
   //erShowImage( "base Image", &er);
   erImage bw    = erConvertToBlackAndWhite( &er); /* Conversion en 8 bit single channel */
   erImage ercan = erSmoothAndCanny( &bw, 200, 1);    /* Smooth and Canny sur l image convertie */

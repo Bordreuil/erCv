@@ -29,6 +29,7 @@
 #include <boost/lexical_cast.hpp>
 #include <vector>
 #include <string>
+#include<utility>
 
 extern std::string INFOFILE;
 
@@ -51,6 +52,8 @@ public:
   erImage(char* );
   erImage(IplImage* );
   erImage(IplImage);
+  //erImage(const erImage&);
+  //erImage(const erImage);
   ~erImage();
   CvRect  rectan;
   bool    drawing;
@@ -74,13 +77,13 @@ void erShowImage(char* ,IplImage*);
 /** \brief Fonction permettant de charge une  Image a l aide
  d openCv
  */
-erImage erLoadImage( char*);
+std::pair<erImage,bool> erLoadImage( char*);
 
 
 /** \brief Fonction permettant de charger une serie d Image a l aide
  d openCv ayant comme extentions une succesion ordonne et continue de intieres
  */
-erImage erLoadImageSeries( char**);
+std::pair<erImage,bool> erLoadImageSeries( char**);
 
 
 
