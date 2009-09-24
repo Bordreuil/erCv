@@ -11,6 +11,14 @@
 #include <erCv/erCvBase.hpp>
 #include <erCv/erCalibration.hpp>
 #include <erCv/geometry/erCgalBase.hpp>
+#include <erCv/erCvExtract.hpp>
 #include <erCv/erCvToCgal.hpp>
+#include <erCv/utilities/erPredicates.hpp>
+#include <erCv/geometry/erCgalAlphaShape2.hpp>
+
+
+
+#include<boost/tuple/tuple.hpp>
+
 
 #endif

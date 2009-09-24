@@ -1,5 +1,5 @@
 #include <erCv/erCv.hpp>
-#include<boost/utility.hpp>
+
 /*
   Test des fonctions et des classes de base d erCv:
     - Les fonctions sont definies pour un IplImage*

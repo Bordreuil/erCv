@@ -52,18 +52,14 @@ public:
   erImage(char* );
   erImage(IplImage* );
   erImage(IplImage);
-  //erImage(const erImage&);
-  //erImage(const erImage);
+ 
   ~erImage();
   CvRect  rectan;
   bool    drawing;
 private:
   /**
      Methodes d acces
-  **/
-
- 
- 
+  **/ 
 };
 
 
@@ -92,11 +88,11 @@ std::pair<erImage,bool> erLoadImageSeries( char**);
  */
 void erSaveImage( IplImage*, char**);
 
-
+erImage erCopyImage(erImage);
 /** Fonction permettant de convertir une image en noir et blanc 
 */
-erImage erConvertToBlackAndWhite( IplImage*);
-
+//erImage    erConvertToBlackAndWhite( IplImage*);
+IplImage*  erConvertToBlackAndWhite( IplImage*);
 
 
 /** Fonction permettant d ecrire un ficher de sauvegarde des paramettres utilises pour chaque fonction

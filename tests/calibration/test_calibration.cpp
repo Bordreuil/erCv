@@ -9,7 +9,7 @@
 
 
 #include <erCv/erCv.hpp>
-#include<boost/utility.hpp>
+
 std::string INFOFILE;
 
 int main( int hola, char** file_name)

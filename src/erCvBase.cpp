@@ -118,15 +118,21 @@ void erSaveImage( IplImage* simag, char** file_name)
 
 
 
-erImage erConvertToBlackAndWhite( IplImage* simag)
+// erImage erConvertToBlackAndWhite( IplImage* simag)
+// {
+//    IplImage * ipbw = cvCreateImage( cvGetSize(simag), simag->depth, 1);
+//    cvCvtColor( simag, ipbw, CV_RGB2GRAY);
+
+//    return erImage(ipbw);
+   
+// }
+IplImage* erConvertToBlackAndWhite( IplImage* simag)
 {
    IplImage * ipbw = cvCreateImage( cvGetSize(simag), simag->depth, 1);
    cvCvtColor( simag, ipbw, CV_RGB2GRAY);
-
-   return erImage(ipbw);
+   return ipbw;
    ;
 }
-
 
 
 /* Create the parametters record file of differents fonctions */
