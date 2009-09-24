@@ -14,7 +14,19 @@ erImage::erImage(char* name):IplImage(*cvLoadImage(name))
 {
 }; 
 
-erImage::erImage(IplImage* im):IplImage(*im){};
+//erImage::erImage(IplImage* im):IplImage(*im){};
+erImage::erImage(IplImage* im)
+{
+  if( im == NULL) 
+    {
+      erImage();
+      std::cout << "im==NULL" << std::endl;
+    }
+  else
+    { 
+      erImage(*im);
+    }
+};
 erImage::~erImage(){};
 
 //CvRect& erImage::rectan(){return __rect;};
@@ -58,8 +70,9 @@ erImage erLoadImage(char* name)
       return  erImage(name);
     }
   else
-    { std::cout << "...Impossible d instancier un objet de type erImage a partir du fichier:" << name << std::endl;
-      IplImage * im = NULL;
+    { 
+      std::cout << "...Impossible d instancier un objet de type erImage a partir du fichier:" << name << std::endl;
+      IplImage *im = NULL;
       return erImage(im);
     };
 }
@@ -96,7 +109,6 @@ erImage erLoadImageSeries( char** file_name)
     {
       std::cout << "Incorrect file name or end of the stockpile" << std::endl;
       IplImage* nula=NULL;
-
       return erImage(nula);
     }
 }
@@ -144,6 +156,7 @@ erImage erConvertToBlackAndWhite( IplImage* simag)
 {
    IplImage * ipbw = cvCreateImage( cvGetSize(simag), simag->depth, 1);
    cvCvtColor( simag, ipbw, CV_RGB2GRAY);
+   erShowImage("titi",ipbw);
    return erImage(ipbw);
    //cvReleaseImage( &simag); 
    //simag = cvCloneImage( ipbw);
