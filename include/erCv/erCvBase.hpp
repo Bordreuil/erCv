@@ -75,7 +75,7 @@ void erShowImage(char* ,IplImage*);
 /** \brief Fonction permettant de charge une  Image a l aide
  d openCv
  */
-std::pair<erImage,bool> erLoadImage( char*);
+std::pair<erImage,bool> erLoadImage( char**);
 
 
 /** \brief Fonction permettant de charger une serie d Image a l aide

@@ -93,9 +93,13 @@ IplImage* erDef_ROIuser( erImage* simag)
 
 
 /* Definition and isolating the interesting zone in a pictures series*/
-void erDef_ROI( erImage* simag)
+IplImage* erDef_ROI( erImage* simag)
 {
+  IplImage *img_trans, *imag;
   cvSetImageROI( simag, simag->rectan);
+  img_trans = cvCreateImage( cvGetSize(simag), simag->depth, simag->nChannels);
+  cvCopy( simag, img_trans);
+  return img_trans;
 }
 
 

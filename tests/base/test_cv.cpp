@@ -22,7 +22,7 @@ int main( int hola, char** image_name)
   INFOFILE = image_name[1];
 
   erWriteRecordFile( image_name);
-  boost::tie(todo,loaded) = erLoadImage( image_name[2]);
+  boost::tie(todo,loaded) = erLoadImage( image_name);
 
   erCvSmoothUser( &todo, &psmo);
   erCvThresholdUser( &todo, &pthr);

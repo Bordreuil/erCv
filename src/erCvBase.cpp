@@ -31,15 +31,15 @@ void erShowImage( char* name, IplImage* im)
 };
 
 
-std::pair<erImage,bool> erLoadImage(char* name)
+std::pair<erImage,bool> erLoadImage(char** name)
 { 
-  if(erFileExists(name))
+  if(erFileExists(name[2]))
     {
-      return  std::make_pair(erImage(name),true);
+      return  std::make_pair(erImage(name[2]),true);
     }
   else
     { 
-      std::cout << "...Impossible d instancier un objet de type erImage a partir du fichier:" << name << std::endl;
+      std::cout << "...Impossible d instancier un objet de type erImage a partir du fichier:" << name[2] << std::endl;
       return std::make_pair(erImage(),false);
     };
 }
@@ -71,7 +71,7 @@ std::pair<erImage,bool> erLoadImageSeries( char** file_name)
       std::copy( name4.begin(), name4.end(), file_name[2]);
       file_name[2][ name4.size()] = '\0';
       
-      return erLoadImage( file_name[2]);
+      return erLoadImage( file_name);
     }
   else
     {

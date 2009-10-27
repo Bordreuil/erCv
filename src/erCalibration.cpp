@@ -26,10 +26,11 @@ erCalibration::erCalibration( char* name_image_patron, char* name_image_mesure, 
       IplImage* image_patron_color = cvLoadImage(name_image_patron);
       _image_mesure = cvCreateImage( cvGetSize( image_mesure_color), image_mesure_color->depth, 1);
       _image_patron = cvCreateImage( cvGetSize( image_patron_color), image_patron_color->depth, 1); 
-      //IplImage* image_patron_size = cvCreateImage( cvGetSize( image_patron_color), image_patron_color->depth, 1);
+      // IplImage* image_patron_size = cvCreateImage( cvGetSize( image_patron_color), image_patron_color->depth, 1);
       cvCvtColor( image_mesure_color, _image_mesure, CV_RGB2GRAY);
-      cvCvtColor( image_patron_color, image_patron, CV_RGB2GRAY);
-      
+      cvCvtColor( image_patron_color, _image_patron, CV_RGB2GRAY);
+      //_image_patron = cvCreateImage( cvSize(310,300), image_patron_color->depth, 1);
+      //cvResize( image_patron_size, _image_patron);
       //_image_mesure = cvLoadImage( name_image_mesure); // Faire les tests de bons chargements
       //_image_patron = cvLoadImage( name_image_patron);
       _image_mesure->origin = _image_patron->origin;

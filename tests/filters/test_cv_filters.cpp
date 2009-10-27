@@ -20,7 +20,7 @@ int main(int HOLA, char** image_name)
   erErodeP pero;
   erSobelP psob;
   
-  boost::tie(er,loaded)  = erLoadImage( image_name[2]);
+  boost::tie(er,loaded)  = erLoadImage( image_name);
   bw = erConvertToBlackAndWhite( &er);
   erWriteRecordFile( image_name);  //todo = cvCloneImage( &bw);
   erCvTemplateUser( &bw, &ptem); 

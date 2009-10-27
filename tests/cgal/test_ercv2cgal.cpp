@@ -25,59 +25,44 @@ int main(int HOLA, char** file_name){
   erSobelP psob;
   bool loaded;
  
-
-  boost::tie(er,loaded) = erLoadImage(file_name[2]);
-  bw = erConvertToBlackAndWhite( &er); /* Conversion en 8 bit single channel */
-  // Parenthese //////////////////////////////////////////////////////
-//   IplImage* re = cvLoadImage( "cuadro4.jpg");
-//   std::cout << "widht: " << bw.width << "height: " << bw.height << std::endl;
-//   IplImage* re2 = cvCreateImage( cvSize( 256, 256), re->depth, re->nChannels);
-//   cvResize( re, re2);
-//   cvSaveImage( "cuadro6.jpg", re2);
-  //fin Parenthese////////////////////////////////////////////////////
-
-  erCalibration ca( "cuadro5.jpg", "diferent4.jpg", 3, 3);
+  erCalibration ca( "cuadro5.jpg", "diferent4.jpg", 3, 3); /* Calibration des images */
   //erImage pat = ca.get_patron();
   //erImage mes = ca.get_mesure();
   //erShowImage( "patron", &pat);
   //erShowImage( "mesure", &mes);
-  
-  ea = ca.transform_image( bw);
-  //ea = erDef_ROIuser( &ed);
-  //IplImage* peo = cvInitImageHeader( &ea, cvGetSize( &ea), ea.depth, ea.nChannels);
-  //   std::cout << "origin   : " << ea.origin    << std::endl;
-  //   std::cout << "align    : " << ea.align     << std::endl;
-  //   std::cout << "dataOrder: " << ea.dataOrder << std::endl;
-  //   std::cout << "depth    : " << ea.depth     << std::endl;
-  //   std::cout << "imageData: " << ea.imageData << std::endl;
-  //erShowImage( "transform", &ea);
-  //erCvPyramidUser( &ea, &pyra);  
-  //erCvSmoothUser( &ea, &psmo);
-  //erCvAdaptiveThresholdUser( &ea, &padt); 
-  //erCvTemplateUser( &ea, &ptem);
-  //erCvThresholdUser( &ea, &pthr);
-  //erCvCannyUser( &ea, &pcan);
-  //erSaveImage( &ea, file_name);
-  
-  
-  /* 
-     Definition d un foncteur comme critere pour extraire 
-     des pixels suivant leur niveau de gris.
-     
-     cf -> utilities/erPredicates.hpp     
-  */
-
-  //cvNot( &ea, &ea);
-  //erShowImage( "prueba", &ea); 
-  IsEqualTo is_equal_255( 255);      
-  /* Definition du conteneur pour points au moment de l extraction */
-  std::list<CvPoint2D32f> cvPts;
-  /* Extraction */
-  std::cout << "prueba" << std::endl;
-  erExtractPoints( &ea, cvPts, is_equal_255);
-  //erConvertPixelToMks( ca.mm_per_pixels(), cvPts, file_name);
+  boost::tie(er,loaded) = erLoadImage(file_name); /* Conversion en 8 bit single channel */ 
+  bw = erConvertToBlackAndWhite( &er);
+  ed = ca.transform_image( bw);
+  ea = erDef_ROIuser( &ed); 
+  erCvSmoothUser( &ea, &psmo);
+  erCvTemplateUser( &ea, &ptem);
+  erCvThresholdUser( &ea, &pthr);
+  erCvCannyUser( &ea, &pcan);
+  erSaveImage( &ea, file_name);  
+  IsEqualTo is_equal_255( 255); /* Definition d un foncteur comme critere pour extraire des pixels suivant leur niveau de gris. cf->utilities/erPredicates.hpp */     
+  std::list<CvPoint2D32f> cvPts; /* Definition du conteneur pour points au moment de l extraction */
+  erExtractPoints( &ea, cvPts, is_equal_255); /* Extraction */
+  erConvertPixelToMks( ca.mm_per_pixels(), cvPts, file_name); /*Ecriture des donnes dans un ficher .txt */
 
 
+ 
+  while(true) /* Boucle de lecteure des images  */
+    {  
+      boost::tie(er,loaded) = erLoadImageSeries( file_name);
+      if(!loaded) break;    
+      bw = erConvertToBlackAndWhite( &er);
+      ed = ca.transform_image( bw);
+      ea = erDef_ROI( &ed);
+      erCvSmooth( &ea, &psmo);
+      erCvTemplate( &ea, &ptem);
+      erCvThreshold( &ea, &pthr);
+      erCvCanny( &ea, &pcan);
+      erSaveImage( &ea, file_name);
+      IsEqualTo is_equal_255( 255);
+      std::list<CvPoint2D32f> cvPts; 
+      erExtractPoints( &ea, cvPts, is_equal_255); 
+      erConvertPixelToMks( ca.mm_per_pixels(), cvPts, file_name); 
+    }
 
 //   /* Ecriture des points extraits dans le fichier 'points_cv_filters_cv.dat' */
 //   std::ofstream ocv( "results/points_cv_filters_cv.dat");

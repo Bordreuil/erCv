@@ -10,7 +10,7 @@ IplImage* erDef_ROIuser( erImage*);
 /**
    \brief
  */
-//void erDef_ROI( erImage*);
+IplImage* erDef_ROI( erImage*);
 
 /**
    \brief
