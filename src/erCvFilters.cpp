@@ -25,16 +25,12 @@ erImage erSmoothAndCanny( IplImage* pic1, int A=1, int B=2)
 
 void erCvSmooth( IplImage* simg, erSmootP* parm)
 {
-  int size, smoothtype;
-  size = parm->size;
-  smoothtype = parm->type;
+  int size= parm->size;
+  SmoothType smooth = parm->type;
   std::cout << "size: " << size << std::endl;
-  std::cout << "smoothtype: " << smoothtype << std::endl;
-  if (smoothtype == 1) cvSmooth( simg, simg, CV_BLUR_NO_SCALE, size , 0, 0, 0);
-  if (smoothtype == 2) cvSmooth( simg, simg, CV_BLUR, size , 0, 0, 0);
-  if (smoothtype == 3) cvSmooth( simg, simg, CV_GAUSSIAN, size , 0, 0, 0);
-  if (smoothtype == 4) cvSmooth( simg, simg, CV_MEDIAN, size , 0, 0, 0);
-  if (smoothtype == 5) cvSmooth( simg, simg, CV_BILATERAL, size , 0, 0, 0);
+  std::cout << "smoothtype: " << smoothtype[smooth] << std::endl;
+  cvSmooth( simg, simg, smooth, size , 0, 0, 0);
+
  }
 
 

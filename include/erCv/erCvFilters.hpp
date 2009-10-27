@@ -16,10 +16,22 @@
    \brief Structure contenant les parametre utiles pour 
    un lissage
  */
+
+enum SmoothType {BLUR_NO_SCALE,
+		BLUR,
+		GAUSSIAN,
+		MEDIAN, 
+		BILATERAL
+                 };
+
+extern const int nbSmoothType;
+extern char* smoothtype []; ;
+
+
 struct erSmootP
 {
-  int size; //** < Beside size (in pixels) of soomthness region 
-  int type; //** < Type of the smooth to be aplied
+  int        size; //** < Beside size (in pixels) of soomthness region 
+  SmoothType type; //** < Type of the smooth to be aplied
 };
 
 /**

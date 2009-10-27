@@ -21,5 +21,6 @@ ADD_LIBRARY(erCv erCvSegmentation
 		 erCvFilters
 		 Gui/erCvFiltersUser
 		 erPredicates
-		 erCvInfofile)
+		 erCvInfofile
+		 params)
 

@@ -97,43 +97,44 @@ void erCvCannyUser( IplImage* simg, erCannyP* parm)
 
 
 void erCvSmoothUser( IplImage* simg, erSmootP* parm)
-{
+{ 
   IplImage *img;
-  int size, smoothtype, itrak;
-  std::string name = INFOFILE;
-  name+= ".txt";
-  const char* nomb = name.c_str();
-  //std::ofstream myfile( nomb);
+  uint size, itrak;
+  uint     type;
   img = cvCloneImage( simg);
-
-  std::cout << "Put the size (in pixels) of neighboor to smooth operation (odd number: 1, 3, 5, 7): ";
-  std::cin >> size;
-  std::cout << std::endl;
-  std::cout << "Choose smooth type: 1->CV_BLUR_NO_SCALE  2->CV_BLUR  3->CV_GAUSSIAN  4->CV_MEDIAN  5->BILATERAL: ";
-  std::cin >> smoothtype;
-  std::cout << std::endl;
-
-  if (smoothtype == 1) cvSmooth( simg, img, CV_BLUR_NO_SCALE, size , 0, 0, 0);
-  if (smoothtype == 2) cvSmooth( simg, img, CV_BLUR, size , 0, 0, 0);
-  if (smoothtype == 3) cvSmooth( simg, img, CV_GAUSSIAN, size , 0, 0, 0);
-  if (smoothtype == 4) cvSmooth( simg, img, CV_MEDIAN, size , 0, 0, 0);
-  if (smoothtype == 5) cvSmooth( simg, img, CV_BILATERAL, size , 0, 0, 0);
-  cvNamedWindow( "Smooth", 0);
-  cvShowImage( "Smooth", img);
-  while(1)
+  int ok =1;
+  while(ok)
     {
-      if(cvWaitKey(10) == 27) break;
-    }
-  cvDestroyWindow( "Smooth");
+      std::cout << "Put the size (in pixels) of neighboor to smooth operation (odd number: 1, 3, 5, 7): ";
+      std::cin >> size;
+      std::cout << std::endl;
+      std::cout << "Choose smooth type: ";
+      for(uint i=0;i<nbSmoothType;i++)
+	{std::cout << i << " -> " << smoothtype[i] << "  ";}
+      std::cout << std::endl;
+      std::cin >> type;
+      std::cout << std::endl;
+
+      cvSmooth( simg, img, type, size , 0, 0, 0);
   
-  std::ofstream file( nomb, std::ios_base::app );
+      cvNamedWindow( "Smooth", 0);
+      cvShowImage( "Smooth", img);
+      while(1){if(cvWaitKey(10) == 27) break;};
+      cvDestroyWindow( "Smooth");
+      std::cout << " T'es content (Oui 0/Non 1)? ";
+      std::cin >> ok;
+    };
+  parm->size = size;
+  parm->type  = SmoothType(type);
+  *simg = *img;
+
+  std::ofstream file( nameInfoFile(INFOFILE), std::ios_base::app );
   file << "***********Filter fonction SMOOTH**************\n";
   file << "neighboor size:-------- " << size << std::endl;
-  file << "smooth type:----------- " << smoothtype << std::endl;
+  file << "smooth type:----------- " << type << std::endl;
   file << std::endl;
-  parm->size = size;
-  parm->type = smoothtype;
-  *simg = *img;
+
+ 
 }
 
 
@@ -143,10 +144,7 @@ void erCvSobelUser( IplImage* simg,erSobelP* parm)
 {
   IplImage* img;
   int threshold[2], maxt[2], itrak[2];
-  std::string name = INFOFILE;
-  name+= ".txt";
-  const char* nomb = name.c_str();
-  //std::ofstream myfile( nomb);
+
   threshold[0] = 1;
   threshold[1] = 1;
   img = cvCloneImage( simg);
@@ -168,7 +166,7 @@ void erCvSobelUser( IplImage* simg,erSobelP* parm)
   parm->trhY = cvGetTrackbarPos( "derivate_order_y", "Sobel_trackbar");
   cvDestroyWindow( "Sobel_trackbar");
   
-  std::ofstream file( nomb, std::ios_base::app );
+  std::ofstream file( nameInfoFile(INFOFILE), std::ios_base::app );
   file << "***********Filter fonction SOBEL***************\n";
   file << "Order derivate X:------ " << parm->trhX << std::endl;
   file << "Order derivate Y:------ " << parm->trhY << std::endl;
