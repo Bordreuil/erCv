@@ -8,6 +8,7 @@
 #include <erCv/erCvFilters.hpp>
 #include <erCv/Gui/erCvFiltersUser.hpp>
 #include <erCv/erCvSegmentation.hpp>
+#include <erCv/Gui/erCvSegmentationUser.hpp>
 #include <erCv/erCvBase.hpp>
 #include <erCv/erCalibration.hpp>
 #include <erCv/geometry/erCgalBase.hpp>

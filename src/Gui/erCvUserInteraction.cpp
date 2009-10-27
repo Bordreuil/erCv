@@ -58,14 +58,14 @@ void on_mouse_rect3( int event, int x, int y, int flags, void* param)
 
 
 /* Definition and isolating the interesting zone by user */
-void erDef_ROIuser( erImage* simag)
+IplImage* erDef_ROIuser( erImage* simag)
 {
-  IplImage *img_trans; 
+  IplImage *img_trans, *imag; 
   
   simag->drawing = false;
 
-  img_trans = cvCloneImage( simag);
-      
+  img_trans = cvCreateImage( cvGetSize(simag), simag->depth, simag->nChannels);
+  cvCopy( simag, img_trans);
   cvNamedWindow( "Draw_ROI", 0);
   cvSetMouseCallback( "Draw_ROI", on_mouse_rect3,  (void*) simag );
   while( 1)
@@ -80,11 +80,12 @@ void erDef_ROIuser( erImage* simag)
       if( cvWaitKey( 700) == 27) break;
     }
   cvDestroyWindow("Draw_ROI");
-  
+
   cvSetImageROI( img_trans, simag->rectan);
-  cvSetImageROI( simag, simag->rectan);
-  cvCopy( img_trans, simag);
-  cvResetImageROI( img_trans);
+  imag = cvCreateImage( cvGetSize(img_trans), img_trans->depth, img_trans->nChannels);
+  cvCopy( img_trans, imag);
+  return imag;
+
 }
 
 

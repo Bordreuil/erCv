@@ -29,7 +29,9 @@
 #include <boost/lexical_cast.hpp>
 #include <vector>
 #include <string>
-#include<utility>
+#include <utility>
+#include <iostream>
+#include <fstream>
 
 extern std::string INFOFILE;
 
@@ -89,6 +91,8 @@ std::pair<erImage,bool> erLoadImageSeries( char**);
 void erSaveImage( IplImage*, char**);
 
 erImage erCopyImage(erImage);
+
+
 /** Fonction permettant de convertir une image en noir et blanc 
 */
 //erImage    erConvertToBlackAndWhite( IplImage*);
@@ -98,6 +102,12 @@ IplImage*  erConvertToBlackAndWhite( IplImage*);
 /** Fonction permettant d ecrire un ficher de sauvegarde des paramettres utilises pour chaque fonction
  */
 void erWriteRecordFile( char**);
+
+
+/** Fonction permettant d convertir une image 32bit en 8bit
+ */
+void erCvConvert32to8( IplImage*, IplImage*);
+
 
 /*@}*/
 #endif

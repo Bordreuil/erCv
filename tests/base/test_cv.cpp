@@ -16,7 +16,7 @@ int main( int hola, char** image_name)
 {
 
   erImage todo, todo1;
-  erSmoothP psmo, psmo1;
+  erSmootP psmo, psmo1;
   erThresP pthr;
   bool loaded;   // loaded permet de savir si le fichier c est charge correctement
   INFOFILE = image_name[1];

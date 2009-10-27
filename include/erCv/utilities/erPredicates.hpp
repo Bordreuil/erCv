@@ -69,5 +69,11 @@ private:
   int __upper_value,__lower_value;
 };
 
+template< typename Point>
+bool erCompareXPoint( Point p1, Point p2)
+{
+  return p1.x < p2.x;
+};
+
 /*@}*/
 #endif

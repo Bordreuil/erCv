@@ -11,15 +11,17 @@
 /*@{*/
 #include<vector>
 #include <cv.h>
-//#include <highgui.h>
+#include <highgui.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
-
+#include <utility>
+#include <fstream>
+#include <iostream>
 #include "erCvBase.hpp"
 
 using namespace std;
-
+typedef std::pair<double,double> erFactorRealDimension;
 
 //----------------------------------------------------------------------
 //---------
@@ -44,7 +46,8 @@ public:
 					 les entiers correspondent a la taille de l echiquier
 					 Aujourd'hui(mai 2009), uniquement (3,3)
 				       */
-  erCalibration(char*,char*,int ,int);
+  //erCalibration( char*, char*, int, int);
+  erCalibration( char*, char*, int, int, char* file_dimention = "cuadro_size.dat");
   ~erCalibration(); 
 
   // Methodes d acces
@@ -53,11 +56,19 @@ public:
   /** \brief Permet d extraire l image mesure */
   erImage get_mesure(); 
   /** \brief Permet de transformer une Image */
-  erImage transform_image(erImage); 
+  erImage transform_image( erImage);
+  /** \brief Permet d acceder au facteur de conversion */
+  std::pair<double,double> mm_per_pixels();
+ 
  private:
-  bool  find_corners(IplImage *,CornerContainer&);
+  // Fonctions internes utilises par cette class
+  bool  find_corners( IplImage*, CornerContainer&);
+  std::pair<double,double> compute_pixel_to_mm( CvPoint2D32f*, double, double);
+  std::pair<double,double> real_dimensions( char*);
+
   // Variables membres......
-  bool            _identified;                      // Booleen pour savoir si tous les sommets on ete dectectes
+  double          _mm_per_pixel_x, _mm_per_pixel_y;// Milimmetres par pixel (facteur de convertion)  
+  bool            _identified;                     // Booleen pour savoir si tous les sommets on ete dectectes
   int             _board_w,_board_h,_num_coins;
   IplImage        *_image_mesure, *_image_patron;  // Image OpenCv pour 
   CvSize          _board_sz;                       

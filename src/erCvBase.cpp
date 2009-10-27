@@ -6,6 +6,7 @@
 #include <fstream>
 #include <boost/lexical_cast.hpp>
 #include <string>
+//#include "_highgui.h"
 
 // Programmation de la classeImage
 erImage::erImage():IplImage(){};
@@ -21,7 +22,7 @@ erImage::~erImage(){};
 
 
 // Interface pour des fonctions d open cv
-void erShowImage(char* name,IplImage* im)
+void erShowImage( char* name, IplImage* im)
 {
   cvNamedWindow(name);
   cvShowImage(name,im);
@@ -35,12 +36,10 @@ std::pair<erImage,bool> erLoadImage(char* name)
   if(erFileExists(name))
     {
       return  std::make_pair(erImage(name),true);
-
     }
   else
     { 
       std::cout << "...Impossible d instancier un objet de type erImage a partir du fichier:" << name << std::endl;
-
       return std::make_pair(erImage(),false);
     };
 }
@@ -144,14 +143,59 @@ void erWriteRecordFile( char** file_name)
   name+= ".txt";
   const char* nomb = name.c_str();
   std::ofstream myfile( nomb);
-  if (myfile.is_open()){
-    std::cout << "";
-    myfile << "Analysis type: " << nomb << std::endl;
-    std::cout << "Analysis type: " << nomb << std::endl;
-    myfile << std::endl;
-    myfile << std::endl;
-    myfile.close();
-  }
+  if (myfile.is_open())
+    {
+      std::cout << "";
+      myfile << "Analysis type: " << nomb << std::endl;
+      std::cout << "Analysis type: " << nomb << std::endl;
+      myfile << std::endl;
+      myfile << std::endl;
+      myfile.close();
+    }
   else 
-    std::cout << "Unable to open file";
+    {
+      std::cout << "Unable to open file";
+    }
+}
+
+
+
+void erCvConvert32to8( IplImage* srcarr, IplImage* dstarr)
+{
+  CvMat* temp = 0;
+  int flags = 0;
+  CV_FUNCNAME( "cvConvertImage" );
+  
+  //__BEGIN__;
+  
+  CvMat srcstub, *src;
+  CvMat dststub, *dst;
+  int src_cn, dst_cn, swap_rb = flags & CV_CVTIMG_SWAP_RB;
+  
+  //CV_CALL( src = cvGetMat( srcarr, &srcstub ));
+  //CV_CALL( dst = cvGetMat( dstarr, &dststub ));
+  src = cvGetMat( srcarr, &srcstub );
+  dst = cvGetMat( dstarr, &dststub );
+  
+  src_cn = CV_MAT_CN( src->type );
+  dst_cn = CV_MAT_CN( dst->type ); 
+  
+  int src_depth = CV_MAT_DEPTH(src->type);
+  double scale = src_depth <= CV_8S ? 1 : src_depth <= CV_32S ? 1./256 : 255;
+  double shift = src_depth == CV_8S || src_depth == CV_16S ? 128 : 0;
+  
+  if( !CV_ARE_CNS_EQ( src, dst ))
+    {
+      temp = cvCreateMat( src->height, src->width,
+			  (src->type & CV_MAT_CN_MASK)|(dst->type & CV_MAT_DEPTH_MASK));
+      cvConvertScale( src, temp, scale, shift );
+      src = temp;
+    }
+  else
+    {
+      cvConvertScale( src, dst, scale, shift );
+      src = dst;
+    }
+  //__END__; 
+  cvReleaseMat( &temp );
 }

@@ -5,12 +5,12 @@
 /**
    \brief
  */
-void erDef_ROIuser( erImage*);
+IplImage* erDef_ROIuser( erImage*);
 
 /**
    \brief
  */
-void erDef_ROI( erImage*);
+//void erDef_ROI( erImage*);
 
 /**
    \brief

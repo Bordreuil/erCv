@@ -53,11 +53,11 @@ void on_mouse_rect( int event, int x, int y, int flags, void* param)
 
 
 
-
+ 
 
 void erCvCannyUser( IplImage* simg, erCannyP* parm)
 {
-  IplImage* img1;
+  IplImage* img;
   int threshold[2], maxt[2], itrak[2];
   std::string name = INFOFILE;
   name+= ".txt";
@@ -65,27 +65,27 @@ void erCvCannyUser( IplImage* simg, erCannyP* parm)
   //std::ofstream myfile( nomb);
   threshold[0] = 1;
   threshold[1] = 1;
-  img1 = cvCloneImage(simg);
+  img = cvCloneImage(simg);
  
-  std::cout << "Put the max values to two thresholds (thr1, thr2) of Canny fonction: ";
-  std::cin >> maxt[0];
-  maxt[1] = maxt[0];
+  //std::cout << "Put the max values to two thresholds (thr1, thr2) of Canny fonction: ";
+  //std::cin >> maxt[0];
+  maxt[1] = maxt[0] = 355;
   std::cout << std::endl;
   
   cvNamedWindow( "Canny_trackbar", 0);
   itrak[0] = cvCreateTrackbar( "threshold1", "Canny_trackbar", &threshold[0], maxt[0], NULL);
   itrak[1] = cvCreateTrackbar( "threshold2", "Canny_trackbar", &threshold[1], maxt[1], NULL);
   while( 1)
-    {  
-     
-      cvCanny( simg, img1, (float)threshold[0]*10., (float)threshold[1]*10., 5);
-      cvShowImage( "Canny_trackbar", img1);
+    {    
+      cvCanny( simg, img, (float)threshold[0]*10., (float)threshold[1]*10., 5);
+      cvShowImage( "Canny_trackbar", img);
       if( cvWaitKey( 10) == 27) break;
     }
   parm->trh1 = cvGetTrackbarPos( "threshold1", "Canny_trackbar");
   parm->trh2 = cvGetTrackbarPos( "threshold2", "Canny_trackbar");
   cvDestroyWindow( "Canny_trackbar");
-  simg = cvCloneImage( img1);
+  //simg = cvCloneImage( img);
+  *simg = *img;
   std::ofstream file( nomb, std::ios_base::app );
   file << "***********Filter fonction CANNY***************\n";
   file << "Threshold 1:----------- " << parm->trh1 << std::endl;
@@ -96,7 +96,7 @@ void erCvCannyUser( IplImage* simg, erCannyP* parm)
 
 
 
-void erCvSmoothUser( IplImage* simg, erSmoothP* parm)
+void erCvSmoothUser( IplImage* simg, erSmootP* parm)
 {
   IplImage *img;
   int size, smoothtype, itrak;
@@ -133,7 +133,7 @@ void erCvSmoothUser( IplImage* simg, erSmoothP* parm)
   file << std::endl;
   parm->size = size;
   parm->type = smoothtype;
-  simg = cvCloneImage( img);
+  *simg = *img;
 }
 
 
@@ -173,7 +173,7 @@ void erCvSobelUser( IplImage* simg,erSobelP* parm)
   file << "Order derivate X:------ " << parm->trhX << std::endl;
   file << "Order derivate Y:------ " << parm->trhY << std::endl;
   file << std::endl;
-  simg = cvCloneImage( img);
+  *simg = *img;
 }
 
 
@@ -196,8 +196,9 @@ void erCvThresholdUser( IplImage* simg, erThresP* parm)
   std::cout << "Type of threshold: 1->CV_THRESH_BINARY  2->CV_THRESH_BINARY_INV  3->CV_THRESH_TRUNC  4->CV_THRESH_TOZERO  5->CV_THRESH_TOZERO_INV : ";
   std::cin >> threstype;
   std::cout << std::endl;
-  std::cout << "Put the max value to threshold of Threshold fonction (to 8-bit image = 255): ";
-  std::cin >> maxt;
+  //std::cout << "Put the max value to threshold of Threshold fonction (to 8-bit image = 255): ";
+  //std::cin >> maxt;
+  maxt = 255;
   std::cout << std::endl;
   
   cvNamedWindow( "Threshold_trackbar", 0);
@@ -218,7 +219,7 @@ void erCvThresholdUser( IplImage* simg, erThresP* parm)
       cvShowImage( "Threshold_trackbar", img);
       if( cvWaitKey( 10) == 27) break;
     }  
-  simg = cvCloneImage( img);
+  *simg = *img;
   parm->trh1 = cvGetTrackbarPos( "max_threshold", "Threshold_trackbar");
   parm->trh2 = cvGetTrackbarPos( "threshold", "Threshold_trackbar");
   parm->type = threstype;
@@ -236,7 +237,7 @@ void erCvThresholdUser( IplImage* simg, erThresP* parm)
 
 
 
-void erCvAdaptiveThresholdUser( IplImage* simg, erAdaptThresP* parm)
+void erCvAdaptiveThresholdUser( IplImage* simg, erAdThrP* parm)
 {
   IplImage* img;
   int threshold, maxt, itrak, threstype, adapt, neigh, param;
@@ -277,7 +278,7 @@ void erCvAdaptiveThresholdUser( IplImage* simg, erAdaptThresP* parm)
       cvShowImage( "Threshold_trackbar", img);
       if( cvWaitKey( 10) == 27) break;
     }  
-  simg = cvCloneImage( img);
+  *simg = *img;
   parm->trhP = param;
   parm->neig = neigh;
   parm->trh0 = cvGetTrackbarPos( "max_threshold", "Threshold_trackbar");
@@ -299,7 +300,7 @@ void erCvAdaptiveThresholdUser( IplImage* simg, erAdaptThresP* parm)
 
 
 
-void erCvPyramidUser( IplImage* simg, erPyramidP* parm)
+void erCvPyramidUser( IplImage* simg, erPyramP* parm)
 {
   IplImage* img;
   int threshold[2], maxt[2], itrak[2], level;
@@ -316,9 +317,11 @@ void erCvPyramidUser( IplImage* simg, erPyramidP* parm)
 
   std::cout << "Put the max level of pyramid segmentation: ";
   std::cin >> level;
-  std::cout << std::endl;
-  std::cout << "Put the error max value (100) of threshold1(link) et threshold2(clustering): ";
-  std::cin >> maxt[0] >> maxt[1];
+  //level = 6;
+  //std::cout << std::endl;
+  //std::cout << "Put the error max value (100) of threshold1(link) et threshold2(clustering): ";
+  //std::cin >> maxt[0] >> maxt[1];
+  maxt[0] = maxt[1] = 30;
 
   cvNamedWindow( "Pyramid_trackbar", 0);
 
@@ -352,7 +355,7 @@ void erCvPyramidUser( IplImage* simg, erPyramidP* parm)
   file << "Error clustering:------ " << parm->trh2 << std::endl;
   file << "Level of pyramid:------ " << parm->levl << std::endl;
   file << std::endl;
-  simg = cvCloneImage( img);
+  *simg = *img;
 }
 
 
@@ -360,7 +363,7 @@ void erCvPyramidUser( IplImage* simg, erPyramidP* parm)
 
 
 
-void erCvDilateUser( IplImage* simg, erDilateP* parm)
+void erCvDilateUser( IplImage* simg, erDilatP* parm)
 {
   IplImage* img;
   int iteration, itrak, maxt; 
@@ -372,9 +375,11 @@ void erCvDilateUser( IplImage* simg, erDilateP* parm)
   iteration = 1;
   img = cvCloneImage( simg);
 
-  std::cout << "Put max iteration numbers of dilate its applies: ";
-  std::cin >> maxt;
-  std::cout << std::endl;
+  //std::cout << "Put max iteration numbers of dilate its applies: ";
+  //std::cin >> maxt;
+  maxt = 20;
+  //std::cout << std::endl;
+
 
   cvNamedWindow( "Dilate_trackbar", 0);
   itrak = cvCreateTrackbar( "iteration number", "Dilate_trackbar", &iteration, maxt, NULL);
@@ -393,7 +398,7 @@ void erCvDilateUser( IplImage* simg, erDilateP* parm)
    file << "***********Filter fonction DILATE**************\n";
    file << "No Iterations :-------- " << parm->iter << std::endl;
    file << std::endl;
-   simg = cvCloneImage( img);
+   *simg = *img;
 }
 
 
@@ -412,9 +417,10 @@ void erCvErodeUser( IplImage* simg, erErodeP* parm)
   iteration = 1;
   img = cvCloneImage( simg);
 
-  std::cout << "Put max iteration numbers of erode its applies: ";
-  std::cin >> maxt;
-  std::cout << std::endl;
+  //std::cout << "Put max iteration numbers of erode its applies: ";
+  //std::cin >> maxt;
+  maxt = 20;
+  //std::cout << std::endl;
 
   /*Construction du trackbar*/
   cvNamedWindow( "Erode_trackbar", 0);
@@ -434,7 +440,9 @@ void erCvErodeUser( IplImage* simg, erErodeP* parm)
   file << "***********Filter fonction ERODE***************\n";
   file << "No Iterations :-------- " << parm->iter << std::endl;
   file << std::endl;
-  simg = cvCloneImage( img);
+  *simg = *img;
+  //simg = cvCloneImage( img);
+  erShowImage( "hola", simg);
 }
 
 

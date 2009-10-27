@@ -8,12 +8,7 @@
 /** \brief interface de filtres opencv dans erCv */
 
 
-struct Drawrec
-{
-  CvRect rectan;
-  IplImage *image;
-  bool drawing;
-};
+
 
 //** \addtogroup filters */
 /*@{*/
@@ -21,7 +16,7 @@ struct Drawrec
    \brief Structure contenant les parametre utiles pour 
    un lissage
  */
-struct erSmoothP
+struct erSmootP
 {
   int size; //** < Beside size (in pixels) of soomthness region 
   int type; //** < Type of the smooth to be aplied
@@ -60,7 +55,7 @@ struct erThresP
    \brief
 
  */
-struct erAdaptThresP
+struct erAdThrP
 {
   int trhP;  //** <                           */
   int neig;  //** <                           */
@@ -73,7 +68,7 @@ struct erAdaptThresP
 
  */
 
-struct erPyramidP
+struct erPyramP
 {
   int trh1; //** < Threshold value to link in pyramid fonction */
   int trh2; //** < Threshold value to clustering in pyramid fonction */
@@ -85,7 +80,7 @@ struct erPyramidP
    \brief
 
  */
-struct erDilateP
+struct erDilatP
 {
   int iter; //** < Iteration number to be applied dilate fonction */
 };
@@ -118,7 +113,7 @@ void erCvCanny( IplImage*, erCannyP*);
 /** 
     \brief Permet d effectuer une lissage sur l image 
 */
-void erCvSmooth( IplImage*, erSmoothP*);
+void erCvSmooth( IplImage*, erSmootP*);
 
 
 
@@ -127,7 +122,7 @@ void erCvSmooth( IplImage*, erSmoothP*);
 /** \brief
     Permet d effectuer une lissage sur l image (parametres definies par l utilisateur)
 */
-void erCvSobelUser( IplImage*, erSobelP*);
+void erCvSobel( IplImage*, erSobelP*);
 
 
 
@@ -140,7 +135,7 @@ void erCvThreshold( IplImage*, erThresP*);
 /** \brief
     Permet d filtrer l image par seuils d intensites adaptes par zones 
  */
-void erCvAdaptiveThreshold( IplImage* simg, erAdaptThresP* parm);
+void erCvAdaptiveThreshold( IplImage* simg, erAdThrP* parm);
 
 
 
@@ -148,14 +143,14 @@ void erCvAdaptiveThreshold( IplImage* simg, erAdaptThresP* parm);
     Permet d effectuer un filtrage de l image en reagroupant les pixels dans clusters 
     d interet et en effectuant des liaisons entre eux
  */
-void erCvPyramid( IplImage*, erPyramidP*);
+void erCvPyramid( IplImage*, erPyramP*);
 
 
 
 /** \brief
     Permet d effectuer un filtrage de l image en reduissant le nombre de pixels avec noir
  */
-void erCvDilate( IplImage*,erDilateP*);
+void erCvDilate( IplImage*,erDilatP*);
 
 
 

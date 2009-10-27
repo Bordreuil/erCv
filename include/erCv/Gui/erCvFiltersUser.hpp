@@ -22,7 +22,7 @@ void erCvSobelUser( IplImage*, erSobelP*);
 
 /** \brief Permet d effectuer une lissage sur l image (peramettres definies par l usager)
 */
-void erCvSmoothUser( IplImage*, erSmoothP*);
+void erCvSmoothUser( IplImage*, erSmootP*);
 
 
 
@@ -36,19 +36,19 @@ void erCvThresholdUser( IplImage*, erThresP*);
 
 /** \brief Permet d filtrer l image par seuils d intensites adaptes par zones (peramettres definies par l usager)
  */
-void erCvAdaptiveThresholdUser( Drawrec*, erAdaptThresP*);
+void erCvAdaptiveThresholdUser( IplImage*, erAdThrP*);
 
 
 
 /**  \brief Permet d effectuer un filtrage de l image en reagroupant les pixels dans cluosters d interet et en effectuant des liesons entre eux (peramettres definies par l usager)
  */
-void erCvPyramidUser( IplImage*, erPyramidP*);
+void erCvPyramidUser( IplImage*, erPyramP*);
 
 
 
 /**  \brief  Permet d effectuer un filtrage de l image en reduissant le nombre de pixels avec noir (peramettres definies par l usager)
  */
-void erCvDilateUser( IplImage*, erDilateP*);
+void erCvDilateUser( IplImage*, erDilatP*);
 
 
 
