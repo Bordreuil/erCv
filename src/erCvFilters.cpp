@@ -25,12 +25,13 @@ erImage erSmoothAndCanny( IplImage* pic1, int A=1, int B=2)
 
 void erCvSmooth( IplImage* simg, erSmootP* parm)
 {
-  int size= parm->size;
-  SmoothType smooth = parm->type;
-  std::cout << "size: " << size << std::endl;
-  std::cout << "smoothtype: " << smoothtype[smooth] << std::endl;
-  cvSmooth( simg, simg, smooth, size , 0, 0, 0);
-
+  // int size= parm->size;
+  //SmoothType smooth = parm->type;
+  //std::cout << "size: " << size << std::endl;
+  //std::cout << "smoothtype: " << smoothtype[smooth] << std::endl;
+  std::cout << parm;
+  //cvSmooth( simg, simg, smooth, size , 0, 0, 0);
+  cvSmooth(simg,simg,parm->type,parm->size,0,0,0);
  }
 
 
@@ -151,4 +152,12 @@ void erCvErode( IplImage* simg, erErodeP* parm)
   iteration = 1;
   iteration = parm->iter;
   cvErode(simg, simg, ele, iteration); 
-}
+};
+
+std::ostream& operator << (std::ostream& o, erSmootP* smp)
+{
+  o << "***********Filter fonction SMOOTH**************\n";
+  o << "neighboor size:-------- " << smp->size << std::endl;
+  o << "smooth type:----------- " << smoothtype[smp->type] << std::endl;
+  o << std::endl;
+};

@@ -34,6 +34,9 @@ struct erSmootP
   SmoothType type; //** < Type of the smooth to be aplied
 };
 
+
+std::ostream& operator << (std::ostream&, erSmootP*);
+
 /**
    \brief 
  */

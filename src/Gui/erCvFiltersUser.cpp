@@ -129,10 +129,7 @@ void erCvSmoothUser( IplImage* simg, erSmootP* parm)
   *simg = *img;
 
   std::ofstream file( nameInfoFile(INFOFILE), std::ios_base::app );
-  file << "***********Filter fonction SMOOTH**************\n";
-  file << "neighboor size:-------- " << size << std::endl;
-  file << "smooth type:----------- " << type << std::endl;
-  file << std::endl;
+  file << parm;
 
  
 }
