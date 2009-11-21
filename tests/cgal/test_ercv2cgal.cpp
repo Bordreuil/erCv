@@ -5,6 +5,7 @@
 #include <erCv/erCvToCgal.hpp>
 #include <erCv/geometry/erCgalAlphaShape2.hpp>
 #include<list>
+#include<vector>
 #include<fstream>
 #include<iterator>
 #include<boost/utility.hpp>
@@ -13,9 +14,14 @@
 int main(int HOLA, char** file_name){
   /* Chargement et visualisation de l image de base */
   INFOFILE = file_name[1];
-  erImage er, bw, ed, ea;
+  erImage er, bw, eo, ea;
+  erImage pimg, bwpimg;
+  CvRect rect;
+  erCerc cerc;
+  erDiffeP pdif;
   erTemplP ptem;
-  erSmootP psmo;
+  erCallBP pcal;
+  erSmootP psmo, psmo1;
   erCannyP pcan;
   erPyramP pyra;
   erThresP pthr;
@@ -24,44 +30,54 @@ int main(int HOLA, char** file_name){
   erErodeP pero;
   erSobelP psob;
   bool loaded;
- 
-  erCalibration ca( "cuadro5.jpg", "diferent4.jpg", 3, 3); /* Calibration des images */
-  //erImage pat = ca.get_patron();
-  //erImage mes = ca.get_mesure();
-  //erShowImage( "patron", &pat);
-  //erShowImage( "mesure", &mes);
-  boost::tie(er,loaded) = erLoadImage(file_name); /* Conversion en 8 bit single channel */ 
-  bw = erConvertToBlackAndWhite( &er);
-  ed = ca.transform_image( bw);
-  ea = erDef_ROIuser( &ed); 
+  
+  erCalibration ca( "cuadro6.jpg", "diferent4.jpg", 3, 3); /* Calibration des images */
+  
+  
+  boost::tie(er,loaded) = erLoadImage(file_name);
+  bw = erConvertToBlackAndWhite( &er); /* Conversion en 8 bit single channel */ 
+  
+  eo = ca.transform_image( bw);
+  ea = erDef_ROIuser( &eo, &rect);
+  
   erCvSmoothUser( &ea, &psmo);
-  erCvTemplateUser( &ea, &ptem);
-  erCvThresholdUser( &ea, &pthr);
+ 
+  erCvAdaptiveThresholdUser( &ea, &padt); 
+  erCvSmoothUser( &ea, &psmo1);
+
   erCvCannyUser( &ea, &pcan);
   erSaveImage( &ea, file_name);  
   IsEqualTo is_equal_255( 255); /* Definition d un foncteur comme critere pour extraire des pixels suivant leur niveau de gris. cf->utilities/erPredicates.hpp */     
-  std::list<CvPoint2D32f> cvPts; /* Definition du conteneur pour points au moment de l extraction */
-  erExtractPoints( &ea, cvPts, is_equal_255); /* Extraction */
-  erConvertPixelToMks( ca.mm_per_pixels(), cvPts, file_name); /*Ecriture des donnes dans un ficher .txt */
+   std::vector< CvPoint> cvPts; /* Definition du conteneur pour points au moment de l extraction */
+   erExtractPoints( &ea, cvPts, is_equal_255); /* Extraction */
+   erExtractionCurveUser( &ea, &cerc, file_name, cvPts, rect);
+   erEcriturePointPixel( cvPts, file_name); 
+   //erConvertPixelToMks( ca.mm_per_pixels(), cvPts, file_name); /*Ecriture des donnes dans un ficher .txt */
 
 
- 
+  
   while(true) /* Boucle de lecteure des images  */
     {  
       boost::tie(er,loaded) = erLoadImageSeries( file_name);
-      if(!loaded) break;    
-      bw = erConvertToBlackAndWhite( &er);
-      ed = ca.transform_image( bw);
-      ea = erDef_ROI( &ed);
+      if(!loaded) break;
+      bw = erConvertToBlackAndWhite( &er);  
+     
+      eo = ca.transform_image( bw);
+      ea = erDef_ROI( &eo, &rect);
+    
       erCvSmooth( &ea, &psmo);
-      erCvTemplate( &ea, &ptem);
-      erCvThreshold( &ea, &pthr);
+     
+      erCvAdaptiveThreshold( &ea, &padt);
+      erCvSmooth( &ea, &psmo1);
+     
       erCvCanny( &ea, &pcan);
       erSaveImage( &ea, file_name);
       IsEqualTo is_equal_255( 255);
-      std::list<CvPoint2D32f> cvPts; 
-      erExtractPoints( &ea, cvPts, is_equal_255); 
-      erConvertPixelToMks( ca.mm_per_pixels(), cvPts, file_name); 
+      std::vector<CvPoint> cvPts; 
+      erExtractPoints( &ea, cvPts, is_equal_255);
+      erExtractionCurve( &ea, &cerc, file_name, cvPts, rect);
+      erEcriturePointPixel( cvPts, file_name); 
+       
     }
 
 //   /* Ecriture des points extraits dans le fichier 'points_cv_filters_cv.dat' */

@@ -21,7 +21,7 @@
 
 void erCvTemplate( IplImage* img, erTemplP* parm)
 {
-  IplImage *temp, *result_img;
+  IplImage *temp, *result_img,*img_p;
   erImage *rect_img;
   int type;
   rect_img = (erImage*)img;
@@ -31,11 +31,10 @@ void erCvTemplate( IplImage* img, erTemplP* parm)
   /**Cet configuration est mise en place pour empecher l'aparition des multiples rectangles lors du desin**/
   cvSetImageROI( rect_img, rect_img->rectan);
   
-  //cvSetImageROI( rect_img, rect_img.rectan);
-  cvSaveImage( "ipru.bmp", rect_img);
-  temp = cvLoadImage( "ipru.bmp", CV_LOAD_IMAGE_GRAYSCALE);
+  temp = cvCreateImage( cvGetSize( rect_img), rect_img->depth, rect_img->nChannels);
+  cvCopy( rect_img, temp);
   cvResetImageROI( rect_img);
-  
+ 
   /**Construction de l'image ou les resultats seront exposées**/
   int patchx = rect_img->rectan.width;                
   int patchy = rect_img->rectan.height;
@@ -50,12 +49,13 @@ void erCvTemplate( IplImage* img, erTemplP* parm)
   if( type ==4) cvMatchTemplate( rect_img, temp, result_img, CV_TM_CCORR_NORMED);
   if( type ==5) cvMatchTemplate( rect_img, temp, result_img, CV_TM_CCOEFF);
   if( type ==6) cvMatchTemplate( rect_img, temp, result_img, CV_TM_CCOEFF_NORMED); 
-
-  temp = NULL;
   /**Conversion de l'image en 32 bit vers 8 bit**/
-  temp  = cvCreateImage( cvGetSize(result_img), 8, 1);
-  cvConvertImage( result_img, temp);
-  cvResize( temp, img, CV_INTER_CUBIC);
+  img_p  = cvCreateImage( cvGetSize(result_img), IPL_DEPTH_8U, result_img->nChannels);
+  erCvConvert32to8( result_img, img_p);
+  cvResize( img_p, img, CV_INTER_CUBIC);
+
+
+  
 }
 
 

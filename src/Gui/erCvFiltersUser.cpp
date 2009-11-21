@@ -52,9 +52,6 @@ void on_mouse_rect( int event, int x, int y, int flags, void* param)
 
 
 
-
- 
-
 void erCvCannyUser( IplImage* simg, erCannyP* parm)
 {
   IplImage* img;
@@ -96,11 +93,18 @@ void erCvCannyUser( IplImage* simg, erCannyP* parm)
 
 
 
+
+
+
 void erCvSmoothUser( IplImage* simg, erSmootP* parm)
 { 
+ 
   IplImage *img;
   uint size, itrak;
-  uint     type;
+  uint type;
+  std::string name = INFOFILE;
+  name+= ".txt";
+  const char* nomb = name.c_str();
   img = cvCloneImage( simg);
   int ok =1;
   while(ok)
@@ -240,26 +244,26 @@ void erCvAdaptiveThresholdUser( IplImage* simg, erAdThrP* parm)
   name+= ".txt";
   const char* nomb = name.c_str();
   //std::ofstream myfile( nomb);
-  threshold = 1;
+  threshold = 255;
   img = cvCloneImage(simg);
-
-  std::cout << "Param to operate the adaptive threshold: ";
-  std::cin >> param;
-  std::cout << std::endl;
-  std::cout << "Neighboor to threshold in pixels (3,5,7,..): ";
-  std::cin >> neigh;
-  std::cout << std::endl;
-  std::cout << "Type of threshold: 1->CV_THRESH_BINARY  2->CV_THRESH_BINARY_INV  : ";
-  std::cin >> threstype;
-  std::cout << std::endl;
-  std::cout << "Type adaptative methode: 1->MEAN  2->GAUSSIAN  : ";
-  std::cin >> adapt;
-  std::cout << std::endl;
-  maxt = 255;
-  cvNamedWindow( "Threshold_trackbar", 0);
-  itrak = cvCreateTrackbar( "max_threshold", "Threshold_trackbar", &threshold, maxt, NULL);  
-  while( 1)
+  int ok=1;
+  while( ok)
     {  
+      std::cout << "Param to operate the adaptive threshold: ";
+      std::cin >> param;
+      std::cout << std::endl;
+      std::cout << "Neighboor to threshold in pixels (3,5,7,..): ";
+      std::cin >> neigh;
+      std::cout << std::endl;
+      std::cout << "Type of threshold: 1->CV_THRESH_BINARY  2->CV_THRESH_BINARY_INV  : ";
+      std::cin >> threstype;
+      std::cout << std::endl;
+      std::cout << "Type adaptative methode: 1->MEAN  2->GAUSSIAN  : ";
+      std::cin >> adapt;
+      std::cout << std::endl;
+      //maxt = 255;
+      cvNamedWindow( "Threshold_trackbar", 0);
+      //itrak = cvCreateTrackbar( "max_threshold", "Threshold_trackbar", &threshold, maxt, NULL);  
       if( threstype == 1) 
 	{
 	  if( adapt ==1) cvAdaptiveThreshold( simg, img, (double)threshold, CV_ADAPTIVE_THRESH_MEAN_C, CV_THRESH_BINARY, neigh, param);
@@ -271,12 +275,17 @@ void erCvAdaptiveThresholdUser( IplImage* simg, erAdThrP* parm)
 	  if( adapt ==2) cvAdaptiveThreshold( simg, img, (double)threshold, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY_INV, neigh, param);
 	}
       cvShowImage( "Threshold_trackbar", img);
-      if( cvWaitKey( 10) == 27) break;
+      while(1){if(cvWaitKey( 10) == 27) break;};
+      //}
+      cvDestroyWindow( "Threshold_trackbar");
+      std::cout << " T'es content (Oui 0/Non 1)? ";
+      std::cin >> ok;
+
     }  
   *simg = *img;
   parm->trhP = param;
   parm->neig = neigh;
-  parm->trh0 = cvGetTrackbarPos( "max_threshold", "Threshold_trackbar");
+  parm->trh0 = threshold;
   parm->type = threstype;
   parm->adpt = adapt;
   cvDestroyWindow( "Threshold_trackbar");
@@ -437,7 +446,7 @@ void erCvErodeUser( IplImage* simg, erErodeP* parm)
   file << std::endl;
   *simg = *img;
   //simg = cvCloneImage( img);
-  erShowImage( "hola", simg);
+  //erShowImage( "hola", simg);
 }
 
 

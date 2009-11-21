@@ -9,6 +9,9 @@
 
 /** \addtogroup utilities */
 /*@{*/
+
+#include "highgui.h"
+
 class CriteriaFunctor /** < Classe interface permettant 
 			  d avoir des tests sur les entiers
 		      */
@@ -69,11 +72,17 @@ private:
   int __upper_value,__lower_value;
 };
 
-template< typename Point>
-bool erCompareXPoint( Point p1, Point p2)
+// template< typename Point>
+// bool erCompareXPoint( Point p1, Point p2)
+// {
+//   return p1.x < p2.x;
+// };
+class erCompareXPoint
 {
-  return p1.x < p2.x;
+public:
+  bool operator()( CvPoint2D32f p1, CvPoint2D32f p2);
 };
+
 
 /*@}*/
 #endif

@@ -1,0 +1,25 @@
+***********Zone d'interet principal** ***********
+Rect(with):------------ 211
+Rect(height):---------- 75
+Rect(posX):------------ 35
+Rect(posY):------------ 164
+
+***********Filter fonction SMOOTH**************
+neighboor size:-------- 7
+smooth type:----------- 1
+
+***********Filter fonction ADAPTIVE_THRESHOLD***********
+Parameter weight mean:------ 1
+Neighboor_size:------------- 29
+Threshold value:------------ 255
+Threshold type:------------- 1
+Adapt type:----------------- 1
+
+***********Filter fonction SMOOTH**************
+neighboor size:-------- 7
+smooth type:----------- 3
+
+***********Filter fonction CANNY***************
+Threshold 1:----------- 355
+Threshold 2:----------- 355
+

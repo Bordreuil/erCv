@@ -43,4 +43,10 @@ bool IsBetween::operator()(int val)
 {
   return ((val>__lower_value) && (val<__upper_value));
 };
+
+
+bool erCompareXPoint::operator()( CvPoint2D32f p1, CvPoint2D32f p2)
+{
+  return( p1.x < p2.x);
+};
   

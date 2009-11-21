@@ -108,6 +108,9 @@ void erWriteRecordFile( char**);
  */
 void erCvConvert32to8( IplImage*, IplImage*);
 
+/** Fonction permettant d ecrir le nom d un ficher de sortie avec l extension correspondante
+ */
+char* erEcrireNomFicher( char**, std::string);
 
 /*@}*/
 #endif
