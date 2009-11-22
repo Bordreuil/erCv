@@ -29,7 +29,7 @@ void erCvSmooth( IplImage* simg, erSmootP* parm)
   //SmoothType smooth = parm->type;
   //std::cout << "size: " << size << std::endl;
   //std::cout << "smoothtype: " << smoothtype[smooth] << std::endl;
-  std::cout << parm;
+  //std::cout << parm;
   //cvSmooth( simg, simg, smooth, size , 0, 0, 0);
   cvSmooth(simg,simg,parm->type,parm->size,0,0,0);
  }
@@ -51,8 +51,8 @@ void erCvCanny( IplImage* simg, erCannyP* parm)
   int threshold[2];
   threshold[0] = parm->trh1;
   threshold[1] = parm->trh2;
-  std::cout << "cany_0: " << threshold[0] << std::endl;
-  std::cout << "cany_1: " << threshold[1] << std::endl;
+  //std::cout << "cany_0: " << threshold[0] << std::endl;
+  //std::cout << "cany_1: " << threshold[1] << std::endl;
   cvCanny( simg, simg, (float)threshold[0]*10., (float)threshold[1]*10., 5);
 }
 

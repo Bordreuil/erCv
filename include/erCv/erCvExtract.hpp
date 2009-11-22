@@ -45,6 +45,18 @@ void erExtractPoints( IplImage *im, Container &pts, Criteria crit)
 };
 //int* ptr = (int*)(im->imageData + y*im->widthStep ); (linea de commando alternativa, va entre los for)
 
+/**
+   Permet d extraire une ligne continue a partir d une image precedemment filtre
+   \param IplImage* : une image 
+   \param erCerc    : cercle pour le debut de la recherche
+   \param char **   : ensemble des variables venant de l exterieur file_name[2] doit correspondre
+                      au fichier a traiter
+   \param Container (template) : container des points a extraire
+   \param CvRect    : Rectangle pour extraire remettre les points dans les coordoonees de l image
+
+ */
+
+// ATTENTION: Regrouper les fonctions erExtractionCurve et  erExtractionCurveUser
 
 template< typename Container>
 void erExtractionCurveUser( IplImage* simag, erCerc* cerc, char** file_name, Container &pts, CvRect recROI)
@@ -244,7 +256,7 @@ void erExtractionCurve( IplImage* simag, erCerc* cerc, char** file_name, Contain
       else
       	{
 	  std::string name = INFOFILE;
-	  name+= "_imagesOUT.txt";
+	  name+= "_imagesOUT.txt";   // ATTENTION : declarer cette variable de maniere globale.
 	  const char* nomb = name.c_str();
 	  std::ofstream file( nomb, std::ios_base::app );
 	  file << file_name[2] << std::endl;
@@ -423,7 +435,7 @@ void erEcriturePointPixel( Container &pts, char** file_name)
 };
 
 
-
+// ATTENTION Test uniquement sur y precise a quoi sert cette fonction
 template< typename Iterator>
 Iterator erFindCvPoint( Iterator p1, Iterator p2, CvPoint punto)
 {

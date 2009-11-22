@@ -41,9 +41,9 @@
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classer_calibration.html#4171ecd47e27f5a61ae56d74001cedf3">erCalibration</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classer_calibration.html#bb886bd1f2b6fa9b52d7fb4109d8e590">erCalibration</a> (char *, char *, int, int)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classer_calibration.html#95aba3744bdcd06d2cf46c5d103e28e6">erCalibration</a> (char *, char *, int, int, char *file_dimention=&quot;cuadro_size.dat&quot;)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet de trouver la matrice de passage de l image patron a image mesure les entiers correspondent a la taille de l echiquier Aujourd'hui(mai 2009), uniquement (3,3).  <a href="#bb886bd1f2b6fa9b52d7fb4109d8e590"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet de trouver la matrice de passage de l image patron a image mesure les entiers correspondent a la taille de l echiquier Aujourd'hui(mai 2009), uniquement (3,3).  <a href="#95aba3744bdcd06d2cf46c5d103e28e6"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classer_calibration.html#d452c51c871bc07aebd90d0424fc9196">~erCalibration</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classer_image.html">erImage</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classer_calibration.html#5580f3f4ef0e6ec371597a254c7f4f80">get_patron</a> ()</td></tr>
@@ -55,6 +55,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classer_image.html">erImage</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classer_calibration.html#5f09db5f94d3d5eeb029f08a0bf5649d">transform_image</a> (<a class="el" href="classer_image.html">erImage</a>)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet de transformer une Image.  <a href="#5f09db5f94d3d5eeb029f08a0bf5649d"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">std::pair&lt; double, double &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classer_calibration.html#6939073816b28897f97d3a3d96125e6a">mm_per_pixels</a> ()</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet d acceder au facteur de conversion.  <a href="#6939073816b28897f97d3a3d96125e6a"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Classe permettant de calibrer la prise de vue de la camera et ainsi de se placer dans le plan perpendiculaire au plan local. Mai-2009: Uniquement une wrap perspective est utilisé pour transformer les images, pas de correction de distorsions d images <hr><h2>Member Typedef Documentation</h2>
@@ -108,7 +111,7 @@ Classe permettant de calibrer la prise de vue de la camera et ainsi de se placer
 
 </div>
 </div><p>
-<a class="anchor" name="bb886bd1f2b6fa9b52d7fb4109d8e590"></a><!-- doxytag: member="erCalibration::erCalibration" ref="bb886bd1f2b6fa9b52d7fb4109d8e590" args="(char *, char *, int, int)" -->
+<a class="anchor" name="95aba3744bdcd06d2cf46c5d103e28e6"></a><!-- doxytag: member="erCalibration::erCalibration" ref="95aba3744bdcd06d2cf46c5d103e28e6" args="(char *, char *, int, int, char *file_dimention=&quot;cuadro_size.dat&quot;)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -134,7 +137,13 @@ Classe permettant de calibrer la prise de vue de la camera et ainsi de se placer
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"></td><td>&nbsp;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&nbsp;</td>
+          <td class="paramname"> <em>file_dimention</em> = <code>&quot;cuadro_size.dat&quot;</code></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -213,6 +222,27 @@ Permet d extraire l image patron.
 
 </div>
 </div><p>
+<a class="anchor" name="6939073816b28897f97d3a3d96125e6a"></a><!-- doxytag: member="erCalibration::mm_per_pixels" ref="6939073816b28897f97d3a3d96125e6a" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::pair&lt;double,double&gt; erCalibration::mm_per_pixels           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Permet d acceder au facteur de conversion. 
+<p>
+
+</div>
+</div><p>
 <a class="anchor" name="5f09db5f94d3d5eeb029f08a0bf5649d"></a><!-- doxytag: member="erCalibration::transform_image" ref="5f09db5f94d3d5eeb029f08a0bf5649d" args="(erImage)" -->
 <div class="memitem">
 <div class="memproto">
@@ -238,7 +268,7 @@ Permet de transformer une Image.
 <hr>The documentation for this class was generated from the following file:<ul>
 <li>include/erCv/<a class="el" href="er_calibration_8hpp-source.html">erCalibration.hpp</a></ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Tue Sep 22 16:13:37 2009 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Sun Nov 22 13:50:59 2009 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

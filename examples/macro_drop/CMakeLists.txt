@@ -10,4 +10,5 @@ MESSAGE(STATUS "erCv include dir:" ${ERCV_INCLUDE_dir})
 MESSAGE(STATUS "Boost Python DIR:" ${Boost_PYTHON_INCLUDE_DIR})
 ADD_EXECUTABLE(macro_drop macro_drop.cpp)
 TARGET_LINK_LIBRARIES(macro_drop erCv ${OPENCV_LIBS})
-
+ADD_EXECUTABLE(macro_drop_with_cgal macro_drop_with_cgal.cpp)
+TARGET_LINK_LIBRARIES(macro_drop_with_cgal erCv ${OPENCV_LIBS} ${CGAL_LIBRARY_DIR} )

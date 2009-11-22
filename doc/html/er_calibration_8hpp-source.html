@@ -27,48 +27,58 @@
 <a name="l00011"></a>00011 <span class="preprocessor"></span>
 <a name="l00012"></a>00012 <span class="preprocessor">#include&lt;vector&gt;</span>
 <a name="l00013"></a>00013 <span class="preprocessor">#include &lt;cv.h&gt;</span>
-<a name="l00014"></a>00014 <span class="comment">//#include &lt;highgui.h&gt;</span>
+<a name="l00014"></a>00014 <span class="preprocessor">#include &lt;highgui.h&gt;</span>
 <a name="l00015"></a>00015 <span class="preprocessor">#include &lt;stdio.h&gt;</span>
 <a name="l00016"></a>00016 <span class="preprocessor">#include &lt;stdlib.h&gt;</span>
 <a name="l00017"></a>00017 <span class="preprocessor">#include &lt;iostream&gt;</span>
-<a name="l00018"></a>00018 
-<a name="l00019"></a>00019 <span class="preprocessor">#include "<a class="code" href="er_cv_base_8hpp.html" title="Fichier contenant l encapsulation par une classe de la structure IplImage d openCv...">erCvBase.hpp</a>"</span>
-<a name="l00020"></a>00020 
-<a name="l00021"></a>00021 <span class="keyword">using namespace </span>std;
+<a name="l00018"></a>00018 <span class="preprocessor">#include &lt;utility&gt;</span>
+<a name="l00019"></a>00019 <span class="preprocessor">#include &lt;fstream&gt;</span>
+<a name="l00020"></a>00020 <span class="preprocessor">#include &lt;iostream&gt;</span>
+<a name="l00021"></a>00021 <span class="preprocessor">#include "<a class="code" href="er_cv_base_8hpp.html" title="Fichier contenant l encapsulation par une classe de la structure IplImage d openCv...">erCvBase.hpp</a>"</span>
 <a name="l00022"></a>00022 
-<a name="l00023"></a>00023 
-<a name="l00024"></a>00024 <span class="comment">//----------------------------------------------------------------------</span>
-<a name="l00025"></a>00025 <span class="comment">//---------</span>
-<a name="l00026"></a>00026 <span class="comment">//..Class pour la  calibration</span>
-<a name="l00027"></a>00027 <span class="comment">//</span>
-<a name="l00028"></a><a class="code" href="classer_calibration.html">00028</a> <span class="keyword">class </span><a class="code" href="classer_calibration.html">erCalibration</a>
-<a name="l00035"></a>00035 {
-<a name="l00036"></a>00036 <span class="keyword">public</span>:
-<a name="l00037"></a>00037   <span class="comment">// Quelques definitions de type utile par la suite</span>
-<a name="l00038"></a><a class="code" href="classer_calibration.html#44f073e284aa52e579cdca6d7f6a5083">00038</a>   <span class="keyword">typedef</span> std::vector&lt;CvPoint2D32f&gt;   <a class="code" href="classer_calibration.html#44f073e284aa52e579cdca6d7f6a5083">CornerContainer</a>;
-<a name="l00039"></a><a class="code" href="classer_calibration.html#eb3eecb83193e3b565c99661c35fa621">00039</a>   <span class="keyword">typedef</span> CornerContainer::iterator   <a class="code" href="classer_calibration.html#eb3eecb83193e3b565c99661c35fa621">CornerIterator</a>;
-<a name="l00040"></a>00040   <span class="comment">// Constructeurs Destructeurs</span>
-<a name="l00041"></a>00041   <a class="code" href="classer_calibration.html#4171ecd47e27f5a61ae56d74001cedf3">erCalibration</a>();
-<a name="l00047"></a>00047   <a class="code" href="classer_calibration.html#4171ecd47e27f5a61ae56d74001cedf3">erCalibration</a>(<span class="keywordtype">char</span>*,<span class="keywordtype">char</span>*,<span class="keywordtype">int</span> ,<span class="keywordtype">int</span>);
-<a name="l00048"></a>00048   <a class="code" href="classer_calibration.html#d452c51c871bc07aebd90d0424fc9196">~erCalibration</a>(); 
-<a name="l00049"></a>00049 
-<a name="l00050"></a>00050   <span class="comment">// Methodes d acces</span>
-<a name="l00052"></a>00052 <span class="comment"></span>  <a class="code" href="classer_image.html">erImage</a> <a class="code" href="classer_calibration.html#5580f3f4ef0e6ec371597a254c7f4f80" title="Permet d extraire l image patron.">get_patron</a>(); 
-<a name="l00054"></a>00054   <a class="code" href="classer_image.html">erImage</a> <a class="code" href="classer_calibration.html#beae2289a82d2f14d2b97309be19d3d3" title="Permet d extraire l image mesure.">get_mesure</a>(); 
-<a name="l00056"></a>00056   <a class="code" href="classer_image.html">erImage</a> <a class="code" href="classer_calibration.html#5f09db5f94d3d5eeb029f08a0bf5649d" title="Permet de transformer une Image.">transform_image</a>(<a class="code" href="classer_image.html">erImage</a>); 
-<a name="l00057"></a>00057  <span class="keyword">private</span>:
-<a name="l00058"></a>00058   <span class="keywordtype">bool</span>  find_corners(IplImage *,<a class="code" href="classer_calibration.html#44f073e284aa52e579cdca6d7f6a5083">CornerContainer</a>&amp;);
-<a name="l00059"></a>00059   <span class="comment">// Variables membres......</span>
-<a name="l00060"></a>00060   <span class="keywordtype">bool</span>            _identified;                      <span class="comment">// Booleen pour savoir si tous les sommets on ete dectectes</span>
-<a name="l00061"></a>00061   <span class="keywordtype">int</span>             _board_w,_board_h,_num_coins;
-<a name="l00062"></a>00062   IplImage        *_image_mesure, *_image_patron;  <span class="comment">// Image OpenCv pour </span>
-<a name="l00063"></a>00063   CvSize          _board_sz;                       
-<a name="l00064"></a>00064   CvMat*          _warp_matrix;                    <span class="comment">// Matrice de passage pour la transformation perspective</span>
-<a name="l00065"></a>00065   <a class="code" href="classer_calibration.html#44f073e284aa52e579cdca6d7f6a5083">CornerContainer</a> _corners_patron,_corners_mesure; <span class="comment">// Stocke les sommets</span>
-<a name="l00066"></a>00066 };
-<a name="l00068"></a>00068 <span class="preprocessor">#endif</span>
+<a name="l00023"></a>00023 <span class="keyword">using namespace </span>std;
+<a name="l00024"></a><a class="code" href="group__cv__group.html#g6975c35581129727b0b64eac15c9f352">00024</a> <span class="keyword">typedef</span> std::pair&lt;double,double&gt; <a class="code" href="group__cv__group.html#g6975c35581129727b0b64eac15c9f352">erFactorRealDimension</a>;
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026 <span class="comment">//----------------------------------------------------------------------</span>
+<a name="l00027"></a>00027 <span class="comment">//---------</span>
+<a name="l00028"></a>00028 <span class="comment">//..Class pour la  calibration</span>
+<a name="l00029"></a>00029 <span class="comment">//</span>
+<a name="l00030"></a><a class="code" href="classer_calibration.html">00030</a> <span class="keyword">class </span><a class="code" href="classer_calibration.html">erCalibration</a>
+<a name="l00037"></a>00037 {
+<a name="l00038"></a>00038 <span class="keyword">public</span>:
+<a name="l00039"></a>00039   <span class="comment">// Quelques definitions de type utile par la suite</span>
+<a name="l00040"></a><a class="code" href="classer_calibration.html#44f073e284aa52e579cdca6d7f6a5083">00040</a>   <span class="keyword">typedef</span> std::vector&lt;CvPoint2D32f&gt;   <a class="code" href="classer_calibration.html#44f073e284aa52e579cdca6d7f6a5083">CornerContainer</a>;
+<a name="l00041"></a><a class="code" href="classer_calibration.html#eb3eecb83193e3b565c99661c35fa621">00041</a>   <span class="keyword">typedef</span> CornerContainer::iterator   <a class="code" href="classer_calibration.html#eb3eecb83193e3b565c99661c35fa621">CornerIterator</a>;
+<a name="l00042"></a>00042   <span class="comment">// Constructeurs Destructeurs</span>
+<a name="l00043"></a>00043   <a class="code" href="classer_calibration.html#4171ecd47e27f5a61ae56d74001cedf3">erCalibration</a>();
+<a name="l00049"></a>00049   <span class="comment">//erCalibration( char*, char*, int, int);</span>
+<a name="l00050"></a>00050   <a class="code" href="classer_calibration.html#4171ecd47e27f5a61ae56d74001cedf3">erCalibration</a>( <span class="keywordtype">char</span>*, <span class="keywordtype">char</span>*, <span class="keywordtype">int</span>, <span class="keywordtype">int</span>, <span class="keywordtype">char</span>* file_dimention = <span class="stringliteral">"cuadro_size.dat"</span>);
+<a name="l00051"></a>00051   <a class="code" href="classer_calibration.html#d452c51c871bc07aebd90d0424fc9196">~erCalibration</a>(); 
+<a name="l00052"></a>00052 
+<a name="l00053"></a>00053   <span class="comment">// Methodes d acces</span>
+<a name="l00055"></a>00055 <span class="comment"></span>  <a class="code" href="classer_image.html">erImage</a> <a class="code" href="classer_calibration.html#5580f3f4ef0e6ec371597a254c7f4f80" title="Permet d extraire l image patron.">get_patron</a>(); 
+<a name="l00057"></a>00057   <a class="code" href="classer_image.html">erImage</a> <a class="code" href="classer_calibration.html#beae2289a82d2f14d2b97309be19d3d3" title="Permet d extraire l image mesure.">get_mesure</a>(); 
+<a name="l00059"></a>00059   <a class="code" href="classer_image.html">erImage</a> <a class="code" href="classer_calibration.html#5f09db5f94d3d5eeb029f08a0bf5649d" title="Permet de transformer une Image.">transform_image</a>( <a class="code" href="classer_image.html">erImage</a>);
+<a name="l00061"></a>00061   std::pair&lt;double,double&gt; <a class="code" href="classer_calibration.html#6939073816b28897f97d3a3d96125e6a" title="Permet d acceder au facteur de conversion.">mm_per_pixels</a>();
+<a name="l00062"></a>00062  
+<a name="l00063"></a>00063  <span class="keyword">private</span>:
+<a name="l00064"></a>00064   <span class="comment">// Fonctions internes utilises par cette class</span>
+<a name="l00065"></a>00065   <span class="keywordtype">bool</span>  find_corners( IplImage*, <a class="code" href="classer_calibration.html#44f073e284aa52e579cdca6d7f6a5083">CornerContainer</a>&amp;);
+<a name="l00066"></a>00066   std::pair&lt;double,double&gt; compute_pixel_to_mm( CvPoint2D32f*, <span class="keywordtype">double</span>, <span class="keywordtype">double</span>);
+<a name="l00067"></a>00067   std::pair&lt;double,double&gt; real_dimensions( <span class="keywordtype">char</span>*);
+<a name="l00068"></a>00068 
+<a name="l00069"></a>00069   <span class="comment">// Variables membres......</span>
+<a name="l00070"></a>00070   <span class="keywordtype">double</span>          _mm_per_pixel_x, _mm_per_pixel_y;<span class="comment">// Milimmetres par pixel (facteur de convertion)  </span>
+<a name="l00071"></a>00071   <span class="keywordtype">bool</span>            _identified;                     <span class="comment">// Booleen pour savoir si tous les sommets on ete dectectes</span>
+<a name="l00072"></a>00072   <span class="keywordtype">int</span>             _board_w,_board_h,_num_coins;
+<a name="l00073"></a>00073   IplImage        *_image_mesure, *_image_patron;  <span class="comment">// Image OpenCv pour </span>
+<a name="l00074"></a>00074   CvSize          _board_sz;                       
+<a name="l00075"></a>00075   CvMat*          _warp_matrix;                    <span class="comment">// Matrice de passage pour la transformation perspective</span>
+<a name="l00076"></a>00076   <a class="code" href="classer_calibration.html#44f073e284aa52e579cdca6d7f6a5083">CornerContainer</a> _corners_patron,_corners_mesure; <span class="comment">// Stocke les sommets</span>
+<a name="l00077"></a>00077 };
+<a name="l00079"></a>00079 <span class="preprocessor">#endif</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Tue Sep 22 16:13:36 2009 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Sun Nov 22 13:50:58 2009 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

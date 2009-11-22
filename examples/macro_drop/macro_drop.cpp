@@ -5,7 +5,7 @@
 #include <erCv/erCvExtract.hpp>
 #include <erCv/erCvToCgal.hpp>
 #include <erCv/geometry/erCgalAlphaShape2.hpp>
-
+#include<ctime>
 
 /* Valeurs des paramettres a introduire, pour chaque fonction:
 Smooth           : 7, 1 (0 pour OK)
@@ -25,6 +25,7 @@ int main( int hola, char** file_name)
 
   /* Declaration de variables a utiliser par les fonctions */
   INFOFILE = file_name[1];
+
   std::cout << INFOFILE << std::endl;
   erImage er, bw, eo, ea;
   CvRect rect;
@@ -97,6 +98,8 @@ int main( int hola, char** file_name)
   erEcriturePointPixel( cvPts, file_name); 
   
   /* Boucle de lecteure des images  */
+  time_t tbeg = time(NULL);
+  uint nIm(0);
   while(true)
     {  
       boost::tie(er,loaded) = erLoadImageSeries( file_name);
@@ -114,7 +117,8 @@ int main( int hola, char** file_name)
       erExtractPoints( &ea, cvPts, is_equal_255);
       erExtractionCurve( &ea, &cerc, file_name, cvPts, rect);
       erEcriturePointPixel( cvPts, file_name); 
+      nIm++;
     }
-
+  std::cout << "Temps pour " << nIm << " images :" << time(NULL)-tbeg << std::endl;
   return(0);
 }

@@ -25,13 +25,13 @@ enum SmoothType {BLUR_NO_SCALE,
                  };
 
 extern const int nbSmoothType;
-extern char* smoothtype []; ;
+extern char* smoothtype []; 
 
 
 struct erSmootP
 {
-  int        size; //** < Beside size (in pixels) of soomthness region 
-  SmoothType type; //** < Type of the smooth to be aplied
+  int        size; /** < Beside size (in pixels) of soomthness region */
+  SmoothType type; /** < Type of the smooth to be aplied */
 };
 
 
@@ -42,8 +42,8 @@ std::ostream& operator << (std::ostream&, erSmootP*);
  */
 struct erSobelP
 {
-  int trhX; //** < Order X derivated in sobel fonction */
-  int trhY; //** < Order Y derivated in sobel fonction */
+  int trhX; /** < Order X derivated in sobel fonction */
+  int trhY; /** < Order Y derivated in sobel fonction */
 };
 
 /**
@@ -51,8 +51,8 @@ struct erSobelP
  */
 struct erCannyP
 {
-  int trh1; //** < Threshold 1 to canny fonction */
-  int trh2; //** < Threshold 2 to canny fonction */
+  int trh1; /** < Threshold 1 to canny fonction */
+  int trh2; /** < Threshold 2 to canny fonction */
 };
 
 /**
@@ -61,15 +61,16 @@ struct erCannyP
  */
 struct erThresP
 {
-  int trh1; //** < Threshold principal value in Threshold fonction */
-  int trh2; //** < Threshold secondary value in Threshold fonction */
-  int type; //** < Type of Threshold to be applied */
+  int trh1; /** < Threshold principal value in Threshold fonction */
+  int trh2; /** < Threshold secondary value in Threshold fonction */
+  int type; /** < Type of Threshold to be applied */
 };
 
 /**
    \brief
 
  */
+// ATTENTION : Finir les commentaires
 struct erAdThrP
 {
   int trhP;  //** <                           */
@@ -85,9 +86,9 @@ struct erAdThrP
 
 struct erPyramP
 {
-  int trh1; //** < Threshold value to link in pyramid fonction */
-  int trh2; //** < Threshold value to clustering in pyramid fonction */
-  int levl; //** < Number of level to pyramid be applied */
+  int trh1; /** < Threshold value to link in pyramid fonction */
+  int trh2; /** < Threshold value to clustering in pyramid fonction */
+  int levl; /** < Number of level to pyramid be applied */
 };
 
 
@@ -97,7 +98,7 @@ struct erPyramP
  */
 struct erDilatP
 {
-  int iter; //** < Iteration number to be applied dilate fonction */
+  int iter; /** < Iteration number to be applied dilate fonction */
 };
 
 /**
@@ -106,7 +107,7 @@ struct erDilatP
  */
 struct erErodeP
 {
-  int iter; //** < Iteration number to be applied erode fonction */
+  int iter; /** < Iteration number to be applied erode fonction */
 };
 
 

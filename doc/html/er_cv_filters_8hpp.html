@@ -29,56 +29,71 @@
 <a href="er_cv_filters_8hpp-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Classes</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_drawrec.html">Drawrec</a></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_smoot_p.html">erSmootP</a></td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">interface de filtres opencv dans <a class="el" href="namespaceer_cv.html">erCv</a>  <a href="struct_drawrec.html#_details">More...</a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_smooth_p.html">erSmoothP</a></td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Structure contenant les parametre utiles pour un lissage.  <a href="structer_smooth_p.html#_details">More...</a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_sobel_p.html">erSobelP</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_canny_p.html">erCannyP</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_thres_p.html">erThresP</a></td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_adapt_thres_p.html">erAdaptThresP</a></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_ad_thr_p.html">erAdThrP</a></td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_pyramid_p.html">erPyramidP</a></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_pyram_p.html">erPyramP</a></td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_dilate_p.html">erDilateP</a></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_dilat_p.html">erDilatP</a></td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_erode_p.html">erErodeP</a></td></tr>
 
+<tr><td colspan="2"><br><h2>Enumerations</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#gff4876b3d842424c8cbc79abf3f3166f">SmoothType</a> { <br>
+&nbsp;&nbsp;<a class="el" href="group__filters.html#ggff4876b3d842424c8cbc79abf3f3166f602883776855efb624a5007b6fd52337">BLUR_NO_SCALE</a>, 
+<a class="el" href="group__filters.html#ggff4876b3d842424c8cbc79abf3f3166f7a562f950347a0a59df25b55cfcc7316">BLUR</a>, 
+<a class="el" href="group__filters.html#ggff4876b3d842424c8cbc79abf3f3166ffca8f51c9117fbb492a2184e9df9e412">GAUSSIAN</a>, 
+<a class="el" href="group__filters.html#ggff4876b3d842424c8cbc79abf3f3166ffa725c81b10b52c8fc109ea7bc936063">MEDIAN</a>, 
+<br>
+&nbsp;&nbsp;<a class="el" href="group__filters.html#ggff4876b3d842424c8cbc79abf3f3166fc66c6a47ea119e6eb9a18c6773b1bc9c">BILATERAL</a>
+<br>
+ }</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">interface de filtres opencv dans <a class="el" href="namespaceer_cv.html">erCv</a>  <a href="group__filters.html#gff4876b3d842424c8cbc79abf3f3166f">More...</a><br></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">std::ostream &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#g04c4d64b3fcfdb8bc9a3f4b5319880ec">operator&lt;&lt;</a> (std::ostream &amp;, <a class="el" href="structer_smoot_p.html">erSmootP</a> *)</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classer_image.html">erImage</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#g9966e7483ab97b6a88badba0e6327553">erSmoothAndCanny</a> (IplImage *, int, int)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet d effectuer un lissage et un filtrage sur l image.  <a href="group__filters.html#g9966e7483ab97b6a88badba0e6327553"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#g4dfd0f5f2985867ed36b76f0e49f6be0">erCvCanny</a> (IplImage *, <a class="el" href="structer_canny_p.html">erCannyP</a> *)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet d effectuer un filtrage par bordes en binaire sur l image.  <a href="group__filters.html#g4dfd0f5f2985867ed36b76f0e49f6be0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#g327e55699a4e5b201ad8f9487420efa0">erCvSmooth</a> (IplImage *, <a class="el" href="structer_smooth_p.html">erSmoothP</a> *)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#g64cd03de7b1a88e524017b6a63a9e9cd">erCvSmooth</a> (IplImage *, <a class="el" href="structer_smoot_p.html">erSmootP</a> *)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet d effectuer une lissage sur l image.  <a href="group__filters.html#g327e55699a4e5b201ad8f9487420efa0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#ga7eceac2e8ce86bf1934132342b47016">erCvSobelUser</a> (IplImage *, <a class="el" href="structer_sobel_p.html">erSobelP</a> *)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet d effectuer une lissage sur l image.  <a href="group__filters.html#g64cd03de7b1a88e524017b6a63a9e9cd"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#ge6a791c3b1933cd4eb549752e651249f">erCvSobel</a> (IplImage *, <a class="el" href="structer_sobel_p.html">erSobelP</a> *)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet d effectuer une lissage sur l image (parametres definies par l utilisateur).  <a href="group__filters.html#ga7eceac2e8ce86bf1934132342b47016"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet d effectuer une lissage sur l image (parametres definies par l utilisateur).  <a href="group__filters.html#ge6a791c3b1933cd4eb549752e651249f"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#gf2a0e38cb881aa9fee9913c5d78a5267">erCvThreshold</a> (IplImage *, <a class="el" href="structer_thres_p.html">erThresP</a> *)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet de filtrer l image par seuils d intensite.  <a href="group__filters.html#gf2a0e38cb881aa9fee9913c5d78a5267"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#gbb39b96941bb271cfd52e2c73536aee4">erCvAdaptiveThreshold</a> (IplImage *simg, <a class="el" href="structer_adapt_thres_p.html">erAdaptThresP</a> *parm)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#ga622ee1289921d0a3efdfba269fcd20e">erCvAdaptiveThreshold</a> (IplImage *simg, <a class="el" href="structer_ad_thr_p.html">erAdThrP</a> *parm)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet d filtrer l image par seuils d intensites adaptes par zones.  <a href="group__filters.html#gbb39b96941bb271cfd52e2c73536aee4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#gc9ca607014d4b8b97b6c00f8b384e179">erCvPyramid</a> (IplImage *, <a class="el" href="structer_pyramid_p.html">erPyramidP</a> *)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet d filtrer l image par seuils d intensites adaptes par zones.  <a href="group__filters.html#ga622ee1289921d0a3efdfba269fcd20e"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#gd267f1c3cd5e77d91b97be722b97933a">erCvPyramid</a> (IplImage *, <a class="el" href="structer_pyram_p.html">erPyramP</a> *)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#g12377c735f639548fcf542ece1857505">erCvDilate</a> (IplImage *, <a class="el" href="structer_dilate_p.html">erDilateP</a> *)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#gfa84896550849853320c3ff0cb7f045a">erCvDilate</a> (IplImage *, <a class="el" href="structer_dilat_p.html">erDilatP</a> *)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet d effectuer un filtrage de l image en reduissant le nombre de pixels avec noir.  <a href="group__filters.html#g12377c735f639548fcf542ece1857505"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet d effectuer un filtrage de l image en reduissant le nombre de pixels avec noir.  <a href="group__filters.html#gfa84896550849853320c3ff0cb7f045a"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#g5829529a1976fc527be80685a581cdb0">erCvErode</a> (IplImage *, <a class="el" href="structer_erode_p.html">erErodeP</a> *)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet d effectuer un filtrage de l image en augmentant le nombre de pixels avec noir.  <a href="group__filters.html#g5829529a1976fc527be80685a581cdb0"></a><br></td></tr>
+<tr><td colspan="2"><br><h2>Variables</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">const int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#gde81ceed49d9d2f09f8e88f15afa1b60">nbSmoothType</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__filters.html#gcf3c8f00962a7d026bb8a7228ee6e536">smoothtype</a> []</td></tr>
+
 </table>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Tue Sep 22 16:13:36 2009 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Sun Nov 22 13:50:58 2009 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

@@ -28,23 +28,30 @@
 <p>
 <a href="er_cv_user_interaction_8hpp-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
-<tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="er_cv_user_interaction_8hpp.html#c185e8eada7b13b7f198f46f5669a707">erDef_ROIuser</a> (<a class="el" href="classer_image.html">erImage</a> *)</td></tr>
+<tr><td colspan="2"><br><h2>Classes</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_cerc.html">erCerc</a></td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="er_cv_user_interaction_8hpp.html#c77ee36bb2b2a7b4e492ee83764b65f0">erDef_ROI</a> (<a class="el" href="classer_image.html">erImage</a> *)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_cercle_img.html">erCercleImg</a></td></tr>
+
+<tr><td colspan="2"><br><h2>Functions</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">IplImage *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="er_cv_user_interaction_8hpp.html#1bcbe6f49df8bd52e6bb2b837faaf057">erDef_ROIuser</a> (<a class="el" href="classer_image.html">erImage</a> *, CvRect *)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">IplImage *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="er_cv_user_interaction_8hpp.html#471a2d4c2e87680b32afb856b92ff834">erDef_ROI</a> (<a class="el" href="classer_image.html">erImage</a> *, CvRect *)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="er_cv_user_interaction_8hpp.html#b6c98012487e000b8f3b7a96bc8a9e8e">erRes_ROI_recons</a> (IplImage *)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">std::pair&lt; CvPoint, int &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="er_cv_user_interaction_8hpp.html#796a408ee432b182dc5240ccc5c7515d">erCvDebutCurve</a> (IplImage *)</td></tr>
+
 </table>
 <hr><h2>Function Documentation</h2>
-<a class="anchor" name="c77ee36bb2b2a7b4e492ee83764b65f0"></a><!-- doxytag: member="erCvUserInteraction.hpp::erDef_ROI" ref="c77ee36bb2b2a7b4e492ee83764b65f0" args="(erImage *)" -->
+<a class="anchor" name="796a408ee432b182dc5240ccc5c7515d"></a><!-- doxytag: member="erCvUserInteraction.hpp::erCvDebutCurve" ref="796a408ee432b182dc5240ccc5c7515d" args="(IplImage *)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void erDef_ROI           </td>
+          <td class="memname">std::pair&lt; CvPoint, int&gt; erCvDebutCurve           </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classer_image.html">erImage</a> *&nbsp;</td>
+          <td class="paramtype">IplImage *&nbsp;</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
           <td></td>
@@ -57,17 +64,55 @@
 
 </div>
 </div><p>
-<a class="anchor" name="c185e8eada7b13b7f198f46f5669a707"></a><!-- doxytag: member="erCvUserInteraction.hpp::erDef_ROIuser" ref="c185e8eada7b13b7f198f46f5669a707" args="(erImage *)" -->
+<a class="anchor" name="471a2d4c2e87680b32afb856b92ff834"></a><!-- doxytag: member="erCvUserInteraction.hpp::erDef_ROI" ref="471a2d4c2e87680b32afb856b92ff834" args="(erImage *, CvRect *)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void erDef_ROIuser           </td>
+          <td class="memname">IplImage* erDef_ROI           </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classer_image.html">erImage</a> *&nbsp;</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">CvRect *&nbsp;</td>
+          <td class="paramname"></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="1bcbe6f49df8bd52e6bb2b837faaf057"></a><!-- doxytag: member="erCvUserInteraction.hpp::erDef_ROIuser" ref="1bcbe6f49df8bd52e6bb2b837faaf057" args="(erImage *, CvRect *)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IplImage* erDef_ROIuser           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classer_image.html">erImage</a> *&nbsp;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CvRect *&nbsp;</td>
+          <td class="paramname"></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
         </tr>
       </table>
 </div>
@@ -98,7 +143,7 @@
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Tue Sep 22 16:13:36 2009 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Sun Nov 22 13:50:58 2009 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>
