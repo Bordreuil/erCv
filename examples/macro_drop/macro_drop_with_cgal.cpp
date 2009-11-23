@@ -142,14 +142,14 @@ int main( int hola, char** file_name)
       alpha_edges( as2, std::back_inserter(segments));
    /* Ecriture des cotes dans le fichier "edges_cv_filters.dat" */
 
-    //   std::string file = base_edges+fileN+boost::lexical_cast<std::string>(nIm)+".dat";
+      std::string file = base_edges+fileN+boost::lexical_cast<std::string>(nIm)+".dat";
 
-//       std::ofstream ot(file.c_str());
+      std::ofstream ot(file.c_str());
 
-//        for(is=segments.begin();is!=segments.end();is++)
-//        {
-//          ot << *is << std::endl;
-//        };
+       for(is=segments.begin();is!=segments.end();is++)
+       {
+         ot << *is << std::endl;
+       };
       segments.clear();
       erExtractionCurve( &ea, &cerc, file_name, cvPts, rect);
       erEcriturePointPixel( cvPts, file_name); 
