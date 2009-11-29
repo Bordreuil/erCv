@@ -21,8 +21,43 @@ Canny            : 355, 355
 /* Paramettres a introduir par l'usager dans l'appel du programe: */
 /* 1- NOM choisi pour identifier les ficher de sortie,*/
 /* 2- Adresse et nom de la premiere image a traiter*/
+class increment
+{
+public:
+  increment(uint incbase,uint incD,uint every):current(0),base(incbase),
+					       delta(incD),every(every){};
+  uint inc()
+  {
+    current+=base;
+    if(current > every)
+      {
+      current=0;
+      return delta;
+      };
+    return base;
+  };
+private:
+  uint base;
+  uint delta;
+  uint every;
+  uint current;
+};
+
 int main( int hola, char** file_name)
 {
+  std::cout <<"-----------------------------------------------\n\n";
+  std::cout <<"\tMagic treatment for metal transfer\n\tBy Edward Romero\n\tNovember 2009\n\tLMGC/UM2/UM5508\n\tANR-TEMMSA\n\n";
+  std::cout <<"-----------------------------------------------\n\n";
+  uint ninc,ndelta,every,Nimax;
+  std::cout << "Increment de photo:";
+  std::cin  >> ninc;
+  std::cout << "Toutes les n photos:";
+  std::cin >>   every;
+  std::cout << " increment de:";
+  std::cin >> ndelta;
+  std::cout << "Nombre max de photos:";
+  std::cin >> Nimax;
+  increment inc(ninc,ndelta,every);
 
   /* Declaration de variables a utiliser par les fonctions */
   INFOFILE = file_name[1];
@@ -87,11 +122,12 @@ int main( int hola, char** file_name)
 
   /* Le contours obtenues avec le filtre Canny, sont definies par des pixels ayant une intensite maximal de 255 en 8 bit. */
   /* cette fonction ecrit un vecteur avec les coordonnes en pixels de le dites pixels*/
-  erExtractPoints( &ea, cvPts, is_equal_255); /* Extraction */
+  erExtractPoints( &ea, cvPts, is_equal_255,rect); /* Extraction */
    std::list<Point_2> cgalPts;
    /* Conversion des points OpenCv en point CGAL */
    cvPointsToCgal(cvPts.begin(),cvPts.end(),std::back_inserter(cgalPts));
-   Alpha_shape_2 as2(cgalPts.begin(),cgalPts.end(),FT(10));
+   Alpha_shape_2 as2(cgalPts.begin(),cgalPts.end(),FT(2));
+
    cgalPts.clear();
    std::list<Segment_2> segments;
    alpha_edges( as2, std::back_inserter(segments));
@@ -109,18 +145,18 @@ int main( int hola, char** file_name)
    segments.clear();
   /* L'usager doit selectionner le contour ou courbe d'interet dans l'image resultant du Canny. */
   /* Cette fonction extrait (depuis le vecteur construit auparavant) les coordones des pixels de le dit curbe */
-  erExtractionCurveUser( &ea, &cerc, file_name, cvPts, rect);
+  //erExtractionCurveUser( &ea, &cerc, file_name, cvPts, rect);
 
   /*Cette fonction ecrit la curbe d'interet, dans un ficher qui a pour nom, */ 
   /* le nom definie par l'usager + le No serial de l'image depuis laquelle etait extrait */
-  erEcriturePointPixel( cvPts, file_name); 
+  //erEcriturePointPixel( cvPts, file_name); 
   
   /* Boucle de lecteure des images  */
   time_t tbeg = time(NULL);
   uint nIm(0);
   while(true)
     {  
-      boost::tie(er,loaded) = erLoadImageSeries( file_name);
+      boost::tie(er,loaded) = erLoadImageSeries( file_name,inc.inc());
       if(!loaded) break;
       bw = erConvertToBlackAndWhite( &er);        
       //eo = ca.transform_image( bw);
@@ -132,28 +168,34 @@ int main( int hola, char** file_name)
       erSaveImage( &ea, file_name);
       IsEqualTo is_equal_255( 255);
       std::vector<CvPoint> cvPts; 
-      erExtractPoints( &ea, cvPts, is_equal_255);
+      erExtractPoints( &ea, cvPts, is_equal_255,rect);
 // Attention ENCORE EN DEVELOPPEMENT
       cvPointsToCgal(cvPts.begin(),cvPts.end(),std::back_inserter(cgalPts));
 // Attention ENCORE EN DEVELOPPEMENT
-      Alpha_shape_2 as2(cgalPts.begin(),cgalPts.end(),FT(10));
+      Alpha_shape_2 as2(cgalPts.begin(),cgalPts.end(),FT(2));
+
       cgalPts.clear();
 // Attention ENCORE EN DEVELOPPEMENT
       alpha_edges( as2, std::back_inserter(segments));
    /* Ecriture des cotes dans le fichier "edges_cv_filters.dat" */
 
-      std::string file = base_edges+fileN+boost::lexical_cast<std::string>(nIm)+".dat";
+      std::string fifi(file_name[1]);
+      std::string num=boost::lexical_cast<std::string>(nIm);
+      if(num.size() < 2) num.insert(0,"0");
+      std::string file = "results/"+fifi+"_"+num+".seg";
+      std::cout << file << " ecrit\n";
 
       std::ofstream ot(file.c_str());
 
        for(is=segments.begin();is!=segments.end();is++)
-       {
+	 { 
          ot << *is << std::endl;
        };
       segments.clear();
-      erExtractionCurve( &ea, &cerc, file_name, cvPts, rect);
-      erEcriturePointPixel( cvPts, file_name); 
+      //erExtractionCurve( &ea, &cerc, file_name, cvPts, rect);
+      //erEcriturePointPixel( cvPts, file_name); 
       nIm++;
+      if(nIm > Nimax) break;
     }
   std::cout << "Temps pour " << nIm << " images :" << time(NULL)-tbeg << std::endl;
   return(0);

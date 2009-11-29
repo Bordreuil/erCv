@@ -17,7 +17,11 @@ erImage::erImage(char* name):IplImage(*cvLoadImage(name))
 //erImage::erImage(IplImage* im):IplImage(*im){};
 erImage::erImage(IplImage* im) :IplImage(*im){};
 
-erImage::~erImage(){};
+// erImage::~erImage(){
+//   IplImage * thim = this;
+  
+//   cvReleaseImage(&thim);
+// };
 
 
 
@@ -47,7 +51,7 @@ std::pair<erImage,bool> erLoadImage(char** name)
 
 
 /* Read, name files manipulations, and convert to one channel the pictures in the loop */
-std::pair<erImage,bool> erLoadImageSeries( char** file_name)
+std::pair<erImage,bool> erLoadImageSeries( char** file_name,uint inc)
 {
   std::string name( file_name[2]); 
   size_t ext_pos = name.find_last_of( '_' );
@@ -57,7 +61,7 @@ std::pair<erImage,bool> erLoadImageSeries( char** file_name)
       std::string ext2 = name.substr( ext_pos + 1);
       std::string name2 = ext2.substr( 0,  ext_pos1 - (ext_pos + 1));
       int num = boost::lexical_cast<int>( name2);
-      num++;
+      num+=inc;
       std::string name3 = boost::lexical_cast<std::string>(num);
       while(name2.size()>name3.size())
 	{

@@ -20,12 +20,49 @@ Canny            : 355, 355
 /* Paramettres a introduir par l'usager dans l'appel du programe: */
 /* 1- NOM choisi pour identifier les ficher de sortie,*/
 /* 2- Adresse et nom de la premiere image a traiter*/
+/* Pour gerer les increments des photos */
+/* rien de tel qu une petite classe */
+class increment
+{
+public:
+  increment(uint incbase,uint incD,uint every):current(0),base(incbase),
+					       delta(incD),every(every){};
+  uint inc()
+  {
+    current+=base;
+    if(current > every)
+      {
+      current=0;
+      return delta;
+      };
+    return base;
+  };
+private:
+  uint base;
+  uint delta;
+  uint every;
+  uint current;
+};
+
 int main( int hola, char** file_name)
 {
 
+  std::cout <<"-----------------------------------------------\n\n";
+  std::cout <<"\tMagic treatment for metal transfer\n\tBy Edward Romero\n\tNovember 2009\n\tLMGC/UM2/UM5508\n\tANR-TEMMSA\n\n";
+  std::cout <<"-----------------------------------------------\n\n";
+  uint ninc,ndelta,every,Nimax;
+  std::cout << "Increment de photo:";
+  std::cin  >> ninc;
+  std::cout << "Toutes les n photos:";
+  std::cin >>   every;
+  std::cout << " increment de:";
+  std::cin >> ndelta;
+  std::cout << "Nombre max de photos:";
+  std::cin >> Nimax;
+  
   /* Declaration de variables a utiliser par les fonctions */
   INFOFILE = file_name[1];
-
+  increment inc(ninc,ndelta,every);
   std::cout << INFOFILE << std::endl;
   erImage er, bw, eo, ea;
   CvRect rect;
@@ -101,23 +138,27 @@ int main( int hola, char** file_name)
   time_t tbeg = time(NULL);
   uint nIm(0);
   while(true)
-    {  
-      boost::tie(er,loaded) = erLoadImageSeries( file_name);
+    { 
+      erImage erb, bwb, eab; 
+      boost::tie(erb,loaded) = erLoadImageSeries( file_name,inc.inc());
       if(!loaded) break;
-      bw = erConvertToBlackAndWhite( &er);        
+      bwb = erConvertToBlackAndWhite( &erb);        
       //eo = ca.transform_image( bw);
-      ea = erDef_ROI( &bw, &rect);    
-      erCvSmooth( &ea, &psmo);
-      erCvAdaptiveThreshold( &ea, &padt);
-      erCvSmooth( &ea, &psmo1);
-      erCvCanny( &ea, &pcan);
-      erSaveImage( &ea, file_name);
+      eab = erDef_ROI( &bwb, &rect);    
+      erCvSmooth( &eab, &psmo);
+      erCvAdaptiveThreshold( &eab, &padt);
+      erCvSmooth( &eab, &psmo1);
+      erCvCanny( &eab, &pcan);
+      erSaveImage( &eab, file_name);
       IsEqualTo is_equal_255( 255);
       std::vector<CvPoint> cvPts; 
-      erExtractPoints( &ea, cvPts, is_equal_255);
-      erExtractionCurve( &ea, &cerc, file_name, cvPts, rect);
+      erExtractPoints( &eab, cvPts, is_equal_255);
+      erExtractionCurve( &eab, &cerc, file_name, cvPts, rect);
       erEcriturePointPixel( cvPts, file_name); 
+      
       nIm++;
+      std::cout << "Image number :" << nIm << " passed: " << file_name[2] << "\n";
+      if (nIm>Nimax) break;
     }
   std::cout << "Temps pour " << nIm << " images :" << time(NULL)-tbeg << std::endl;
   return(0);

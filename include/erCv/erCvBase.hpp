@@ -55,7 +55,7 @@ public:
   erImage(IplImage* );
   erImage(IplImage);
  
-  ~erImage();
+  //~erImage();
   CvRect  rectan;
   bool    drawing;
 private:
@@ -81,7 +81,7 @@ std::pair<erImage,bool> erLoadImage( char**);
 /** \brief Fonction permettant de charger une serie d Image a l aide
  d openCv ayant comme extentions une succesion ordonne et continue de intieres
  */
-std::pair<erImage,bool> erLoadImageSeries( char**);
+std::pair<erImage,bool> erLoadImageSeries( char**,uint inc=1);
 
 
 
