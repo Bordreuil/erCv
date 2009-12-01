@@ -3,7 +3,7 @@ import os
 import re
 from pylab import *
 def get_bad_images_number(name_anal):
-    file=name_anal+'_imagesOut.txt'
+    file=name_anal+'_imagesOUT.txt'
     bad_images_number=[]
     fid=open(file,'r')
     for ligne in fid.readlines():
@@ -26,7 +26,8 @@ def clean_dir(name_analysis):
     for f in ls:
         if name_analysis in f:
             os.remove(f)
-
+    fid=open(name_analysis+'_imagesOUT.txt','w')
+    fid.close()
 def get_base_image(name_image):
     return name_image[:-9]
 
