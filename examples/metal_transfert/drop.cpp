@@ -5,6 +5,7 @@
 #include <erCv/erCvExtract.hpp>
 #include <erCv/erCvToCgal.hpp>
 #include <erCv/geometry/erCgalAlphaShape2.hpp>
+
 #include<ctime>
 
 /* Valeurs des paramettres a introduire, pour chaque fonction:
@@ -21,6 +22,9 @@ Canny            : 355, 355
 /* Paramettres a introduir par l'usager dans l'appel du programe: */
 /* 1- NOM choisi pour identifier les ficher de sortie,*/
 /* 2- Adresse et nom de la premiere image a traiter*/
+
+
+// A METTRE AILLEURS Mr Edward
 class increment
 {
 public:
@@ -49,13 +53,13 @@ int main( int hola, char** file_name)
   std::cout <<"\tMagic treatment for metal transfer\n\tBy Edward Romero\n\tNovember 2009\n\tLMGC/UM2/UM5508\n\tANR-TEMMSA\n\n";
   std::cout <<"-----------------------------------------------\n\n";
   uint ninc,ndelta,every,Nimax;
-  std::cout << "Increment de photo:";
+  std::cout << "Increment de photo:\n";
   std::cin  >> ninc;
-  std::cout << "Toutes les n photos:";
+  std::cout << "Toutes les n photos:\n";
   std::cin >>   every;
-  std::cout << " increment de:";
+  std::cout << " increment de:\n";
   std::cin >> ndelta;
-  std::cout << "Nombre max de photos:";
+  std::cout << "Nombre max de photos:\n";
   std::cin >> Nimax;
   increment inc(ninc,ndelta,every);
 
@@ -181,7 +185,7 @@ int main( int hola, char** file_name)
 
       std::string fifi(file_name[1]);
       std::string num=boost::lexical_cast<std::string>(nIm);
-      if(num.size() < 2) num.insert(0,"0");
+      if(num.size() < 3) num.insert(0,"0");
       std::string file = "results/"+fifi+"_"+num+".seg";
       std::cout << file << " ecrit\n";
 
