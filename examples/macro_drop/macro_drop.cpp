@@ -22,27 +22,6 @@ Canny            : 355, 355
 /* 2- Adresse et nom de la premiere image a traiter*/
 /* Pour gerer les increments des photos */
 /* rien de tel qu une petite classe */
-class increment
-{
-public:
-  increment(uint incbase,uint incD,uint every):current(0),base(incbase),
-					       delta(incD),every(every){};
-  uint inc()
-  {
-    current+=base;
-    if(current > every)
-      {
-      current=0;
-      return delta;
-      };
-    return base;
-  };
-private:
-  uint base;
-  uint delta;
-  uint every;
-  uint current;
-};
 
 int main( int hola, char** file_name)
 {
@@ -62,7 +41,7 @@ int main( int hola, char** file_name)
   
   /* Declaration de variables a utiliser par les fonctions */
   INFOFILE = file_name[1];
-  increment inc(ninc,ndelta,every);
+  ImageIncrement inc(ninc,ndelta,every);
   std::cout << INFOFILE << std::endl;
   erImage er, bw, eo, ea;
   CvRect rect;

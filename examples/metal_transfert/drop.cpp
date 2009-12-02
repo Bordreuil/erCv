@@ -24,28 +24,8 @@ Canny            : 355, 355
 /* 2- Adresse et nom de la premiere image a traiter*/
 
 
-// A METTRE AILLEURS Mr Edward
-class increment
-{
-public:
-  increment(uint incbase,uint incD,uint every):current(0),base(incbase),
-					       delta(incD),every(every){};
-  uint inc()
-  {
-    current+=base;
-    if(current > every)
-      {
-      current=0;
-      return delta;
-      };
-    return base;
-  };
-private:
-  uint base;
-  uint delta;
-  uint every;
-  uint current;
-};
+
+
 
 int main( int hola, char** file_name)
 {
@@ -59,9 +39,10 @@ int main( int hola, char** file_name)
   std::cin >>   every;
   std::cout << " increment de:\n";
   std::cin >> ndelta;
-  std::cout << "Nombre max de photos:\n";
+  std::cout << "Nombre max de photos a traiter:\n";
   std::cin >> Nimax;
-  increment inc(ninc,ndelta,every);
+  /* Objet permettant de modifier l increment entre deux photos */
+  ImageIncrement inc(ninc,ndelta,every);
 
   /* Declaration de variables a utiliser par les fonctions */
   INFOFILE = file_name[1];

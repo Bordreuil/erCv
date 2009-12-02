@@ -234,3 +234,15 @@ char* erEcrireNomFicher( char** file_name, std::string info)
       return "";
     }
 }
+ImageIncrement::ImageIncrement(uint incbase,uint incD,uint every):current(0),base(incbase),
+					                          delta(incD),every(every){};
+uint ImageIncrement::inc()
+{
+    current+=base;
+    if(current > every)
+      {
+      current=0;
+      return delta;
+      };
+    return base;
+};

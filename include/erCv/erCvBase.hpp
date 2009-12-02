@@ -112,5 +112,20 @@ void erCvConvert32to8( IplImage*, IplImage*);
  */
 char* erEcrireNomFicher( char**, std::string);
 
+// Classe permettant 
+
+class ImageIncrement
+{
+public:
+  ImageIncrement(uint,uint,uint);
+  uint inc();
+ 
+private:
+  uint base;
+  uint delta;
+  uint every;
+  uint current;
+};
+
 /*@}*/
 #endif
