@@ -7,6 +7,7 @@ static uint n_right_click_circ = 0;
 
 void on_mouse_cerc( int event, int x, int y, int flags, void* param)
 {
+
   erCercleImg* pru = (erCercleImg*) param;
   switch( event)
     {
@@ -18,6 +19,7 @@ void on_mouse_cerc( int event, int x, int y, int flags, void* param)
 // 	  }
 //       }
 //       break;
+
     case CV_EVENT_LBUTTONDOWN:
       {
 	if( n_right_click_circ == 1)
@@ -41,6 +43,7 @@ void on_mouse_cerc( int event, int x, int y, int flags, void* param)
 //       }
 //       break;
       //finish = true;
+
     }
 }
 
@@ -52,6 +55,7 @@ void on_mouse_rect3( int event, int x, int y, int flags, void* param)
   erImage* pru = (erImage*) param;
   switch( event)
     {
+#ifdef MACOSX
     case CV_EVENT_LBUTTONDOWN:
       if(n_right_click_rect == 1)
 	{
@@ -79,53 +83,55 @@ void on_mouse_rect3( int event, int x, int y, int flags, void* param)
 	pru->rectan = cvRect( x, y, 0, 0);
 	n_right_click_rect+=1;
       break;
-	}
+	
+  
+#else
+    case CV_EVENT_MOUSEMOVE:
+      //      std::cout << "Mouse Moving: " << std::boolalpha << pru->drawing << std::endl;
+	if( pru->drawing)
+	  {
+	    pru->rectan.width = x-pru->rectan.x;
+	    pru->rectan.height = y-pru->rectan.y;
+	  }
+	//	std::cout << "on sort de move\n";
+	break;
      
+      // old version break;
+    case CV_EVENT_LBUTTONDOWN:
+    	pru->drawing = true;
+	//	std::cout << "Left Button down"<< std::boolalpha << pru->drawing << std::endl ;
+	pru->rectan = cvRect( x, y, 0, 0);
+	//	std::cout << "On sort de button down\n";
+	break;
+      
+      
+      // old version break;
+    case CV_EVENT_LBUTTONUP:
+      
+	pru->drawing = false;
+	if( pru->rectan.width < 0)
+	  {
+	    pru->rectan.x += pru->rectan.width;
+	    pru->rectan.width *= -1;
+	  }
+	if( pru->rectan.height < 0)
+	  {
+	    pru->rectan.y += pru->rectan.height;
+	    pru->rectan.height *= -1;
+	  }
+	  cvRectangle( pru, cvPoint( pru->rectan.x, pru->rectan.y), 
+		       cvPoint( pru->rectan.x + pru->rectan.width, 
+				pru->rectan.y + pru->rectan.height), cvScalar( 0xff, 0x00, 0x00));
+	  //draw_box( pru->img, pru->rec);
+	  break;
+      
+      // old version break;
+      //fi
 
-    }
-    // case CV_EVENT_MOUSEMOVE:
-//       std::cout << "Mouse Moving: " << std::boolalpha << pru->drawing << std::endl;
-// 	if( pru->drawing)
-// 	  {
-// 	    pru->rectan.width = x-pru->rectan.x;
-// 	    pru->rectan.height = y-pru->rectan.y;
-// 	  }
-// 	std::cout << "on sort de move\n";
-// 	break;
-     
-//       // old version break;
-//     case CV_EVENT_LBUTTONDOWN:
-//     	pru->drawing = true;
-// 	std::cout << "Left Button down"<< std::boolalpha << pru->drawing << std::endl ;
-// 	pru->rectan = cvRect( x, y, 0, 0);
-// 	std::cout << "On sort de button down\n";
-// 	break;
-      
-      
-//       // old version break;
-//     case CV_EVENT_LBUTTONUP:
-      
-// 	pru->drawing = false;
-// 	if( pru->rectan.width < 0)
-// 	  {
-// 	    pru->rectan.x += pru->rectan.width;
-// 	    pru->rectan.width *= -1;
-// 	  }
-// 	if( pru->rectan.height < 0)
-// 	  {
-// 	    pru->rectan.y += pru->rectan.height;
-// 	    pru->rectan.height *= -1;
-// 	  }
-// 	  cvRectangle( pru, cvPoint( pru->rectan.x, pru->rectan.y), 
-// 		       cvPoint( pru->rectan.x + pru->rectan.width, 
-// 				pru->rectan.y + pru->rectan.height), cvScalar( 0xff, 0x00, 0x00));
-// 	  //draw_box( pru->img, pru->rec);
-// 	  break;
-      
-//       // old version break;
-//       //finish = true;
-//     }
-}
+
+#endif
+	}
+};
 
 
 
@@ -171,7 +177,7 @@ IplImage* erDef_ROIuser( erImage* simag, CvRect* rect)
   file << std::endl;
 
   return imag;
-}
+};
 
 
 

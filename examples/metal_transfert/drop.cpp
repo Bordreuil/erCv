@@ -5,7 +5,7 @@
 #include <erCv/erCvExtract.hpp>
 #include <erCv/erCvToCgal.hpp>
 #include <erCv/geometry/erCgalAlphaShape2.hpp>
-
+#include<erCv/graph/erConnectedSegments.hpp>
 #include<ctime>
 
 /* Valeurs des paramettres a introduire, pour chaque fonction:
@@ -171,11 +171,11 @@ int main( int hola, char** file_name)
       std::cout << file << " ecrit\n";
 
       std::ofstream ot(file.c_str());
-
-       for(is=segments.begin();is!=segments.end();is++)
-	 { 
-         ot << *is << std::endl;
-       };
+      get_connected_segments(segments.begin(),segments.end());
+      //for(is=segments.begin();is!=segments.end();is++)
+      // { 
+      // ot << *is << std::endl;
+      // };
       segments.clear();
       //erExtractionCurve( &ea, &cerc, file_name, cvPts, rect);
       //erEcriturePointPixel( cvPts, file_name); 
