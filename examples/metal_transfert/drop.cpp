@@ -107,7 +107,7 @@ int main( int hola, char** file_name)
 
   /* Le contours obtenues avec le filtre Canny, sont definies par des pixels ayant une intensite maximal de 255 en 8 bit. */
   /* cette fonction ecrit un vecteur avec les coordonnes en pixels de le dites pixels*/
-  erExtractPoints( &ea, cvPts, is_equal_255,rect); /* Extraction */
+  erExtractPoints( &ea, cvPts, is_equal_255,rect,1); /* Extraction */
    std::list<Point_2> cgalPts;
    /* Conversion des points OpenCv en point CGAL */
    cvPointsToCgal(cvPts.begin(),cvPts.end(),std::back_inserter(cgalPts));
@@ -153,7 +153,7 @@ int main( int hola, char** file_name)
       erSaveImage( &ea, file_name);
       IsEqualTo is_equal_255( 255);
       std::vector<CvPoint> cvPts; 
-      erExtractPoints( &ea, cvPts, is_equal_255,rect);
+      erExtractPoints( &ea, cvPts, is_equal_255,rect,1);
 // Attention ENCORE EN DEVELOPPEMENT
       cvPointsToCgal(cvPts.begin(),cvPts.end(),std::back_inserter(cgalPts));
 // Attention ENCORE EN DEVELOPPEMENT
@@ -166,17 +166,18 @@ int main( int hola, char** file_name)
 
       std::string fifi(file_name[1]);
       std::string num=boost::lexical_cast<std::string>(nIm);
-      if(num.size() < 3) num.insert(0,"0");
+      if(num.size() < 2) num.insert(0,"0");
       std::string file = "results/"+fifi+"_"+num+".seg";
       std::cout << file << " ecrit\n";
 
       std::ofstream ot(file.c_str());
-      get_connected_segments(segments.begin(),segments.end());
-      //for(is=segments.begin();is!=segments.end();is++)
-      // { 
-      // ot << *is << std::endl;
-      // };
-      segments.clear();
+       std::list<Segment_2>  out = get_connected_segments(segments.begin(),segments.end());
+       std::cout << "Taille de out:" << out.size() << std::endl;
+       for(is=out.begin();is!=out.end();is++)
+        { 
+        ot << *is << std::endl;
+        };
+       segments.clear();
       //erExtractionCurve( &ea, &cerc, file_name, cvPts, rect);
       //erEcriturePointPixel( cvPts, file_name); 
       nIm++;

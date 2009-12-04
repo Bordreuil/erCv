@@ -20,13 +20,13 @@
  */
 
 template< typename Container, typename Criteria>
-void erExtractPoints( IplImage *im, Container &pts, Criteria crit,CvRect rect=cvRect(0,0,0,0))
+void erExtractPoints( IplImage *im, Container &pts, Criteria crit,CvRect rect=cvRect(0,0,0,0), uint delta=1)
 {  
   typedef typename Container::value_type CvPoint;;
   int y, x;
-  for( y = 0; y < im->height; y++)
+  for( y = 0; y < im->height; y+=delta)
     { 
-      for( x = 0; x < im->width; x++)
+      for( x = 0; x < im->width; x+=delta)
 	{ 
 	  //std::cout << "x =    " << x         << "  " << "y =     " << y       ;//   << std::endl;
 	  CvScalar a = cvGet2D(im,y,x);
