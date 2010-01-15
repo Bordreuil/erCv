@@ -98,6 +98,7 @@ std::list<Segment_2>  get_connected_segments(Iterator debut,Iterator fin)
   std::list<Segment_2>  output;
   uint nmax=0;
   uint current=0;
+
   for(deb=map_of_connected.begin();deb!=map_of_connected.end();deb++)
     {
       if(segments_set_is_closed(deb->second.begin(),deb->second.end()))

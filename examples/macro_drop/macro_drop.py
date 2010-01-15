@@ -124,7 +124,7 @@ if __name__=='__main__':
                 figure(n)
                 imshow(im,origin='lower')
                 hold('on')
-                plot(x[:,0],255-x[:,1],linewidth=2)
+                plot(x[:,0],255-x[:,1],color='white',linewidth=2)
                 axis('equal')
                 grid('on')
                 last_n=n
@@ -137,11 +137,11 @@ if __name__=='__main__':
     load2,x2=load_curve(name_analysis+'_curve_'+good_treatment[-2]+'.txt')
     leg=[]
     if load1:
-        plot(x1[:,0],255-x1[:,1],'r')
+        plot(x1[:,0],255-x1[:,1],'r',linewidth=3)
         hold('on')
         leg.append(good_treatment[0])
     if load2:
-        plot(x2[:,0],255-x2[:,1],'b',linewidth=2)
+        plot(x2[:,0],255-x2[:,1],'b',linewidth=3)
         leg.append(good_treatment[-2])
     legend(leg,loc='upper right')
     axis('equal')
