@@ -5,7 +5,7 @@
 #include <erCv/erCvExtract.hpp>
 #include <erCv/erCvToCgal.hpp>
 #include <erCv/geometry/erCgalAlphaShape2.hpp>
-#include<ctime>
+#include<time.h>
 
 /* Valeurs des paramettres a introduire, pour chaque fonction:
 Smooth           : 7, 1 (0 pour OK)
@@ -114,7 +114,7 @@ int main( int hola, char** file_name)
   erEcriturePointPixel( cvPts, file_name); 
   
   /* Boucle de lecteure des images  */
-  time_t tbeg = time(NULL);
+  clock_t tbeg = clock();
   uint nIm(0);
   while(true)
     { 
@@ -139,6 +139,7 @@ int main( int hola, char** file_name)
       std::cout << "Image number :" << nIm << " passed: " << file_name[2] << "\n";
       if (nIm>Nimax) break;
     }
-  std::cout << "Temps pour " << nIm << " images :" << time(NULL)-tbeg << std::endl;
+    clock_t tfin = clock();
+    std::cout << "Temps en ms pour " << nIm << " images :" << (tfin-tbeg)  << std::endl;
   return(0);
 }

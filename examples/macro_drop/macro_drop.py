@@ -84,7 +84,7 @@ def load_curve(curve):
     x=[]
     test=True
     try:
-        x=load(curve)   #  Attention possible erreur à changer en loadtxt ou mlab.load
+        x=loadtxt(curve)   #  Attention possible erreur a changer en loadtxt ou mlab.load
     except:
         print 'Probleme avec le fichier:',curve
         x=[]
