@@ -164,22 +164,22 @@ if __name__=='__main__':            # Ici commence le programme quand on l execu
                 savefig('macrodrop_'+str(n)+'.png')
     # Ici on cree quelques figures annexes pour comparer a des instants particuliers
     # On peut oublier ce qui suit
-    figure(last_n+1)
-    title('Comparaison de la premiere et l avant derniere ok')
+    #figure(last_n+1)
+    #title('Comparaison de la premiere et l avant derniere ok')
 
-    load1,x1=load_curve(name_analysis+'_curve_'+good_treatment[0]+'.txt')
-    load2,x2=load_curve(name_analysis+'_curve_'+good_treatment[-2]+'.txt')
-    leg=[]
-    if load1:
-        plot(x1[:,0],255-x1[:,1],'r',linewidth=3)
-        hold('on')
-        leg.append(good_treatment[0])
-    if load2:
-        plot(x2[:,0],255-x2[:,1],'b',linewidth=3)
-        leg.append(good_treatment[-2])
-    legend(leg,loc='upper right')
-    axis('equal')
-    grid('on')
+    #load1,x1=load_curve(name_analysis+'_curve_'+good_treatment[0]+'.txt')
+    #load2,x2=load_curve(name_analysis+'_curve_'+good_treatment[-2]+'.txt')
+    #leg=[]
+    #if load1:
+    #    plot(x1[:,0],255-x1[:,1],'r',linewidth=3)
+    #    hold('on')
+    #    leg.append(good_treatment[0])
+    #if load2:
+    #    plot(x2[:,0],255-x2[:,1],'b',linewidth=3)
+    #    leg.append(good_treatment[-2])
+    #legend(leg,loc='upper right')
+    #axis('equal')
+    #grid('on')
     
     # IMPORTANT : Pour visualiser les images ne pas oublier la fonction show()
     show()
