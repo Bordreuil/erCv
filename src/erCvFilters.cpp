@@ -31,7 +31,7 @@ void erCvSmooth( IplImage* simg, erSmootP* parm)
   //std::cout << "smoothtype: " << smoothtype[smooth] << std::endl;
   //std::cout << parm;
   //cvSmooth( simg, simg, smooth, size , 0, 0, 0);
-  cvSmooth(simg,simg,parm->type,parm->size,0,0,0);
+  cvSmooth( simg, simg, parm->type, parm->size, 0, 0, 0);
  }
 
 

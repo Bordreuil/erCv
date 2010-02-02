@@ -28,12 +28,24 @@ erImage::erImage(IplImage* im) :IplImage(*im){};
 // Interface pour des fonctions d open cv
 void erShowImage( char* name, IplImage* im)
 {
-  cvNamedWindow(name);
+  cvNamedWindow(name, 0);
   cvShowImage(name,im);
   cvWaitKey();
   cvDestroyWindow(name);
 };
 
+
+// Interface pour des fonctions d open cv
+void erShow2Image( char* name, IplImage* im, char* name2, IplImage* im2)
+{
+  cvNamedWindow(name, 0);
+  cvNamedWindow(name2, 0);
+  cvShowImage(name,im);
+  cvShowImage(name2, im2);
+  cvWaitKey();
+  cvDestroyWindow(name);
+  cvDestroyWindow(name2);
+};
 
 std::pair<erImage,bool> erLoadImage(char** name)
 { 
@@ -118,7 +130,36 @@ void erSaveImage( IplImage* simag, char** file_name)
 }
 
 
-
+/* Save final images to post processing procedure with CGAL */
+void erSaveImage2( IplImage* simag, char** file_name, char* a )
+{
+  std::string name( file_name[2]);
+  //std::string tipo( a)
+  size_t ext_pos = name.find_last_of( '_' );
+  size_t ext_pos1 = name.find_last_of( '.');
+  if( ext_pos != std::string::npos && ext_pos1 != std::string::npos )
+    {
+      
+      std::string ext2 = name.substr( ext_pos + 1);
+      std::string name2 = ext2.substr( 0,  ext_pos1 - (ext_pos + 1));
+      int num = boost::lexical_cast<int>( name2);
+      std::string name3 = boost::lexical_cast<std::string>(num);
+      while(name2.size()>name3.size())
+	{
+	  name3.insert( 0, "0" );
+	}
+      std::string name4( file_name[1]);
+      name4+= "_";
+      name4+= a;
+      name4+= "_";
+      name4+= name3; 
+      name4+= ".png";
+      char* new_name = new char[ name4.size() + 1];
+      std::copy( name4.begin(), name4.end(), new_name);
+      new_name[ name4.size()] = '\0';
+      cvSaveImage( new_name, simag);
+    }
+}
 
 
 // erImage erConvertToBlackAndWhite( IplImage* simag)

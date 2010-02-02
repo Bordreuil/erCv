@@ -18,15 +18,12 @@ typedef Alpha_shape_2::Alpha_shape_edges_iterator Alpha_shape_edges_iterator;
 
 
 template <class OutputIterator>
-void alpha_edges( const Alpha_shape_2&  A,
-	     OutputIterator out)
+void alpha_edges( const Alpha_shape_2&  A, OutputIterator out)
 {
-
-  for(Alpha_shape_edges_iterator it =  A.alpha_shape_edges_begin();
-      it != A.alpha_shape_edges_end();
-      ++it){
-    *out++ = A.segment(*it);
-  }
+  for(Alpha_shape_edges_iterator it =  A.alpha_shape_edges_begin(); it != A.alpha_shape_edges_end(); ++it)
+    {
+      *out++ = A.segment(*it);
+    }
 }
 
 #endif

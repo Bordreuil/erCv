@@ -42,14 +42,14 @@ public:
   // Constructeurs Destructeurs
   erCalibration();
   /** \brief Permet de trouver la matrice de passage de l 
-					 image patron a image mesure 
-					 les entiers correspondent a la taille de l echiquier
-					 Aujourd'hui(mai 2009), uniquement (3,3)
-				       */
+      image patron a image mesure 
+      les entiers correspondent a la taille de l echiquier
+      Aujourd'hui(mai 2009), uniquement (3,3)
+  */
   //erCalibration( char*, char*, int, int);
   erCalibration( char*, char*, int, int, char* file_dimention = "cuadro_size.dat");
   ~erCalibration(); 
-
+  
   // Methodes d acces
   /** \brief Permet d extraire l image patron */
   erImage get_patron(); 
@@ -59,13 +59,13 @@ public:
   erImage transform_image( erImage);
   /** \brief Permet d acceder au facteur de conversion */
   std::pair<double,double> mm_per_pixels();
- 
- private:
+  
+private:
   // Fonctions internes utilises par cette class
   bool  find_corners( IplImage*, CornerContainer&);
   std::pair<double,double> compute_pixel_to_mm( CvPoint2D32f*, double, double);
   std::pair<double,double> real_dimensions( char*);
-
+  
   // Variables membres......
   double          _mm_per_pixel_x, _mm_per_pixel_y;// Milimmetres par pixel (facteur de convertion)  
   bool            _identified;                     // Booleen pour savoir si tous les sommets on ete dectectes

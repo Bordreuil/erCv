@@ -70,16 +70,20 @@ void erCvCannyUser( IplImage* simg, erCannyP* parm)
   std::cout << std::endl;
   
   cvNamedWindow( "Canny_trackbar", 0);
-  itrak[0] = cvCreateTrackbar( "threshold1", "Canny_trackbar", &threshold[0], maxt[0], NULL);
-  itrak[1] = cvCreateTrackbar( "threshold2", "Canny_trackbar", &threshold[1], maxt[1], NULL);
+  //itrak[0] = cvCreateTrackbar( "threshold1", "Canny_trackbar", &threshold[0], maxt[0], NULL);
+  //itrak[1] = cvCreateTrackbar( "threshold2", "Canny_trackbar", &threshold[1], maxt[1], NULL);
   while( 1)
-    {    
-      cvCanny( simg, img, (float)threshold[0]*10., (float)threshold[1]*10., 5);
+    {   
+      //cvCanny( simg, img, (float)threshold[0]*10., (float)threshold[1]*10., 5);
+      cvCanny( simg, img, (float)maxt[0], (float)maxt[1], 5);
       cvShowImage( "Canny_trackbar", img);
       if( cvWaitKey( 10) == 27) break;
     }
-  parm->trh1 = cvGetTrackbarPos( "threshold1", "Canny_trackbar");
-  parm->trh2 = cvGetTrackbarPos( "threshold2", "Canny_trackbar");
+  //cvShowImage( "original", simg);
+  //parm->trh1 = cvGetTrackbarPos( "threshold1", "Canny_trackbar");
+  //parm->trh2 = cvGetTrackbarPos( "threshold2", "Canny_trackbar");
+  parm->trh1 = maxt[0];
+  parm->trh2 = maxt[1];
   cvDestroyWindow( "Canny_trackbar");
   //simg = cvCloneImage( img);
   *simg = *img;
@@ -201,6 +205,7 @@ void erCvThresholdUser( IplImage* simg, erThresP* parm)
   std::cout << std::endl;
   
   cvNamedWindow( "Threshold_trackbar", 0);
+  cvNamedWindow( "original", 0);
   itrak[0] = cvCreateTrackbar( "max_threshold", "Threshold_trackbar", &threshold[0], maxt, NULL);
   if( threstype == 1 or threstype == 2)
     {
@@ -216,14 +221,16 @@ void erCvThresholdUser( IplImage* simg, erThresP* parm)
       if( threstype == 4) cvThreshold( simg, img, (float)threshold[0], (float)threshold[0], CV_THRESH_TOZERO);
       if( threstype == 5) cvThreshold( simg, img, (float)threshold[0], (float)threshold[0], CV_THRESH_TOZERO_INV);
       cvShowImage( "Threshold_trackbar", img);
+      cvShowImage( "original", simg);
       if( cvWaitKey( 10) == 27) break;
     }  
+ 
   *simg = *img;
   parm->trh1 = cvGetTrackbarPos( "max_threshold", "Threshold_trackbar");
   parm->trh2 = cvGetTrackbarPos( "threshold", "Threshold_trackbar");
   parm->type = threstype;
   cvDestroyWindow( "Threshold_trackbar");
-
+  cvDestroyWindow( "original");
   std::ofstream file( nomb, std::ios_base::app );
   file << "***********Filter fonction THRESHOLD***********\n";
   file << "Threshold :------------ " << parm->trh1 << std::endl;
@@ -262,7 +269,7 @@ void erCvAdaptiveThresholdUser( IplImage* simg, erAdThrP* parm)
       std::cin >> adapt;
       std::cout << std::endl;
       //maxt = 255;
-      cvNamedWindow( "Threshold_trackbar", 0);
+      //cvNamedWindow( "Threshold_trackbar", 0);
       //itrak = cvCreateTrackbar( "max_threshold", "Threshold_trackbar", &threshold, maxt, NULL);  
       if( threstype == 1) 
 	{
@@ -274,13 +281,12 @@ void erCvAdaptiveThresholdUser( IplImage* simg, erAdThrP* parm)
 	  if( adapt ==1) cvAdaptiveThreshold( simg, img, (double)threshold, CV_ADAPTIVE_THRESH_MEAN_C, CV_THRESH_BINARY_INV, neigh, param);
 	  if( adapt ==2) cvAdaptiveThreshold( simg, img, (double)threshold, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY_INV, neigh, param);
 	}
-      cvShowImage( "Threshold_trackbar", img);
-      while(1){if(cvWaitKey( 10) == 27) break;};
+      erShowImage( "Threshold_trackbar", img);
+      //while(1){if(cvWaitKey( 10) == 27) break;};
       //}
       cvDestroyWindow( "Threshold_trackbar");
       std::cout << " T'es content (Oui 0/Non 1)? ";
       std::cin >> ok;
-
     }  
   *simg = *img;
   parm->trhP = param;

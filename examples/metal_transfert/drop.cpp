@@ -108,26 +108,29 @@ int main( int hola, char** file_name)
   /* Le contours obtenues avec le filtre Canny, sont definies par des pixels ayant une intensite maximal de 255 en 8 bit. */
   /* cette fonction ecrit un vecteur avec les coordonnes en pixels de le dites pixels*/
   erExtractPoints( &ea, cvPts, is_equal_255,rect,1); /* Extraction */
-   std::list<Point_2> cgalPts;
-   /* Conversion des points OpenCv en point CGAL */
-   cvPointsToCgal(cvPts.begin(),cvPts.end(),std::back_inserter(cgalPts));
-   Alpha_shape_2 as2(cgalPts.begin(),cgalPts.end(),FT(2));
+  std::list<Point_2> cgalPts;
+  
+  /* Conversion des points OpenCv en point CGAL */
+  cvPointsToCgal(cvPts.begin(),cvPts.end(),std::back_inserter(cgalPts));
+  Alpha_shape_2 as2(cgalPts.begin(),cgalPts.end(),FT(2));
+  cgalPts.clear();
 
-   cgalPts.clear();
-   std::list<Segment_2> segments;
-   alpha_edges( as2, std::back_inserter(segments));
-   /* Ecriture des cotes dans le fichier "edges_cv_filters.dat" */
-   std::string fileN="test";
-   std::string base_edges="results/";
-   std::string file = base_edges+fileN+".dat";
-   std::cout << file << std::endl;
-   std::ofstream ot(file.c_str());
-   std::list<Segment_2>::iterator  is;
-   for(is=segments.begin();is!=segments.end();is++)
-     {
-       ot << *is << std::endl;
-     };
-   segments.clear();
+  /* Aplication de l'algorithme de boost::graph */
+  std::list<Segment_2> segments;
+  alpha_edges( as2, std::back_inserter(segments));
+  
+  /* Ecriture des cotes dans le fichier "edges_cv_filters.dat" */
+  std::string fileN="test";
+  std::string base_edges="results/";
+  std::string file = base_edges+fileN+".dat";
+  std::cout << file << std::endl;
+  std::ofstream ot(file.c_str());
+  std::list<Segment_2>::iterator  is;
+  for(is=segments.begin();is!=segments.end();is++)
+    {
+      ot << *is << std::endl;
+    };
+  segments.clear();
   /* L'usager doit selectionner le contour ou courbe d'interet dans l'image resultant du Canny. */
   /* Cette fonction extrait (depuis le vecteur construit auparavant) les coordones des pixels de le dit curbe */
   //erExtractionCurveUser( &ea, &cerc, file_name, cvPts, rect);
@@ -154,30 +157,30 @@ int main( int hola, char** file_name)
       IsEqualTo is_equal_255( 255);
       std::vector<CvPoint> cvPts; 
       erExtractPoints( &ea, cvPts, is_equal_255,rect,1);
-// Attention ENCORE EN DEVELOPPEMENT
+      // Attention ENCORE EN DEVELOPPEMENT
       cvPointsToCgal(cvPts.begin(),cvPts.end(),std::back_inserter(cgalPts));
-// Attention ENCORE EN DEVELOPPEMENT
+      // Attention ENCORE EN DEVELOPPEMENT
       Alpha_shape_2 as2(cgalPts.begin(),cgalPts.end(),FT(2));
-
+      
       cgalPts.clear();
-// Attention ENCORE EN DEVELOPPEMENT
+      // Attention ENCORE EN DEVELOPPEMENT
       alpha_edges( as2, std::back_inserter(segments));
-   /* Ecriture des cotes dans le fichier "edges_cv_filters.dat" */
-
+      /* Ecriture des cotes dans le fichier "edges_cv_filters.dat" */
+      
       std::string fifi(file_name[1]);
       std::string num=boost::lexical_cast<std::string>(nIm);
       if(num.size() < 2) num.insert(0,"0");
       std::string file = "results/"+fifi+"_"+num+".seg";
       std::cout << file << " ecrit\n";
-
+      
       std::ofstream ot(file.c_str());
-       std::list<Segment_2>  out = get_connected_segments(segments.begin(),segments.end());
-       std::cout << "Taille de out:" << out.size() << std::endl;
-       for(is=out.begin();is!=out.end();is++)
+      std::list<Segment_2>  out = get_connected_segments(segments.begin(),segments.end());
+      std::cout << "Taille de out:" << out.size() << std::endl;
+      for(is=out.begin();is!=out.end();is++)
         { 
-        ot << *is << std::endl;
+	  ot << *is << std::endl;
         };
-       segments.clear();
+      segments.clear();
       //erExtractionCurve( &ea, &cerc, file_name, cvPts, rect);
       //erEcriturePointPixel( cvPts, file_name); 
       nIm++;

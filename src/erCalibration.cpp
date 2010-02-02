@@ -10,6 +10,7 @@
 
 erCalibration::erCalibration(){};
 
+
 erCalibration::erCalibration( char* name_image_patron, char* name_image_mesure, int board_w, int board_h, char* file_dimention)
 { 
   _board_w              = board_w;
@@ -51,9 +52,9 @@ erCalibration::erCalibration( char* name_image_patron, char* name_image_mesure, 
 	      corners_mesure[i] = _corners_mesure[i];
 	    }
 	  cvGetPerspectiveTransform( corners_mesure, corners_patron, _warp_matrix);
-	  double cuadro_dim_x, cuadro_dim_y;
-	  boost::tie( cuadro_dim_x, cuadro_dim_y) = real_dimensions( file_dimention);
-	  boost::tie( _mm_per_pixel_x, _mm_per_pixel_y) = compute_pixel_to_mm( corners_patron, cuadro_dim_x, cuadro_dim_y);
+	  //double cuadro_dim_x, cuadro_dim_y;
+	  //boost::tie( cuadro_dim_x, cuadro_dim_y) = real_dimensions( file_dimention);
+	  //boost::tie( _mm_per_pixel_x, _mm_per_pixel_y) = compute_pixel_to_mm( corners_patron, cuadro_dim_x, cuadro_dim_y);
 	};
     }
   else
@@ -61,22 +62,31 @@ erCalibration::erCalibration( char* name_image_patron, char* name_image_mesure, 
       std::cout << "...La calibration ne peut pas etre instancie\n";
     };
 };
+
+
 erCalibration::~erCalibration(){}; 
 // Methodes d initialisation
 // Methodes d acces
+
 
 erImage erCalibration::get_patron()
 { 
   return erImage(_image_patron);
 };
+
+
 erImage erCalibration::get_mesure()
 {
   return erImage(_image_mesure);
 };
+
+
 std::pair<double,double> erCalibration::mm_per_pixels()
 { 
   return std::make_pair( _mm_per_pixel_x, _mm_per_pixel_y);
 };
+
+
 bool erCalibration::find_corners( IplImage *im, CornerContainer& corners_container)
 {
   int          corner_count=0;
@@ -84,28 +94,30 @@ bool erCalibration::find_corners( IplImage *im, CornerContainer& corners_contain
   CvPoint2D32f corners[_num_coins];
   bool identified;
   image = cvCloneImage(im);
-  int found = cvFindChessboardCorners( image, _board_sz, corners, &corner_count, 
-				       CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
-  CvTermCriteria peo;
-  peo.type = CV_TERMCRIT_EPS+CV_TERMCRIT_ITER;
-  peo.max_iter = 30;
-  peo.epsilon = 0.1;
-  cvFindCornerSubPix( image, corners, corner_count, cvSize(11,11), cvSize(-1,-1), peo);
+  int found = cvFindChessboardCorners( image, _board_sz, corners, &corner_count, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
+  //CvTermCriteria peo;
+  //peo.type = CV_TERMCRIT_EPS+CV_TERMCRIT_ITER;
+  //peo.max_iter = 30;
+  //peo.epsilon = 0.1;
+  //cvFindCornerSubPix( image, corners, corner_count, cvSize(11,11), cvSize(-1,-1), peo);
   std::cout << "corner_count: " << corner_count << std::endl;
+  std::cout << "_board_sz.x: " << _board_sz.width << "_board_sz.y: " << _board_sz.height <<  std::endl;
   if(corner_count==0)
     {
       identified = false;
-      std::cout << "...erCv : Les coins n ont pas ete detecte..\n";
-      
+      std::cout << "...erCv : Les coins n ont pas ete detecte..\n";      
     }
   else
     {
       identified = true;
       cvDrawChessboardCorners(im,_board_sz,corners,corner_count,1);
+      erShowImage("corners", im);
       corners_container.insert(corners_container.end(),corners,corners+_num_coins);      
     }
+  erShowImage("corners", im);
   return identified;
 };
+
 
 erImage erCalibration::transform_image( erImage ima)
 { 
@@ -123,6 +135,7 @@ erImage erCalibration::transform_image( erImage ima)
   return erImage(ir);
 };
 
+
 std::pair<double,double> erCalibration::compute_pixel_to_mm( CvPoint2D32f *corn, double cuadro_x, double cuadro_y)
 {
   double mm_per_pixel_x;
@@ -139,6 +152,7 @@ std::pair<double,double> erCalibration::compute_pixel_to_mm( CvPoint2D32f *corn,
     }
   return std::make_pair( mm_per_pixel_x, mm_per_pixel_y); 
 };
+
 
 //std::pair<double,double> erCalibration::real_dimensions( char* file_dim)
 erFactorRealDimension erCalibration::real_dimensions( char* file_dim)

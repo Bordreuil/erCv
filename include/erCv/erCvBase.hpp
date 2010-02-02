@@ -72,6 +72,13 @@ private:
 void erShowImage(char* ,IplImage*);
 
 
+// Quelques fonctions utiles d' OpenCv
+/** \brief Fonction permettant de visualiser une Image a l aide
+ d openCv
+ */
+void erShow2Image(char* ,IplImage*, char*, IplImage*);
+
+
 /** \brief Fonction permettant de charge une  Image a l aide
  d openCv
  */
@@ -89,6 +96,13 @@ std::pair<erImage,bool> erLoadImageSeries( char**,uint inc=1);
  d openCv
  */
 void erSaveImage( IplImage*, char**);
+
+
+/** \brief Fonction permettant de sauvegarder une image a l aide
+ d openCv
+ */
+void erSaveImage2( IplImage*, char**, char*);
+
 
 erImage erCopyImage(erImage);
 

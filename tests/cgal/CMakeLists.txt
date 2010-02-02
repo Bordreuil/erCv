@@ -12,5 +12,5 @@ MESSAGE(STATUS "Boost Python DIR:" ${Boost_PYTHON_INCLUDE_DIR})
 
 ADD_EXECUTABLE(test_ercv2cgal test_ercv2cgal.cpp)
 TARGET_LINK_LIBRARIES(test_ercv2cgal erCv ${CGAL_LIBS})
-ADD_EXECUTABLE(test_alpha_shape test_alpha_shape.cpp)
-TARGET_LINK_LIBRARIES(test_alpha_shape erCv ${CGAL_LIBS})
+#ADD_EXECUTABLE(test_alpha_shape test_alpha_shape.cpp)
+#TARGET_LINK_LIBRARIES(test_alpha_shape erCv ${CGAL_LIBS})

@@ -2,7 +2,7 @@ from pylab import *
 import os,re,sys
 
 nls  = os.listdir('.')  # comme un ls est recupere l ensemble des fichiers
-ndep = 1601             # numero de depart de l image a visualiser
+ndep = 32             # numero de depart de l image a visualiser
 
 for n,f in enumerate(nls[::2]):   # pour chaque fichier du rpertoire
     n*=2
@@ -15,7 +15,7 @@ for n,f in enumerate(nls[::2]):   # pour chaque fichier du rpertoire
         # Ce qui a ete charge avec le loadtxt doit avoir une taille plus grande que 0
         if taille[0] > 0 and len(taille) > 0:
             figure(n)
-            fichier='../../pictures/mcr_07092009_5_0'+str(ndep+n)+'.bmp'  # nom de base du fichier image
+            fichier='../../pictures/metal_transfert/schia_08072009_2_0'+str(ndep+n)+'.bmp'  # nom de base du fichier image
             print fichier
             im=imread(fichier)
             imshow(im,origin='lower')
@@ -25,6 +25,6 @@ for n,f in enumerate(nls[::2]):   # pour chaque fichier du rpertoire
             for i in range(taille[0]):
                 plot(x[i,::2],255-x[i,1::2],color='white',linewidth=2)
                 hold('on')
-            savefig('transfert_'+str(n)+'.png')  # On sauvegarde le fichier en .png
+            savefig('prueba_2_'+str(n)+'.png')  # On sauvegarde le fichier en .png
 axis('equal')
 show()

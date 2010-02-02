@@ -55,12 +55,68 @@ void on_mouse_rect3( int event, int x, int y, int flags, void* param)
   erImage* pru = (erImage*) param;
   switch( event)
     {
+// <<<<<<< .mine
+// //           case CV_EVENT_LBUTTONDOWN:
+// //             if(n_right_click_rect == 1)
+// //       	{
+// //       	pru->rectan.width = x-pru->rectan.x;
+// //        	pru->rectan.height = y-pru->rectan.y;
+// //       	if( pru->rectan.width < 0)
+// //       	  {
+// //       	    pru->rectan.x += pru->rectan.width;
+// //       	    pru->rectan.width *= -1;
+// //       	  }
+// //       	if( pru->rectan.height < 0)
+// //       	  {
+// //       	    pru->rectan.y += pru->rectan.height;
+// //       	    pru->rectan.height *= -1;
+// //       	  }
+      
+// //       	cvRectangle( pru, cvPoint( pru->rectan.x, pru->rectan.y), 
+// //        		       cvPoint( pru->rectan.x + pru->rectan.width, 
+// //        				pru->rectan.y + pru->rectan.height), cvScalar( 0xff, 0x00, 0x00));
+// //       	n_right_click_rect=0;
+// //       	break;
+// //       	}
+// //             if(n_right_click_rect == 0)
+// //       	{
+// //       	pru->rectan = cvRect( x, y, 0, 0);
+// //       	n_right_click_rect+=1;
+// //             break;
+// //       	}
+      
+      
+// //       //     }
+//     case CV_EVENT_MOUSEMOVE:
+//       {
+// 	// std::cout << "Mouse Moving: " << std::boolalpha << pru->drawing << std::endl;
+// 	if( pru->drawing)
+// 	  {
+// 	    pru->rectan.width = x-pru->rectan.x;
+// 	    pru->rectan.height = y-pru->rectan.y;
+// 	  }
+// 	//	std::cout << "on sort de move\n";
+//       }
+//       break;
+      
+//       // old version break;
+//=======
 #ifdef MACOSX
+      //>>>>>>> .r43
     case CV_EVENT_LBUTTONDOWN:
-      if(n_right_click_rect == 1)
-	{
-	pru->rectan.width = x-pru->rectan.x;
- 	pru->rectan.height = y-pru->rectan.y;
+      {
+    	pru->drawing = true;
+	//std::cout << "Left Button down"<< std::boolalpha << pru->drawing << std::endl ;
+	pru->rectan = cvRect( x, y, 0, 0);
+	//std::cout << "On sort de button down\n";
+      }
+      break;
+      
+      
+      // old version break;
+    case CV_EVENT_LBUTTONUP:
+      {
+	pru->drawing = false;
 	if( pru->rectan.width < 0)
 	  {
 	    pru->rectan.x += pru->rectan.width;
@@ -71,18 +127,19 @@ void on_mouse_rect3( int event, int x, int y, int flags, void* param)
 	    pru->rectan.y += pru->rectan.height;
 	    pru->rectan.height *= -1;
 	  }
-
 	cvRectangle( pru, cvPoint( pru->rectan.x, pru->rectan.y), 
- 		       cvPoint( pru->rectan.x + pru->rectan.width, 
- 				pru->rectan.y + pru->rectan.height), cvScalar( 0xff, 0x00, 0x00));
-	n_right_click_rect=0;
-	break;
-	}
-      if(n_right_click_rect == 0)
-	{
-	pru->rectan = cvRect( x, y, 0, 0);
-	n_right_click_rect+=1;
+		     cvPoint( pru->rectan.x + pru->rectan.width, 
+			      pru->rectan.y + pru->rectan.height), cvScalar( 0xff, 0x00, 0x00));
+	//draw_box( pru->img, pru->rec);
+      }
       break;
+// <<<<<<< .mine
+      
+//       // old version break;
+//       //finish = true;
+//     }
+// }
+// =======
 	
   
 #else
@@ -127,6 +184,7 @@ void on_mouse_rect3( int event, int x, int y, int flags, void* param)
       
       // old version break;
       //fi
+	  //>>>>>>> .r43
 
 
 #endif
@@ -135,8 +193,12 @@ void on_mouse_rect3( int event, int x, int y, int flags, void* param)
 
 
 
+// <<<<<<< .mine
+
+// =======
 
 
+// >>>>>>> .r43
 /* Definition and isolating the interesting zone by user */
 IplImage* erDef_ROIuser( erImage* simag, CvRect* rect)
 {
@@ -151,12 +213,12 @@ IplImage* erDef_ROIuser( erImage* simag, CvRect* rect)
   cvSetMouseCallback( "Draw_ROI", on_mouse_rect3,  (void*) simag );
   while( 1)
     {
-      // if( simag->drawing)
-// 	{
-// 	  cvRectangle( simag, cvPoint( simag->rectan.x, simag->rectan.y), 
-// 		       cvPoint( simag->rectan.x + simag->rectan.width, 
-// 				simag->rectan.y + simag->rectan.height), cvScalar( 0xff, 0x00, 0x00));
-// 	}
+      if( simag->drawing)
+	{
+	  cvRectangle( simag, cvPoint( simag->rectan.x, simag->rectan.y), 
+		       cvPoint( simag->rectan.x + simag->rectan.width, 
+				simag->rectan.y + simag->rectan.height), cvScalar( 0xff, 0x00, 0x00));
+	}
       cvShowImage( "Draw_ROI", simag);
       if( cvWaitKey( 700) == 27) break;
     }

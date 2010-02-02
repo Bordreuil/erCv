@@ -19,7 +19,7 @@
 
 
 
-void erCvTemplate( IplImage* img, erTemplP* parm)
+IplImage* erCvTemplate( IplImage* img, erTemplP* parm)
 {
   IplImage *temp, *result_img,*img_p;
   erImage *rect_img;
@@ -50,12 +50,11 @@ void erCvTemplate( IplImage* img, erTemplP* parm)
   if( type ==5) cvMatchTemplate( rect_img, temp, result_img, CV_TM_CCOEFF);
   if( type ==6) cvMatchTemplate( rect_img, temp, result_img, CV_TM_CCOEFF_NORMED); 
   /**Conversion de l'image en 32 bit vers 8 bit**/
-  img_p  = cvCreateImage( cvGetSize(result_img), IPL_DEPTH_8U, result_img->nChannels);
+  img_p  = cvCreateImage( cvGetSize(result_img), IPL_DEPTH_8U, 1);
   erCvConvert32to8( result_img, img_p);
+  img = cvCreateImage( cvGetSize(parm->image), IPL_DEPTH_8U, 1);
   cvResize( img_p, img, CV_INTER_CUBIC);
-
-
-  
+  return img; 
 }
 
 

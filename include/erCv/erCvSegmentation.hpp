@@ -32,10 +32,7 @@ struct erCallBP
 };
 
 
-
-
-
-void erCvTemplate( IplImage*, erTemplP*);
+IplImage* erCvTemplate( IplImage*, erTemplP*);
 
 
 

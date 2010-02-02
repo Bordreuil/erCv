@@ -7,9 +7,9 @@
 
 void erCvDifferencing( IplImage*, IplImage*);
 
-void erCvTemplateUser( IplImage*, erTemplP*);
+IplImage* erCvTemplateUser( IplImage*, erTemplP*);
 
-//IplImage* erCvCallBackPatchProjectUser( IplImage*);
+IplImage* erCvCallBackPatchProjectUser( IplImage*, erCallBP* );
 
 
 #endif
