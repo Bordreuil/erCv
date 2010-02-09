@@ -1,11 +1,12 @@
 #include <erCv/utilities/erFileUtilities.hpp>
 #include <erCv/erCalibration.hpp>
+// Peux être a enlever dans une prochaine version d'opencv ou cvFindChessBoardCorners Fonctionne
+#include <erCv/erCvCalibinit/cvcalibinit.hpp>
 #include <utility>
 #include <boost/tuple/tuple.hpp>
 #include <cmath>
 #include <iostream>
 #include <fstream>
-
 
 
 erCalibration::erCalibration(){};
@@ -27,13 +28,10 @@ erCalibration::erCalibration( char* name_image_patron, char* name_image_mesure, 
       IplImage* image_patron_color = cvLoadImage(name_image_patron);
       _image_mesure = cvCreateImage( cvGetSize( image_mesure_color), image_mesure_color->depth, 1);
       _image_patron = cvCreateImage( cvGetSize( image_patron_color), image_patron_color->depth, 1); 
-      // IplImage* image_patron_size = cvCreateImage( cvGetSize( image_patron_color), image_patron_color->depth, 1);
+      
       cvCvtColor( image_mesure_color, _image_mesure, CV_RGB2GRAY);
       cvCvtColor( image_patron_color, _image_patron, CV_RGB2GRAY);
-      //_image_patron = cvCreateImage( cvSize(310,300), image_patron_color->depth, 1);
-      //cvResize( image_patron_size, _image_patron);
-      //_image_mesure = cvLoadImage( name_image_mesure); // Faire les tests de bons chargements
-      //_image_patron = cvLoadImage( name_image_patron);
+     
       _image_mesure->origin = _image_patron->origin;
       _board_sz             = cvSize(board_w,board_h);
       _warp_matrix          = cvCreateMat(3,3,CV_32FC1);
@@ -94,12 +92,9 @@ bool erCalibration::find_corners( IplImage *im, CornerContainer& corners_contain
   CvPoint2D32f corners[_num_coins];
   bool identified;
   image = cvCloneImage(im);
-  int found = cvFindChessboardCorners( image, _board_sz, corners, &corner_count, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
-  //CvTermCriteria peo;
-  //peo.type = CV_TERMCRIT_EPS+CV_TERMCRIT_ITER;
-  //peo.max_iter = 30;
-  //peo.epsilon = 0.1;
-  //cvFindCornerSubPix( image, corners, corner_count, cvSize(11,11), cvSize(-1,-1), peo);
+
+  int found = erCvFindChessboardCorners( image, _board_sz, corners, &corner_count, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
+
   std::cout << "corner_count: " << corner_count << std::endl;
   std::cout << "_board_sz.x: " << _board_sz.width << "_board_sz.y: " << _board_sz.height <<  std::endl;
   if(corner_count==0)
@@ -110,7 +105,8 @@ bool erCalibration::find_corners( IplImage *im, CornerContainer& corners_contain
   else
     {
       identified = true;
-      cvDrawChessboardCorners(im,_board_sz,corners,corner_count,1);
+      // Attention au cas ou la version opencv permet de tracer .. revernir a cvDrawChessboardCorners
+      erCvDrawChessboardCorners(im,_board_sz,corners,corner_count,1);
       erShowImage("corners", im);
       corners_container.insert(corners_container.end(),corners,corners+_num_coins);      
     }
