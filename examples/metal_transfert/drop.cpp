@@ -174,7 +174,9 @@ int main( int hola, char** file_name)
       std::cout << file << " ecrit\n";
       
       std::ofstream ot(file.c_str());
-      std::list<Segment_2>  out = get_connected_segments(segments.begin(),segments.end());
+      MapOfSegments  segis = get_connected_segments(segments.begin(),segments.end());
+      Segments_set_is_closed criteria;
+      ConnectedSegments out=filterMapOfSegments(segis,criteria);
       std::cout << "Taille de out:" << out.size() << std::endl;
       for(is=out.begin();is!=out.end();is++)
         { 

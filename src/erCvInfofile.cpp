@@ -6,3 +6,9 @@ const char * nameInfoFile(std::string nameInfo)
   nameInfo+='.txt';
   return nameInfo.c_str();
 };
+const char* nameGoodImagesFile(std::string nameInfo)
+{
+  nameInfo+='_imagesOUT.txt';
+  return nameInfo.c_str();
+
+};

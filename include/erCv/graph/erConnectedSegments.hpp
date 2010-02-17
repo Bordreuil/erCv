@@ -7,9 +7,20 @@
 #include <boost/graph/connected_components.hpp>
 #include <boost/graph/adjacency_list.hpp>
 #include <erCv/geometry/erCgalBase.hpp>
+/** Definition de qq typedef 
 
+ */
+typedef  std::list<Segment_2>                 ConnectedSegments;
+typedef  std::map<uint,ConnectedSegments >    MapOfSegments;
+/** 
+    Un critere pour detecte si la liste ou le vecteur de segments est bien ferme
+ */
+class Segments_set_is_closed
+{
+public:
+  Segments_set_is_closed(){};
 template<typename Iter>
-bool segments_set_is_closed(Iter debut,Iter fin)
+bool operator ()(Iter debut,Iter fin)
 {
   std::map<Point_2,uint> ncompt;
   for(;debut!=fin;debut++)
@@ -26,7 +37,10 @@ bool segments_set_is_closed(Iter debut,Iter fin)
   return true;
 
 };
-
+};
+/** 
+    Definition des types pour la gestion des graphes
+ */
 typedef boost::adjacency_list < boost::vecS, 
 				boost::vecS, 
 				boost::undirectedS, 
@@ -37,8 +51,13 @@ typedef boost::property_map<Graph,boost::vertex_name_t>::type Points_graph_map_t
 typedef boost::graph_traits < Graph >::vertex_descriptor      Vertex;
 typedef std::map<Point_2,Vertex>                              PointVertexMap;
 
+/**
+   Interface avec boost::graph pour trouver les segments connectes entre eux
+   La sortie est une map ou chaque numero repere un ensemble connecte
+ */
+
 template<typename Iterator>
-std::list<Segment_2>  get_connected_segments(Iterator debut,Iterator fin)
+MapOfSegments  get_connected_segments(Iterator debut,Iterator fin)
 { 
   Graph graph;
   PointVertexMap points;
@@ -82,7 +101,6 @@ std::list<Segment_2>  get_connected_segments(Iterator debut,Iterator fin)
   std::cout << "Nombre de domaine connecte:" << num  << std::endl; 
 
   boost::graph_traits<Graph>::edge_iterator     ei,ei_end;
-  typedef  std::map<uint,std::list<Segment_2> > MapOfSegments;
   MapOfSegments map_of_connected;
 
   for(boost::tie(ei,ei_end)=boost::edges(graph);ei!=ei_end;ei++)
@@ -93,17 +111,26 @@ std::list<Segment_2>  get_connected_segments(Iterator debut,Iterator fin)
       map_of_connected[connect[uv]].push_back(Segment_2(points_graph[uv],points_graph[vu]));
 
     };
+  return map_of_connected;
 
+};
+/**
+   Ensuite il faut appliquer un critere sur les ensembles connectes
+
+ */
+template<typename Criteria>
+ConnectedSegments filterMapOfSegments(MapOfSegments& map_of_connected,Criteria& crit)
+{
   MapOfSegments::iterator deb,fi;
-  std::list<Segment_2>  output;
+  ConnectedSegments  output;
   uint nmax=0;
   uint current=0;
 
   for(deb=map_of_connected.begin();deb!=map_of_connected.end();deb++)
     {
-      if(segments_set_is_closed(deb->second.begin(),deb->second.end()))
+      if(crit(deb->second.begin(),deb->second.end()))
       {
-	//output.push_back(deb->second);
+	
 	  if(deb->second.size() > nmax)
 	    {
 	      nmax=deb->second.size();
@@ -115,6 +142,4 @@ std::list<Segment_2>  get_connected_segments(Iterator debut,Iterator fin)
   
   return output;
 };
-
-
 #endif

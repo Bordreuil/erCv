@@ -20,7 +20,7 @@ ADD_LIBRARY(erCv erCvSegmentation
 		 erFileUtilities 
 		 erCvFilters
 		 Gui/erCvFiltersUser
-		 #erCvCalibinit/cvcalibinit
+		 erCvManipFileName
 		 erPredicates
 		 erCvInfofile
 		 params)

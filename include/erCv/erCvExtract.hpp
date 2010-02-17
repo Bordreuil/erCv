@@ -3,10 +3,13 @@
 
 #include "erCv.hpp"
 #include "utilities/erPredicates.hpp"
+#include "utilities/erManipFileName.hpp"
 #include <list>
 #include <vector>
 #include <map>
 #include <algorithm>
+
+
 
 /** \addtogroup cv_group */
 /*@{*/
@@ -28,12 +31,9 @@ void erExtractPoints( IplImage *im, Container &pts, Criteria crit,CvRect rect=cv
     { 
       for( x = 0; x < im->width; x+=delta)
 	{ 
-	  //std::cout << "x =    " << x         << "  " << "y =     " << y       ;//   << std::endl;
 	  CvScalar a = cvGet2D(im,y,x);
-	  //std::cout << "  widht: " << im->width << "  " << "height: " << im->height << std::endl;
 	  if(crit(a.val[0]))
 	    { 
-	      //std::cout << "dentro" << std::endl;
 	      CvPoint p;
 	      p.x = x+rect.x;
 	      p.y = y+rect.y;
@@ -61,6 +61,7 @@ void erExtractPoints( IplImage *im, Container &pts, Criteria crit,CvRect rect=cv
 template< typename Container>
 void erExtractionCurveUser( IplImage* simag, erCerc* cerc, char** file_name, Container &pts, CvRect recROI)
 {
+
   //typedef Container typeContainer;
   typedef std::map< double, Container> erMap;
   erMap ptsMap;
@@ -73,10 +74,6 @@ void erExtractionCurveUser( IplImage* simag, erCerc* cerc, char** file_name, Con
     }
   pts.clear();
   
-  //char* new_name = erEcrireNomFicher( file_name, "_curve_");
-  //std::ofstream myfile( new_name);
-  //if ( myfile.is_open())
-  // {
       std::pair< CvPoint, int> cercle = erCvDebutCurve( simag);
       cerc->centro = cercle.first;
       cerc->radio = cercle.second;
@@ -101,19 +98,17 @@ void erExtractionCurveUser( IplImage* simag, erCerc* cerc, char** file_name, Con
 	}
       if( Dmin)
  	{
-	  //iterDmin = std::min_element( ptsDmin.begin(), ptsDmin.end());
+	  
 	  p_polyvalent.x = iterMap->first;
 	  p_polyvalent.y = c;
-	  //p_polyvalent.y = abs((*iterDmin) + cercle.first.y);
+	 
 	  pts.push_back( p_polyvalent);
-	  //myfile <<  p_polyvalent.x << " " << p_polyvalent.y << std::endl;
+
  	}
       else
       	{
-	  std::string name = INFOFILE;
-	  name+= "_imagesOUT.txt";
-	  const char* nomb = name.c_str();
-	  std::ofstream file( nomb, std::ios_base::app );
+
+	  std::ofstream file( nameGoodImagesFile(INFOFILE), std::ios_base::app );
 	  file << file_name[2] << std::endl;
 	  file << std::endl;
 	  pts.clear();
@@ -140,10 +135,8 @@ void erExtractionCurveUser( IplImage* simag, erCerc* cerc, char** file_name, Con
 			  iterV_polyvalent = erFindCvPoint( iterMap->second.begin(), iterMap->second.end(), cvPoint( iterMap->first, cpt.y - 1));
 			  if( iterV_polyvalent == iterMap->second.end() || A==1)
 			    {
-			      std::string name = INFOFILE;
-			      name+= "_imagesOUT.txt";
-			      const char* nomb = name.c_str();
-			      std::ofstream file( nomb, std::ios_base::app );
+
+			      std::ofstream file( nameGoodImagesFile(INFOFILE), std::ios_base::app );
 			      file << file_name[2] << std::endl;
 			      file << std::endl;
 			      pts.clear();
@@ -154,7 +147,7 @@ void erExtractionCurveUser( IplImage* simag, erCerc* cerc, char** file_name, Con
 			      p_polyvalent.x = iterV_polyvalent->x;
 			      p_polyvalent.y = iterV_polyvalent->y;
 			      pts.push_back( p_polyvalent);
-			      //myfile <<  p_polyvalent.x << " " <<  p_polyvalent.y << std::endl;
+			     
 			      A=-1;
 			    }
 			}
@@ -163,7 +156,7 @@ void erExtractionCurveUser( IplImage* simag, erCerc* cerc, char** file_name, Con
 			  p_polyvalent.x = iterV_polyvalent->x;
 			  p_polyvalent.y = iterV_polyvalent->y;
 			  pts.push_back( p_polyvalent);
-			  //myfile <<  p_polyvalent.x << " " <<  p_polyvalent.y << std::endl;
+			  
 			  A=1;
 			}
 		    }
@@ -172,7 +165,7 @@ void erExtractionCurveUser( IplImage* simag, erCerc* cerc, char** file_name, Con
 		      p_polyvalent.x = iterV_polyvalent->x;
 		      p_polyvalent.y = iterV_polyvalent->y;
 		      pts.push_back( p_polyvalent);
-		      //myfile <<  p_polyvalent.x << " " <<  p_polyvalent.y << std::endl;
+		     
 		      A=0;
 		    }
 		}
@@ -181,7 +174,7 @@ void erExtractionCurveUser( IplImage* simag, erCerc* cerc, char** file_name, Con
 		  p_polyvalent.x = iterV_polyvalent->x;
 		  p_polyvalent.y = iterV_polyvalent->y;
 		  pts.push_back( p_polyvalent);
-		  //myfile <<  p_polyvalent.x << " " <<  p_polyvalent.y << std::endl;
+		 
 		  A=0;
 		}
 	    }
@@ -190,12 +183,11 @@ void erExtractionCurveUser( IplImage* simag, erCerc* cerc, char** file_name, Con
 	      p_polyvalent.x = iterV_polyvalent->x;
 	      p_polyvalent.y = iterV_polyvalent->y;
 	      pts.push_back( p_polyvalent);
-	      //myfile <<  p_polyvalent.x << " " <<  p_polyvalent.y << std::endl;
+	      
 	      A=0;
 	    }
 	}
-      // myfile.close();
-      // } 
+     
       for( iterV_pts = pts.begin(); iterV_pts != pts.end(); iterV_pts++)
 	{
 	  iterV_pts->x = iterV_pts->x + recROI.x;
@@ -220,10 +212,6 @@ void erExtractionCurve( IplImage* simag, erCerc* cerc, char** file_name, Contain
     }
   pts.clear();
   
-  // char* new_name = erEcrireNomFicher( file_name, "_curve_");
-  //std::ofstream myfile( new_name);
-  //if ( myfile.is_open())
-  //  {
       std::pair< CvPoint, int> cercle(cerc->centro, cerc->radio);
       CvPoint p_polyvalent;
       std::vector< int> ptsDmin, ptsY0;
@@ -246,20 +234,17 @@ void erExtractionCurve( IplImage* simag, erCerc* cerc, char** file_name, Contain
 	}
       if( Dmin)
  	{
-	  //iterDmin = std::min_element( ptsDmin.begin(), ptsDmin.end());
+	  
 	  p_polyvalent.x = iterMap->first;
 	  p_polyvalent.y = c;
-	  //p_polyvalent.y = abs((*iterDmin) + cercle.first.y);
+	 
 	  pts.push_back( p_polyvalent);
-	  //myfile <<  p_polyvalent.x << " " << p_polyvalent.y << std::endl;
+	
  	}
       else
       	{
-	  std::string name = INFOFILE;
-	  name+= "_imagesOUT.txt";   // ATTENTION : declarer cette variable de maniere globale.
-	  const char* nomb = name.c_str();
-	  std::ofstream file( nomb, std::ios_base::app );
-	  file << file_name[2] << std::endl;
+	  std::ofstream file(nameGoodImagesFile(INFOFILE), std::ios_base::app );
+	  file << file_name[2] << std::endl; // A proscrire
 	  file << std::endl;
 	  pts.clear();
 	  return; 
@@ -285,11 +270,8 @@ void erExtractionCurve( IplImage* simag, erCerc* cerc, char** file_name, Contain
 			  iterV_polyvalent = erFindCvPoint( iterMap->second.begin(), iterMap->second.end(), cvPoint( iterMap->first, cpt.y - 1));
 			  if( iterV_polyvalent == iterMap->second.end() || A==1)
 			    {
-			      std::string name = INFOFILE;
-			      name+= "_imagesOUT.txt";
-			      const char* nomb = name.c_str();
-			      std::ofstream file( nomb, std::ios_base::app );
-			      file << file_name[2] << std::endl;
+			      std::ofstream file(nameGoodImagesFile(INFOFILE), std::ios_base::app );
+			      file << file_name[2] << std::endl;  // A proscire
 			      file << std::endl;
 			      pts.clear();
 			      return;
@@ -299,7 +281,7 @@ void erExtractionCurve( IplImage* simag, erCerc* cerc, char** file_name, Contain
 			      p_polyvalent.x = iterV_polyvalent->x;
 			      p_polyvalent.y = iterV_polyvalent->y;
 			      pts.push_back( p_polyvalent);
-			      //myfile <<  p_polyvalent.x << " " <<  p_polyvalent.y << std::endl;
+			   
 			      A=-1;
 			    }
 			}
@@ -308,7 +290,7 @@ void erExtractionCurve( IplImage* simag, erCerc* cerc, char** file_name, Contain
 			  p_polyvalent.x = iterV_polyvalent->x;
 			  p_polyvalent.y = iterV_polyvalent->y;
 			  pts.push_back( p_polyvalent);
-			  //myfile <<  p_polyvalent.x << " " <<  p_polyvalent.y << std::endl;
+			
 			  A=1;
 			}
 		    }
@@ -317,7 +299,7 @@ void erExtractionCurve( IplImage* simag, erCerc* cerc, char** file_name, Contain
 		      p_polyvalent.x = iterV_polyvalent->x;
 		      p_polyvalent.y = iterV_polyvalent->y;
 		      pts.push_back( p_polyvalent);
-		      //myfile <<  p_polyvalent.x << " " <<  p_polyvalent.y << std::endl;
+		      
 		      A=0;
 		    }
 		}
@@ -326,7 +308,7 @@ void erExtractionCurve( IplImage* simag, erCerc* cerc, char** file_name, Contain
 		  p_polyvalent.x = iterV_polyvalent->x;
 		  p_polyvalent.y = iterV_polyvalent->y;
 		  pts.push_back( p_polyvalent);
-		  //myfile <<  p_polyvalent.x << " " <<  p_polyvalent.y << std::endl;
+		
 		  A=0;
 		}
 	    }
@@ -335,12 +317,11 @@ void erExtractionCurve( IplImage* simag, erCerc* cerc, char** file_name, Contain
 	      p_polyvalent.x = iterV_polyvalent->x;
 	      p_polyvalent.y = iterV_polyvalent->y;
 	      pts.push_back( p_polyvalent);
-	      // myfile <<  p_polyvalent.x << " " <<  p_polyvalent.y << std::endl;
+	    
 	      A=0;
 	    }
-	}
-      //myfile.close();
-      // } 
+	};
+    
       for( iterV_pts = pts.begin(); iterV_pts != pts.end(); iterV_pts++)
 	{
 	  iterV_pts->x = iterV_pts->x + recROI.x;
@@ -354,29 +335,14 @@ template< typename Container>
 void erConvertPixelToMks( std::pair< double, double> factor, Container &pts, char** file_name)
 {
   //Ecriture du nom du ficher 
-  std::string name( file_name[2]);
-  size_t ext_pos = name.find_last_of( '_' );
-  size_t ext_pos1 = name.find_last_of( '.');
-  if( ext_pos != std::string::npos && ext_pos1 != std::string::npos )
+  bool good_format;const char* num;
+  boost::tie(good_format,num) = get_number_in_file_name(file_name[2]);
+
+
+  if(good_format)
     {
-      
-      std::string ext2 = name.substr( ext_pos + 1);
-      std::string name2 = ext2.substr( 0,  ext_pos1 - (ext_pos + 1));
-      int num = boost::lexical_cast<int>( name2);
-      std::string name3 = boost::lexical_cast<std::string>(num);
-      while(name2.size()>name3.size())
-	{
-	  name3.insert( 0, "0" );
-	}
-      std::string name4( file_name[1]);
-      name4+= "_data_";
-      name4+= name3;
-      name4+= ".txt";
-      char* new_name = new char[ name4.size() + 1];
-      std::copy( name4.begin(), name4.end(), new_name);
-      new_name[ name4.size()] = '\0';
-      
-      //Ouverture du ficher
+      char* new_name = concatenate_file_name(file_name[1],"_data_",num,".txt");     
+      //Ouverture du fichier
       std::ofstream myfile( new_name);
       if (myfile.is_open())
 	{
@@ -387,7 +353,6 @@ void erConvertPixelToMks( std::pair< double, double> factor, Container &pts, cha
 	  
 	  for(;deb!=fin;deb++)
 	    {
-	      //std::cout << deb->x*factor.first << std::endl;
 	      myfile << deb->x*factor.first << "  " << deb->y*factor.second << std::endl;
 	    }	  
 	  myfile.close();
@@ -423,7 +388,7 @@ void erEcriturePointPixel( Container &pts, char** file_name)
       
       for(;deb!=fin;deb++)
 	{
-	  //std::cout << deb->x*factor.first << std::endl;
+	  
 	  myfile << deb->x << "  " << deb->y << std::endl;
 	}	  
       myfile.close();

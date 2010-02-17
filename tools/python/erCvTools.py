@@ -79,3 +79,11 @@ def load_image_and_curve(name_analysis,base_image,number,format='bmp'):
     loadi,im = load_image(imag)
     return loadc*loadi,im,x
 
+def plot_image_and_curve(x,im):
+    """
+    permet de tracer une courbe et une image sur le meme graphe
+    """
+    figure()
+    imshow(im,origin='lower')
+    hold('on')
+    plot(x[:,0],255-x[:,1],linewidth=2,color='white')

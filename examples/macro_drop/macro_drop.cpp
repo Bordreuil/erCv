@@ -54,7 +54,7 @@ int main( int hola, char** file_name)
   
   /* Construction matrix de calibracion de l'image et regle de conversion pixel->mm */
   /* Premiere Image a charger: Patron construite sur l'ordinateur */
-  /* Seconde Image a charger: Temoin messure dans l'xperience*/
+  /* Seconde Image a charger: Temoin mesure dans l'experience*/
   //erCalibration ca( "cuadro6.jpg", "diferent4.jpg", 3, 3); /* Calibration des images */
   
   /* Chargement de la premiere image a travailler et conversion a 8bit*/
@@ -65,7 +65,7 @@ int main( int hola, char** file_name)
   bw = erConvertToBlackAndWhite( &er); /* Conversion en 8 bit single channel */
 
   /* Conversion de l'image du RGB->GRIS */
-  //eo = bw; //ca.transform_image( bw);
+  eo = bw; //ca.transform_image( bw);
 
   /* Definision de la zone d'interet ou on souhaite travvailler */
   ea = erDef_ROIuser( &bw, &rect);
@@ -73,7 +73,7 @@ int main( int hola, char** file_name)
   /* Debut du trataiment de l'image par methodes de filtrage optiques */
   /* Pour reduire la granulosite issue du bruit dans les pixels et la non homogenite de l'eclairage sur l'image;*/
   /* l'image est lisse avec un filtre Smooth du type BLUR (moyennage standart)*/
-  std::cout << "Before Smooth User\n";
+  //std::cout << "Before Smooth User\n";
   erCvSmoothUser( &ea, &psmo);
   
   /* Dans les zones affectes par la procedure d'ombroscopie, des inegalites dans l'intensite de niveaux de gris sont observes. */

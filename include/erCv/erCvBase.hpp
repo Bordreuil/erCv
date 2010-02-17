@@ -34,7 +34,9 @@
 #include <fstream>
 
 extern std::string INFOFILE;
+
 const char* nameInfoFile(std::string);
+const char* nameGoodImagesFile(std::string);
 // Une classe pour interfacer l image IplImage d OpenCv
 /** \addtogroup cv_group */
 /*@{*/
