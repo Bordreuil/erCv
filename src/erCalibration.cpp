@@ -107,10 +107,10 @@ bool erCalibration::find_corners( IplImage *im, CornerContainer& corners_contain
       identified = true;
       // Attention au cas ou la version opencv permet de tracer .. revernir a cvDrawChessboardCorners
       erCvDrawChessboardCorners(im,_board_sz,corners,corner_count,1);
-      erShowImage("corners", im);
+      //erShowImage("corners", im);
       corners_container.insert(corners_container.end(),corners,corners+_num_coins);      
     }
-  erShowImage("corners", im);
+  //erShowImage("corners", im);
   return identified;
 };
 

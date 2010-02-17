@@ -1,0 +1,19 @@
+2---->increment de photo
+50--->toutes les n photos
+80--->increment de
+9---->nombre max de photos
+7---->smooth (neighboor)
+1---->smooth (type->blur)
+0---->I'm agree with smooth
+1---->Adaptive Threshold (type->binary) **NOUVELLE POSITION
+1---->Adaptive Threshold (type->mean)   **NOUVELLE POSITION
+1---->Adaptive Threshold (param) -------> nouvelle format dans le trackbar, valeur: 51 | à tester valeur: 50
+29--->Adaptive Threshold (neigh) -------> nouvelle format dans le trackbar, valeur: 14
+** 1---->Adaptive Threshold (type->binary)#####CHANGEMENT D'ORDRE 
+** 1---->Adaptive Threshold (type->mean)  #####CHANGEMENT D'ORDRE
+0---->I'm agree with Adaptive Threshold
+5---->smooth (neighboor)| à tester valeur: 7
+3---->smooth (type->median)
+0---->I'm agree with smooth
+0---->I'm agree with Canny
+0---->I'm agree with je chespas :-S

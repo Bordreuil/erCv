@@ -90,13 +90,13 @@ void erCvAdaptiveThreshold( IplImage* simg, erAdThrP* parm)
   maxt = 255;
   if( threstype == 1) 
     {
-      if( adapt ==1) cvAdaptiveThreshold( simg, simg, (double)threshold, CV_ADAPTIVE_THRESH_MEAN_C, CV_THRESH_BINARY, neigh, param);
-      if( adapt ==2) cvAdaptiveThreshold( simg, simg, (double)threshold, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, neigh, param);
+      if( adapt ==1) cvAdaptiveThreshold( simg, simg, (double)threshold, CV_ADAPTIVE_THRESH_MEAN_C, CV_THRESH_BINARY, (2*neigh)+1, param-50);
+      if( adapt ==2) cvAdaptiveThreshold( simg, simg, (double)threshold, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, (2*neigh)+1, param-50);
     }
   if( threstype == 2)
     {
-      if( adapt ==1) cvAdaptiveThreshold( simg, simg, (double)threshold, CV_ADAPTIVE_THRESH_MEAN_C, CV_THRESH_BINARY_INV, neigh, param);
-      if( adapt ==2) cvAdaptiveThreshold( simg, simg, (double)threshold, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY_INV, neigh, param);
+      if( adapt ==1) cvAdaptiveThreshold( simg, simg, (double)threshold, CV_ADAPTIVE_THRESH_MEAN_C, CV_THRESH_BINARY_INV, (2*neigh)+1, param-50);
+      if( adapt ==2) cvAdaptiveThreshold( simg, simg, (double)threshold, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY_INV, (2*neigh)+1, param-50);
     }
 }
 

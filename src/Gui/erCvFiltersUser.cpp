@@ -136,7 +136,12 @@ void erCvSmoothUser( IplImage* simg, erSmootP* parm)
   parm->type  = SmoothType(type);
   *simg = *img;
 
-  std::ofstream file( nameInfoFile(INFOFILE), std::ios_base::app );
+  // std::ofstream file( nameInfoFile(INFOFILE), std::ios_base::app );
+  std::ofstream file( nomb, std::ios_base::app );
+  file << "***********Filter fonction THRESHOLD***********\n";
+  file << "Dimensions :------------ " << parm->size << std::endl;
+  file << "Type---------:---------- " << parm->type << std::endl;
+  file << std::endl;
   file << parm;
 
  
@@ -195,36 +200,44 @@ void erCvThresholdUser( IplImage* simg, erThresP* parm)
   threshold[0] = 1;
   threshold[1] = 1;
   img = cvCloneImage(simg);
-
-  std::cout << "Type of threshold: 1->CV_THRESH_BINARY  2->CV_THRESH_BINARY_INV  3->CV_THRESH_TRUNC  4->CV_THRESH_TOZERO  5->CV_THRESH_TOZERO_INV : ";
-  std::cin >> threstype;
-  std::cout << std::endl;
-  //std::cout << "Put the max value to threshold of Threshold fonction (to 8-bit image = 255): ";
-  //std::cin >> maxt;
-  maxt = 255;
-  std::cout << std::endl;
-  
-  cvNamedWindow( "Threshold_trackbar", 0);
-  cvNamedWindow( "original", 0);
-  itrak[0] = cvCreateTrackbar( "max_threshold", "Threshold_trackbar", &threshold[0], maxt, NULL);
-  if( threstype == 1 or threstype == 2)
+  int ok=1;
+  while(ok)
     {
-      itrak[1] = cvCreateTrackbar( "threshold", "Threshold_trackbar", &threshold[1], maxt, NULL);
-    }
-  
-  
-  while( 1)
-    {  
-      if( threstype == 1) cvThreshold( simg, img, (float)threshold[0], (float)threshold[1], CV_THRESH_BINARY);
-      if( threstype == 2) cvThreshold( simg, img, (float)threshold[0], (float)threshold[1], CV_THRESH_BINARY_INV);
-      if( threstype == 3) cvThreshold( simg, img, (float)threshold[0], (float)threshold[0], CV_THRESH_TRUNC);
-      if( threstype == 4) cvThreshold( simg, img, (float)threshold[0], (float)threshold[0], CV_THRESH_TOZERO);
-      if( threstype == 5) cvThreshold( simg, img, (float)threshold[0], (float)threshold[0], CV_THRESH_TOZERO_INV);
-      cvShowImage( "Threshold_trackbar", img);
-      cvShowImage( "original", simg);
-      if( cvWaitKey( 10) == 27) break;
+      std::cout << "Type of threshold: 1->CV_THRESH_BINARY  2->CV_THRESH_BINARY_INV  3->CV_THRESH_TRUNC  4->CV_THRESH_TOZERO  5->CV_THRESH_TOZERO_INV : ";
+      std::cin >> threstype;
+      std::cout << std::endl;
+      //std::cout << "Put the max value to threshold of Threshold fonction (to 8-bit image = 255): ";
+      //std::cin >> maxt;
+      maxt = 255;
+      std::cout << std::endl;
+      
+      cvNamedWindow( "Threshold_trackbar", 0);
+      cvNamedWindow( "original", 0);
+      itrak[0] = cvCreateTrackbar( "max_threshold", "Threshold_trackbar", &threshold[0], maxt, NULL);
+      if( threstype == 1 or threstype == 2)
+	{
+	  itrak[1] = cvCreateTrackbar( "threshold", "Threshold_trackbar", &threshold[1], maxt, NULL);
+	}
+      
+      
+      while( 1)
+	{  
+	  if( threstype == 1) cvThreshold( simg, img, (float)threshold[0], (float)threshold[1], CV_THRESH_BINARY);
+	  if( threstype == 2) cvThreshold( simg, img, (float)threshold[0], (float)threshold[1], CV_THRESH_BINARY_INV);
+	  if( threstype == 3) cvThreshold( simg, img, (float)threshold[0], (float)threshold[0], CV_THRESH_TRUNC);
+	  if( threstype == 4) cvThreshold( simg, img, (float)threshold[0], (float)threshold[0], CV_THRESH_TOZERO);
+	  if( threstype == 5) cvThreshold( simg, img, (float)threshold[0], (float)threshold[0], CV_THRESH_TOZERO_INV);
+	  cvShowImage( "Threshold_trackbar", img);
+	  cvShowImage( "original", simg);
+	  if( cvWaitKey( 10) == 27) break;
+	} 
+      //cvShowImage( "Threshold_trackbar", img);
+      //cvShowImage( "original", simg);
+      cvDestroyWindow( "Threshold_trackbar");
+      std::cout << " T'es content (Oui 0/Non 1)? ";
+      std::cin >> ok;
     }  
- 
+  
   *simg = *img;
   parm->trh1 = cvGetTrackbarPos( "max_threshold", "Threshold_trackbar");
   parm->trh2 = cvGetTrackbarPos( "threshold", "Threshold_trackbar");
@@ -246,7 +259,7 @@ void erCvThresholdUser( IplImage* simg, erThresP* parm)
 void erCvAdaptiveThresholdUser( IplImage* simg, erAdThrP* parm)
 {
   IplImage* img;
-  int threshold, maxt, itrak, threstype, adapt, neigh, param;
+  int threshold, maxt[2], itrak[2], threstype, adapt, neigh, param;
   std::string name = INFOFILE;
   name+= ".txt";
   const char* nomb = name.c_str();
@@ -256,11 +269,7 @@ void erCvAdaptiveThresholdUser( IplImage* simg, erAdThrP* parm)
   int ok=1;
   while( ok)
     {  
-      std::cout << "Param to operate the adaptive threshold: ";
-      std::cin >> param;
-      std::cout << std::endl;
-      std::cout << "Neighboor to threshold in pixels (3,5,7,..): ";
-      std::cin >> neigh;
+      //neigh = 1;
       std::cout << std::endl;
       std::cout << "Type of threshold: 1->CV_THRESH_BINARY  2->CV_THRESH_BINARY_INV  : ";
       std::cin >> threstype;
@@ -268,33 +277,51 @@ void erCvAdaptiveThresholdUser( IplImage* simg, erAdThrP* parm)
       std::cout << "Type adaptative methode: 1->MEAN  2->GAUSSIAN  : ";
       std::cin >> adapt;
       std::cout << std::endl;
-      //maxt = 255;
-      //cvNamedWindow( "Threshold_trackbar", 0);
-      //itrak = cvCreateTrackbar( "max_threshold", "Threshold_trackbar", &threshold, maxt, NULL);  
-      if( threstype == 1) 
-	{
-	  if( adapt ==1) cvAdaptiveThreshold( simg, img, (double)threshold, CV_ADAPTIVE_THRESH_MEAN_C, CV_THRESH_BINARY, neigh, param);
-	  if( adapt ==2) cvAdaptiveThreshold( simg, img, (double)threshold, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, neigh, param);
-	}
-      if( threstype == 2)
-	{
-	  if( adapt ==1) cvAdaptiveThreshold( simg, img, (double)threshold, CV_ADAPTIVE_THRESH_MEAN_C, CV_THRESH_BINARY_INV, neigh, param);
-	  if( adapt ==2) cvAdaptiveThreshold( simg, img, (double)threshold, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY_INV, neigh, param);
-	}
-      erShowImage( "Threshold_trackbar", img);
-      //while(1){if(cvWaitKey( 10) == 27) break;};
-      //}
+      std::cout << "Param to operate the adaptive threshold: ";
+      std::cin >> param;
+      //param = -20;
+      std::cout << std::endl;
+      std::cout << "Neighboor to threshold in pixels (3,5,7,..): ";
+      std::cin >> neigh;
+ 
+      maxt[0] = 140;
+      maxt[1] = 130;
+      cvNamedWindow( "Threshold_trackbar", 0);
+      cvNamedWindow( "original", 0);
+      itrak[0] = cvCreateTrackbar( "premier_param", "Threshold_trackbar", &param, maxt[0], NULL);
+      itrak[1] = cvCreateTrackbar( "seconde_pixel", "Threshold_trackbar", &neigh, maxt[1], NULL);
+      //while(1)
+      //	{
+	  if( threstype == 1) 
+	    {
+	      if( adapt ==1) cvAdaptiveThreshold( simg, img, (double)threshold, CV_ADAPTIVE_THRESH_MEAN_C, CV_THRESH_BINARY, (2*neigh)+1, param-50);
+	      if( adapt ==2) cvAdaptiveThreshold( simg, img, (double)threshold, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, (2*neigh)+1, param-50);
+	    }
+	  if( threstype == 2)
+	    {
+	      if( adapt ==1) cvAdaptiveThreshold( simg, img, (double)threshold, CV_ADAPTIVE_THRESH_MEAN_C, CV_THRESH_BINARY_INV, (2*neigh)+1, param-50);
+	      if( adapt ==2) cvAdaptiveThreshold( simg, img, (double)threshold, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY_INV, (2*neigh)+1, param-50);
+	    }
+	  cvShowImage( "Threshold_trackbar", img);
+	  cvShowImage( "original", simg);
+	  while(1){if( cvWaitKey( 10) == 27) break;};
+	  //}
       cvDestroyWindow( "Threshold_trackbar");
       std::cout << " T'es content (Oui 0/Non 1)? ";
       std::cin >> ok;
     }  
   *simg = *img;
+  std::cout << "param: " << param << std::endl;
+  std::cout << "neigh: " << neigh << std::endl;
+  //parm->trhP = cvGetTrackbarPos( "premier_param", "Threshold_trackbar");
+  //parm->neig = cvGetTrackbarPos( "seconde_pixel", "Threshold_trackbar");
+
   parm->trhP = param;
   parm->neig = neigh;
   parm->trh0 = threshold;
   parm->type = threstype;
   parm->adpt = adapt;
-  cvDestroyWindow( "Threshold_trackbar");
+
 
   std::ofstream file( nomb, std::ios_base::app );
   file << "***********Filter fonction ADAPTIVE_THRESHOLD***********\n";
@@ -304,6 +331,8 @@ void erCvAdaptiveThresholdUser( IplImage* simg, erAdThrP* parm)
   file << "Threshold type:------------- " << parm->type << std::endl;
   file << "Adapt type:----------------- " << parm->adpt << std::endl;
   file << std::endl;
+  //std::cout << "parm->t: " << parm->trhP << std::endl;
+  //std::cout << "parm->n: " << parm->neig << std::endl;
 }
 
 

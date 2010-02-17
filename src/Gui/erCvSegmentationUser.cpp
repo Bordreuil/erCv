@@ -289,7 +289,7 @@ IplImage* erCvCallBackPatchProjectUser( IplImage* img, erCallBP* parm)
       
       /**Construction de l'histograma**/
       CvHistogram* hist;
-      int h_bin = 20, s_bin = 20, v_bin = 20;
+      int h_bin = 50, s_bin = 50, v_bin = 50;
       int hist_size[] = { h_bin, s_bin, v_bin};
       float rang_h[] = { 0, 250};
       float rang_s[] = { 0, 255};
@@ -340,6 +340,19 @@ IplImage* erCvCallBackPatchProjectUser( IplImage* img, erCallBP* parm)
   file << std::endl;
   return img;
 }
+
+
+/*--------- Methode de equalisation des histogrames (celle ci permet d'amellier le contraste de l'image) ---------*/
+void erCvEqualizeHist( IplImage* simg)
+{
+  IplImage* img;
+  img = cvCloneImage(simg);
+  cvEqualizeHist( simg, img);
+  erShowImage("Result_equalize", img );
+  *simg = *img;
+}
+
+
 
 
 

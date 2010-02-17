@@ -158,3 +158,4 @@ IplImage* erCvTemplate( IplImage* img, erTemplP* parm)
 //   cvDestroyWindow( "Back_Projection");
 //   return result_img;
 // }
+

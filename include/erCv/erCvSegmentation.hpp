@@ -36,4 +36,5 @@ IplImage* erCvTemplate( IplImage*, erTemplP*);
 
 
 
+
 #endif

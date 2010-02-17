@@ -11,5 +11,6 @@ IplImage* erCvTemplateUser( IplImage*, erTemplP*);
 
 IplImage* erCvCallBackPatchProjectUser( IplImage*, erCallBP* );
 
+void erCvEqualizeHist( IplImage*);
 
 #endif

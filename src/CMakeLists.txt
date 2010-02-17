@@ -23,5 +23,6 @@ ADD_LIBRARY(erCv erCvSegmentation
 		 erCvManipFileName
 		 erPredicates
 		 erCvInfofile
+		 #source_modif/ercvcalibinit
 		 params)
 
