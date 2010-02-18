@@ -54,19 +54,19 @@
 <a name="l00049"></a>00049   <span class="comment">//erCalibration( char*, char*, int, int);</span>
 <a name="l00050"></a>00050   <a class="code" href="classer_calibration.html#4171ecd47e27f5a61ae56d74001cedf3">erCalibration</a>( <span class="keywordtype">char</span>*, <span class="keywordtype">char</span>*, <span class="keywordtype">int</span>, <span class="keywordtype">int</span>, <span class="keywordtype">char</span>* file_dimention = <span class="stringliteral">"cuadro_size.dat"</span>);
 <a name="l00051"></a>00051   <a class="code" href="classer_calibration.html#d452c51c871bc07aebd90d0424fc9196">~erCalibration</a>(); 
-<a name="l00052"></a>00052 
+<a name="l00052"></a>00052   
 <a name="l00053"></a>00053   <span class="comment">// Methodes d acces</span>
 <a name="l00055"></a>00055 <span class="comment"></span>  <a class="code" href="classer_image.html">erImage</a> <a class="code" href="classer_calibration.html#5580f3f4ef0e6ec371597a254c7f4f80" title="Permet d extraire l image patron.">get_patron</a>(); 
 <a name="l00057"></a>00057   <a class="code" href="classer_image.html">erImage</a> <a class="code" href="classer_calibration.html#beae2289a82d2f14d2b97309be19d3d3" title="Permet d extraire l image mesure.">get_mesure</a>(); 
 <a name="l00059"></a>00059   <a class="code" href="classer_image.html">erImage</a> <a class="code" href="classer_calibration.html#5f09db5f94d3d5eeb029f08a0bf5649d" title="Permet de transformer une Image.">transform_image</a>( <a class="code" href="classer_image.html">erImage</a>);
 <a name="l00061"></a>00061   std::pair&lt;double,double&gt; <a class="code" href="classer_calibration.html#6939073816b28897f97d3a3d96125e6a" title="Permet d acceder au facteur de conversion.">mm_per_pixels</a>();
-<a name="l00062"></a>00062  
-<a name="l00063"></a>00063  <span class="keyword">private</span>:
+<a name="l00062"></a>00062   
+<a name="l00063"></a>00063 <span class="keyword">private</span>:
 <a name="l00064"></a>00064   <span class="comment">// Fonctions internes utilises par cette class</span>
 <a name="l00065"></a>00065   <span class="keywordtype">bool</span>  find_corners( IplImage*, <a class="code" href="classer_calibration.html#44f073e284aa52e579cdca6d7f6a5083">CornerContainer</a>&amp;);
 <a name="l00066"></a>00066   std::pair&lt;double,double&gt; compute_pixel_to_mm( CvPoint2D32f*, <span class="keywordtype">double</span>, <span class="keywordtype">double</span>);
 <a name="l00067"></a>00067   std::pair&lt;double,double&gt; real_dimensions( <span class="keywordtype">char</span>*);
-<a name="l00068"></a>00068 
+<a name="l00068"></a>00068   
 <a name="l00069"></a>00069   <span class="comment">// Variables membres......</span>
 <a name="l00070"></a>00070   <span class="keywordtype">double</span>          _mm_per_pixel_x, _mm_per_pixel_y;<span class="comment">// Milimmetres par pixel (facteur de convertion)  </span>
 <a name="l00071"></a>00071   <span class="keywordtype">bool</span>            _identified;                     <span class="comment">// Booleen pour savoir si tous les sommets on ete dectectes</span>
@@ -78,7 +78,7 @@
 <a name="l00077"></a>00077 };
 <a name="l00079"></a>00079 <span class="preprocessor">#endif</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Sun Nov 22 13:50:58 2009 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Thu Feb 18 21:58:53 2010 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

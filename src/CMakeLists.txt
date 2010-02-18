@@ -5,7 +5,6 @@
 INCLUDE_DIRECTORIES(${ERCV_INCLUDE_DIR} 
   ${OPENCV_INCLUDE_DIR})
 
-SET(LIBRARY_OUTPUT_PATH ../lib)
 
 LINK_LIBRARIES(${OpenCV_CV_LIBRARY} 
                ${OpenCV_CVAUX_LIBRARY} 
@@ -23,5 +22,9 @@ ADD_LIBRARY(erCv erCvSegmentation
 	         Gui/erCvFiltersUser
 		 Gui/erCvUserInteraction
                  Gui/erCvSegmentationUser 
-		 params)
+		 params 
+		 ${OpenCV_CV_LIBRARY} 
+                 ${OpenCV_CVAUX_LIBRARY} 
+                 ${OpenCV_HIGHGUI_LIBRARY} 
+                 ${OpenCV_CXCORE_LIBRARY} )
 

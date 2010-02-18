@@ -29,6 +29,7 @@
       <li><a href="globals_type.html"><span>Typedefs</span></a></li>
       <li><a href="globals_enum.html"><span>Enumerations</span></a></li>
       <li><a href="globals_eval.html"><span>Enumerator</span></a></li>
+      <li><a href="globals_defs.html"><span>Defines</span></a></li>
     </ul>
   </div>
   <div class="tabs">
@@ -71,12 +72,16 @@ Here is a list of all file members with links to the files they belong to:
 : <a class="el" href="group__filters.html#ggff4876b3d842424c8cbc79abf3f3166f602883776855efb624a5007b6fd52337">erCvFilters.hpp</a>
 </ul>
 <h3><a class="anchor" name="index_c">- c -</a></h3><ul>
+<li>ConnectedSegments
+: <a class="el" href="er_connected_segments_8hpp.html#4bf6b940feff962122bd51cbfe0c541a">erConnectedSegments.hpp</a>
 <li>cvPointsToCgal()
 : <a class="el" href="er_cv_to_cgal_8hpp.html#0544cffa96dfc3831fef8d92ad1affd2">erCvToCgal.hpp</a>
 <li>cvToCgal()
 : <a class="el" href="er_cv_to_cgal_8hpp.html#6b05389a8c388b00572a1af24b8355fb">erCvToCgal.hpp</a>
 </ul>
 <h3><a class="anchor" name="index_e">- e -</a></h3><ul>
+<li>erConcatenateFileName()
+: <a class="el" href="er_manip_file_name_8hpp.html#06c893eaf48d9ee73f1393f76ca8b5ae">erManipFileName.hpp</a>
 <li>erConvertPixelToMks()
 : <a class="el" href="group__cv__group.html#ga9b941511db324aed04cdd9cd665b4e4">erCvExtract.hpp</a>
 <li>erConvertToBlackAndWhite()
@@ -87,6 +92,8 @@ Here is a list of all file members with links to the files they belong to:
 : <a class="el" href="group__filters.html#ga622ee1289921d0a3efdfba269fcd20e">erCvFilters.hpp</a>
 <li>erCvAdaptiveThresholdUser()
 : <a class="el" href="er_cv_filters_user_8hpp.html#18eb25aa5bf4feb6b376350014f9fc43">erCvFiltersUser.hpp</a>
+<li>erCvCallBackPatchProjectUser()
+: <a class="el" href="er_cv_segmentation_user_8hpp.html#3ad7cff7c8480c82d40cecfeea95ce02">erCvSegmentationUser.hpp</a>
 <li>erCvCanny()
 : <a class="el" href="group__filters.html#g4dfd0f5f2985867ed36b76f0e49f6be0">erCvFilters.hpp</a>
 <li>erCvCannyUser()
@@ -101,10 +108,16 @@ Here is a list of all file members with links to the files they belong to:
 : <a class="el" href="group__filters.html#gfa84896550849853320c3ff0cb7f045a">erCvFilters.hpp</a>
 <li>erCvDilateUser()
 : <a class="el" href="er_cv_filters_user_8hpp.html#7dd7e645ef994ee940f99d7edf5bb399">erCvFiltersUser.hpp</a>
+<li>erCvDrawChessboardCorners()
+: <a class="el" href="cvcalibinit_8hpp.html#7cf77be4d010309916b81b1597dded3c">cvcalibinit.hpp</a>
+<li>erCvEqualizeHist()
+: <a class="el" href="er_cv_segmentation_user_8hpp.html#20e1a451fcfa548b419dde6781c6082b">erCvSegmentationUser.hpp</a>
 <li>erCvErode()
 : <a class="el" href="group__filters.html#g5829529a1976fc527be80685a581cdb0">erCvFilters.hpp</a>
 <li>erCvErodeUser()
 : <a class="el" href="er_cv_filters_user_8hpp.html#72d0b14bdd1eed0e95a69212306354ff">erCvFiltersUser.hpp</a>
+<li>erCvFindChessboardCorners()
+: <a class="el" href="cvcalibinit_8hpp.html#893e7d31eba3777228aba5190954130c">cvcalibinit.hpp</a>
 <li>erCvPyramid()
 : <a class="el" href="group__filters.html#gd267f1c3cd5e77d91b97be722b97933a">erCvFilters.hpp</a>
 <li>erCvPyramidUser()
@@ -118,9 +131,9 @@ Here is a list of all file members with links to the files they belong to:
 <li>erCvSobelUser()
 : <a class="el" href="er_cv_filters_user_8hpp.html#a7eceac2e8ce86bf1934132342b47016">erCvFiltersUser.hpp</a>
 <li>erCvTemplate()
-: <a class="el" href="er_cv_segmentation_8hpp.html#405ef14f16ee075764427a7accbdedb9">erCvSegmentation.hpp</a>
+: <a class="el" href="er_cv_segmentation_8hpp.html#8ad621b1caf57c9cc8f7783e7a2cedb7">erCvSegmentation.hpp</a>
 <li>erCvTemplateUser()
-: <a class="el" href="er_cv_segmentation_user_8hpp.html#54b73f032e5f173084dcd074fbe610f7">erCvSegmentationUser.hpp</a>
+: <a class="el" href="er_cv_segmentation_user_8hpp.html#32a4cb7491c3e8082c228b0dab853e66">erCvSegmentationUser.hpp</a>
 <li>erCvThreshold()
 : <a class="el" href="group__filters.html#gf2a0e38cb881aa9fee9913c5d78a5267">erCvFilters.hpp</a>
 <li>erCvThresholdUser()
@@ -138,21 +151,27 @@ Here is a list of all file members with links to the files they belong to:
 <li>erExtractionCurveUser()
 : <a class="el" href="group__cv__group.html#g13436e8e12cb3e61daf1a624bc87897b">erCvExtract.hpp</a>
 <li>erExtractPoints()
-: <a class="el" href="group__cv__group.html#g9a5854ce4ca312dab0909884593b306c">erCvExtract.hpp</a>
+: <a class="el" href="group__cv__group.html#gabfe6153e2641b1d61d39529f3880c6f">erCvExtract.hpp</a>
 <li>erFactorRealDimension
 : <a class="el" href="group__cv__group.html#g6975c35581129727b0b64eac15c9f352">erCalibration.hpp</a>
 <li>erFileExists()
 : <a class="el" href="group__utilities.html#ga32cbc4aac8b4a363ca59c186a5aabe4">erFileUtilities.hpp</a>
 <li>erFindCvPoint()
 : <a class="el" href="group__cv__group.html#ga8e6db9ed28068050ec3fb332bdfec9e">erCvExtract.hpp</a>
+<li>erGetNumberInFileName()
+: <a class="el" href="er_manip_file_name_8hpp.html#74c811ee1d1326d80b017236eaea0a69">erManipFileName.hpp</a>
 <li>erLoadImage()
 : <a class="el" href="group__cv__group.html#g83fb83e7642f599612213d0d94a6292f">erCvBase.hpp</a>
 <li>erLoadImageSeries()
-: <a class="el" href="group__cv__group.html#g139b308786796826fce6725f4374bb7e">erCvBase.hpp</a>
+: <a class="el" href="group__cv__group.html#g2114a54989ad63c5b8915987f65b8812">erCvBase.hpp</a>
 <li>erRes_ROI_recons()
 : <a class="el" href="er_cv_user_interaction_8hpp.html#b6c98012487e000b8f3b7a96bc8a9e8e">erCvUserInteraction.hpp</a>
 <li>erSaveImage()
 : <a class="el" href="group__cv__group.html#g18e2d5ad774bb23339d8946635f64c26">erCvBase.hpp</a>
+<li>erSaveImage2()
+: <a class="el" href="group__cv__group.html#g7a77b8d394741d364b05b9a272d559e2">erCvBase.hpp</a>
+<li>erShow2Image()
+: <a class="el" href="group__cv__group.html#g189092cbecfc5f0b550fd4392374b2e5">erCvBase.hpp</a>
 <li>erShowImage()
 : <a class="el" href="group__cv__group.html#gd5e49d6b0df6148100f848dec333db5e">erCvBase.hpp</a>
 <li>erSmoothAndCanny()
@@ -163,12 +182,19 @@ Here is a list of all file members with links to the files they belong to:
 <h3><a class="anchor" name="index_f">- f -</a></h3><ul>
 <li>Fb
 : <a class="el" href="er_cgal_alpha_shape2_8hpp.html#4b509a8c67b9319fd9401ba9f792da8d">erCgalAlphaShape2.hpp</a>
+<li>filterMapOfSegments()
+: <a class="el" href="er_connected_segments_8hpp.html#bc0aa1cd85ef4a253b9a0214ca855e7d">erConnectedSegments.hpp</a>
 <li>FT
 : <a class="el" href="group__cgal.html#g260204fc0a44bcc802656c035917b248">erCgalBase.hpp</a>
 </ul>
 <h3><a class="anchor" name="index_g">- g -</a></h3><ul>
 <li>GAUSSIAN
 : <a class="el" href="group__filters.html#ggff4876b3d842424c8cbc79abf3f3166ffca8f51c9117fbb492a2184e9df9e412">erCvFilters.hpp</a>
+<li>get_connected_segments()
+: <a class="el" href="er_connected_segments_8hpp.html#ecc6356c5037320a4c172e0430e96007">erConnectedSegments.hpp</a>
+, <a class="el" href="er_cv_connected_segments_8hpp.html#32c71a56ebc8027fcd1ebcbdcb102239">erCvConnectedSegments.hpp</a>
+<li>Graph
+: <a class="el" href="er_connected_segments_8hpp.html#92b286143cd5f969bc2a7bb00d2a335b">erConnectedSegments.hpp</a>
 </ul>
 <h3><a class="anchor" name="index_i">- i -</a></h3><ul>
 <li>INFOFILE
@@ -179,10 +205,16 @@ Here is a list of all file members with links to the files they belong to:
 : <a class="el" href="group__cgal.html#g891e241aa245ae63618f03737efba309">erCgalBase.hpp</a>
 </ul>
 <h3><a class="anchor" name="index_m">- m -</a></h3><ul>
+<li>MapOfSegments
+: <a class="el" href="er_connected_segments_8hpp.html#bbaaea47d32443cc6faeb7023bfc44db">erConnectedSegments.hpp</a>
+<li>MAX_CONTOUR_APPROX
+: <a class="el" href="cvcalibinit_8hpp.html#152c00a55aaf3cf078a59b2e2d57080c">cvcalibinit.hpp</a>
 <li>MEDIAN
 : <a class="el" href="group__filters.html#ggff4876b3d842424c8cbc79abf3f3166ffa725c81b10b52c8fc109ea7bc936063">erCvFilters.hpp</a>
 </ul>
 <h3><a class="anchor" name="index_n">- n -</a></h3><ul>
+<li>nameGoodImagesFile()
+: <a class="el" href="er_cv_base_8hpp.html#34d22b6f3b3852831f7fdf7e1b68c0ac">erCvBase.hpp</a>
 <li>nameInfoFile()
 : <a class="el" href="er_cv_base_8hpp.html#587be83ea788b5b613de38a65e2bccee">erCvBase.hpp</a>
 <li>nbSmoothType
@@ -195,6 +227,10 @@ Here is a list of all file members with links to the files they belong to:
 <h3><a class="anchor" name="index_p">- p -</a></h3><ul>
 <li>Point_2
 : <a class="el" href="group__cgal.html#ge78d446e5a38328af86f58f933a55cfa">erCgalBase.hpp</a>
+<li>Points_graph_map_t
+: <a class="el" href="er_connected_segments_8hpp.html#74269a6ff555ff8aa797596683b9ba21">erConnectedSegments.hpp</a>
+<li>PointVertexMap
+: <a class="el" href="er_connected_segments_8hpp.html#d741f07884a5092391a00815e222748a">erConnectedSegments.hpp</a>
 <li>Polygon_2
 : <a class="el" href="group__cgal.html#g8c493b4407f1eab1fc792fe406d0db86">erCgalPolygon2.hpp</a>
 </ul>
@@ -217,9 +253,11 @@ Here is a list of all file members with links to the files they belong to:
 <h3><a class="anchor" name="index_v">- v -</a></h3><ul>
 <li>Vb
 : <a class="el" href="er_cgal_alpha_shape2_8hpp.html#ee3387656878a6b0f6138d4bf6c59e2e">erCgalAlphaShape2.hpp</a>
+<li>Vertex
+: <a class="el" href="er_connected_segments_8hpp.html#21aad29dd75d9390f5a9c24ade2a8325">erConnectedSegments.hpp</a>
 </ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Sun Nov 22 13:50:59 2009 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Thu Feb 18 21:58:54 2010 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

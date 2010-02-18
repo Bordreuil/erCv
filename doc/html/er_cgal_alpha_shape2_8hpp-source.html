@@ -41,20 +41,17 @@
 <a name="l00018"></a>00018 
 <a name="l00019"></a>00019 
 <a name="l00020"></a>00020 <span class="keyword">template</span> &lt;<span class="keyword">class</span> OutputIterator&gt;
-<a name="l00021"></a><a class="code" href="er_cgal_alpha_shape2_8hpp.html#c0d0de4290660dd054a419e3136dffcf">00021</a> <span class="keywordtype">void</span> <a class="code" href="er_cgal_alpha_shape2_8hpp.html#c0d0de4290660dd054a419e3136dffcf">alpha_edges</a>( <span class="keyword">const</span> <a class="code" href="er_cgal_alpha_shape2_8hpp.html#faab254f511cec47db5ea559493a77d2">Alpha_shape_2</a>&amp;  A,
-<a name="l00022"></a>00022              OutputIterator out)
-<a name="l00023"></a>00023 {
-<a name="l00024"></a>00024 
-<a name="l00025"></a>00025   <span class="keywordflow">for</span>(<a class="code" href="er_cgal_alpha_shape2_8hpp.html#4b80b4c9d991d7280d3602a0274bf5c6">Alpha_shape_edges_iterator</a> it =  A.alpha_shape_edges_begin();
-<a name="l00026"></a>00026       it != A.alpha_shape_edges_end();
-<a name="l00027"></a>00027       ++it){
-<a name="l00028"></a>00028     *out++ = A.segment(*it);
-<a name="l00029"></a>00029   }
-<a name="l00030"></a>00030 }
-<a name="l00031"></a>00031 
-<a name="l00032"></a>00032 <span class="preprocessor">#endif</span>
+<a name="l00021"></a><a class="code" href="er_cgal_alpha_shape2_8hpp.html#c0d0de4290660dd054a419e3136dffcf">00021</a> <span class="keywordtype">void</span> <a class="code" href="er_cgal_alpha_shape2_8hpp.html#c0d0de4290660dd054a419e3136dffcf">alpha_edges</a>( <span class="keyword">const</span> <a class="code" href="er_cgal_alpha_shape2_8hpp.html#faab254f511cec47db5ea559493a77d2">Alpha_shape_2</a>&amp;  A, OutputIterator out)
+<a name="l00022"></a>00022 {
+<a name="l00023"></a>00023   <span class="keywordflow">for</span>(<a class="code" href="er_cgal_alpha_shape2_8hpp.html#4b80b4c9d991d7280d3602a0274bf5c6">Alpha_shape_edges_iterator</a> it =  A.alpha_shape_edges_begin(); it != A.alpha_shape_edges_end(); ++it)
+<a name="l00024"></a>00024     {
+<a name="l00025"></a>00025       *out++ = A.segment(*it);
+<a name="l00026"></a>00026     }
+<a name="l00027"></a>00027 }
+<a name="l00028"></a>00028 
+<a name="l00029"></a>00029 <span class="preprocessor">#endif</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Sun Nov 22 13:50:58 2009 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Thu Feb 18 21:58:53 2010 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

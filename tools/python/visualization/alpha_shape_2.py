@@ -1,6 +1,9 @@
 from pylab import *
 
 def alpha_shape_2(fichierpts,fichier,fichieralpha):
+    """
+    A COMPLETER
+    """
     pts=load(fichierpts)
     plot(pts[:,0],pts[:,1],'o')
     hold('on')

@@ -23,33 +23,17 @@ int main(int HOLA, char** image_name)
   boost::tie(er,loaded)  = erLoadImage( image_name);
   bw = erConvertToBlackAndWhite( &er);
   erWriteRecordFile( image_name);  //todo = cvCloneImage( &bw);
-  erCvTemplateUser( &bw, &ptem); 
+  erCvTemplate( &bw, &ptem); 
   //erCvPyramidUser( &bw, &pyra);
  
   erCvSmoothUser( &bw, &psmo);
  
-  erCvThresholdUser( &bw, &pthr);
+  erCvThreshold( &bw, &pthr);
 
-  erCvCannyUser( &bw, &pcan);
-  erCvSobelUser( &bw, &psob);
+  erCvCanny( &bw, &pcan);
+  erCvSobel( &bw, &psob);
   erSaveImage( &bw, image_name);
   
-  while(true)
-    {  
-      boost::tie(er,loaded) = erLoadImageSeries( image_name);
-      if(!loaded) break;    
-      bw = erConvertToBlackAndWhite( &er);
-      erCvTemplate( &bw, &ptem);
-      //erCvPyramid( &bw, &pyra);
-      erCvSmooth( &bw, &psmo);
-      //erCvAdaptiveThreshold( &tm, &padt);
-      erCvThreshold( &bw, &pthr);
-      //erCvSmooth( &bw, &psmo);
-      //erCvErode( &bw, &pero);
-      erCvCanny( &bw, &pcan);
-      erCvSobel( &bw, &psob);
-      erSaveImage( &bw, image_name);
-    }
   return(0);
 };
 

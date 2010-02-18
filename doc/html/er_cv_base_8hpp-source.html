@@ -35,54 +35,79 @@
 <a name="l00034"></a>00034 <span class="preprocessor">#include &lt;fstream&gt;</span>
 <a name="l00035"></a>00035 
 <a name="l00036"></a>00036 <span class="keyword">extern</span> std::string <a class="code" href="er_cv_base_8hpp.html#ef9bcf4efa65abdc0c0e21921c468337">INFOFILE</a>;
-<a name="l00037"></a>00037 <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="er_cv_base_8hpp.html#587be83ea788b5b613de38a65e2bccee">nameInfoFile</a>(std::string);
-<a name="l00038"></a>00038 <span class="comment">// Une classe pour interfacer l image IplImage d OpenCv</span>
-<a name="l00041"></a>00041 <span class="comment"></span>
-<a name="l00042"></a><a class="code" href="classer_image.html">00042</a> <span class="keyword">class </span><a class="code" href="classer_image.html">erImage</a> : <span class="keyword">public</span> IplImage
-<a name="l00048"></a>00048 {
-<a name="l00049"></a>00049 <span class="keyword">public</span>:
-<a name="l00053"></a>00053   <a class="code" href="classer_image.html#5fde12e9b17f9ce4b332708faa32a446">erImage</a>();
-<a name="l00054"></a>00054   <a class="code" href="classer_image.html#5fde12e9b17f9ce4b332708faa32a446">erImage</a>(<span class="keywordtype">char</span>* );
-<a name="l00055"></a>00055   <a class="code" href="classer_image.html#5fde12e9b17f9ce4b332708faa32a446">erImage</a>(IplImage* );
-<a name="l00056"></a>00056   <a class="code" href="classer_image.html#5fde12e9b17f9ce4b332708faa32a446">erImage</a>(IplImage);
-<a name="l00057"></a>00057  
-<a name="l00058"></a>00058   <a class="code" href="classer_image.html#e281e40be6674d5a7026262bca42d40e">~erImage</a>();
-<a name="l00059"></a><a class="code" href="classer_image.html#b75820600d4ec1284055e80e4ca767ca">00059</a>   CvRect  <a class="code" href="classer_image.html#b75820600d4ec1284055e80e4ca767ca">rectan</a>;
-<a name="l00060"></a><a class="code" href="classer_image.html#532042e4190b36d630f5661b5de3f6a7">00060</a>   <span class="keywordtype">bool</span>    <a class="code" href="classer_image.html#532042e4190b36d630f5661b5de3f6a7">drawing</a>;
-<a name="l00061"></a>00061 <span class="keyword">private</span>:
-<a name="l00065"></a>00065 };
-<a name="l00066"></a>00066 
-<a name="l00067"></a>00067 
-<a name="l00068"></a>00068 <span class="comment">// Quelques fonctions utiles d' OpenCv</span>
-<a name="l00072"></a>00072 <span class="comment"></span><span class="keywordtype">void</span> <a class="code" href="group__cv__group.html#gd5e49d6b0df6148100f848dec333db5e" title="Fonction permettant de visualiser une Image a l aide d openCv.">erShowImage</a>(<span class="keywordtype">char</span>* ,IplImage*);
-<a name="l00073"></a>00073 
-<a name="l00074"></a>00074 
-<a name="l00078"></a>00078 std::pair&lt;erImage,bool&gt; <a class="code" href="group__cv__group.html#g83fb83e7642f599612213d0d94a6292f" title="Fonction permettant de charge une Image a l aide d openCv.">erLoadImage</a>( <span class="keywordtype">char</span>**);
-<a name="l00079"></a>00079 
-<a name="l00080"></a>00080 
-<a name="l00084"></a>00084 std::pair&lt;erImage,bool&gt; <a class="code" href="group__cv__group.html#g139b308786796826fce6725f4374bb7e" title="Fonction permettant de charger une serie d Image a l aide d openCv ayant comme extentions...">erLoadImageSeries</a>( <span class="keywordtype">char</span>**);
-<a name="l00085"></a>00085 
-<a name="l00086"></a>00086 
-<a name="l00087"></a>00087 
-<a name="l00091"></a>00091 <span class="keywordtype">void</span> <a class="code" href="group__cv__group.html#g18e2d5ad774bb23339d8946635f64c26" title="Fonction permettant de sauvegarder une image a l aide d openCv.">erSaveImage</a>( IplImage*, <span class="keywordtype">char</span>**);
-<a name="l00092"></a>00092 
-<a name="l00093"></a>00093 <a class="code" href="classer_image.html">erImage</a> <a class="code" href="group__cv__group.html#g360a7c44d73ffa1735a59e3f8501e2ec">erCopyImage</a>(<a class="code" href="classer_image.html">erImage</a>);
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038 <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="er_cv_base_8hpp.html#587be83ea788b5b613de38a65e2bccee">nameInfoFile</a>(std::string);
+<a name="l00039"></a>00039 <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="er_cv_base_8hpp.html#34d22b6f3b3852831f7fdf7e1b68c0ac">nameGoodImagesFile</a>(std::string);
+<a name="l00040"></a>00040 <span class="comment">// Une classe pour interfacer l image IplImage d OpenCv</span>
+<a name="l00043"></a>00043 <span class="comment"></span>
+<a name="l00044"></a><a class="code" href="classer_image.html">00044</a> <span class="keyword">class </span><a class="code" href="classer_image.html">erImage</a> : <span class="keyword">public</span> IplImage
+<a name="l00050"></a>00050 {
+<a name="l00051"></a>00051 <span class="keyword">public</span>:
+<a name="l00055"></a>00055   <a class="code" href="classer_image.html#5fde12e9b17f9ce4b332708faa32a446">erImage</a>();
+<a name="l00056"></a>00056   <a class="code" href="classer_image.html#5fde12e9b17f9ce4b332708faa32a446">erImage</a>(<span class="keywordtype">char</span>* );
+<a name="l00057"></a>00057   <a class="code" href="classer_image.html#5fde12e9b17f9ce4b332708faa32a446">erImage</a>(IplImage* );
+<a name="l00058"></a>00058   <a class="code" href="classer_image.html#5fde12e9b17f9ce4b332708faa32a446">erImage</a>(IplImage);
+<a name="l00059"></a>00059  
+<a name="l00060"></a>00060   <span class="comment">//~erImage();</span>
+<a name="l00061"></a><a class="code" href="classer_image.html#b75820600d4ec1284055e80e4ca767ca">00061</a>   CvRect  <a class="code" href="classer_image.html#b75820600d4ec1284055e80e4ca767ca">rectan</a>;
+<a name="l00062"></a><a class="code" href="classer_image.html#532042e4190b36d630f5661b5de3f6a7">00062</a>   <span class="keywordtype">bool</span>    <a class="code" href="classer_image.html#532042e4190b36d630f5661b5de3f6a7">drawing</a>;
+<a name="l00063"></a>00063 <span class="keyword">private</span>:
+<a name="l00067"></a>00067 };
+<a name="l00068"></a>00068 
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070 <span class="comment">// Quelques fonctions utiles d' OpenCv</span>
+<a name="l00074"></a>00074 <span class="comment"></span><span class="keywordtype">void</span> <a class="code" href="group__cv__group.html#gd5e49d6b0df6148100f848dec333db5e" title="Fonction permettant de visualiser une Image a l aide d openCv.">erShowImage</a>(<span class="keywordtype">char</span>* ,IplImage*);
+<a name="l00075"></a>00075 
+<a name="l00076"></a>00076 
+<a name="l00077"></a>00077 <span class="comment">// Quelques fonctions utiles d' OpenCv</span>
+<a name="l00081"></a>00081 <span class="comment"></span><span class="keywordtype">void</span> <a class="code" href="group__cv__group.html#g189092cbecfc5f0b550fd4392374b2e5" title="Fonction permettant de visualiser une Image a l aide d openCv.">erShow2Image</a>(<span class="keywordtype">char</span>* ,IplImage*, <span class="keywordtype">char</span>*, IplImage*);
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083 
+<a name="l00087"></a>00087 std::pair&lt;erImage,bool&gt; <a class="code" href="group__cv__group.html#g83fb83e7642f599612213d0d94a6292f" title="Fonction permettant de charge une Image a l aide d openCv.">erLoadImage</a>( <span class="keywordtype">char</span>**);
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089 
+<a name="l00093"></a>00093 std::pair&lt;erImage,bool&gt; <a class="code" href="group__cv__group.html#g2114a54989ad63c5b8915987f65b8812" title="Fonction permettant de charger une serie d Image a l aide d openCv ayant comme extentions...">erLoadImageSeries</a>( <span class="keywordtype">char</span>**,uint inc=1);
 <a name="l00094"></a>00094 
 <a name="l00095"></a>00095 
-<a name="l00098"></a>00098 <span class="comment">//erImage    erConvertToBlackAndWhite( IplImage*);</span>
-<a name="l00099"></a>00099 IplImage*  <a class="code" href="group__cv__group.html#gcb0147ebad78c2fea365ea9f2d6e7baa">erConvertToBlackAndWhite</a>( IplImage*);
-<a name="l00100"></a>00100 
+<a name="l00096"></a>00096 
+<a name="l00100"></a>00100 <span class="keywordtype">void</span> <a class="code" href="group__cv__group.html#g18e2d5ad774bb23339d8946635f64c26" title="Fonction permettant de sauvegarder une image a l aide d openCv.">erSaveImage</a>( IplImage*, <span class="keywordtype">char</span>**);
 <a name="l00101"></a>00101 
-<a name="l00104"></a>00104 <span class="keywordtype">void</span> <a class="code" href="group__cv__group.html#g12ff25e5fb4f33005c0c9f453486109b">erWriteRecordFile</a>( <span class="keywordtype">char</span>**);
-<a name="l00105"></a>00105 
-<a name="l00106"></a>00106 
-<a name="l00109"></a>00109 <span class="keywordtype">void</span> <a class="code" href="group__cv__group.html#g970d0ca6ae556a2d3a3e2c088c659ee7">erCvConvert32to8</a>( IplImage*, IplImage*);
+<a name="l00102"></a>00102 
+<a name="l00106"></a>00106 <span class="keywordtype">void</span> <a class="code" href="group__cv__group.html#g7a77b8d394741d364b05b9a272d559e2" title="Fonction permettant de sauvegarder une image a l aide d openCv.">erSaveImage2</a>( IplImage*, <span class="keywordtype">char</span>**, <span class="keywordtype">char</span>*);
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108 
+<a name="l00109"></a>00109 <a class="code" href="classer_image.html">erImage</a> <a class="code" href="group__cv__group.html#g360a7c44d73ffa1735a59e3f8501e2ec">erCopyImage</a>(<a class="code" href="classer_image.html">erImage</a>);
 <a name="l00110"></a>00110 
-<a name="l00113"></a>00113 <span class="keywordtype">char</span>* <a class="code" href="group__cv__group.html#g4be32342e636852abaa7e1c492f5b0e2">erEcrireNomFicher</a>( <span class="keywordtype">char</span>**, std::string);
-<a name="l00114"></a>00114 
-<a name="l00116"></a>00116 <span class="preprocessor">#endif</span>
+<a name="l00111"></a>00111 
+<a name="l00114"></a>00114 <span class="comment">//erImage    erConvertToBlackAndWhite( IplImage*);</span>
+<a name="l00115"></a>00115 IplImage*  <a class="code" href="group__cv__group.html#gcb0147ebad78c2fea365ea9f2d6e7baa">erConvertToBlackAndWhite</a>( IplImage*);
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117 
+<a name="l00120"></a>00120 <span class="keywordtype">void</span> <a class="code" href="group__cv__group.html#g12ff25e5fb4f33005c0c9f453486109b">erWriteRecordFile</a>( <span class="keywordtype">char</span>**);
+<a name="l00121"></a>00121 
+<a name="l00122"></a>00122 
+<a name="l00125"></a>00125 <span class="keywordtype">void</span> <a class="code" href="group__cv__group.html#g970d0ca6ae556a2d3a3e2c088c659ee7">erCvConvert32to8</a>( IplImage*, IplImage*);
+<a name="l00126"></a>00126 
+<a name="l00129"></a>00129 <span class="keywordtype">char</span>* <a class="code" href="group__cv__group.html#g4be32342e636852abaa7e1c492f5b0e2">erEcrireNomFicher</a>( <span class="keywordtype">char</span>**, std::string);
+<a name="l00130"></a>00130 
+<a name="l00131"></a>00131 <span class="comment">// Classe permettant </span>
+<a name="l00132"></a>00132 
+<a name="l00133"></a><a class="code" href="class_image_increment.html">00133</a> <span class="keyword">class </span><a class="code" href="class_image_increment.html">ImageIncrement</a>
+<a name="l00134"></a>00134 {
+<a name="l00135"></a>00135 <span class="keyword">public</span>:
+<a name="l00136"></a>00136   <a class="code" href="class_image_increment.html#8608ca7a8671c9194c496e0161ee2b9e">ImageIncrement</a>(uint,uint,uint);
+<a name="l00137"></a>00137   uint <a class="code" href="class_image_increment.html#75d398cb4a1c72faec7c3babe7d412ad">inc</a>();
+<a name="l00138"></a>00138  
+<a name="l00139"></a>00139 <span class="keyword">private</span>:
+<a name="l00140"></a>00140   uint base;
+<a name="l00141"></a>00141   uint delta;
+<a name="l00142"></a>00142   uint every;
+<a name="l00143"></a>00143   uint current;
+<a name="l00144"></a>00144 };
+<a name="l00145"></a>00145 
+<a name="l00147"></a>00147 <span class="preprocessor">#endif</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Sun Nov 22 13:50:58 2009 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Thu Feb 18 21:58:53 2010 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

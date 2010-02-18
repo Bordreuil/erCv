@@ -25,6 +25,7 @@
 <div class="contents">
 <h1>include/erCv/erCvExtract.hpp File Reference</h1><code>#include &quot;<a class="el" href="er_cv_8hpp-source.html">erCv.hpp</a>&quot;</code><br>
 <code>#include &quot;<a class="el" href="er_predicates_8hpp-source.html">utilities/erPredicates.hpp</a>&quot;</code><br>
+<code>#include &quot;<a class="el" href="er_manip_file_name_8hpp-source.html">utilities/erManipFileName.hpp</a>&quot;</code><br>
 <code>#include &lt;list&gt;</code><br>
 <code>#include &lt;vector&gt;</code><br>
 <code>#include &lt;map&gt;</code><br>
@@ -35,7 +36,7 @@
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename Container , typename Criteria &gt; </td></tr>
-<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g9a5854ce4ca312dab0909884593b306c">erExtractPoints</a> (IplImage *im, Container &amp;pts, Criteria crit)</td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cv__group.html#gabfe6153e2641b1d61d39529f3880c6f">erExtractPoints</a> (IplImage *im, Container &amp;pts, Criteria crit, CvRect rect=cvRect(0, 0, 0, 0), uint delta=1)</td></tr>
 
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename Container &gt; </td></tr>
 <tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g13436e8e12cb3e61daf1a624bc87897b">erExtractionCurveUser</a> (IplImage *simag, <a class="el" href="structer_cerc.html">erCerc</a> *cerc, char **file_name, Container &amp;pts, CvRect recROI)</td></tr>
@@ -54,7 +55,7 @@
 
 </table>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Sun Nov 22 13:50:58 2009 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Thu Feb 18 21:58:53 2010 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

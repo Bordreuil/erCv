@@ -31,32 +31,15 @@ int main(int HOLA, char** file_name){
   erSobelP psob;
   bool loaded;
 
-  erCalibration ca( "../pictures/cuadro5.jpg", "../pictures/rec_droite_256.bmp", 3, 3);
+  //erCalibration ca( "cuadro5.jpg", "rec_droite_256.bmp", 3, 3);
   //erCalibration ca( "../pictures/cuadro_droit_256.jpg", "../pictures/rec_droite_256.bmp", 3, 3); /* Calibration des images */  
   boost::tie(eb,loaded) = erLoadImage(file_name);
-  bw = ca.transform_image( eb);
-  //erCvPyramidUser( &ea, &pyra);
-  //eb = erDef_ROIuser( &ea, &rect);
-  //erCvSmoothUser( &eb, &psmo);
-  //erCvSmoothUser( &eb, &psmo);
- 
-  //ec = erCvCallBackPatchProjectUser( &eb, &pcal);
-  //erCvSmoothUser( &ec, &psmo1);
-  //erCvSmoothUser( &eb, &psmo1);
-  //ec = erCvTemplateUser( &eb, &ptem);
-  //   std::cout << "color model: " << ea.colorModel << std::endl;
-  //   std::cout << "Depth: " << ea.depth << " " << "Channels: " << ea.nChannels << std::endl;
-  //   std::cout << "width: " << ea.width << " " << "height: " << ea.height << std::endl;
-  //ec = erConvertToBlackAndWhite( &ea); /* Conversion en 8 bit single channel */   
-  //erCvAdaptiveThresholdUser( &eb, &padt); 
-  //erCvThresholdUser( &ec, &pthr);
-  //erCvSmoothUser( &ec, &psmo);
-  //erCvSmoothUser( &ec, &psmo1);
-  //erCvAdaptiveThresholdUser( &ec, &padt1);
-  //erCvCannyUser( &ec, &pcan);
-  erSaveImage( &bw, file_name);  
-  //  IsEqualTo is_equal_255( 255); /* Definition d un foncteur comme critere pour extraire des pixels suivant leur niveau de gris. cf->utilities/erPredicates.hpp */     
-  //std::vector< CvPoint> cvPts; /* Definition du conteneur pour points au moment de l extraction */
+  //bw = ca.transform_image( eb);
+  //erSaveImage( &bw, file_name);  
+   IsEqualTo is_equal_255( 255); 
+   /* Definition d un foncteur comme critere pour extraire des pixels suivant leur niveau de gris. cf->utilities/erPredicates.hpp */     
+  std::vector< CvPoint> cvPts; 
+  /* Definition du conteneur pour points au moment de l extraction */
    //erExtractPoints( &ea, cvPts, is_equal_255); /* Extraction */
    //erExtractionCurveUser( &ea, &cerc, file_name, cvPts, rect);
    //erEcriturePointPixel( cvPts, file_name); 
