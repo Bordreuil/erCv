@@ -336,12 +336,12 @@ void erConvertPixelToMks( std::pair< double, double> factor, Container &pts, cha
 {
   //Ecriture du nom du ficher 
   bool good_format;const char* num;
-  boost::tie(good_format,num) = get_number_in_file_name(file_name[2]);
+  boost::tie(good_format,num) = erGetNumberInFileName(file_name[2]);
 
 
   if(good_format)
     {
-      char* new_name = concatenate_file_name(file_name[1],"_data_",num,".txt");     
+      char* new_name = erConcatenateFileName(file_name[1],"_data_",num,".txt");     
       //Ouverture du fichier
       std::ofstream myfile( new_name);
       if (myfile.is_open())

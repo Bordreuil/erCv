@@ -13,16 +13,15 @@ LINK_LIBRARIES(${OpenCV_CV_LIBRARY}
                ${OpenCV_CXCORE_LIBRARY} )
 
 ADD_LIBRARY(erCv erCvSegmentation
-                 Gui/erCvSegmentationUser  
                  erCalibration 
 		 erCvBase 
-		 Gui/erCvUserInteraction
-		 erFileUtilities 
 		 erCvFilters
-		 Gui/erCvFiltersUser
-		 erCvManipFileName
+		 erFileUtilities 
+		 erManipFileName
 		 erPredicates
 		 erCvInfofile
-		 #source_modif/ercvcalibinit
+	         Gui/erCvFiltersUser
+		 Gui/erCvUserInteraction
+                 Gui/erCvSegmentationUser 
 		 params)
 
