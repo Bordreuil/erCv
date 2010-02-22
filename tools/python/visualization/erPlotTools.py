@@ -15,6 +15,7 @@ def erLoadImage(image):
         im   = None
         test = False
     return test,im
+
 def erTransformPoints(x):
     """
     Pour faire un polygone a partir d une liste de points
@@ -25,6 +26,7 @@ def erTransformPoints(x):
     X[:-1,:] = x
     X[-1,:]  = x[0,:]
     return X
+
 def erTransformSegmentsToClosedList(x):
     
     X=[]
@@ -37,7 +39,7 @@ def erTransformSegmentsToClosedList(x):
                 x1i =X.index(x1);X.insert(x1i+1,x2);Y.insert(x1i+1,y2)
             if(x2inX and y2inY and (not (x1inX or y1inY))):
                 x2i =X.index(x2);X.insert(x2i+1,x1);Y.insert(x2i+1,y1)  
-            if(not x1inX and not y1inY and not x2inX ans not y2inY):
+            if(not x1inX and not y1inY and not x2inX and not y2inY):
                 X.append(x1);X.append(x2);Y.append(y1);Y.append(y2)
             # AFINIR LES TESTS
     except:
@@ -61,11 +63,11 @@ def erLoadCurve(curve,type='asItIs'):
         print 'Probleme avec le fichier:',curve
         x=[]
         test=False
-    if type='asIsIt':
+    if type=='asIsIt':
         pass
     elif type=='pointsToClose':
         x=erTransformPoints(x)
-    elif type='segmentsToList':
+    elif type=='segmentsToList':
         x=erTransformSegmentsToClosedList(x)
     else:
         print "erLoadCurve : prevue uniquement pour type ='pointsToClose' ou 'segmentsToList' ou 'asIsIt'"
@@ -102,6 +104,6 @@ def erPlotSegments(fichier,figure_number=1):
         return
     figure(figure_number)
     for i in range(x.shape[0]):
-        plot([x[i,0],x[i,2]],[255-x[i,1],255-x[i,3]],color='black'linewidth=2)
+        plot([x[i,0],x[i,2]],[255-x[i,1],255-x[i,3]],color='black',linewidth=2)
         hold('on')
     grid('on')
