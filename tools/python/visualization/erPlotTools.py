@@ -1,53 +1,5 @@
-import sys
-import os
-import re
 from pylab import *
 
-def erGetBadImagesNumber(name_anal):
-    """
-    permet de connaitre les images qui ne sont pas bonnes
-    Les images ou le contour n a pas ete detecte se trouve
-    dans name_anal+'_imagesOUT.txt'
-    """
-    file=name_anal+'_imagesOUT.txt'
-    bad_images_number=[]
-    fid=open(file,'r')
-    for ligne in fid.readlines():
-        if len(ligne) > 1:
-            res=re.split("_|\.",ligne)
-            bad_images_number.append(res[5])
-    return bad_images_number
-
-def erGetAllImagesNumber(name_analysis,name_image):
-    all_images_number=[]
-    ls=os.listdir('.')
-    for f in ls:
-        if (f.startswith(name_analysis) and f.endswith(name_image[-3:])):
-            res=re.split("_|\.",f)
-            all_images_number.append(res[1])
-    return all_images_number
-
-def erCleanDir(name_analysis):
-    """
-    permet d enlever tous les fichiers d analyse portant
-    deja un nom  d analyse existante.
-    Au passage recree le fichier name_analysis+'_imagesOUT.txt'
-    """
-    ls=os.listdir('.')
-    for f in ls:
-        if name_analysis in f:
-            os.remove(f)
-    fid=open(name_analysis+'_imagesOUT.txt','w')
-    fid.close()
-
-def erGetBaseImage(name_image):
-    """
-    permet d avoir le nom sans l extension ni les numero 
-    """
-    res = re.split("_",name_image)
-    base ="_".join(res[:-1])
-    base+='_'
-    return base
 def erLoadImage(image):
     """
     permet de charger une image 
@@ -64,6 +16,10 @@ def erLoadImage(image):
         test = False
     return test,im
 def erTransformPoints(x):
+    """
+    Pour faire un polygone a partir d une liste de points
+    TO TEST
+    """
     taille   = x.shape
     X        = zeros((taille[0]+1,taille[1]),'f')
     X[:-1,:] = x
@@ -83,6 +39,7 @@ def erTransformSegmentsToClosedList(x):
                 x2i =X.index(x2);X.insert(x2i+1,x1);Y.insert(x2i+1,y1)  
             if(not x1inX and not y1inY and not x2inX ans not y2inY):
                 X.append(x1);X.append(x2);Y.append(y1);Y.append(y2)
+            # AFINIR LES TESTS
     except:
         print 'Error : erTransformSegmentsToClosedList() : x ne contient pas des segments'
         sys.exit()
@@ -133,3 +90,18 @@ def erPlotImageAndCurve(x,im,figure_number=1):
     imshow(im,origin='lower')
     hold('on')
     plot(x[:,0],255-x[:,1],linewidth=2,color='white')
+
+def erPlotSegments(fichier,figure_number=1):
+    """
+    permet de charge un fichier de segments
+    et le trace sur la figure 'figure_number'
+    """
+    x=loadtxt(fichier)
+    if x.shape[1] != 4:
+        print('erPlotSegments : Attention le fichier %s n est pas un fichier de segments' % fichier)
+        return
+    figure(figure_number)
+    for i in range(x.shape[0]):
+        plot([x[i,0],x[i,2]],[255-x[i,1],255-x[i,3]],color='black'linewidth=2)
+        hold('on')
+    grid('on')
