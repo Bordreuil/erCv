@@ -3,6 +3,10 @@ import os
 import re
 from pylab import *
 
+
+
+
+
 def erGetBadImagesNumber(name_anal):
     """
     permet de connaitre les images qui ne sont pas bonnes
@@ -39,6 +43,10 @@ def erCleanDir(name_analysis):
             os.remove(f)
     fid=open(name_analysis+'_imagesOUT.txt','w')
     fid.close()
+
+
+
+
 
 def erGetBaseImage(name_image):
     """

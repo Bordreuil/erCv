@@ -59,7 +59,7 @@ int main( int hola, char** file_name)
   
   /* Chargement de la premiere image a travailler et conversion a 8bit*/
 
-  boost::tie(er,loaded) = erLoadImage(file_name);
+  boost::tie(er,loaded) = erLoadImage(file_name[2]);
   if(!loaded) return 0;
   std::cout << "Image :" << file_name[2] << " chargee\n";
   bw = erConvertToBlackAndWhite( &er); /* Conversion en 8 bit single channel */

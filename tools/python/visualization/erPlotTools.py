@@ -63,17 +63,17 @@ def erLoadCurve(curve,type='asItIs'):
         print 'Probleme avec le fichier:',curve
         x=[]
         test=False
-    if type=='asIsIt':
+    if type=='asItIs':
         pass
     elif type=='pointsToClose':
         x=erTransformPoints(x)
     elif type=='segmentsToList':
         x=erTransformSegmentsToClosedList(x)
     else:
-        print "erLoadCurve : prevue uniquement pour type ='pointsToClose' ou 'segmentsToList' ou 'asIsIt'"
+        print "erLoadCurve : prevue uniquement pour type ='pointsToClose' ou 'segmentsToList' ou 'asItIs'"
     return test,x
 
-def erLoadImageAndCurve(name_analysis,base_image,number,format='bmp',type='points'):
+def erLoadImageAndCurve(name_analysis,base_image,number,format='bmp',type='asItIs'):
     """
     permet de charger une image et une courbe a un temps donne
     si l une des deux n a pas ete charge, la premiere sortie sera fausse

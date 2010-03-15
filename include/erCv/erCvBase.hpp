@@ -84,8 +84,8 @@ void erShow2Image(char* ,IplImage*, char*, IplImage*);
 /** \brief Fonction permettant de charge une  Image a l aide
  d openCv
  */
+std::pair<erImage,bool> erLoadImage( char*);
 std::pair<erImage,bool> erLoadImage( char**);
-
 
 /** \brief Fonction permettant de charger une serie d Image a l aide
  d openCv ayant comme extentions une succesion ordonne et continue de intieres
@@ -127,12 +127,13 @@ void erCvConvert32to8( IplImage*, IplImage*);
 /** Fonction permettant d ecrir le nom d un ficher de sortie avec l extension correspondante
  */
 char* erEcrireNomFicher( char**, std::string);
-
+char* erEcrireNomFichier( char*, char*,std::string);
 // Classe permettant 
 
 class ImageIncrement
 {
 public:
+  ImageIncrement();
   ImageIncrement(uint,uint,uint);
   uint inc();
  

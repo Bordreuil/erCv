@@ -7,3 +7,5 @@ LINK_DIRECTORIES(${OPENCV_LIBRARY_DIR})
 ADD_EXECUTABLE(macro_drop macro_drop.cpp)
 TARGET_LINK_LIBRARIES(macro_drop erCv ${OPENCV_LIBS})
 
+ADD_EXECUTABLE(macro_drop_python macro_drop_python.cpp)
+TARGET_LINK_LIBRARIES(macro_drop_python erCv ${OPENCV_LIBS})

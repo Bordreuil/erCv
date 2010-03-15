@@ -47,6 +47,19 @@ void erShow2Image( char* name, IplImage* im, char* name2, IplImage* im2)
   cvDestroyWindow(name2);
 };
 
+std::pair<erImage,bool> erLoadImage(char* name)
+{ 
+  if(erFileExists(name))
+    {
+      return  std::make_pair(erImage(name),true);
+    }
+  else
+    { 
+      std::cout << "...Impossible d instancier un objet de type erImage a partir du fichier:" << name << std::endl;
+      return std::make_pair(erImage(),false);
+    };
+};
+
 std::pair<erImage,bool> erLoadImage(char** name)
 { 
   if(erFileExists(name[2]))
@@ -58,7 +71,7 @@ std::pair<erImage,bool> erLoadImage(char** name)
       std::cout << "...Impossible d instancier un objet de type erImage a partir du fichier:" << name[2] << std::endl;
       return std::make_pair(erImage(),false);
     };
-}
+};
 
 
 
@@ -274,7 +287,40 @@ char* erEcrireNomFicher( char** file_name, std::string info)
       std::cout << "format incorrect du nom des fichers d'entre" << std::endl;
       return "";
     }
-}
+};
+char* erEcrireNomFichier( char* file_name, char* nameOut,std::string info)
+{
+  std::string name( file_name);
+  size_t ext_pos = name.find_last_of( '_' );
+  size_t ext_pos1 = name.find_last_of( '.');
+  if( ext_pos != std::string::npos && ext_pos1 != std::string::npos )
+    {
+      
+      std::string ext2 = name.substr( ext_pos + 1);
+      std::string name2 = ext2.substr( 0,  ext_pos1 - (ext_pos + 1));
+      int num = boost::lexical_cast<int>( name2);
+      std::string name3 = boost::lexical_cast<std::string>(num);
+      while(name2.size()>name3.size())
+	{
+	  name3.insert( 0, "0" );
+	}
+      std::string name4(nameOut);
+      name4+= info;
+      name4+= name3;
+      name4+= ".txt";
+      char* new_name = new char[ name4.size() + 1];
+      std::copy( name4.begin(), name4.end(), new_name);
+      new_name[ name4.size()] = '\0';
+      return new_name;
+    }
+  else
+    {
+      std::cout << "format incorrect du nom des fichers d'entre" << std::endl;
+      return "";
+    }
+};
+
+ImageIncrement::ImageIncrement():current(0),base(0),delta(0),every(0){};
 ImageIncrement::ImageIncrement(uint incbase,uint incD,uint every):current(0),base(incbase),
 					                          delta(incD),every(every){};
 uint ImageIncrement::inc()

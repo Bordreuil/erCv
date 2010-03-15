@@ -5,4 +5,7 @@ LINK_DIRECTORIES(${OPENCV_LIBRARY_DIR})
 
 ADD_EXECUTABLE(test_ercv2cgal test_ercv2cgal.cpp)
 TARGET_LINK_LIBRARIES(test_ercv2cgal erCv ${CGAL_LIBS})
-ADD_TEST(testCGAL test_ercv2cgal)
+ADD_TEST(testCGAL test_ercv2cgal peo imageTestCGAL.bmp)
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/imageTestCGAL.bmp
+			${CMAKE_CURRENT_BINARY_DIR}/imageTestCGAL.bmp
+			COPYONLY)
