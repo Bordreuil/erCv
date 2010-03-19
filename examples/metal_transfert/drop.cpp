@@ -45,14 +45,18 @@ int main( int hola, char** file_name)
   ImageIncrement inc(ninc,ndelta,every);
 
   /* Declaration de variables a utiliser par les fonctions */
-  INFOFILE = file_name[1];
-  std::cout << INFOFILE << std::endl;
+  char* exit = file_name[1];
+  char* name = file_name[2];
+  std::cout << exit << std::endl;
   erImage er, bw, eo, ea;
   CvRect rect;
   erCerc cerc; 
   erSmootP psmo, psmo1;
   erCannyP pcan;
   erAdThrP padt;
+  std::list< CvPoint> cvPts;
+  std::list< CgPoint> cgPts;
+  std::list< CgSegmt> cgSeg;
   bool loaded;
 
   
@@ -63,9 +67,9 @@ int main( int hola, char** file_name)
   
   /* Chargement de la premiere image a travailler et conversion a 8bit*/
 
-  boost::tie(er,loaded) = erLoadImage(file_name);
+  boost::tie(er,loaded) = erLoadImage( name);
   if(!loaded) return 0;
-  std::cout << "Image :" << file_name[2] << " chargee\n";
+  std::cout << "Image :" << name << " chargee\n";
   bw = erConvertToBlackAndWhite( &er); /* Conversion en 8 bit single channel */
 
   /* Conversion de l'image du RGB->GRIS */
@@ -96,98 +100,98 @@ int main( int hola, char** file_name)
 
   /* L'image final post-traitement est saufgarde dans un ficher qui a pour nom: */
   /* le nom definie par l'usager + le No Serial de l'image traite */
-  erSaveImage( &ea, file_name);  
+  erSaveImage( &ea, name, exit);  
 
-  /* Extraction */
-  /* Definition d un foncteur comme critere pour extraire des pixels suivant leur niveau de gris. cf->utilities/erPredicates.hpp */     
-  IsEqualTo is_equal_255( 255);
+//   /* Extraction */
+//   /* Definition d un foncteur comme critere pour extraire des pixels suivant leur niveau de gris. cf->utilities/erPredicates.hpp */     
+//   IsEqualTo is_equal_255( 255);
 
-  /* Definition du conteneur pour points au moment de l extraction */
-  std::vector< CvPoint> cvPts;
+//   /* Definition du conteneur pour points au moment de l extraction */
+//   std::vector< CvPoint> cvPts;
 
-  /* Le contours obtenues avec le filtre Canny, sont definies par des pixels ayant une intensite maximal de 255 en 8 bit. */
-  /* cette fonction ecrit un vecteur avec les coordonnes en pixels de le dites pixels*/
-  erExtractPoints( &ea, cvPts, is_equal_255,rect,1); /* Extraction */
-  std::list<Point_2> cgalPts;
+//   /* Le contours obtenues avec le filtre Canny, sont definies par des pixels ayant une intensite maximal de 255 en 8 bit. */
+//   /* cette fonction ecrit un vecteur avec les coordonnes en pixels de le dites pixels*/
+//   erExtractPoints( &ea, cvPts, is_equal_255,rect,1); /* Extraction */
+//   std::list<Point_2> cgalPts;
   
-  /* Conversion des points OpenCv en point CGAL */
-  cvPointsToCgal(cvPts.begin(),cvPts.end(),std::back_inserter(cgalPts));
-  Alpha_shape_2 as2(cgalPts.begin(),cgalPts.end(),FT(2));
-  cgalPts.clear();
+//   /* Conversion des points OpenCv en point CGAL */
+//   cvPointsToCgal(cvPts.begin(),cvPts.end(),std::back_inserter(cgalPts));
+//   Alpha_shape_2 as2(cgalPts.begin(),cgalPts.end(),FT(2));
+//   cgalPts.clear();
 
-  /* Aplication de l'algorithme de boost::graph */
-  std::list<Segment_2> segments;
-  alpha_edges( as2, std::back_inserter(segments));
+//   /* Aplication de l'algorithme de boost::graph */
+//   std::list<Segment_2> segments;
+//   alpha_edges( as2, std::back_inserter(segments));
   
-  /* Ecriture des cotes dans le fichier "edges_cv_filters.dat" */
-  std::string fileN="test";
-  std::string base_edges="results/";
-  std::string file = base_edges+fileN+".dat";
-  std::cout << file << std::endl;
-  std::ofstream ot(file.c_str());
-  std::list<Segment_2>::iterator  is;
-  for(is=segments.begin();is!=segments.end();is++)
-    {
-      ot << *is << std::endl;
-    };
-  segments.clear();
-  /* L'usager doit selectionner le contour ou courbe d'interet dans l'image resultant du Canny. */
-  /* Cette fonction extrait (depuis le vecteur construit auparavant) les coordones des pixels de le dit curbe */
-  //erExtractionCurveUser( &ea, &cerc, file_name, cvPts, rect);
+//   /* Ecriture des cotes dans le fichier "edges_cv_filters.dat" */
+//   std::string fileN="test";
+//   std::string base_edges="results/";
+//   std::string file = base_edges+fileN+".dat";
+//   std::cout << file << std::endl;
+//   std::ofstream ot(file.c_str());
+//   std::list<Segment_2>::iterator  is;
+//   for(is=segments.begin();is!=segments.end();is++)
+//     {
+//       ot << *is << std::endl;
+//     };
+//   segments.clear();
+//   /* L'usager doit selectionner le contour ou courbe d'interet dans l'image resultant du Canny. */
+//   /* Cette fonction extrait (depuis le vecteur construit auparavant) les coordones des pixels de le dit curbe */
+//   //erExtractionCurveUser( &ea, &cerc, file_name, cvPts, rect);
 
-  /*Cette fonction ecrit la curbe d'interet, dans un ficher qui a pour nom, */ 
-  /* le nom definie par l'usager + le No serial de l'image depuis laquelle etait extrait */
-  //erEcriturePointPixel( cvPts, file_name); 
+//   /*Cette fonction ecrit la curbe d'interet, dans un ficher qui a pour nom, */ 
+//   /* le nom definie par l'usager + le No serial de l'image depuis laquelle etait extrait */
+//   //erEcriturePointPixel( cvPts, file_name); 
   
-  /* Boucle de lecteure des images  */
-  time_t tbeg = time(NULL);
-  uint nIm(0);
-  while(true)
-    {  
-      boost::tie(er,loaded) = erLoadImageSeries( file_name,inc.inc());
-      if(!loaded) break;
-      bw = erConvertToBlackAndWhite( &er);        
-      //eo = ca.transform_image( bw);
-      ea = erDef_ROI( &bw, &rect);    
-      erCvSmooth( &ea, &psmo);
-      erCvAdaptiveThreshold( &ea, &padt);
-      erCvSmooth( &ea, &psmo1);
-      erCvCanny( &ea, &pcan);
-      erSaveImage( &ea, file_name);
-      IsEqualTo is_equal_255( 255);
-      std::vector<CvPoint> cvPts; 
-      erExtractPoints( &ea, cvPts, is_equal_255,rect,1);
-      // Attention ENCORE EN DEVELOPPEMENT
-      cvPointsToCgal(cvPts.begin(),cvPts.end(),std::back_inserter(cgalPts));
-      // Attention ENCORE EN DEVELOPPEMENT
-      Alpha_shape_2 as2(cgalPts.begin(),cgalPts.end(),FT(2));
+//   /* Boucle de lecteure des images  */
+//   time_t tbeg = time(NULL);
+//   uint nIm(0);
+//   while(true)
+//     {  
+//       boost::tie(er,loaded) = erLoadImageSeries( file_name,inc.inc());
+//       if(!loaded) break;
+//       bw = erConvertToBlackAndWhite( &er);        
+//       //eo = ca.transform_image( bw);
+//       ea = erDef_ROI( &bw, &rect);    
+//       erCvSmooth( &ea, &psmo);
+//       erCvAdaptiveThreshold( &ea, &padt);
+//       erCvSmooth( &ea, &psmo1);
+//       erCvCanny( &ea, &pcan);
+//       erSaveImage( &ea, file_name);
+//       IsEqualTo is_equal_255( 255);
+//       std::vector<CvPoint> cvPts; 
+//       erExtractPoints( &ea, cvPts, is_equal_255,rect,1);
+//       // Attention ENCORE EN DEVELOPPEMENT
+//       cvPointsToCgal(cvPts.begin(),cvPts.end(),std::back_inserter(cgalPts));
+//       // Attention ENCORE EN DEVELOPPEMENT
+//       Alpha_shape_2 as2(cgalPts.begin(),cgalPts.end(),FT(2));
       
-      cgalPts.clear();
-      // Attention ENCORE EN DEVELOPPEMENT
-      alpha_edges( as2, std::back_inserter(segments));
-      /* Ecriture des cotes dans le fichier "edges_cv_filters.dat" */
+//       cgalPts.clear();
+//       // Attention ENCORE EN DEVELOPPEMENT
+//       alpha_edges( as2, std::back_inserter(segments));
+//       /* Ecriture des cotes dans le fichier "edges_cv_filters.dat" */
       
-      std::string fifi(file_name[1]);
-      std::string num=boost::lexical_cast<std::string>(nIm);
-      if(num.size() < 2) num.insert(0,"0");
-      std::string file = "results/"+fifi+"_"+num+".seg";
-      std::cout << file << " ecrit\n";
+//       std::string fifi(file_name[1]);
+//       std::string num=boost::lexical_cast<std::string>(nIm);
+//       if(num.size() < 2) num.insert(0,"0");
+//       std::string file = "results/"+fifi+"_"+num+".seg";
+//       std::cout << file << " ecrit\n";
       
-      std::ofstream ot(file.c_str());
-      MapOfSegments  segis = get_connected_segments(segments.begin(),segments.end());
-      Segments_set_is_closed criteria;
-      ConnectedSegments out=filterMapOfSegments(segis,criteria);
-      std::cout << "Taille de out:" << out.size() << std::endl;
-      for(is=out.begin();is!=out.end();is++)
-        { 
-	  ot << *is << std::endl;
-        };
-      segments.clear();
-      //erExtractionCurve( &ea, &cerc, file_name, cvPts, rect);
-      //erEcriturePointPixel( cvPts, file_name); 
-      nIm++;
-      if(nIm > Nimax) break;
-    }
-  std::cout << "Temps pour " << nIm << " images :" << time(NULL)-tbeg << std::endl;
+//       std::ofstream ot(file.c_str());
+//       MapOfSegments  segis = get_connected_segments(segments.begin(),segments.end());
+//       Segments_set_is_closed criteria;
+//       ConnectedSegments out=filterMapOfSegments(segis,criteria);
+//       std::cout << "Taille de out:" << out.size() << std::endl;
+//       for(is=out.begin();is!=out.end();is++)
+//         { 
+// 	  ot << *is << std::endl;
+//         };
+//       segments.clear();
+//       //erExtractionCurve( &ea, &cerc, file_name, cvPts, rect);
+//       //erEcriturePointPixel( cvPts, file_name); 
+//       nIm++;
+//       if(nIm > Nimax) break;
+//     }
+//   std::cout << "Temps pour " << nIm << " images :" << time(NULL)-tbeg << std::endl;
   return(0);
 }

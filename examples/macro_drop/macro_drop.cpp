@@ -40,7 +40,8 @@ int main( int hola, char** file_name)
   std::cin >> Nimax;
   
   /* Declaration de variables a utiliser par les fonctions */
-  INFOFILE = file_name[1];
+  char* exit = file_name[1];
+  char* name = file_name[2];
   ImageIncrement inc(ninc,ndelta,every);
   std::cout << INFOFILE << std::endl;
   erImage er, bw, eo, ea;
@@ -59,9 +60,9 @@ int main( int hola, char** file_name)
   
   /* Chargement de la premiere image a travailler et conversion a 8bit*/
 
-  boost::tie(er,loaded) = erLoadImage(file_name[2]);
+  boost::tie(er,loaded) = erLoadImage(name);
   if(!loaded) return 0;
-  std::cout << "Image :" << file_name[2] << " chargee\n";
+  std::cout << "Image :" << name << " chargee\n";
   bw = erConvertToBlackAndWhite( &er); /* Conversion en 8 bit single channel */
 
   /* Conversion de l'image du RGB->GRIS */
@@ -95,54 +96,54 @@ int main( int hola, char** file_name)
 
   /* L'image final post-traitement est saufgarde dans un ficher qui a pour nom: */
   /* le nom definie par l'usager + le No Serial de l'image traite */
-  erSaveImage( &ea, file_name);  
+  erSaveImage( &ea, name, exit);  
 
-  /* Extraction */
-  /* Definition d un foncteur comme critere pour extraire des pixels suivant leur niveau de gris. cf->utilities/erPredicates.hpp */     
-  IsEqualTo is_equal_255( 255);
+//   /* Extraction */
+//   /* Definition d un foncteur comme critere pour extraire des pixels suivant leur niveau de gris. cf->utilities/erPredicates.hpp */     
+//   IsEqualTo is_equal_255( 255);
 
-  /* Definition du conteneur pour points au moment de l extraction */
-  std::vector< CvPoint> cvPts;
+//   /* Definition du conteneur pour points au moment de l extraction */
+//   std::vector< CvPoint> cvPts;
 
-  /* Le contours obtenues avec le filtre Canny, sont definies par des pixels ayant une intensite maximal de 255 en 8 bit. */
-  /* cette fonction ecrit un vecteur avec les coordonnes en pixels de le dites pixels*/
-  erExtractPoints( &ea, cvPts, is_equal_255); /* Extraction */
+//   /* Le contours obtenues avec le filtre Canny, sont definies par des pixels ayant une intensite maximal de 255 en 8 bit. */
+//   /* cette fonction ecrit un vecteur avec les coordonnes en pixels de le dites pixels*/
+//   erExtractPoints( &ea, cvPts, is_equal_255); /* Extraction */
   
-  /* L'usager doit selectionner le contour ou courbe d'interet dans l'image resultant du Canny. */
-  /* Cette fonction extrait (depuis le vecteur construit auparavant) les coordones des pixels de le dit curbe */
-  erExtractionCurveUser( &ea, &cerc, file_name, cvPts, rect);
+//   /* L'usager doit selectionner le contour ou courbe d'interet dans l'image resultant du Canny. */
+//   /* Cette fonction extrait (depuis le vecteur construit auparavant) les coordones des pixels de le dit curbe */
+//   erExtractionCurveUser( &ea, &cerc, file_name, cvPts, rect);
 
-  /*Cette fonction ecrit la curbe d'interet, dans un ficher qui a pour nom, */ 
-  /* le nom definie par l'usager + le No serial de l'image depuis laquelle etait extrait */
-  erEcriturePointPixel( cvPts, file_name); 
+//   /*Cette fonction ecrit la curbe d'interet, dans un ficher qui a pour nom, */ 
+//   /* le nom definie par l'usager + le No serial de l'image depuis laquelle etait extrait */
+//   erEcriturePointPixel( cvPts, file_name); 
   
-  /* Boucle de lecteure des images  */
-  clock_t tbeg = clock();
-  uint nIm(0);
-  while(true)
-    { 
-      erImage erb, bwb, eab; 
-      boost::tie(erb,loaded) = erLoadImageSeries( file_name,inc.inc());
-      if(!loaded) break;
-      bwb = erConvertToBlackAndWhite( &erb);        
-      //eo = ca.transform_image( bw);
-      eab = erDef_ROI( &bwb, &rect);    
-      erCvSmooth( &eab, &psmo);
-      erCvAdaptiveThreshold( &eab, &padt);
-      erCvSmooth( &eab, &psmo1);
-      erCvCanny( &eab, &pcan);
-      erSaveImage( &eab, file_name);
-      IsEqualTo is_equal_255( 255);
-      std::vector<CvPoint> cvPts; 
-      erExtractPoints( &eab, cvPts, is_equal_255);
-      erExtractionCurve( &eab, &cerc, file_name, cvPts, rect);
-      erEcriturePointPixel( cvPts, file_name); 
+//   /* Boucle de lecteure des images  */
+//   clock_t tbeg = clock();
+//   uint nIm(0);
+//   while(true)
+//     { 
+//       erImage erb, bwb, eab; 
+//       boost::tie(erb,loaded) = erLoadImageSeries( file_name,inc.inc());
+//       if(!loaded) break;
+//       bwb = erConvertToBlackAndWhite( &erb);        
+//       //eo = ca.transform_image( bw);
+//       eab = erDef_ROI( &bwb, &rect);    
+//       erCvSmooth( &eab, &psmo);
+//       erCvAdaptiveThreshold( &eab, &padt);
+//       erCvSmooth( &eab, &psmo1);
+//       erCvCanny( &eab, &pcan);
+//       erSaveImage( &eab, file_name);
+//       IsEqualTo is_equal_255( 255);
+//       std::vector<CvPoint> cvPts; 
+//       erExtractPoints( &eab, cvPts, is_equal_255);
+//       erExtractionCurve( &eab, &cerc, file_name, cvPts, rect);
+//       erEcriturePointPixel( cvPts, file_name); 
       
-      nIm++;
-      std::cout << "Image number :" << nIm << " passed: " << file_name[2] << "\n";
-      if (nIm>Nimax) break;
-    }
-    clock_t tfin = clock();
-    std::cout << "Temps en ms pour " << nIm << " images :" << (tfin-tbeg)  << std::endl;
+//       nIm++;
+//       std::cout << "Image number :" << nIm << " passed: " << file_name[2] << "\n";
+//       if (nIm>Nimax) break;
+//     }
+//     clock_t tfin = clock();
+//     std::cout << "Temps en ms pour " << nIm << " images :" << (tfin-tbeg)  << std::endl;
   return(0);
 }

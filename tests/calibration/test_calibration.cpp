@@ -16,8 +16,10 @@ int main( int hola, char** file_name)
 { /* Chargement et visualisation de l image */
   erImage im ;
   bool loaded;
-  boost::tie(im,loaded)= erLoadImage(file_name);
-  INFOFILE = file_name[1];
+  char* exit = file_name[1];
+  char* name = file_name[2];
+  boost::tie(im,loaded)= erLoadImage( name);
+  //INFOFILE = file_name[1];
   erShowImage("toto",&im);
 
   /* Defintion de la calibration et visualisation des images 

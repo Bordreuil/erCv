@@ -8,8 +8,9 @@
    pour ecrire un nouveau fichier
  */
 
-std::pair<bool,const char* > erGetNumberInFileName(char*);
-char* erConcatenateFileName(char* ,char*,int,char*);
+std::pair< bool, const char* > erGetNumberInFileName( char*);
+
+char* erConcatenateFileName( char*, char*, int, char*);
 
 
 

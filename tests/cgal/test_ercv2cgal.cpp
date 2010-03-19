@@ -11,9 +11,11 @@
 #include<boost/utility.hpp>
 //std::string INFOFILE;
 
-int main(int HOLA, char** file_name){
+int main(int HOLA, char** file_name)
+{
   /* Chargement et visualisation de l image de base */
-  INFOFILE = file_name[1];
+  char* name = file_name[2];
+  char* exit = file_name[1];
   erImage bw, ea, eb, ec;
   erImage pimg, bwpimg;
   CvRect rect;
@@ -33,12 +35,12 @@ int main(int HOLA, char** file_name){
 
   //erCalibration ca( "cuadro5.jpg", "rec_droite_256.bmp", 3, 3);
   //erCalibration ca( "../pictures/cuadro_droit_256.jpg", "../pictures/rec_droite_256.bmp", 3, 3); /* Calibration des images */  
-  boost::tie(eb,loaded) = erLoadImage(file_name);
+  //boost::tie(eb,loaded) = erLoadImage(file_name);
   //bw = ca.transform_image( eb);
   //erSaveImage( &bw, file_name);  
-   IsEqualTo is_equal_255( 255); 
+  // IsEqualTo is_equal_255( 255); 
    /* Definition d un foncteur comme critere pour extraire des pixels suivant leur niveau de gris. cf->utilities/erPredicates.hpp */     
-  std::vector< CvPoint> cvPts; 
+   //std::vector< CvPoint> cvPts; 
   /* Definition du conteneur pour points au moment de l extraction */
    //erExtractPoints( &ea, cvPts, is_equal_255); /* Extraction */
    //erExtractionCurveUser( &ea, &cerc, file_name, cvPts, rect);

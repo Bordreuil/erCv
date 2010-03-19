@@ -1,5 +1,5 @@
 #include <erCv/Gui/erCvFiltersUser.hpp>
-#include <erCv/erCv.hpp>
+//#include <erCv/erCv.hpp>
 #include <iostream>
 #include <fstream>
 
@@ -189,7 +189,7 @@ void erCvSobelUser( IplImage* simg,erSobelP* parm)
 
 
 
-void erCvThresholdUser( IplImage* simg, erThresP* parm)
+void erCvThresholdUser( IplImage* simg, erThresP* parm, bool with_trackbar)
 {
   IplImage* img;
   int threshold[2], maxt, itrak[2], threstype;
@@ -203,23 +203,32 @@ void erCvThresholdUser( IplImage* simg, erThresP* parm)
   int ok=1;
   while(ok)
     {
-      std::cout << "Type of threshold: 1->CV_THRESH_BINARY  2->CV_THRESH_BINARY_INV  3->CV_THRESH_TRUNC  4->CV_THRESH_TOZERO  5->CV_THRESH_TOZERO_INV : ";
-      std::cin >> threstype;
-      std::cout << std::endl;
-      //std::cout << "Put the max value to threshold of Threshold fonction (to 8-bit image = 255): ";
-      //std::cin >> maxt;
-      maxt = 255;
-      std::cout << std::endl;
-      
       cvNamedWindow( "Threshold_trackbar", 0);
       cvNamedWindow( "original", 0);
-      itrak[0] = cvCreateTrackbar( "max_threshold", "Threshold_trackbar", &threshold[0], maxt, NULL);
-      if( threstype == 1 or threstype == 2)
+      maxt = 255;
+      if(!with_trackbar)
 	{
-	  itrak[1] = cvCreateTrackbar( "threshold", "Threshold_trackbar", &threshold[1], maxt, NULL);
+	  std::cout << "Type of threshold: 1->CV_THRESH_BINARY  2->CV_THRESH_BINARY_INV  3->CV_THRESH_TRUNC  4->CV_THRESH_TOZERO  5->CV_THRESH_TOZERO_INV : ";
+	  std::cin >> threstype;
+	  std::cout << std::endl;
+	  std::cout << "Put the value of Threshold fonction (to 8-bit image = 255): ";
+	  std::cin >> threshold[0];
+	  std::cout << std::endl;
+	  if( threstype == 1 or threstype == 2)
+	    {
+	      std::cout << "Put the value of Second Threshold fonction (to 8-bit image = 255): ";
+	      std::cin >> threshold[1];
+	      std::cout << std::endl;
+	    }
 	}
-      
-      
+      else
+	{
+	  itrak[0] = cvCreateTrackbar( "max_threshold", "Threshold_trackbar", &threshold[0], maxt, NULL);
+	  if( threstype == 1 or threstype == 2)
+	    {
+	      itrak[1] = cvCreateTrackbar( "threshold", "Threshold_trackbar", &threshold[1], maxt, NULL);
+	    }
+	}
       while( 1)
 	{  
 	  if( threstype == 1) cvThreshold( simg, img, (float)threshold[0], (float)threshold[1], CV_THRESH_BINARY);
@@ -231,19 +240,17 @@ void erCvThresholdUser( IplImage* simg, erThresP* parm)
 	  cvShowImage( "original", simg);
 	  if( cvWaitKey( 10) == 27) break;
 	} 
-      //cvShowImage( "Threshold_trackbar", img);
-      //cvShowImage( "original", simg);
       cvDestroyWindow( "Threshold_trackbar");
+      cvDestroyWindow( "original");
       std::cout << " T'es content (Oui 0/Non 1)? ";
       std::cin >> ok;
     }  
-  
+ 
   *simg = *img;
   parm->trh1 = cvGetTrackbarPos( "max_threshold", "Threshold_trackbar");
   parm->trh2 = cvGetTrackbarPos( "threshold", "Threshold_trackbar");
   parm->type = threstype;
-  cvDestroyWindow( "Threshold_trackbar");
-  cvDestroyWindow( "original");
+
   std::ofstream file( nomb, std::ios_base::app );
   file << "***********Filter fonction THRESHOLD***********\n";
   file << "Threshold :------------ " << parm->trh1 << std::endl;
@@ -256,7 +263,7 @@ void erCvThresholdUser( IplImage* simg, erThresP* parm)
 
 
 
-void erCvAdaptiveThresholdUser( IplImage* simg, erAdThrP* parm)
+void erCvAdaptiveThresholdUser( IplImage* simg, erAdThrP* parm, bool with_trackbar)
 {
   IplImage* img;
   int threshold, maxt[2], itrak[2], threstype, adapt, neigh, param;
@@ -269,7 +276,6 @@ void erCvAdaptiveThresholdUser( IplImage* simg, erAdThrP* parm)
   int ok=1;
   while( ok)
     {  
-      //neigh = 1;
       std::cout << std::endl;
       std::cout << "Type of threshold: 1->CV_THRESH_BINARY  2->CV_THRESH_BINARY_INV  : ";
       std::cin >> threstype;
@@ -277,21 +283,27 @@ void erCvAdaptiveThresholdUser( IplImage* simg, erAdThrP* parm)
       std::cout << "Type adaptative methode: 1->MEAN  2->GAUSSIAN  : ";
       std::cin >> adapt;
       std::cout << std::endl;
-      std::cout << "Param to operate the adaptive threshold: ";
-      std::cin >> param;
-      //param = -20;
-      std::cout << std::endl;
-      std::cout << "Neighboor to threshold in pixels (3,5,7,..): ";
-      std::cin >> neigh;
- 
-      maxt[0] = 140;
-      maxt[1] = 130;
       cvNamedWindow( "Threshold_trackbar", 0);
       cvNamedWindow( "original", 0);
-      itrak[0] = cvCreateTrackbar( "premier_param", "Threshold_trackbar", &param, maxt[0], NULL);
-      itrak[1] = cvCreateTrackbar( "seconde_pixel", "Threshold_trackbar", &neigh, maxt[1], NULL);
-      //while(1)
-      //	{
+      if(!with_trackbar)
+	{
+	  std::cout << "Param to operate the adaptive threshold: ";
+	  std::cin >> param;
+	  std::cout << std::endl;
+	  std::cout << "Neighboor to threshold in pixels (3,5,7,..): ";
+	  std::cin >> neigh;
+	}
+      else
+	{
+	  neigh = 1;
+	  param = -20;
+	  maxt[0] = 140;
+	  maxt[1] = 130;
+	  itrak[0] = cvCreateTrackbar( "premier_param", "Threshold_trackbar", &param, maxt[0], NULL);
+	  itrak[1] = cvCreateTrackbar( "seconde_pixel", "Threshold_trackbar", &neigh, maxt[1], NULL);
+	}
+      while(1)
+      	{
 	  if( threstype == 1) 
 	    {
 	      if( adapt ==1) cvAdaptiveThreshold( simg, img, (double)threshold, CV_ADAPTIVE_THRESH_MEAN_C, CV_THRESH_BINARY, (2*neigh)+1, param-50);
@@ -304,8 +316,8 @@ void erCvAdaptiveThresholdUser( IplImage* simg, erAdThrP* parm)
 	    }
 	  cvShowImage( "Threshold_trackbar", img);
 	  cvShowImage( "original", simg);
-	  while(1){if( cvWaitKey( 10) == 27) break;};
-	  //}
+	  if( cvWaitKey( 10) == 27) break;
+	}
       cvDestroyWindow( "Threshold_trackbar");
       std::cout << " T'es content (Oui 0/Non 1)? ";
       std::cin >> ok;
@@ -334,69 +346,6 @@ void erCvAdaptiveThresholdUser( IplImage* simg, erAdThrP* parm)
   //std::cout << "parm->t: " << parm->trhP << std::endl;
   //std::cout << "parm->n: " << parm->neig << std::endl;
 }
-
-
-
-
-
-void erCvPyramidUser( IplImage* simg, erPyramP* parm)
-{
-  IplImage* img;
-  int threshold[2], maxt[2], itrak[2], level;
-  std::string name = INFOFILE;
-  name+= ".txt";
-  const char* nomb = name.c_str();
-  //std::ofstream myfile( nomb);
-  double a[2];
-  CvSeq* comp = NULL;
-  CvMemStorage* stg = NULL;
-  threshold[0] = 1;
-  threshold[1] = 1;
-  img = cvCloneImage( simg);
-
-  std::cout << "Put the max level of pyramid segmentation: ";
-  std::cin >> level;
-  //level = 6;
-  //std::cout << std::endl;
-  //std::cout << "Put the error max value (100) of threshold1(link) et threshold2(clustering): ";
-  //std::cin >> maxt[0] >> maxt[1];
-  maxt[0] = maxt[1] = 30;
-
-  cvNamedWindow( "Pyramid_trackbar", 0);
-
-  itrak[0] = cvCreateTrackbar( "max_thresh_link", "Pyramid_trackbar", &threshold[0], maxt[0], NULL);
-  itrak[1] = cvCreateTrackbar( "max_thresh_clus", "Pyramid_trackbar", &threshold[1], maxt[1], NULL);
-
-  while(1)
-    {
-      if (stg==NULL)
-	{
-	  stg = cvCreateMemStorage(0);
-	}
-      else 
-	{
-	  cvClearMemStorage(stg);
-	}
-      a[0] = (double)(threshold[0]/1);
-      a[1] = (double)(threshold[1]/1);
-      cvPyrSegmentation(simg, img, stg, &comp, level, a[0], a[1]);
-      cvShowImage( "Pyramid_trackbar", img);
-      if( cvWaitKey( 10) == 27) break;
-    }
-  parm->trh1 = cvGetTrackbarPos( "max_thresh_link", "Pyramid_trackbar");
-  parm->trh2 = cvGetTrackbarPos( "max_thresh_clus", "Pyramid_trackbar");
-  parm->levl = level;
-  cvDestroyWindow( "Pyramid_trackbar");
-
-  std::ofstream file( nomb, std::ios_base::app );
-  file << "***********Filter fonction PYRAMID*************\n";
-  file << "Error linking :-------- " << parm->trh1 << std::endl;
-  file << "Error clustering:------ " << parm->trh2 << std::endl;
-  file << "Level of pyramid:------ " << parm->levl << std::endl;
-  file << std::endl;
-  *simg = *img;
-}
-
 
 
 

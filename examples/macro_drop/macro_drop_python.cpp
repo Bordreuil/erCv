@@ -55,7 +55,10 @@ struct MacroDropAnalysis:public Analysis
   erSmootP psmo, psmo1;
   erCannyP pcan;
   erAdThrP padt;
-  bool loaded;
+  bool loaded; 
+  std::list< CvPoint> cvPts;
+  std::list< CgPoint> cgPts;
+  std::list< CgSegmt> cgSeg;
   char* file_name = firstImage;
 
   boost::tie(er,loaded) = erLoadImage(file_name);
@@ -74,14 +77,14 @@ struct MacroDropAnalysis:public Analysis
   erCvCannyUser( &ea, &pcan);
   param_canny = pcan;
 
-  IsEqualTo is_equal_255( 255);
-  std::vector< CvPoint> cvPts;
+  //IsEqualTo is_equal_255( 255);
+  //std::vector< CvPoint> cvPts;
 
-  erExtractPoints( &ea, cvPts, is_equal_255); /* Extraction */
-  erExtractionCurveUser( &ea, &cerc, file_name, cvPts, rect);
+  cvPts = erExtractCvPoints( &ea); /* Extraction */
+  erExtractCurveMacroDropUser( &ea, cvPts, rect, &cerc, file_name);
   cercToStart = cerc;
   char* nom = name;
-  erEcriturePointPixel2( cvPts, file_name,nom); 
+  erPrintCvPoint( cvPts, file_name, nom); 
   return true;
 
   };

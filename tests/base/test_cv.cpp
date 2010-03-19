@@ -15,19 +15,20 @@ std::string INFOFILE;
 
 int main( int hola, char** image_name)
 {
-
+  char* name = image_name[2];
+  char* exit = image_name[1];
   erImage todo, todo1;
   erSmootP psmo, psmo1;
   erThresP pthr;
   bool loaded;   // loaded permet de savir si le fichier c est charge correctement
   
-  erWriteRecordFile( image_name);
-  boost::tie(todo,loaded) = erLoadImage( image_name);
+  erWriteRecordFile( exit);
+  boost::tie(todo,loaded) = erLoadImage( name);
 
   erCvSmooth( &todo, &psmo);
   erCvThreshold( &todo, &pthr);
 
-  erSaveImage( &todo, image_name);
+  erSaveImage( &todo, name, exit);
 };
 
 

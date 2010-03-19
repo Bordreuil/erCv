@@ -8,7 +8,8 @@ int main(int HOLA, char** image_name)
 {
   bool loaded;
   /* Chargement et visualisation de l image de base */
-  INFOFILE = image_name[1];
+  char* exit = image_name[1];
+  char* name = image_name[2];
   erImage todo, er, bw, tm;
   erTemplP ptem;
   erSmootP psmo;
@@ -20,9 +21,9 @@ int main(int HOLA, char** image_name)
   erErodeP pero;
   erSobelP psob;
   
-  boost::tie(er,loaded)  = erLoadImage( image_name);
+  boost::tie(er,loaded)  = erLoadImage( name);
   bw = erConvertToBlackAndWhite( &er);
-  erWriteRecordFile( image_name);  //todo = cvCloneImage( &bw);
+  erWriteRecordFile( exit);  //todo = cvCloneImage( &bw);
   erCvTemplate( &bw, &ptem); 
   //erCvPyramidUser( &bw, &pyra);
  
@@ -32,7 +33,7 @@ int main(int HOLA, char** image_name)
 
   erCvCanny( &bw, &pcan);
   erCvSobel( &bw, &psob);
-  erSaveImage( &bw, image_name);
+  erSaveImage( &bw, name, exit);
   
   return(0);
 };

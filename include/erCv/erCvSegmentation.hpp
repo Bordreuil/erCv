@@ -32,9 +32,34 @@ struct erCallBP
 };
 
 
+struct erEqualP
+{
+  int applic;
+};
+
+
+/**
+   \brief
+
+ */
+struct erPyramP
+{
+  int trh1; /** < Threshold value to link in pyramid fonction */
+  int trh2; /** < Threshold value to clustering in pyramid fonction */
+  int levl; /** < Number of level to pyramid be applied */
+};
+
+
+
 IplImage* erCvTemplate( IplImage*, erTemplP*);
 
+void erCvEqualizeHist( IplImage*, erEqualP*);
 
 
+/** \bried
+    Permet d effectuer un filtrage de l image en reagroupant les pixels dans clusters 
+    d interet et en effectuant des liaisons entre eux
+ */
+void erCvPyramid( IplImage*, erPyramP*);
 
 #endif

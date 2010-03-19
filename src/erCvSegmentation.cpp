@@ -159,3 +159,49 @@ IplImage* erCvTemplate( IplImage* img, erTemplP* parm)
 //   return result_img;
 // }
 
+
+
+/*--------- Methode de equalisation des histogrames (celle ci permet d'amellier le contraste de l'image) ---------*/
+void erCvEqualizeHist( IplImage* simg, erEqualP* param)
+{
+  IplImage* img;
+  int usar;
+  usar = param->applic;
+  img = cvCloneImage(simg);
+  if( usar == 0)
+    {
+      cvEqualizeHist( simg, img);
+      erShow2Image("Result_equalize", simg, "image-temoin", img );
+    }
+  //erShowImage("Result_equalize", img );
+  *simg = *img;
+}
+
+
+
+void erCvPyramid( IplImage* simg, erPyramP* parm )
+{
+  int threshold[2], level;
+  double a[2];
+  CvSeq* comp = NULL;
+  CvMemStorage* stg = NULL;
+  threshold[0] = 1;
+  threshold[1] = 1;
+  threshold[0] = parm->trh1;
+  threshold[1] = parm->trh2;
+  level = parm->levl;
+  std::cout << "pyr_0: " << threshold[0] << std::endl;
+  std::cout << "pyr_1: " << threshold[1] << std::endl;
+  std::cout << "level: " << level << std::endl;
+  if (stg==NULL)
+    {
+      stg = cvCreateMemStorage(0);
+    }
+  else 
+    {
+      cvClearMemStorage(stg);
+    }
+  a[0] = (double)(threshold[0]/1);
+  a[1] = (double)(threshold[1]/1);
+  cvPyrSegmentation(simg, simg, stg, &comp, level, a[0], a[1]);
+}

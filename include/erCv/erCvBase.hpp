@@ -41,6 +41,8 @@ const char* nameGoodImagesFile(std::string);
 /** \addtogroup cv_group */
 /*@{*/
 
+
+
 class erImage : public IplImage
 /** 
     Encapsulation de la structure IplImage d openCv
@@ -67,11 +69,14 @@ private:
 };
 
 
+
 // Quelques fonctions utiles d' OpenCv
 /** \brief Fonction permettant de visualiser une Image a l aide
  d openCv
  */
 void erShowImage(char* ,IplImage*);
+
+
 
 
 // Quelques fonctions utiles d' OpenCv
@@ -81,32 +86,47 @@ void erShowImage(char* ,IplImage*);
 void erShow2Image(char* ,IplImage*, char*, IplImage*);
 
 
+
+
 /** \brief Fonction permettant de charge une  Image a l aide
  d openCv
  */
 std::pair<erImage,bool> erLoadImage( char*);
-std::pair<erImage,bool> erLoadImage( char**);
+//std::pair<erImage,bool> erLoadImage( char**);
+
+
 
 /** \brief Fonction permettant de charger une serie d Image a l aide
  d openCv ayant comme extentions une succesion ordonne et continue de intieres
  */
-std::pair<erImage,bool> erLoadImageSeries( char**,uint inc=1);
+std::pair<erImage,bool> erLoadImageSeries( char*, uint inc=1);
+
+
+
+
+
+/** \brief Fonction permettant de sauvegarder une image a l aide
+ d openCv
+ */
+void erSaveImage( IplImage*, char*, char*);
+
+
 
 
 
 /** \brief Fonction permettant de sauvegarder une image a l aide
  d openCv
  */
-void erSaveImage( IplImage*, char**);
+void erSaveImage2( IplImage*, char*, char*, char*);
 
 
-/** \brief Fonction permettant de sauvegarder une image a l aide
- d openCv
- */
-void erSaveImage2( IplImage*, char**, char*);
+
 
 
 erImage erCopyImage(erImage);
+
+
+
 
 
 /** Fonction permettant de convertir une image en noir et blanc 
@@ -115,21 +135,34 @@ erImage erCopyImage(erImage);
 IplImage*  erConvertToBlackAndWhite( IplImage*);
 
 
+
+
+
 /** Fonction permettant d ecrire un ficher de sauvegarde des paramettres utilises pour chaque fonction
  */
-void erWriteRecordFile( char**);
+void erWriteRecordFile( char*);
+
+
+
 
 
 /** Fonction permettant d convertir une image 32bit en 8bit
  */
 void erCvConvert32to8( IplImage*, IplImage*);
 
+
+
+
+
 /** Fonction permettant d ecrir le nom d un ficher de sortie avec l extension correspondante
  */
-char* erEcrireNomFicher( char**, std::string);
-char* erEcrireNomFichier( char*, char*,std::string);
-// Classe permettant 
+//char* erEcrireNomFicher( char**, std::string);
+char* erEcrireNomFichier( char*, char*, std::string);
 
+
+
+
+// Classe permettant 
 class ImageIncrement
 {
 public:

@@ -29,20 +29,15 @@ void erCvSmoothUser( IplImage*, erSmootP*);
 /** \brief
     Permet de filtrer l image par seuils d intensite (peramettres definies par l usager)
  */
-void erCvThresholdUser( IplImage*, erThresP*);
+void erCvThresholdUser( IplImage*, erThresP*, bool with_trackbar = false);
 
 
 
 
 /** \brief Permet d filtrer l image par seuils d intensites adaptes par zones (peramettres definies par l usager)
  */
-void erCvAdaptiveThresholdUser( IplImage*, erAdThrP*);
+void erCvAdaptiveThresholdUser( IplImage*, erAdThrP*, bool with_trackbar = false);
 
-
-
-/**  \brief Permet d effectuer un filtrage de l image en reagroupant les pixels dans cluosters d interet et en effectuant des liesons entre eux (peramettres definies par l usager)
- */
-void erCvPyramidUser( IplImage*, erPyramP*);
 
 
 

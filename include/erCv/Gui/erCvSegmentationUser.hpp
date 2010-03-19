@@ -11,6 +11,8 @@ IplImage* erCvTemplateUser( IplImage*, erTemplP*);
 
 IplImage* erCvCallBackPatchProjectUser( IplImage*, erCallBP* );
 
-void erCvEqualizeHist( IplImage*);
+void erCvEqualizeHistUser( IplImage*, erEqualP*);
+
+void erCvPyramidUser( IplImage*, erPyramP*, bool with_trackbar = false);
 
 #endif

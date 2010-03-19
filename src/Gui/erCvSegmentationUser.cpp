@@ -343,17 +343,137 @@ IplImage* erCvCallBackPatchProjectUser( IplImage* img, erCallBP* parm)
 
 
 /*--------- Methode de equalisation des histogrames (celle ci permet d'amellier le contraste de l'image) ---------*/
-void erCvEqualizeHist( IplImage* simg)
+void erCvEqualizeHistUser( IplImage* simg, erEqualP* param)
 {
   IplImage* img;
+  int usar;
+  std::string name = INFOFILE;
+  name+= ".txt";
+  const char* nomb = name.c_str();
   img = cvCloneImage(simg);
-  cvEqualizeHist( simg, img);
-  erShowImage("Result_equalize", img );
+  int ok =1; 
+  while(ok)
+    { 
+      std::cout << "Appliquer l'equalisation des histrogrames (Oui 0 / Non 1)";
+      std::cin >> usar;
+      if( usar == 0)
+	{
+	  cvEqualizeHist( simg, img);
+	  erShow2Image("Result_equalize", img, "image_temoin", simg );
+	  std::cout << " T'es content (Oui 0/Non 1)? ";
+	  std::cin >> ok;
+	}
+      else
+	ok = 0;
+    };
+  //erShowImage("Result_equalize", img );
+  param->applic = usar;
   *simg = *img;
 }
 
 
 
+void erCvPyramidUser( IplImage* simg, erPyramP* parm, bool with_trackbar)
+{
+  IplImage* img;
+  int threshold[2], maxt[2], itrak[2], level;
+  std::string name = INFOFILE;
+  name+= ".txt";
+  const char* nomb = name.c_str();
+  //std::ofstream myfile( nomb);
+  double a[2];
+  CvSeq *comp; 
+  //= NULL;
+  CvMemStorage* stg = NULL;
+  img = cvCloneImage( simg);
+
+  int ok = 1;
+  while(ok)
+    {
+      cvNamedWindow( "Pyramid_trackbar", 0);
+      cvNamedWindow( "original", 0);
+      if( !with_trackbar)
+	{
+	  std::cout << "Put the level of pyramid segmentation: ";
+	  std::cin >> level;
+	  std::cout << std::endl;
+	  std::cout << "Put the error of threshold1(link) et threshold2(clustering): ";
+	  std::cin >> threshold[0] >> threshold[1];
+	  std::cout << std::endl;
+	}
+      else
+	{
+	  threshold[0] = 1;
+	  threshold[1] = 1;
+	  level = 3;
+	  maxt[0] = maxt[1] = 30;
+	  itrak[0] = cvCreateTrackbar( "max_thresh_link", "Pyramid_trackbar", &threshold[0], maxt[0], NULL);
+	  itrak[1] = cvCreateTrackbar( "max_thresh_clus", "Pyramid_trackbar", &threshold[1], maxt[1], NULL);
+	}
+      while(1)
+	{
+	  if (stg==NULL)
+	    {
+	      stg = cvCreateMemStorage(1000);
+	    }
+	  else 
+	    {
+	      cvClearMemStorage(stg);
+	    }
+	  //a[0] = (double)(threshold[0]/1);
+	  //a[1] = (double)(threshold[1]/1);
+	  std::cout << "hola1" << std::endl;
+	  cvPyrSegmentation(simg, img, stg, &comp, level, threshold[0], threshold[1]);
+	  cvShowImage( "Pyramid_trackbar", img);
+	  cvShowImage( "original", simg);
+	  if( cvWaitKey( 10) == 27) break;
+	}
+      cvDestroyWindow( "Threshold_trackbar");
+      std::cout << " T'es content (Oui 0/Non 1)? ";
+      std::cin >> ok;
+    }  	 
+  parm->trh1 = cvGetTrackbarPos( "max_thresh_link", "Pyramid_trackbar");
+  parm->trh2 = cvGetTrackbarPos( "max_thresh_clus", "Pyramid_trackbar");
+  parm->levl = level;
+  
+  std::ofstream file( nomb, std::ios_base::app );
+  file << "***********Filter fonction PYRAMID*************\n";
+  file << "Error linking :-------- " << parm->trh1 << std::endl;
+  file << "Error clustering:------ " << parm->trh2 << std::endl;
+  file << "Level of pyramid:------ " << parm->levl << std::endl;
+  file << std::endl;
+  *simg = *img;
+}
+
+
+
+// void erCvPyrMeanShiftFiltering( IplImage* img, erPyrme* param)
+// { 
+//   IplImage* simg;
+//   int usar;
+//   std::string name = INFOFILE;
+//   name+= ".txt";
+//   const char* nomb = name.c_str();
+//   img = cvCloneImage(simg);
+//   int ok =1; 
+//   while(ok)
+//     { 
+//       std::cout << "";
+//       std::cin >> usar;
+//       if( usar == 0)
+// 	{
+// 	  cvEqualizeHist( simg, img);
+// 	  erShow2Image("Result_equalize", img, "image_temoin", simg );
+// 	  std::cout << " T'es content (Oui 0/Non 1)? ";
+// 	  std::cin >> ok;
+// 	}
+//       else
+// 	ok = 0;
+//     };
+//   //erShowImage("Result_equalize", img );
+//   param->applic = usar;
+//   *simg = *img;
+// }
 
 
 //void erCvDrawLines( IplImage* img)

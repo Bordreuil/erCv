@@ -47,6 +47,19 @@ void erShow2Image( char* name, IplImage* im, char* name2, IplImage* im2)
   cvDestroyWindow(name2);
 };
 
+// std::pair<erImage,bool> erLoadImage(char* name)
+// { 
+//   if(erFileExists(name))
+//     {
+//       return  std::make_pair(erImage(name),true);
+//     }
+//   else
+//     { 
+//       std::cout << "...Impossible d instancier un objet de type erImage a partir du fichier:" << name << std::endl;
+//       return std::make_pair(erImage(),false);
+//     };
+// };
+
 std::pair<erImage,bool> erLoadImage(char* name)
 { 
   if(erFileExists(name))
@@ -60,25 +73,12 @@ std::pair<erImage,bool> erLoadImage(char* name)
     };
 };
 
-std::pair<erImage,bool> erLoadImage(char** name)
-{ 
-  if(erFileExists(name[2]))
-    {
-      return  std::make_pair(erImage(name[2]),true);
-    }
-  else
-    { 
-      std::cout << "...Impossible d instancier un objet de type erImage a partir du fichier:" << name[2] << std::endl;
-      return std::make_pair(erImage(),false);
-    };
-};
-
 
 
 /* Read, name files manipulations, and convert to one channel the pictures in the loop */
-std::pair<erImage,bool> erLoadImageSeries( char** file_name,uint inc)
+std::pair<erImage,bool> erLoadImageSeries( char* file_name, uint inc)
 {
-  std::string name( file_name[2]); 
+  std::string name( file_name); 
   size_t ext_pos = name.find_last_of( '_' );
   size_t ext_pos1 = name.find_last_of( '.');
   if( ext_pos != std::string::npos && ext_pos1 != std::string::npos )
@@ -96,9 +96,9 @@ std::pair<erImage,bool> erLoadImageSeries( char** file_name,uint inc)
       name4.insert( ext_pos + 1, name3 );
       std::string name5 = name.substr( ext_pos1);
       name4+=name5;
-      file_name[2] = new char[ name4.size() + 1];
-      std::copy( name4.begin(), name4.end(), file_name[2]);
-      file_name[2][ name4.size()] = '\0';
+      file_name = new char[ name4.size() + 1];
+      std::copy( name4.begin(), name4.end(), file_name);
+      file_name[ name4.size()] = '\0';
       
       return erLoadImage( file_name);
     }
@@ -115,9 +115,9 @@ std::pair<erImage,bool> erLoadImageSeries( char** file_name,uint inc)
 
 
 /* Save final images to post processing procedure with CGAL */
-void erSaveImage( IplImage* simag, char** file_name)
+void erSaveImage( IplImage* simag, char* file_name, char* exit_name)
 {
-  std::string name( file_name[2]);
+  std::string name( file_name);
   size_t ext_pos = name.find_last_of( '_' );
   size_t ext_pos1 = name.find_last_of( '.');
   if( ext_pos != std::string::npos && ext_pos1 != std::string::npos )
@@ -131,7 +131,7 @@ void erSaveImage( IplImage* simag, char** file_name)
 	{
 	  name3.insert( 0, "0" );
 	}
-      std::string name4( file_name[1]);
+      std::string name4( exit_name);
       name4+= "_";
       name4+= name3;
       name4+= ".bmp";
@@ -144,9 +144,9 @@ void erSaveImage( IplImage* simag, char** file_name)
 
 
 /* Save final images to post processing procedure with CGAL */
-void erSaveImage2( IplImage* simag, char** file_name, char* a )
+void erSaveImage2( IplImage* simag, char* file_name, char* exit_name, char* a )
 {
-  std::string name( file_name[2]);
+  std::string name( file_name);
   //std::string tipo( a)
   size_t ext_pos = name.find_last_of( '_' );
   size_t ext_pos1 = name.find_last_of( '.');
@@ -161,7 +161,7 @@ void erSaveImage2( IplImage* simag, char** file_name, char* a )
 	{
 	  name3.insert( 0, "0" );
 	}
-      std::string name4( file_name[1]);
+      std::string name4( exit_name);
       name4+= "_";
       name4+= a;
       name4+= "_";
@@ -193,7 +193,7 @@ IplImage* erConvertToBlackAndWhite( IplImage* simag)
 
 
 /* Create the parametters record file of differents fonctions */
-void erWriteRecordFile( char** file_name)
+void erWriteRecordFile( char* file_name)
 {
 
   std::string name = INFOFILE;
@@ -257,38 +257,44 @@ void erCvConvert32to8( IplImage* srcarr, IplImage* dstarr)
 }
 
 
-char* erEcrireNomFicher( char** file_name, std::string info)
-{
-  std::string name( file_name[2]);
-  size_t ext_pos = name.find_last_of( '_' );
-  size_t ext_pos1 = name.find_last_of( '.');
-  if( ext_pos != std::string::npos && ext_pos1 != std::string::npos )
-    {
+// char* erEcrireNomFicher( char* file_name, char* exit_name, std::string info)
+// {
+//   std::string name( file_name);
+//   size_t ext_pos = name.find_last_of( '_' );
+//   size_t ext_pos1 = name.find_last_of( '.');
+//   if( ext_pos != std::string::npos && ext_pos1 != std::string::npos )
+//     {
       
-      std::string ext2 = name.substr( ext_pos + 1);
-      std::string name2 = ext2.substr( 0,  ext_pos1 - (ext_pos + 1));
-      int num = boost::lexical_cast<int>( name2);
-      std::string name3 = boost::lexical_cast<std::string>(num);
-      while(name2.size()>name3.size())
-	{
-	  name3.insert( 0, "0" );
-	}
-      std::string name4( file_name[1]);
-      name4+= info;
-      name4+= name3;
-      name4+= ".txt";
-      char* new_name = new char[ name4.size() + 1];
-      std::copy( name4.begin(), name4.end(), new_name);
-      new_name[ name4.size()] = '\0';
-      return new_name;
-    }
-  else
-    {
-      std::cout << "format incorrect du nom des fichers d'entre" << std::endl;
-      return "";
-    }
-};
-char* erEcrireNomFichier( char* file_name, char* nameOut,std::string info)
+//       std::string ext2 = name.substr( ext_pos + 1);
+//       std::string name2 = ext2.substr( 0,  ext_pos1 - (ext_pos + 1));
+//       int num = boost::lexical_cast<int>( name2);
+//       std::string name3 = boost::lexical_cast<std::string>(num);
+//       while(name2.size()>name3.size())
+// 	{
+// 	  name3.insert( 0, "0" );
+// 	}
+//       std::string name4( exit_name);
+//       name4+= info;
+//       name4+= name3;
+//       name4+= ".txt";
+//       char* new_name = new char[ name4.size() + 1];
+//       std::copy( name4.begin(), name4.end(), new_name);
+//       new_name[ name4.size()] = '\0';
+//       return new_name;
+//     }
+//   else
+//     {
+//       std::cout << "format incorrect du nom des fichers d'entre" << std::endl;
+//       return "";
+//     }
+// }
+;
+
+
+
+
+
+char* erEcrireNomFichier( char* file_name, char* nameOut, std::string info)
 {
   std::string name( file_name);
   size_t ext_pos = name.find_last_of( '_' );
@@ -320,9 +326,15 @@ char* erEcrireNomFichier( char* file_name, char* nameOut,std::string info)
     }
 };
 
+
+
 ImageIncrement::ImageIncrement():current(0),base(0),delta(0),every(0){};
+
+
 ImageIncrement::ImageIncrement(uint incbase,uint incD,uint every):current(0),base(incbase),
 					                          delta(incD),every(every){};
+
+
 uint ImageIncrement::inc()
 {
     current+=base;

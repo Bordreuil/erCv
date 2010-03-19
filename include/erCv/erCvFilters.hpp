@@ -37,6 +37,8 @@ struct erSmootP
 
 std::ostream& operator << (std::ostream&, erSmootP*);
 
+
+
 /**
    \brief 
  */
@@ -46,6 +48,8 @@ struct erSobelP
   int trhY; /** < Order Y derivated in sobel fonction */
 };
 
+
+
 /**
    \brief
  */
@@ -54,6 +58,8 @@ struct erCannyP
   int trh1; /** < Threshold 1 to canny fonction */
   int trh2; /** < Threshold 2 to canny fonction */
 };
+
+
 
 /**
    \brief
@@ -65,6 +71,8 @@ struct erThresP
   int trh2; /** < Threshold secondary value in Threshold fonction */
   int type; /** < Type of Threshold to be applied */
 };
+
+
 
 /**
    \brief
@@ -79,17 +87,6 @@ struct erAdThrP
   int type;  //** <                           */
   int adpt;  //** <                           */
 };
-/**
-   \brief
-
- */
-
-struct erPyramP
-{
-  int trh1; /** < Threshold value to link in pyramid fonction */
-  int trh2; /** < Threshold value to clustering in pyramid fonction */
-  int levl; /** < Number of level to pyramid be applied */
-};
 
 
 /**
@@ -101,6 +98,7 @@ struct erDilatP
   int iter; /** < Iteration number to be applied dilate fonction */
 };
 
+
 /**
    \brief
 
@@ -111,10 +109,11 @@ struct erErodeP
 };
 
 
+
 /** \brief 
     Permet d effectuer un lissage et un filtrage sur l image 
 */
-erImage erSmoothAndCanny( IplImage*, int , int );
+erImage erSmoothAndCanny( IplImage*, int A=1 , int B=2);
 
 
 
@@ -130,7 +129,6 @@ void erCvCanny( IplImage*, erCannyP*);
     \brief Permet d effectuer une lissage sur l image 
 */
 void erCvSmooth( IplImage*, erSmootP*);
-
 
 
 
@@ -151,22 +149,14 @@ void erCvThreshold( IplImage*, erThresP*);
 /** \brief
     Permet d filtrer l image par seuils d intensites adaptes par zones 
  */
-void erCvAdaptiveThreshold( IplImage* simg, erAdThrP* parm);
-
-
-
-/** \bried
-    Permet d effectuer un filtrage de l image en reagroupant les pixels dans clusters 
-    d interet et en effectuant des liaisons entre eux
- */
-void erCvPyramid( IplImage*, erPyramP*);
+void erCvAdaptiveThreshold( IplImage*, erAdThrP*);
 
 
 
 /** \brief
     Permet d effectuer un filtrage de l image en reduissant le nombre de pixels avec noir
  */
-void erCvDilate( IplImage*,erDilatP*);
+void erCvDilate( IplImage*, erDilatP*);
 
 
 

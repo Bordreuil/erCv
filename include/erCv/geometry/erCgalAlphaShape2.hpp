@@ -17,13 +17,54 @@ typedef Alpha_shape_2::Alpha_shape_edges_iterator Alpha_shape_edges_iterator;
 
 
 
-template <class OutputIterator>
-void alpha_edges( const Alpha_shape_2&  A, OutputIterator out)
+struct erAlphaP
 {
+  double alpha;       /** < Value of parameter alpha to AlphaShape */
+};
+
+
+
+template < class Container >
+std::list<CgSegmt> alpha_edges_user( Container cgPoints, erAlphaP* param)
+{
+  double alfa;
+  std::list<CgSegmt> cgSegment;
+  typedef typename Container::iterator it;
+  int ok =1;
+  while(ok)
+    {
+      std::cout << std::endl;
+      std::cout << "Value of alpha parameter to Alpha Shape (double v | v>0) ";
+      std::cin >> alfa;
+      Alpha_shape_2 A( cgPoints.begin(), cgPoints.end(), CgFTrai(alfa));
+      for(Alpha_shape_edges_iterator it =  A.alpha_shape_edges_begin(); it != A.alpha_shape_edges_end(); ++it)
+	{
+	  cgSegment.push_back( A.segment(*it));
+	}
+      ok = 0;
+    }
+  param->alpha = alfa;
+  return cgSegment;
+}
+
+
+
+
+template < class Container >
+std::list<CgSegmt> alpha_edges( Container cgPoints, erAlphaP* param)
+{
+  double alfa = param->alpha;
+  typedef typename Container::iterator it;
+  
+  Alpha_shape_2 A( cgPoints.begin(), cgPoints.end(), CgFTrai(alfa));
+  std::list<CgSegmt> cgSegment;
   for(Alpha_shape_edges_iterator it =  A.alpha_shape_edges_begin(); it != A.alpha_shape_edges_end(); ++it)
     {
-      *out++ = A.segment(*it);
+      cgSegment.push_back( A.segment(*it));
     }
+  
+  return cgSegment;
 }
+
 
 #endif

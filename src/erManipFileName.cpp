@@ -2,6 +2,8 @@
 #include<string>
 #include<boost/lexical_cast.hpp>
 #include<iostream>
+
+
 std::pair<bool,const char*>   erGetNumberInFileName(char* file_name)
 { 
   bool good_format = true;
@@ -28,7 +30,11 @@ std::pair<bool,const char*>   erGetNumberInFileName(char* file_name)
     };
   return std::make_pair(good_format,name3.c_str());
 };
-char* erConcatenateFileName(char* base,char* added,char* num,char* extension)
+
+
+
+
+char* erConcatenateFileName( char* base, char* added, char* num, char* extension)
 {
 
       std::string name4(base);
