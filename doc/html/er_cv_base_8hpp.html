@@ -34,14 +34,13 @@
 <code>#include &lt;utility&gt;</code><br>
 <code>#include &lt;iostream&gt;</code><br>
 <code>#include &lt;fstream&gt;</code><br>
+<code>#include &lt;<a class="el" href="er_cv_tools_8hpp-source.html">erCv/erCvTools.hpp</a>&gt;</code><br>
 
 <p>
 <a href="er_cv_base_8hpp-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Classes</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">class &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classer_image.html">erImage</a></td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">class &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_image_increment.html">ImageIncrement</a></td></tr>
 
 <tr><td colspan="2"><br><h2>Namespaces</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">namespace &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceer_cv.html">erCv</a></td></tr>
@@ -57,27 +56,27 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g189092cbecfc5f0b550fd4392374b2e5">erShow2Image</a> (char *, IplImage *, char *, IplImage *)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de visualiser une Image a l aide d openCv.  <a href="group__cv__group.html#g189092cbecfc5f0b550fd4392374b2e5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">std::pair&lt; <a class="el" href="classer_image.html">erImage</a>, bool &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g83fb83e7642f599612213d0d94a6292f">erLoadImage</a> (char **)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">std::pair&lt; <a class="el" href="classer_image.html">erImage</a>, bool &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#ge0be11733993eab4d6e5f4c4222a82ea">erLoadImage</a> (char *)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de charge une Image a l aide d openCv.  <a href="group__cv__group.html#g83fb83e7642f599612213d0d94a6292f"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">std::pair&lt; <a class="el" href="classer_image.html">erImage</a>, bool &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g2114a54989ad63c5b8915987f65b8812">erLoadImageSeries</a> (char **, uint inc=1)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de charge une Image a l aide d openCv.  <a href="group__cv__group.html#ge0be11733993eab4d6e5f4c4222a82ea"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">std::pair&lt; <a class="el" href="classer_image.html">erImage</a>, bool &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#gbd24204cf182e26da1b76fab35bc5004">erLoadImageSeries</a> (char *, uint inc=1)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de charger une serie d Image a l aide d openCv ayant comme extentions une succesion ordonne et continue de intieres.  <a href="group__cv__group.html#g2114a54989ad63c5b8915987f65b8812"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g18e2d5ad774bb23339d8946635f64c26">erSaveImage</a> (IplImage *, char **)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de charger une serie d Image a l aide d openCv ayant comme extentions une succesion ordonne et continue de intieres.  <a href="group__cv__group.html#gbd24204cf182e26da1b76fab35bc5004"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#ga00df399b6b51b54d4b86426bb1d4569">erSaveImage</a> (IplImage *, char *, char *)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de sauvegarder une image a l aide d openCv.  <a href="group__cv__group.html#g18e2d5ad774bb23339d8946635f64c26"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g7a77b8d394741d364b05b9a272d559e2">erSaveImage2</a> (IplImage *, char **, char *)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de sauvegarder une image a l aide d openCv.  <a href="group__cv__group.html#ga00df399b6b51b54d4b86426bb1d4569"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#gfbf23ed27820537a1676ec8a02076f9e">erSaveImage2</a> (IplImage *, char *, char *, char *)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de sauvegarder une image a l aide d openCv.  <a href="group__cv__group.html#g7a77b8d394741d364b05b9a272d559e2"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de sauvegarder une image a l aide d openCv.  <a href="group__cv__group.html#gfbf23ed27820537a1676ec8a02076f9e"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classer_image.html">erImage</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g360a7c44d73ffa1735a59e3f8501e2ec">erCopyImage</a> (<a class="el" href="classer_image.html">erImage</a>)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">IplImage *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#gcb0147ebad78c2fea365ea9f2d6e7baa">erConvertToBlackAndWhite</a> (IplImage *)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g12ff25e5fb4f33005c0c9f453486109b">erWriteRecordFile</a> (char **)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#gaf49499a4743daa313272993184d1c1f">erWriteRecordFile</a> (char *)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g970d0ca6ae556a2d3a3e2c088c659ee7">erCvConvert32to8</a> (IplImage *, IplImage *)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g4be32342e636852abaa7e1c492f5b0e2">erEcrireNomFicher</a> (char **, std::string)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#gdd388b1a396d4158f7e460569a968dd6">erEcrireNomFichier</a> (char *, char *, std::string)</td></tr>
 
 <tr><td colspan="2"><br><h2>Variables</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">std::string&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="er_cv_base_8hpp.html#ef9bcf4efa65abdc0c0e21921c468337">INFOFILE</a></td></tr>
@@ -144,7 +143,7 @@ Fichier contenant l encapsulation par une classe de la structure IplImage d open
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Wed Mar 10 16:42:28 2010 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Sun Mar 21 16:49:07 2010 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

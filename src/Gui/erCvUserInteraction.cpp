@@ -1,7 +1,7 @@
 #include <erCv/erCvBase.hpp> 
 #include <erCv/Gui/erCvUserInteraction.hpp>
 #include <erCv/utilities/erFileUtilities.hpp>
-
+#include<fstream>
 static uint n_right_click_rect = 0;
 static uint n_right_click_circ = 0;
 

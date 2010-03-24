@@ -25,114 +25,18 @@
 <a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _ER_CV_FILTERS_HPP_</span>
 <a name="l00003"></a>00003 <span class="preprocessor"></span>
 <a name="l00004"></a>00004 <span class="preprocessor">#include "<a class="code" href="er_cv_base_8hpp.html" title="Fichier contenant l encapsulation par une classe de la structure IplImage d openCv...">erCvBase.hpp</a>"</span>
-<a name="l00005"></a>00005 
+<a name="l00005"></a>00005 <span class="preprocessor">#include "<a class="code" href="er_cv_filters_params_8hpp.html">erCvFiltersParams.hpp</a>"</span>
 <a name="l00006"></a>00006 
-<a name="l00013"></a>00013 <span class="comment">//** \addtogroup filters */</span>
-<a name="l00020"></a><a class="code" href="group__filters.html#gff4876b3d842424c8cbc79abf3f3166f">00020</a> <span class="comment"></span><span class="keyword">enum</span> <a class="code" href="group__filters.html#gff4876b3d842424c8cbc79abf3f3166f" title="interface de filtres opencv dans erCv">SmoothType</a> {<a class="code" href="group__filters.html#ggff4876b3d842424c8cbc79abf3f3166f602883776855efb624a5007b6fd52337">BLUR_NO_SCALE</a>,
-<a name="l00021"></a><a class="code" href="group__filters.html#ggff4876b3d842424c8cbc79abf3f3166f7a562f950347a0a59df25b55cfcc7316">00021</a>                 <a class="code" href="group__filters.html#ggff4876b3d842424c8cbc79abf3f3166f7a562f950347a0a59df25b55cfcc7316">BLUR</a>,
-<a name="l00022"></a><a class="code" href="group__filters.html#ggff4876b3d842424c8cbc79abf3f3166ffca8f51c9117fbb492a2184e9df9e412">00022</a>                 <a class="code" href="group__filters.html#ggff4876b3d842424c8cbc79abf3f3166ffca8f51c9117fbb492a2184e9df9e412">GAUSSIAN</a>,
-<a name="l00023"></a><a class="code" href="group__filters.html#ggff4876b3d842424c8cbc79abf3f3166ffa725c81b10b52c8fc109ea7bc936063">00023</a>                 <a class="code" href="group__filters.html#ggff4876b3d842424c8cbc79abf3f3166ffa725c81b10b52c8fc109ea7bc936063">MEDIAN</a>, 
-<a name="l00024"></a><a class="code" href="group__filters.html#ggff4876b3d842424c8cbc79abf3f3166fc66c6a47ea119e6eb9a18c6773b1bc9c">00024</a>                 <a class="code" href="group__filters.html#ggff4876b3d842424c8cbc79abf3f3166fc66c6a47ea119e6eb9a18c6773b1bc9c">BILATERAL</a>
-<a name="l00025"></a>00025                  };
-<a name="l00026"></a>00026 
-<a name="l00027"></a>00027 <span class="keyword">extern</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code" href="group__filters.html#gde81ceed49d9d2f09f8e88f15afa1b60">nbSmoothType</a>;
-<a name="l00028"></a>00028 <span class="keyword">extern</span> <span class="keywordtype">char</span>* <a class="code" href="group__filters.html#gcf3c8f00962a7d026bb8a7228ee6e536">smoothtype</a> []; 
-<a name="l00029"></a>00029 
-<a name="l00030"></a>00030 
-<a name="l00031"></a><a class="code" href="structer_smoot_p.html">00031</a> <span class="keyword">struct </span><a class="code" href="structer_smoot_p.html">erSmootP</a>
-<a name="l00032"></a>00032 {
-<a name="l00033"></a><a class="code" href="structer_smoot_p.html#d330476017ce730a26cf766f59a3b620">00033</a>   <span class="keywordtype">int</span>        <a class="code" href="structer_smoot_p.html#d330476017ce730a26cf766f59a3b620">size</a>; 
-<a name="l00034"></a><a class="code" href="structer_smoot_p.html#b6b6da5f893f8522965f2fcec9dbd684">00034</a>   <a class="code" href="group__filters.html#gff4876b3d842424c8cbc79abf3f3166f" title="interface de filtres opencv dans erCv">SmoothType</a> <a class="code" href="structer_smoot_p.html#b6b6da5f893f8522965f2fcec9dbd684">type</a>; 
-<a name="l00035"></a>00035 };
-<a name="l00036"></a>00036 
-<a name="l00037"></a>00037 
-<a name="l00038"></a>00038 std::ostream&amp; <a class="code" href="group__filters.html#g04c4d64b3fcfdb8bc9a3f4b5319880ec">operator &lt;&lt; </a>(std::ostream&amp;, <a class="code" href="structer_smoot_p.html">erSmootP</a>*);
-<a name="l00039"></a>00039 
-<a name="l00043"></a><a class="code" href="structer_sobel_p.html">00043</a> <span class="keyword">struct </span><a class="code" href="structer_sobel_p.html">erSobelP</a>
-<a name="l00044"></a>00044 {
-<a name="l00045"></a><a class="code" href="structer_sobel_p.html#42a35c96b876d92ddbacc57c5a67c8eb">00045</a>   <span class="keywordtype">int</span> <a class="code" href="structer_sobel_p.html#42a35c96b876d92ddbacc57c5a67c8eb">trhX</a>; 
-<a name="l00046"></a><a class="code" href="structer_sobel_p.html#d8d37f75ae2e7c52c9b16994d8dcfbd2">00046</a>   <span class="keywordtype">int</span> <a class="code" href="structer_sobel_p.html#d8d37f75ae2e7c52c9b16994d8dcfbd2">trhY</a>; 
-<a name="l00047"></a>00047 };
+<a name="l00018"></a>00018 
+<a name="l00025"></a>00025 
+<a name="l00033"></a>00033 
+<a name="l00041"></a>00041 
 <a name="l00048"></a>00048 
-<a name="l00052"></a><a class="code" href="structer_canny_p.html">00052</a> <span class="keyword">struct </span><a class="code" href="structer_canny_p.html">erCannyP</a>
-<a name="l00053"></a>00053 {
-<a name="l00054"></a><a class="code" href="structer_canny_p.html#8fe47c2458c2d0ccd1a8bf73ea607bcd">00054</a>   <span class="keywordtype">int</span> <a class="code" href="structer_canny_p.html#8fe47c2458c2d0ccd1a8bf73ea607bcd">trh1</a>; 
-<a name="l00055"></a><a class="code" href="structer_canny_p.html#310729e0b87cf5e362fb19de1bf9e71d">00055</a>   <span class="keywordtype">int</span> <a class="code" href="structer_canny_p.html#310729e0b87cf5e362fb19de1bf9e71d">trh2</a>; 
-<a name="l00056"></a>00056 };
-<a name="l00057"></a>00057 
-<a name="l00062"></a><a class="code" href="structer_thres_p.html">00062</a> <span class="keyword">struct </span><a class="code" href="structer_thres_p.html">erThresP</a>
-<a name="l00063"></a>00063 {
-<a name="l00064"></a><a class="code" href="structer_thres_p.html#4e68f2905e160cc153b116f3a4493cf8">00064</a>   <span class="keywordtype">int</span> <a class="code" href="structer_thres_p.html#4e68f2905e160cc153b116f3a4493cf8">trh1</a>; 
-<a name="l00065"></a><a class="code" href="structer_thres_p.html#b8f8e41f51e2b35d7f8aee79fd0b673a">00065</a>   <span class="keywordtype">int</span> <a class="code" href="structer_thres_p.html#b8f8e41f51e2b35d7f8aee79fd0b673a">trh2</a>; 
-<a name="l00066"></a><a class="code" href="structer_thres_p.html#4fa39cf67c55e28d8ab40353c4f9d085">00066</a>   <span class="keywordtype">int</span> <a class="code" href="structer_thres_p.html#4fa39cf67c55e28d8ab40353c4f9d085">type</a>; 
-<a name="l00067"></a>00067 };
+<a name="l00054"></a>00054 
+<a name="l00061"></a>00061 
 <a name="l00068"></a>00068 
-<a name="l00073"></a>00073 <span class="comment">// ATTENTION : Finir les commentaires</span>
-<a name="l00074"></a><a class="code" href="structer_ad_thr_p.html">00074</a> <span class="keyword">struct </span><a class="code" href="structer_ad_thr_p.html">erAdThrP</a>
-<a name="l00075"></a>00075 {
-<a name="l00076"></a><a class="code" href="structer_ad_thr_p.html#4336d0a6b66f568813d1a58e84d8074a">00076</a>   <span class="keywordtype">int</span> <a class="code" href="structer_ad_thr_p.html#4336d0a6b66f568813d1a58e84d8074a">trhP</a>;  <span class="comment">//** &lt;                           */</span>
-<a name="l00077"></a><a class="code" href="structer_ad_thr_p.html#e0a4b1434dbe3af60c6ce4a2d1cc89fe">00077</a>   <span class="keywordtype">int</span> <a class="code" href="structer_ad_thr_p.html#e0a4b1434dbe3af60c6ce4a2d1cc89fe">neig</a>;  <span class="comment">//** &lt;                           */</span>
-<a name="l00078"></a><a class="code" href="structer_ad_thr_p.html#dc59e999592afdcc11d77fd6fed953b5">00078</a>   <span class="keywordtype">int</span> <a class="code" href="structer_ad_thr_p.html#dc59e999592afdcc11d77fd6fed953b5">trh0</a>;  <span class="comment">//** &lt;                           */</span>
-<a name="l00079"></a><a class="code" href="structer_ad_thr_p.html#fd2ca0933606c37c51fd42738ff81e70">00079</a>   <span class="keywordtype">int</span> <a class="code" href="structer_ad_thr_p.html#fd2ca0933606c37c51fd42738ff81e70">type</a>;  <span class="comment">//** &lt;                           */</span>
-<a name="l00080"></a><a class="code" href="structer_ad_thr_p.html#a89a54d6b3bf4cd8402cfb5d65426a91">00080</a>   <span class="keywordtype">int</span> <a class="code" href="structer_ad_thr_p.html#a89a54d6b3bf4cd8402cfb5d65426a91">adpt</a>;  <span class="comment">//** &lt;                           */</span>
-<a name="l00081"></a>00081 };
-<a name="l00087"></a><a class="code" href="structer_pyram_p.html">00087</a> <span class="keyword">struct </span><a class="code" href="structer_pyram_p.html">erPyramP</a>
-<a name="l00088"></a>00088 {
-<a name="l00089"></a><a class="code" href="structer_pyram_p.html#fb4ec2c59d481a8d9da625d93a6b12fa">00089</a>   <span class="keywordtype">int</span> <a class="code" href="structer_pyram_p.html#fb4ec2c59d481a8d9da625d93a6b12fa">trh1</a>; 
-<a name="l00090"></a><a class="code" href="structer_pyram_p.html#d739805064e5ec87040fbe8ed66f282a">00090</a>   <span class="keywordtype">int</span> <a class="code" href="structer_pyram_p.html#d739805064e5ec87040fbe8ed66f282a">trh2</a>; 
-<a name="l00091"></a><a class="code" href="structer_pyram_p.html#5909a200921f6bd46d0e2ced3740cbcc">00091</a>   <span class="keywordtype">int</span> <a class="code" href="structer_pyram_p.html#5909a200921f6bd46d0e2ced3740cbcc">levl</a>; 
-<a name="l00092"></a>00092 };
-<a name="l00093"></a>00093 
-<a name="l00094"></a>00094 
-<a name="l00099"></a><a class="code" href="structer_dilat_p.html">00099</a> <span class="keyword">struct </span><a class="code" href="structer_dilat_p.html">erDilatP</a>
-<a name="l00100"></a>00100 {
-<a name="l00101"></a><a class="code" href="structer_dilat_p.html#1a0b091e09fbd896bf0f1ca3c4678418">00101</a>   <span class="keywordtype">int</span> <a class="code" href="structer_dilat_p.html#1a0b091e09fbd896bf0f1ca3c4678418">iter</a>; 
-<a name="l00102"></a>00102 };
-<a name="l00103"></a>00103 
-<a name="l00108"></a><a class="code" href="structer_erode_p.html">00108</a> <span class="keyword">struct </span><a class="code" href="structer_erode_p.html">erErodeP</a>
-<a name="l00109"></a>00109 {
-<a name="l00110"></a><a class="code" href="structer_erode_p.html#126327db12917948f924ad4c261c6ca6">00110</a>   <span class="keywordtype">int</span> <a class="code" href="structer_erode_p.html#126327db12917948f924ad4c261c6ca6">iter</a>; 
-<a name="l00111"></a>00111 };
-<a name="l00112"></a>00112 
-<a name="l00113"></a>00113 
-<a name="l00117"></a>00117 <a class="code" href="classer_image.html">erImage</a> <a class="code" href="group__filters.html#g9966e7483ab97b6a88badba0e6327553" title="Permet d effectuer un lissage et un filtrage sur l image.">erSmoothAndCanny</a>( IplImage*, <span class="keywordtype">int</span> , <span class="keywordtype">int</span> );
-<a name="l00118"></a>00118 
-<a name="l00119"></a>00119 
-<a name="l00120"></a>00120 
-<a name="l00124"></a>00124 <span class="keywordtype">void</span> <a class="code" href="group__filters.html#g4dfd0f5f2985867ed36b76f0e49f6be0" title="Permet d effectuer un filtrage par bordes en binaire sur l image.">erCvCanny</a>( IplImage*, <a class="code" href="structer_canny_p.html">erCannyP</a>*);
-<a name="l00125"></a>00125 
-<a name="l00126"></a>00126 
-<a name="l00127"></a>00127 
-<a name="l00128"></a>00128 
-<a name="l00132"></a>00132 <span class="keywordtype">void</span> <a class="code" href="group__filters.html#g64cd03de7b1a88e524017b6a63a9e9cd" title="Permet d effectuer une lissage sur l image.">erCvSmooth</a>( IplImage*, <a class="code" href="structer_smoot_p.html">erSmootP</a>*);
-<a name="l00133"></a>00133 
-<a name="l00134"></a>00134 
-<a name="l00135"></a>00135 
-<a name="l00136"></a>00136 
-<a name="l00137"></a>00137 
-<a name="l00141"></a>00141 <span class="keywordtype">void</span> <a class="code" href="group__filters.html#ge6a791c3b1933cd4eb549752e651249f" title="Permet d effectuer une lissage sur l image (parametres definies par l utilisateur)...">erCvSobel</a>( IplImage*, <a class="code" href="structer_sobel_p.html">erSobelP</a>*);
-<a name="l00142"></a>00142 
-<a name="l00143"></a>00143 
-<a name="l00144"></a>00144 
-<a name="l00148"></a>00148 <span class="keywordtype">void</span> <a class="code" href="group__filters.html#gf2a0e38cb881aa9fee9913c5d78a5267" title="Permet de filtrer l image par seuils d intensite.">erCvThreshold</a>( IplImage*, <a class="code" href="structer_thres_p.html">erThresP</a>*);
-<a name="l00149"></a>00149 
-<a name="l00150"></a>00150 
-<a name="l00154"></a>00154 <span class="keywordtype">void</span> <a class="code" href="group__filters.html#ga622ee1289921d0a3efdfba269fcd20e" title="Permet d filtrer l image par seuils d intensites adaptes par zones.">erCvAdaptiveThreshold</a>( IplImage* simg, <a class="code" href="structer_ad_thr_p.html">erAdThrP</a>* parm);
-<a name="l00155"></a>00155 
-<a name="l00156"></a>00156 
-<a name="l00157"></a>00157 
-<a name="l00162"></a>00162 <span class="keywordtype">void</span> <a class="code" href="group__filters.html#gd267f1c3cd5e77d91b97be722b97933a">erCvPyramid</a>( IplImage*, <a class="code" href="structer_pyram_p.html">erPyramP</a>*);
-<a name="l00163"></a>00163 
-<a name="l00164"></a>00164 
-<a name="l00165"></a>00165 
-<a name="l00169"></a>00169 <span class="keywordtype">void</span> <a class="code" href="group__filters.html#gfa84896550849853320c3ff0cb7f045a" title="Permet d effectuer un filtrage de l image en reduissant le nombre de pixels avec...">erCvDilate</a>( IplImage*,<a class="code" href="structer_dilat_p.html">erDilatP</a>*);
-<a name="l00170"></a>00170 
-<a name="l00171"></a>00171 
-<a name="l00172"></a>00172 
-<a name="l00176"></a>00176 <span class="keywordtype">void</span> <a class="code" href="group__filters.html#g5829529a1976fc527be80685a581cdb0" title="Permet d effectuer un filtrage de l image en augmentant le nombre de pixels avec...">erCvErode</a>( IplImage*, <a class="code" href="structer_erode_p.html">erErodeP</a>*);
-<a name="l00179"></a>00179 <span class="preprocessor">#endif</span>
-</pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Wed Mar 10 16:42:27 2010 for 'erCv' by&nbsp;
+<a name="l00071"></a>00071 </pre></div></div>
+<hr size="1"><address style="text-align: right;"><small>Generated on Sun Mar 21 16:49:06 2010 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

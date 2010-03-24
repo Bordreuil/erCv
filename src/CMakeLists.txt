@@ -19,6 +19,8 @@ ADD_LIBRARY(erCv erCvSegmentation
 		 erManipFileName
 		 erPredicates
 		 erCvInfofile
+		 erCvTools
+		 erCvAnalysis
 	         Gui/erCvFiltersUser
 		 Gui/erCvUserInteraction
                  Gui/erCvSegmentationUser 
@@ -28,3 +30,4 @@ ADD_LIBRARY(erCv erCvSegmentation
                  ${OpenCV_HIGHGUI_LIBRARY} 
                  ${OpenCV_CXCORE_LIBRARY} )
 
+ADD_SUBDIRECTORY(bindings)

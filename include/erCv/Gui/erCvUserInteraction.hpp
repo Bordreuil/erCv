@@ -3,20 +3,6 @@
 #include <erCv/erCvBase.hpp>
 
 
-struct erCerc
-{
-  CvPoint centro;
-  int radio;
-};
-
-struct erCercleImg
-{
-  IplImage* image;
-  CvPoint centeri;
-  int radiusi;
-  bool drawing;
-};
-
 /**
    \brief
  */

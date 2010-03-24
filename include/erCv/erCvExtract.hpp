@@ -10,8 +10,9 @@
 #include <vector>
 #include <map>
 #include <algorithm>
-
-
+#include<fstream>
+#include <erCv/Gui/erCvUserInteraction.hpp>
+#include<boost/tuple/tuple.hpp>
 
 /** \addtogroup cv_group */
 /*@{*/

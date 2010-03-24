@@ -23,7 +23,7 @@
   </div>
 </div>
 <div class="contents">
-<h1>include/erCv/erCvExtract.hpp File Reference</h1><code>#include &quot;<a class="el" href="er_cv_8hpp-source.html">erCv.hpp</a>&quot;</code><br>
+<h1>include/erCv/erCvExtract.hpp File Reference</h1><code>#include &quot;<a class="el" href="er_cv_base_8hpp-source.html">erCvBase.hpp</a>&quot;</code><br>
 <code>#include &quot;<a class="el" href="er_predicates_8hpp-source.html">utilities/erPredicates.hpp</a>&quot;</code><br>
 <code>#include &quot;<a class="el" href="er_manip_file_name_8hpp-source.html">utilities/erManipFileName.hpp</a>&quot;</code><br>
 <code>#include &lt;list&gt;</code><br>
@@ -35,27 +35,29 @@
 <a href="er_cv_extract_8hpp-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename Container , typename Criteria &gt; </td></tr>
-<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cv__group.html#gabfe6153e2641b1d61d39529f3880c6f">erExtractPoints</a> (IplImage *im, Container &amp;pts, Criteria crit, CvRect rect=cvRect(0, 0, 0, 0), uint delta=1)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">std::list&lt; CvPoint &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g837b1bd23cdf357d5eeee9811cdba07d">erExtractCvPoints</a> (IplImage *im, CvRect rect=cvRect(0, 0, 0, 0), uint delta=1, uint gray_level=255)</td></tr>
 
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename Container &gt; </td></tr>
-<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g13436e8e12cb3e61daf1a624bc87897b">erExtractionCurveUser</a> (IplImage *simag, <a class="el" href="structer_cerc.html">erCerc</a> *cerc, char **file_name, Container &amp;pts, CvRect recROI)</td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cv__group.html#gf42112109b778480f437824c640e98ef">erExtractCurveMacroDropUser</a> (IplImage *simag, Container &amp;pts, CvRect recROI, <a class="el" href="structer_cerc.html">erCerc</a> *cerc, char *file_name)</td></tr>
 
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename Container &gt; </td></tr>
-<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g58245d31b533e460bb62e03e04048a26">erExtractionCurve</a> (IplImage *simag, <a class="el" href="structer_cerc.html">erCerc</a> *cerc, char **file_name, Container &amp;pts, CvRect recROI)</td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cv__group.html#gb51312457bdb0468d6ed242cb7139dbe">erExtractCurveMacroDrop</a> (IplImage *simag, Container &amp;pts, CvRect recROI, <a class="el" href="structer_cerc.html">erCerc</a> *cerc, char *file_name)</td></tr>
 
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename Container &gt; </td></tr>
-<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cv__group.html#ga9b941511db324aed04cdd9cd665b4e4">erConvertPixelToMks</a> (std::pair&lt; double, double &gt; factor, Container &amp;pts, char **file_name)</td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g2801fe51acb05031f00e514792b5900e">erConvertPixelToMks</a> (std::pair&lt; double, double &gt; factor, Container &amp;pts, char *file_name, char *exit_name)</td></tr>
 
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename Container &gt; </td></tr>
-<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g6bdd5bc46011e393825c34159f0c34d6">erEcriturePointPixel</a> (Container &amp;pts, char **file_name)</td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g9b39d52fd769525fbe677a0d400b522b">erPrintCgalPoint</a> (Container &amp;pts, char *file_name, char *exit_name)</td></tr>
+
+<tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename Container &gt; </td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g222dd1fd0a26032e4358b0f4b5badf39">erPrintCvPoint</a> (Container &amp;pts, char *file_name, char *exit_name)</td></tr>
 
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename Iterator &gt; </td></tr>
 <tr><td class="memTemplItemLeft" nowrap align="right" valign="top">Iterator&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cv__group.html#ga8e6db9ed28068050ec3fb332bdfec9e">erFindCvPoint</a> (Iterator p1, Iterator p2, CvPoint punto)</td></tr>
 
 </table>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Wed Mar 10 16:42:28 2010 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Sun Mar 21 16:49:07 2010 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

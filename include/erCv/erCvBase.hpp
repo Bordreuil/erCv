@@ -12,6 +12,20 @@
     http://www.boost.org 
 
     Les fichiers interfaces (.hpp) sont accessibles dans un programme en specifiant le repertoire include ou include/erCv suivant l utilisation qu'on veut en faire.
+
+    \section Install Installation
+    Il est conseiller de creer un repertoire build-nom_du_compilo, puis de se placer dans ce repertoire,
+    ensuite on tape la ligne de commande : cmake -DCMAKE_CXX_COMPILER=nom_compilo ..
+
+    Cela permet d avoir une installation propre et un acces simple au source sans rien surcharge
+
+    \section test Tests
+    Une serie de tests est en developpement par Edward pour voir si tout tourne correctement apres
+    l installation.
+    Dans le repertoire ou vous l'avez installer, rentrer dans le repertoire tests et taper
+    la ligne de commande ctest -I 
+
+    
  */
 
 /** @file erCvBase.hpp 
@@ -26,17 +40,19 @@
 
 #include <cv.h>
 #include <highgui.h>
-#include <boost/lexical_cast.hpp>
-#include <vector>
+
 #include <string>
 #include <utility>
-#include <iostream>
-#include <fstream>
+
+
+#include "erCvTools.hpp"
 
 extern std::string INFOFILE;
 
 const char* nameInfoFile(std::string);
 const char* nameGoodImagesFile(std::string);
+
+
 // Une classe pour interfacer l image IplImage d OpenCv
 /** \addtogroup cv_group */
 /*@{*/
@@ -68,6 +84,20 @@ private:
   **/ 
 };
 
+
+struct erCerc
+{
+  CvPoint centro;
+  int radio;
+};
+
+struct erCercleImg
+{
+  IplImage* image;
+  CvPoint centeri;
+  int radiusi;
+  bool drawing;
+};
 
 
 // Quelques fonctions utiles d' OpenCv
@@ -117,7 +147,7 @@ void erSaveImage( IplImage*, char*, char*);
 /** \brief Fonction permettant de sauvegarder une image a l aide
  d openCv
  */
-void erSaveImage2( IplImage*, char*, char*, char*);
+void erSaveImage2( IplImage*,char*,char*, char*);
 
 
 
@@ -162,20 +192,7 @@ char* erEcrireNomFichier( char*, char*, std::string);
 
 
 
-// Classe permettant 
-class ImageIncrement
-{
-public:
-  ImageIncrement();
-  ImageIncrement(uint,uint,uint);
-  uint inc();
- 
-private:
-  uint base;
-  uint delta;
-  uint every;
-  uint current;
-};
+
 
 /*@}*/
 #endif

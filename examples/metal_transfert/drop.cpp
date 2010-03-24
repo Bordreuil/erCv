@@ -42,7 +42,7 @@ int main( int hola, char** file_name)
   std::cout << "Nombre max de photos a traiter:\n";
   std::cin >> Nimax;
   /* Objet permettant de modifier l increment entre deux photos */
-  ImageIncrement inc(ninc,ndelta,every);
+  erImageIncrement inc(ninc,ndelta,every);
 
   /* Declaration de variables a utiliser par les fonctions */
   char* exit = file_name[1];

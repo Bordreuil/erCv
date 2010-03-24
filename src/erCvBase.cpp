@@ -60,7 +60,7 @@ void erShow2Image( char* name, IplImage* im, char* name2, IplImage* im2)
 //     };
 // };
 
-std::pair<erImage,bool> erLoadImage(char* name)
+std::pair<erImage,bool> erLoadImage( char* name)
 { 
   if(erFileExists(name))
     {
@@ -328,20 +328,3 @@ char* erEcrireNomFichier( char* file_name, char* nameOut, std::string info)
 
 
 
-ImageIncrement::ImageIncrement():current(0),base(0),delta(0),every(0){};
-
-
-ImageIncrement::ImageIncrement(uint incbase,uint incD,uint every):current(0),base(incbase),
-					                          delta(incD),every(every){};
-
-
-uint ImageIncrement::inc()
-{
-    current+=base;
-    if(current > every)
-      {
-      current=0;
-      return delta;
-      };
-    return base;
-};

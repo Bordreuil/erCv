@@ -31,6 +31,9 @@
 <p>
 <a href="er_cgal_alpha_shape2_8hpp-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
+<tr><td colspan="2"><br><h2>Classes</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_alpha_p.html">erAlphaP</a></td></tr>
+
 <tr><td colspan="2"><br><h2>Typedefs</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">typedef <br class="typebreak">
 CGAL::Alpha_shape_vertex_base_2<br class="typebreak">
@@ -55,8 +58,11 @@ CGAL::Delaunay_triangulation_2<br class="typebreak">
 <a class="el" href="er_cgal_alpha_shape2_8hpp.html#4b80b4c9d991d7280d3602a0274bf5c6">Alpha_shape_2::Alpha_shape_edges_iterator</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="er_cgal_alpha_shape2_8hpp.html#4b80b4c9d991d7280d3602a0274bf5c6">Alpha_shape_edges_iterator</a></td></tr>
 
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memTemplParams" nowrap colspan="2">template&lt;class OutputIterator &gt; </td></tr>
-<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="er_cgal_alpha_shape2_8hpp.html#c0d0de4290660dd054a419e3136dffcf">alpha_edges</a> (const <a class="el" href="er_cgal_alpha_shape2_8hpp.html#faab254f511cec47db5ea559493a77d2">Alpha_shape_2</a> &amp;A, OutputIterator out)</td></tr>
+<tr><td class="memTemplParams" nowrap colspan="2">template&lt;class Container &gt; </td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">std::list&lt; <a class="el" href="group__cgal.html#gedffe96be71292d18720223832f18f4c">CgSegmt</a> &gt;&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="er_cgal_alpha_shape2_8hpp.html#bf806e195878ebcdb8953e1330bf6358">alpha_edges_user</a> (Container cgPoints, <a class="el" href="structer_alpha_p.html">erAlphaP</a> *param)</td></tr>
+
+<tr><td class="memTemplParams" nowrap colspan="2">template&lt;class Container &gt; </td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">std::list&lt; <a class="el" href="group__cgal.html#gedffe96be71292d18720223832f18f4c">CgSegmt</a> &gt;&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="er_cgal_alpha_shape2_8hpp.html#4368eea3766802ebcc361464ce634ca9">alpha_edges</a> (Container cgPoints, <a class="el" href="structer_alpha_p.html">erAlphaP</a> *param)</td></tr>
 
 </table>
 <hr><h2>Typedef Documentation</h2>
@@ -151,23 +157,54 @@ CGAL::Delaunay_triangulation_2<br class="typebreak">
 </div>
 </div><p>
 <hr><h2>Function Documentation</h2>
-<a class="anchor" name="c0d0de4290660dd054a419e3136dffcf"></a><!-- doxytag: member="erCgalAlphaShape2.hpp::alpha_edges" ref="c0d0de4290660dd054a419e3136dffcf" args="(const Alpha_shape_2 &amp;A, OutputIterator out)" -->
+<a class="anchor" name="4368eea3766802ebcc361464ce634ca9"></a><!-- doxytag: member="erCgalAlphaShape2.hpp::alpha_edges" ref="4368eea3766802ebcc361464ce634ca9" args="(Container cgPoints, erAlphaP *param)" -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class OutputIterator &gt; </div>
+template&lt;class Container &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void alpha_edges           </td>
+          <td class="memname">std::list&lt;<a class="el" href="group__cgal.html#gedffe96be71292d18720223832f18f4c">CgSegmt</a>&gt; alpha_edges           </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="er_cgal_alpha_shape2_8hpp.html#faab254f511cec47db5ea559493a77d2">Alpha_shape_2</a> &amp;&nbsp;</td>
-          <td class="paramname"> <em>A</em>, </td>
+          <td class="paramtype">Container&nbsp;</td>
+          <td class="paramname"> <em>cgPoints</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">OutputIterator&nbsp;</td>
-          <td class="paramname"> <em>out</em></td><td>&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structer_alpha_p.html">erAlphaP</a> *&nbsp;</td>
+          <td class="paramname"> <em>param</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="bf806e195878ebcdb8953e1330bf6358"></a><!-- doxytag: member="erCgalAlphaShape2.hpp::alpha_edges_user" ref="bf806e195878ebcdb8953e1330bf6358" args="(Container cgPoints, erAlphaP *param)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Container &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::list&lt;<a class="el" href="group__cgal.html#gedffe96be71292d18720223832f18f4c">CgSegmt</a>&gt; alpha_edges_user           </td>
+          <td>(</td>
+          <td class="paramtype">Container&nbsp;</td>
+          <td class="paramname"> <em>cgPoints</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structer_alpha_p.html">erAlphaP</a> *&nbsp;</td>
+          <td class="paramname"> <em>param</em></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -183,7 +220,7 @@ template&lt;class OutputIterator &gt; </div>
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Wed Mar 10 16:42:28 2010 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Sun Mar 21 16:49:07 2010 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

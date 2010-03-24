@@ -39,15 +39,12 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="er_cv_filters_user_8hpp.html#53f26c66b12fc690188cdc3732ab52f6">erCvSmoothUser</a> (IplImage *, <a class="el" href="structer_smoot_p.html">erSmootP</a> *)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet d effectuer une lissage sur l image (peramettres definies par l usager).  <a href="#53f26c66b12fc690188cdc3732ab52f6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="er_cv_filters_user_8hpp.html#5e7af672782037206fba7649e75751de">erCvThresholdUser</a> (IplImage *, <a class="el" href="structer_thres_p.html">erThresP</a> *)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="er_cv_filters_user_8hpp.html#dd758b846a5b05fd3828ea974985e27f">erCvThresholdUser</a> (IplImage *, <a class="el" href="structer_thres_p.html">erThresP</a> *, bool with_trackbar=false)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet de filtrer l image par seuils d intensite (peramettres definies par l usager).  <a href="#5e7af672782037206fba7649e75751de"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="er_cv_filters_user_8hpp.html#18eb25aa5bf4feb6b376350014f9fc43">erCvAdaptiveThresholdUser</a> (IplImage *, <a class="el" href="structer_ad_thr_p.html">erAdThrP</a> *)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet de filtrer l image par seuils d intensite (peramettres definies par l usager).  <a href="#dd758b846a5b05fd3828ea974985e27f"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="er_cv_filters_user_8hpp.html#55fa011a1fa9c17902f3e335f1404d21">erCvAdaptiveThresholdUser</a> (IplImage *, <a class="el" href="structer_ad_thr_p.html">erAdThrP</a> *, bool with_trackbar=false)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet d filtrer l image par seuils d intensites adaptes par zones (peramettres definies par l usager).  <a href="#18eb25aa5bf4feb6b376350014f9fc43"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="er_cv_filters_user_8hpp.html#1babc8da76fafc40e62f70aefd1a03e9">erCvPyramidUser</a> (IplImage *, <a class="el" href="structer_pyram_p.html">erPyramP</a> *)</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet d effectuer un filtrage de l image en reagroupant les pixels dans cluosters d interet et en effectuant des liesons entre eux (peramettres definies par l usager).  <a href="#1babc8da76fafc40e62f70aefd1a03e9"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet d filtrer l image par seuils d intensites adaptes par zones (peramettres definies par l usager).  <a href="#55fa011a1fa9c17902f3e335f1404d21"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="er_cv_filters_user_8hpp.html#7dd7e645ef994ee940f99d7edf5bb399">erCvDilateUser</a> (IplImage *, <a class="el" href="structer_dilat_p.html">erDilatP</a> *)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet d effectuer un filtrage de l image en reduissant le nombre de pixels avec noir (peramettres definies par l usager).  <a href="#7dd7e645ef994ee940f99d7edf5bb399"></a><br></td></tr>
@@ -56,7 +53,7 @@
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Permet d effectuer un filtrage de l image en augmentant le nombre de pixels avec noir (peramettres definies par l usager).  <a href="#72d0b14bdd1eed0e95a69212306354ff"></a><br></td></tr>
 </table>
 <hr><h2>Function Documentation</h2>
-<a class="anchor" name="18eb25aa5bf4feb6b376350014f9fc43"></a><!-- doxytag: member="erCvFiltersUser.hpp::erCvAdaptiveThresholdUser" ref="18eb25aa5bf4feb6b376350014f9fc43" args="(IplImage *, erAdThrP *)" -->
+<a class="anchor" name="55fa011a1fa9c17902f3e335f1404d21"></a><!-- doxytag: member="erCvFiltersUser.hpp::erCvAdaptiveThresholdUser" ref="55fa011a1fa9c17902f3e335f1404d21" args="(IplImage *, erAdThrP *, bool with_trackbar=false)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -70,7 +67,13 @@
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="structer_ad_thr_p.html">erAdThrP</a> *&nbsp;</td>
-          <td class="paramname"></td><td>&nbsp;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>with_trackbar</em> = <code>false</code></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -180,37 +183,6 @@ Permet d effectuer un filtrage de l image en augmentant le nombre de pixels avec
 
 </div>
 </div><p>
-<a class="anchor" name="1babc8da76fafc40e62f70aefd1a03e9"></a><!-- doxytag: member="erCvFiltersUser.hpp::erCvPyramidUser" ref="1babc8da76fafc40e62f70aefd1a03e9" args="(IplImage *, erPyramP *)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void erCvPyramidUser           </td>
-          <td>(</td>
-          <td class="paramtype">IplImage *&nbsp;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structer_pyram_p.html">erPyramP</a> *&nbsp;</td>
-          <td class="paramname"></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Permet d effectuer un filtrage de l image en reagroupant les pixels dans cluosters d interet et en effectuant des liesons entre eux (peramettres definies par l usager). 
-<p>
-
-</div>
-</div><p>
 <a class="anchor" name="53f26c66b12fc690188cdc3732ab52f6"></a><!-- doxytag: member="erCvFiltersUser.hpp::erCvSmoothUser" ref="53f26c66b12fc690188cdc3732ab52f6" args="(IplImage *, erSmootP *)" -->
 <div class="memitem">
 <div class="memproto">
@@ -273,7 +245,7 @@ Permet de deriver l intensite de l image independament sur les axes X et Y (para
 
 </div>
 </div><p>
-<a class="anchor" name="5e7af672782037206fba7649e75751de"></a><!-- doxytag: member="erCvFiltersUser.hpp::erCvThresholdUser" ref="5e7af672782037206fba7649e75751de" args="(IplImage *, erThresP *)" -->
+<a class="anchor" name="dd758b846a5b05fd3828ea974985e27f"></a><!-- doxytag: member="erCvFiltersUser.hpp::erCvThresholdUser" ref="dd758b846a5b05fd3828ea974985e27f" args="(IplImage *, erThresP *, bool with_trackbar=false)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -287,7 +259,13 @@ Permet de deriver l intensite de l image independament sur les axes X et Y (para
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="structer_thres_p.html">erThresP</a> *&nbsp;</td>
-          <td class="paramname"></td><td>&nbsp;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>with_trackbar</em> = <code>false</code></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -305,7 +283,7 @@ Permet de filtrer l image par seuils d intensite (peramettres definies par l usa
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Wed Mar 10 16:42:28 2010 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Sun Mar 21 16:49:07 2010 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

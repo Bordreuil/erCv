@@ -42,7 +42,7 @@ int main( int hola, char** file_name)
   /* Declaration de variables a utiliser par les fonctions */
   char* exit = file_name[1];
   char* name = file_name[2];
-  ImageIncrement inc(ninc,ndelta,every);
+  erImageIncrement inc(ninc,ndelta,every);
   std::cout << INFOFILE << std::endl;
   erImage er, bw, eo, ea;
   CvRect rect;
