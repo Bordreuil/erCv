@@ -28,7 +28,8 @@ void export_erCvAnalysis(){
             , (bool ( ::erMacroDropAnalysis::* )(  ) )( &::erMacroDropAnalysis::defineParameterUI ))
     .def( 
             "defineParameter"
-            , (void ( ::erMacroDropAnalysis::* )( ::CvRect,::erCerc,::erSmootP,::erSmootP,::erCannyP,::erAdThrP ) )( &::erMacroDropAnalysis::defineParameter )
+            , (void ( ::erMacroDropAnalysis::* )( ::CvRect,::erCerc,::erSmootP,::erSmootP,::erCannyP,::erAdThrP ) )
+	    ( &::erMacroDropAnalysis::defineParameter )
             , ( bp::arg("arg0"), bp::arg("arg1"), bp::arg("arg2"), bp::arg("arg3"), bp::arg("arg4"), bp::arg("arg5") ) )    
 
         
