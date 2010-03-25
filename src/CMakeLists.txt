@@ -14,6 +14,7 @@ LINK_LIBRARIES(${OpenCV_CV_LIBRARY}
 ADD_LIBRARY(erCv erCvSegmentation
                  erCalibration 
 		 erCvBase 
+		 erCvFiltersParams
 		 erCvFilters
 		 erFileUtilities 
 		 erManipFileName

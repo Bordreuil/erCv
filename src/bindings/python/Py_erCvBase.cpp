@@ -16,7 +16,8 @@ void export_erCvBase()
         .def_readwrite( "x", &CvRect::x )    
         .def_readwrite( "y", &CvRect::y );
 
-    bp::class_< erCerc >( "erCerc" )    
+    bp::class_< erCerc >( "erCerc" , bp::init< >())    
+        .def( bp::init< int, int, int >(( bp::arg("arg0"), bp::arg("arg1"), bp::arg("arg2") )) ) 
         .def_readonly( "centro", &erCerc::centro )    
         .def_readwrite( "radio", &erCerc::radio );
 };

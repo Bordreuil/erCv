@@ -266,7 +266,8 @@ void erCvThresholdUser( IplImage* simg, erThresP* parm, bool with_trackbar)
 void erCvAdaptiveThresholdUser( IplImage* simg, erAdThrP* parm, bool with_trackbar)
 {
   IplImage* img;
-  int threshold, maxt[2], itrak[2], threstype, adapt, neigh, param;
+  int threshold, maxt[2], itrak[2], neigh, param;
+  uint threstype,adapt;
   std::string name = INFOFILE;
   name+= ".txt";
   const char* nomb = name.c_str();
@@ -331,8 +332,8 @@ void erCvAdaptiveThresholdUser( IplImage* simg, erAdThrP* parm, bool with_trackb
   parm->trhP = param;
   parm->neig = neigh;
   parm->trh0 = threshold;
-  parm->type = threstype;
-  parm->adpt = adapt;
+  parm->type = AdaptiveThresholdType(threstype);
+  parm->adpt = AdaptiveMethodType(adapt);
 
 
   std::ofstream file( nomb, std::ios_base::app );

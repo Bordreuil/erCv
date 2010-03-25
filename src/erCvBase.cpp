@@ -22,8 +22,9 @@ erImage::erImage(IplImage* im) :IplImage(*im){};
   
 //   cvReleaseImage(&thim);
 // };
-
-
+erCerc::erCerc(){centro.x=0;centro.y=0;radio=10;};
+erCerc::erCerc(int x,int y,int radius){centro.x=x;centro.y=y;radio=radius;};
+erRect::erRect(int x,int y,int width,int height){x=x;y=y;width=width;height=height;};
 
 // Interface pour des fonctions d open cv
 void erShowImage( char* name, IplImage* im)
@@ -138,6 +139,7 @@ void erSaveImage( IplImage* simag, char* file_name, char* exit_name)
       char* new_name = new char[ name4.size() + 1];
       std::copy( name4.begin(), name4.end(), new_name);
       new_name[ name4.size()] = '\0';
+
       cvSaveImage( new_name, simag);
     }
 }

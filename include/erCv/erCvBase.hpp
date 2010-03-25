@@ -86,7 +86,8 @@ private:
 
 
 struct erCerc
-{
+{ erCerc();
+  erCerc(int,int,int);
   CvPoint centro;
   int radio;
 };
@@ -99,6 +100,10 @@ struct erCercleImg
   bool drawing;
 };
 
+struct erRect:public CvRect
+{
+  erRect(int,int,int,int);
+};
 
 // Quelques fonctions utiles d' OpenCv
 /** \brief Fonction permettant de visualiser une Image a l aide

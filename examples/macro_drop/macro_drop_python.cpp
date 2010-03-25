@@ -1,6 +1,7 @@
 #include <erCv/erCv.hpp>
 #include <erCv/erCv.hpp>
 #include <erCv/erCvFilters.hpp>
+#include <erCv/erCvAnalysis.hpp>
 #include <erCv/utilities/erPredicates.hpp>
 #include <erCv/erCvExtract.hpp>
 #include <erCv/erCvToCgal.hpp>
@@ -22,36 +23,15 @@ Canny            : 355, 355 */
 
 int main( int hola, char** file_name)
 {
-  //MacroDropAnalysis mda("peo","peo","../pictures/mcr_07032009_01593.bmp");
-  //mda.defineParameterUI();
-  
-  /* Boucle de lecteure des images  */
-//   clock_t tbeg = clock();
-//   uint nIm(0);
-//   while(true)
-//     { 
-//       erImage erb, bwb, eab; 
-//       boost::tie(erb,loaded) = erLoadImageSeries( file_name,inc.inc());
-//       if(!loaded) break;
-//       bwb = erConvertToBlackAndWhite( &erb);        
-//       //eo = ca.transform_image( bw);
-//       eab = erDef_ROI( &bwb, &rect);    
-//       erCvSmooth( &eab, &psmo);
-//       erCvAdaptiveThreshold( &eab, &padt);
-//       erCvSmooth( &eab, &psmo1);
-//       erCvCanny( &eab, &pcan);
-//       erSaveImage( &eab, file_name);
-//       IsEqualTo is_equal_255( 255);
-//       std::vector<CvPoint> cvPts; 
-//       erExtractPoints( &eab, cvPts, is_equal_255);
-//       erExtractionCurve( &eab, &cerc, file_name, cvPts, rect);
-//       erEcriturePointPixel( cvPts, file_name); 
-      
-//       nIm++;
-//       std::cout << "Image number :" << nIm << " passed: " << file_name[2] << "\n";
-//       if (nIm>Nimax) break;
-//     }
-//     clock_t tfin = clock();
-//     std::cout << "Temps en ms pour " << nIm << " images :" << (tfin-tbeg)  << std::endl;
+  CvRect rect;
+  rect.x=20;rect.y=160;rect.width=230;rect.height=75;
+  erCerc cerc(20,210,5);
+  erSmootP p1(BLUR,7),p2(GAUSSIAN,5);
+  erCannyP cann(355,355);
+  erAdThrP adp(THRESH_BINARY,AM_MEAN,50,14,255); //** < 
+  erMacroDropAnalysis mda("peo","peo","test_000.bmp");
+  mda.defineParameter(rect,cerc,p1,p2,cann,adp);
+  mda.doIt("test_000.bmp");
+
   return(0);
 };

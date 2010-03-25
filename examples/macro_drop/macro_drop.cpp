@@ -120,24 +120,24 @@ int main( int hola, char** file_name)
 //   /* Boucle de lecteure des images  */
 //   clock_t tbeg = clock();
 //   uint nIm(0);
-//   while(true)
-//     { 
-//       erImage erb, bwb, eab; 
-//       boost::tie(erb,loaded) = erLoadImageSeries( file_name,inc.inc());
-//       if(!loaded) break;
-//       bwb = erConvertToBlackAndWhite( &erb);        
-//       //eo = ca.transform_image( bw);
-//       eab = erDef_ROI( &bwb, &rect);    
-//       erCvSmooth( &eab, &psmo);
-//       erCvAdaptiveThreshold( &eab, &padt);
-//       erCvSmooth( &eab, &psmo1);
-//       erCvCanny( &eab, &pcan);
-//       erSaveImage( &eab, file_name);
-//       IsEqualTo is_equal_255( 255);
-//       std::vector<CvPoint> cvPts; 
-//       erExtractPoints( &eab, cvPts, is_equal_255);
-//       erExtractionCurve( &eab, &cerc, file_name, cvPts, rect);
-//       erEcriturePointPixel( cvPts, file_name); 
+//    while(true)
+//      { 
+//        erImage erb, bwb, eab; 
+//        boost::tie(erb,loaded) = erLoadImageSeries( file_name,inc.inc());
+//        if(!loaded) break;
+//        bwb = erConvertToBlackAndWhite( &erb);        
+//        //eo = ca.transform_image( bw);
+//        eab = erDef_ROI( &bwb, &rect);    
+//        erCvSmooth( &eab, &psmo);
+//        erCvAdaptiveThreshold( &eab, &padt);
+//        erCvSmooth( &eab, &psmo1);
+//        erCvCanny( &eab, &pcan);
+//        erSaveImage( &eab, file_name);
+//        IsEqualTo is_equal_255( 255);
+//        std::vector<CvPoint> cvPts; 
+//        erExtractPoints( &eab, cvPts, is_equal_255);
+//        erExtractionCurve( &eab, &cerc, file_name, cvPts, rect);
+//        erEcriturePointPixel( cvPts, file_name); 
       
 //       nIm++;
 //       std::cout << "Image number :" << nIm << " passed: " << file_name[2] << "\n";

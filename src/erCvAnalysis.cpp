@@ -112,8 +112,8 @@ bool erMacroDropAnalysis::doIt(std::string fich)
        erCvAdaptiveThreshold( &eab, &param_adaptive_threshold);
        erCvSmooth( &eab, &param_smooth2);
        erCvCanny( &eab, &param_canny);
-       //erSaveImage( &eab, file_name);
-       //IsEqualTo is_equal_255( 255);
+       erSaveImage( &eab, file_name,nom);
+       IsEqualTo is_equal_255( 255);
        std::list<CvPoint> cvPts; 
        cvPts = erExtractCvPoints( &eab);
        erExtractCurveMacroDropUser( &eab, cvPts,rectOI,&cercToStart, file_name);

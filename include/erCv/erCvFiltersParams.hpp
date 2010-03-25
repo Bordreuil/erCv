@@ -26,29 +26,31 @@ enum SmoothType {BLUR_NO_SCALE,
                  };
 
 struct erSmootP
-{
+{ erSmootP();
+  erSmootP(SmoothType,int);
   int        size; /** < Beside size (in pixels) of smoothness region */
   SmoothType type; /** < Type of the smooth to be aplied */
 };
 
-//std::ostream& operator << (std::ostream&, erSmootP*);
+std::ostream& operator << (std::ostream&, erSmootP*);
 
 /**
    \brief 
  */
 struct erSobelP
-{
+{ 
   int trhX; /** < Order X derivated in sobel fonction */
   int trhY; /** < Order Y derivated in sobel fonction */
 };
 
-
+ 
 
 /**
    \brief
  */
 struct erCannyP
-{
+{ erCannyP(int,int);
+  erCannyP();
   int trh1; /** < Threshold 1 to canny fonction */
   int trh2; /** < Threshold 2 to canny fonction */
 };
@@ -72,14 +74,28 @@ struct erThresP
    \brief
 
  */
+enum Adapt{};
+enum AdaptiveThresholdType {
+    THRESH_BINARY=1,
+    THRESH_BINARY_INV=2 
+};
+
+enum AdaptiveMethodType {
+  AM_MEAN=1,
+  AM_GAUSSIAN=2
+};
+extern char* adaptivethresholdtype[];
+extern char* adaptivemethodtype[];
 // ATTENTION : Finir les commentaires
 struct erAdThrP
-{
+{ 
+  erAdThrP(AdaptiveThresholdType,AdaptiveMethodType,int,int,int);
+  erAdThrP();
   int trhP;  //** <                           */
   int neig;  //** <                           */
   int trh0;  //** <                           */
-  int type;  //** <                           */
-  int adpt;  //** <                           */
+  AdaptiveThresholdType type;  //** <                           */
+  AdaptiveMethodType    adpt;  //** <                           */
 };
 
 
