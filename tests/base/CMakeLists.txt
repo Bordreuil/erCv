@@ -8,7 +8,7 @@ ADD_EXECUTABLE(test_cv test_cv.cpp)
 TARGET_LINK_LIBRARIES(test_cv erCv ${OPENCV_LIBS})
 # Definition d un test avec passage de ces arguments
 ADD_TEST(testBase test_cv peo imageTestBase.bmp)
-
+# testeBase (nom du test); test_cv (executable); peo (nom_analysis); imageTestBase.bmp (image pour faire le teste)
 # Copie du fichier image necessaire au test dans 
 # le repertoire de construction 
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/imageTestBase.bmp

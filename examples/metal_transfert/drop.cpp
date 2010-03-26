@@ -55,8 +55,8 @@ int main( int hola, char** file_name)
   erCannyP pcan;
   erAdThrP padt;
   std::list< CvPoint> cvPts;
-  std::list< CgPoint> cgPts;
-  std::list< CgSegmt> cgSeg;
+  std::list< CgalPoint> cgalPts;
+  std::list< CgalSegmt> cgalSeg;
   bool loaded;
 
   

@@ -23,12 +23,16 @@ struct erAlphaP
 };
 
 
-
-template < class Container >
-std::list<CgSegmt> alpha_edges_user( Container cgPoints, erAlphaP* param)
+/* 
+   "AlphaShape Regular" permet de créer des courbes fermes construites sur des segments non conectes, sur les contours detectés 
+   par le traitement d'image. L'algorithme place les segments sur use une triangulation de L'Aunneay pour Le dites pointes sont
+   definies sur erCgalBase.hpp.
+*/
+template < class Container, class Container2 >
+void alpha_edges_user( Container cgalPoints, Container2 cgalSegmts, erAlphaP* param)
 {
   double alfa;
-  std::list<CgSegmt> cgSegment;
+  //std::list<CgSegmt> cgSegment;
   typedef typename Container::iterator it;
   int ok =1;
   while(ok)
@@ -36,34 +40,34 @@ std::list<CgSegmt> alpha_edges_user( Container cgPoints, erAlphaP* param)
       std::cout << std::endl;
       std::cout << "Value of alpha parameter to Alpha Shape (double v | v>0) ";
       std::cin >> alfa;
-      Alpha_shape_2 A( cgPoints.begin(), cgPoints.end(), CgFTrai(alfa));
+      Alpha_shape_2 A( cgalPoints.begin(), cgalPoints.end(), CgalFTrai(alfa));
       for(Alpha_shape_edges_iterator it =  A.alpha_shape_edges_begin(); it != A.alpha_shape_edges_end(); ++it)
 	{
-	  cgSegment.push_back( A.segment(*it));
+	  cgalSegmts.push_back( A.segment(*it));
 	}
       ok = 0;
     }
   param->alpha = alfa;
-  return cgSegment;
+  //return cgSegment;
 }
 
 
 
 
-template < class Container >
-std::list<CgSegmt> alpha_edges( Container cgPoints, erAlphaP* param)
+template < class Container, class Container2 >
+void alpha_edges( Container cgalPoints, Container2 cgalSegmts, erAlphaP* param)
 {
   double alfa = param->alpha;
   typedef typename Container::iterator it;
   
-  Alpha_shape_2 A( cgPoints.begin(), cgPoints.end(), CgFTrai(alfa));
-  std::list<CgSegmt> cgSegment;
+  Alpha_shape_2 A( cgalPoints.begin(), cgalPoints.end(), CgalFTrai(alfa));
+  //std::list<CgSegmt> cgSegment;
   for(Alpha_shape_edges_iterator it =  A.alpha_shape_edges_begin(); it != A.alpha_shape_edges_end(); ++it)
     {
-      cgSegment.push_back( A.segment(*it));
+      cgalSegmts.push_back( A.segment(*it));
     }
   
-  return cgSegment;
+  //return cgSegment;
 }
 
 

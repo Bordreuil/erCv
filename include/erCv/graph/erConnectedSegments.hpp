@@ -16,8 +16,8 @@
 /** Definition de qq typedef 
 
  */
-typedef  std::list< CgSegmt>                 BfSegmt;
-typedef  std::map< uint, BfSegmt>            BfSegmtMap;
+typedef  std::list< CgalSegmt>                 BgraphSegmt;
+typedef  std::map< uint, BgraphSegmt>          BgraphSegmtMap;
 
 
 
@@ -35,14 +35,14 @@ public:
   template< typename Iter>
   bool operator ()( Iter debut, Iter fin)
   {
-    std::map< CgPoint, uint> ncompt;
+    std::map< CgalPoint, uint> ncompt;
     Iter it;
     for( it = debut; it!=fin; it++)
       {
 	ncompt[ it->source()]++;
 	ncompt[ it->target()]++;
       };
-    std::map< CgPoint, uint>::iterator dede=ncompt.begin();
+    std::map< CgalPoint, uint>::iterator dede=ncompt.begin();
     while( dede != ncompt.end())
       {
 	if( dede->second < 2) return false;
@@ -62,10 +62,10 @@ public:
 /** 
     Definition des types pour la gestion des graphes
 */
-typedef boost::adjacency_list < boost::vecS, boost::vecS, boost::undirectedS, boost::property< boost::vertex_name_t, CgPoint> >  Graph;
+typedef boost::adjacency_list < boost::vecS, boost::vecS, boost::undirectedS, boost::property< boost::vertex_name_t, CgalPoint> >  Graph;
 typedef boost::property_map< Graph, boost::vertex_name_t>::type                  Points_graph_map_t;
 typedef boost::graph_traits< Graph>::vertex_descriptor                           Vertex;
-typedef std::map< CgPoint, Vertex>                                              PointVertexMap;
+typedef std::map< CgalPoint, Vertex>                                             PointVertexMap;
 
 
 
@@ -76,13 +76,13 @@ typedef std::map< CgPoint, Vertex>                                              
    La sortie est une map ou chaque numero repere un ensemble connecte
 */
 template< typename Iterator>
-BfSegmtMap  get_connected_segments( Iterator debut, Iterator fin)
+BgraphSegmtMap  get_connected_segments( Iterator debut, Iterator fin)
 { 
   Graph graph;
   PointVertexMap points;
   bool inserted1,inserted2;
   typedef PointVertexMap::iterator MapIterator;
-  Points_graph_map_t points_graph = boost::get(boost::vertex_name,graph);
+  Points_graph_map_t points_graph = boost::get( boost::vertex_name, graph);
   
   MapIterator    ip1,ip2;
   Vertex u,v;
@@ -126,14 +126,14 @@ BfSegmtMap  get_connected_segments( Iterator debut, Iterator fin)
   std::cout << "Nombre de domaine connecte:" << num  << std::endl; 
   
   boost::graph_traits< Graph>::edge_iterator     ei,ei_end;
-  BfSegmtMap map_of_connected;
+  BgraphSegmtMap map_of_connected;
   
   for( boost::tie( ei, ei_end) = boost::edges( graph);ei != ei_end; ei++)
     {
       Vertex uv = boost::source( *ei,graph);
       Vertex vu = boost::target( *ei,graph);
       
-      map_of_connected[ connect[ uv]].push_back( CgSegmt( points_graph[uv], points_graph[ vu]));
+      map_of_connected[ connect[ uv]].push_back( CgalSegmt( points_graph[uv], points_graph[ vu]));
       
     };
   return map_of_connected;
@@ -149,10 +149,10 @@ BfSegmtMap  get_connected_segments( Iterator debut, Iterator fin)
    
 */
 template< typename Criteria>
-BfSegmt filterMapOfSegments( BfSegmtMap& map_of_connected, Criteria& crit)
+BgraphSegmt filterMapOfSegments( BgraphSegmtMap& map_of_connected, Criteria& crit)
 {
-  BfSegmtMap::iterator deb,fi;
-  BfSegmt output;
+  BgraphSegmtMap::iterator deb,fi;
+  BgraphSegmt output;
   uint nmax=0;
   uint current=0;
   

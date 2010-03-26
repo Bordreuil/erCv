@@ -17,12 +17,12 @@
 
 /**
    Permet de transferer un point d opencv de n importe quel type
-   vers le point defini dans Cgal (erCgalBase.hpp
+   vers le point defini dans Cgal (la class CgalPoint est definie en erCgalBase.hpp)
  */
 template<typename cvPoint>
-CgPoint CvToCg( cvPoint& cv_pt)
+CgalPoint CvToCgal( cvPoint& cv_pt )
 {
-  CgPoint pt( cv_pt.x, cv_pt.y);
+  CgalPoint pt( cv_pt.x, cv_pt.y);
   return pt;
 };
 
@@ -36,18 +36,18 @@ CgPoint CvToCg( cvPoint& cv_pt)
    on vient completer a partir de l output iterator le conteneur de sortie 
    des points de type cgal
 */
-template< typename Container>
-std::list<CgPoint> convertCvToCgalpoints( Container cvPoint)
+template< typename Container, typename Container2>
+void convertCvToCgalpoints( Container cvPoint, Container2 cgalPoint)
 {
   typedef typename Container::iterator Iterator;
 
   Iterator it;
-  std::list<CgPoint> cgPoint;
+  //std::list<CgPoint> cgPoint;
   for( it = cvPoint.begin(); it != cvPoint.end(); it++)
     {
-      cgPoint.push_back( CvToCg(*it));
+      cgalPoint.push_back( CvToCgal(*it));
     }
-  return cgPoint;
+  //return cgPoint;
 
 };
 

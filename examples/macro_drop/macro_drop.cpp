@@ -52,6 +52,9 @@ int main( int hola, char** file_name)
   erAdThrP padt;
   bool loaded;
 
+  std::list< CvPoint> cvPts;
+  std::list< CgalPoint> cgalPts;
+  std::list< CgalSegmt> cgalSeg;
   
   /* Construction matrix de calibracion de l'image et regle de conversion pixel->mm */
   /* Premiere Image a charger: Patron construite sur l'ordinateur */
@@ -98,24 +101,27 @@ int main( int hola, char** file_name)
   /* le nom definie par l'usager + le No Serial de l'image traite */
   erSaveImage( &ea, name, exit);  
 
-//   /* Extraction */
-//   /* Definition d un foncteur comme critere pour extraire des pixels suivant leur niveau de gris. cf->utilities/erPredicates.hpp */     
-//   IsEqualTo is_equal_255( 255);
+  /* Extraction */
+  /* Definition d un foncteur comme critere pour extraire des pixels suivant leur niveau de gris. cf->utilities/erPredicates.hpp */     
+  IsEqualTo is_equal_255( 255);
 
-//   /* Definition du conteneur pour points au moment de l extraction */
-//   std::vector< CvPoint> cvPts;
 
-//   /* Le contours obtenues avec le filtre Canny, sont definies par des pixels ayant une intensite maximal de 255 en 8 bit. */
-//   /* cette fonction ecrit un vecteur avec les coordonnes en pixels de le dites pixels*/
-//   erExtractPoints( &ea, cvPts, is_equal_255); /* Extraction */
-  
-//   /* L'usager doit selectionner le contour ou courbe d'interet dans l'image resultant du Canny. */
-//   /* Cette fonction extrait (depuis le vecteur construit auparavant) les coordones des pixels de le dit curbe */
-//   erExtractionCurveUser( &ea, &cerc, file_name, cvPts, rect);
 
-//   /*Cette fonction ecrit la curbe d'interet, dans un ficher qui a pour nom, */ 
-//   /* le nom definie par l'usager + le No serial de l'image depuis laquelle etait extrait */
-//   erEcriturePointPixel( cvPts, file_name); 
+  /* Le contours obtenues avec le filtre Canny, sont definies par des pixels ayant une intensite maximal de 255 en 8 bit. */
+  /* cette fonction ecrit un vecteur avec les coordonnes en pixels de le dites pixels*/
+  erExtractCvPoints( cvPts, &ea, is_equal_255, rect); /* Extraction */
+  std::cout << "cvPts.size(): " << cvPts.size() << std::endl;
+  std::cout << "hola1" << std::endl;
+
+  /* L'usager doit selectionner le contour ou courbe d'interet dans l'image resultant du Canny. */
+  /* Cette fonction extrait (depuis le vecteur construit auparavant) les coordones des pixels de le dit curbe */
+  erExtractCurveMacroDropUser( cvPts, &ea, rect, &cerc, name);
+
+  std::cout << "hola2" << std::endl;
+
+  /*Cette fonction ecrit la curbe d'interet, dans un ficher qui a pour nom, */ 
+  /* le nom definie par l'usager + le No serial de l'image depuis laquelle etait extrait */
+  erPrintCvPoint( cvPts, name, exit); 
   
 //   /* Boucle de lecteure des images  */
 //   clock_t tbeg = clock();

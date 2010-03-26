@@ -56,8 +56,8 @@ bool erMacroDropAnalysis::defineParameterUI()
    erAdThrP padt;
    bool loaded; 
    std::list< CvPoint> cvPts;
-   std::list< CgPoint> cgPts;
-   std::list< CgSegmt> cgSeg;
+   std::list< CgalPoint> cgalPts;
+   std::list< CgalSegmt> cgalSeg;
    char* file_name =const_cast<char*>(firstImage.c_str());
    std::cout << file_name << std::endl;
    boost::tie(er,loaded) = erLoadImage(file_name);
@@ -76,10 +76,10 @@ bool erMacroDropAnalysis::defineParameterUI()
    erCvCannyUser( &ea, &pcan);
    param_canny   = pcan;
 
-   //IsEqualTo is_equal_255( 255);
+   IsEqualTo is_equal_255( 255);
 
-   cvPts       = erExtractCvPoints( &ea); /* Extraction */
-   erExtractCurveMacroDropUser( &ea, cvPts, rect, &cerc, file_name);
+   erExtractCvPoints( cvPts, &ea, is_equal_255, rect); /* Extraction */
+   erExtractCurveMacroDropUser( cvPts, &ea, rect, &cerc, file_name);
    cercToStart = cerc;
    char* nom   = const_cast<char*>(name.c_str());
    erPrintCvPoint( cvPts, file_name, nom); 
@@ -115,8 +115,8 @@ bool erMacroDropAnalysis::doIt(std::string fich)
        erSaveImage( &eab, file_name,nom);
        IsEqualTo is_equal_255( 255);
        std::list<CvPoint> cvPts; 
-       cvPts = erExtractCvPoints( &eab);
-       erExtractCurveMacroDropUser( &eab, cvPts,rectOI,&cercToStart, file_name);
-       erPrintCvPoint( cvPts, file_name,nom); 
+       erExtractCvPoints( cvPts, &eab, is_equal_255, rectOI);
+       erExtractCurveMacroDropUser( cvPts, &eab, rectOI, &cercToStart, file_name);
+       erPrintCvPoint( cvPts, file_name, nom); 
        return true;
 };

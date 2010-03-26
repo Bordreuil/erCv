@@ -14,10 +14,10 @@
 /** \brief  defintion du type de noyau */
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 
-typedef K::FT          CgFTrai;
-typedef K::Point_2     CgPoint;
-typedef K::Segment_2   CgSegmt;
-typedef K::Triangle_2  CgTrian;
+typedef K::FT          CgalFTrai;
+typedef K::Point_2     CgalPoint;
+typedef K::Segment_2   CgalSegmt;
+typedef K::Triangle_2  CgalTrian;
 
 /*@}*/
 #endif
