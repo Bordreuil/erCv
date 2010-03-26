@@ -7,7 +7,10 @@ To install erCv :
 if you want to change c++ compiler :
    change cmake .. by cmake -DCMAKE_CXX_COMPILER=/usr/bin/c++_compiler ..
 
+if you don't want to build python library :
+   tell cmake -DBUILD_PYTHON_MODULE=OFF ..
+
 For any trouble please contact:
     edward.romero@univ-orleans.fr and pray that it 's still ok
     or 
-    cyril;bordreuil@univ-montp2.fr
+    cyril.bordreuil@univ-montp2.fr
