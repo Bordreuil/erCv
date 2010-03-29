@@ -23,8 +23,13 @@ def erGetBadImagesNumber(name_anal):
     return bad_images_number
 
 def erGetAllImagesNumber(name_analysis,name_image):
+    """
+    permet d obtenir tous les numeros d images associes
+    a l image de base
+    """
     all_images_number=[]
-    ls=os.listdir('.')
+    result=os.path.split(name_analysis)
+    ls=os.listdir(result[0])
     for f in ls:
         if (f.startswith(name_analysis) and f.endswith(name_image[-3:])):
             res=re.split("_|\.",f)
