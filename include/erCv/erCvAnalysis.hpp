@@ -11,13 +11,15 @@ struct erAnalysis
 {
   erAnalysis();
   erAnalysis(std::string name,std::string infofile,std::string firstImage); 
-  void setImageIncrement(erImageIncrement ii);
-  void setTotalImages(int);
+  void            setImageIncrement(erImageIncrement ii);
+  void            setTotalImages(int);
+
   std::string          infoFile;
   std::string          name;
   std::string          firstImage;
   erImageIncrement     incImage;
   int                  totalImage;
+  void  create();
 };
 
 

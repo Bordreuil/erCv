@@ -27,7 +27,7 @@ erMacroDropAnalysis::erMacroDropAnalysis(){};
 erMacroDropAnalysis::erMacroDropAnalysis(std::string name,std::string infofile,std::string firstImage):
   erAnalysis(name,infofile,firstImage),rectOI(),cercToStart(),param_smooth1(),param_smooth2(),
   param_canny(),param_adaptive_threshold()
-{std::cout << name << std::endl;};
+{};
 
 bool erMacroDropAnalysis::defineParameterUI()
    {
@@ -104,6 +104,7 @@ bool erMacroDropAnalysis::doIt(std::string fich)
        char* nom       = const_cast<char*>(name.c_str());
        erImage erb, bwb, eab; 
        //std::list< CvPoint> cvPts;
+       
        boost::tie(erb,loaded) = erLoadImage( file_name);
        if(!loaded) return false;
        bwb = erConvertToBlackAndWhite( &erb);        
@@ -116,7 +117,7 @@ bool erMacroDropAnalysis::doIt(std::string fich)
        IsEqualTo is_equal_255( 255);
        std::list<CvPoint> cvPts; 
        erExtractCvPoints( cvPts, &eab, is_equal_255, rectOI);
-       erExtractCurveMacroDropUser( cvPts, &eab, rectOI, &cercToStart, file_name);
+       erExtractCurveMacroDrop( &eab,cvPts, rectOI, &cercToStart, file_name);
        erPrintCvPoint( cvPts, file_name, nom); 
        return true;
 };

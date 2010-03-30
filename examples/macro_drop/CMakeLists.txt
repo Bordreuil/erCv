@@ -9,3 +9,11 @@ TARGET_LINK_LIBRARIES(macro_drop erCv ${OPENCV_LIBS})
 
 ADD_EXECUTABLE(macro_drop_python macro_drop_python.cpp)
 TARGET_LINK_LIBRARIES(macro_drop_python erCv ${OPENCV_LIBS})
+
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/imageExemple_1.bmp
+			${CMAKE_CURRENT_BINARY_DIR}/imageExemple_1.bmp
+			COPYONLY)
+
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/macro_drop_python.py
+			${CMAKE_CURRENT_BINARY_DIR}/macro_drop_python.py
+			COPYONLY)
