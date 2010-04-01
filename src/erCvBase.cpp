@@ -6,7 +6,7 @@
 #include <fstream>
 #include <boost/lexical_cast.hpp>
 #include <string>
-//#include "_highgui.h"
+
 
 // Programmation de la classeImage
 erImage::erImage():IplImage(){};
@@ -17,15 +17,40 @@ erImage::erImage(char* name):IplImage(*cvLoadImage(name))
 //erImage::erImage(IplImage* im):IplImage(*im){};
 erImage::erImage(IplImage* im) :IplImage(*im){};
 
-// erImage::~erImage(){
-//   IplImage * thim = this;
-  
-//   cvReleaseImage(&thim);
-// };
 erCerc::erCerc(){centro.x=0;centro.y=0;radio=10;};
 erCerc::erCerc(int x,int y,int radius){centro.x=x;centro.y=y;radio=radius;};
 erRect::erRect(int x,int y,int width,int height){x=x;y=y;width=width;height=height;};
 
+std::ostream& operator << (std::ostream& o ,const erCerc& cerc)
+{
+  o << "** Begin erCerc Parameter:\n";
+  o << "\tX_centre\t:\t" << cerc.centro.x << std::endl;
+  o << "\tY_centre\t:\t" << cerc.centro.y << std::endl;
+  o << "\tradius\t\t:\t" << cerc.radio << std::endl;
+  o << "** End erCerc Parameter-----\n";
+  return o;
+
+};;
+std::ostream& operator << (std::ostream& o,const erRect& rect)
+{
+  o << "** Begin erRect Parameter:\n";
+  o << "\tX_origin\t:\t" << rect.x << std::endl;
+  o << "\tY_origin\t:\t" << rect.y << std::endl;
+  o << "\tWidth\t\t:\t" << rect.width << std::endl;
+  o << "\tHeight\t\t:\t" << rect.height << std::endl;
+  o << "** End erRect Parameter-------\n";  
+  return o;
+};
+std::ostream& operator << (std::ostream& o,const CvRect& rect)
+{
+  o << "** Begin CvRect Parameter:\n";
+  o << "\tX_origin\t:\t" << rect.x << std::endl;
+  o << "\tY_origin\t:\t" << rect.y << std::endl;
+  o << "\tWidth\t\t:\t" << rect.width << std::endl;
+  o << "\tHeight\t\t:\t" << rect.height << std::endl;
+  o << "** End CvRect Parameter-------\n";  
+  return o;
+};
 // Interface pour des fonctions d open cv
 void erShowImage( char* name, IplImage* im)
 {

@@ -8,7 +8,7 @@ project( erCv )
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/tools/cmake/modules)
 FIND_PACKAGE(OpenCV REQUIRED)
 FIND_PACKAGE(CGAL REQUIRED)
-FIND_PACKAGE(Boost COMPONENTS graph python)
+FIND_PACKAGE(Boost COMPONENTS graph python filesystem system)
 
 OPTION(BUILD_PYTHON_MODULE  "Build python module for erCv" 1)
 if(NOT ${BUILD_PYTHON_MODULE})

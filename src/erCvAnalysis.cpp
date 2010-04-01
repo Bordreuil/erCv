@@ -11,43 +11,48 @@
 
 #include <erCv/Gui/erCvSegmentationUser.hpp>
 #include<time.h>
-#include<boost/lexical_cast.hpp>
+#include<fstream>
+#include<boost/filesystem.hpp>
+
+std::string ANALYSIS_EXTENSION="_erCvAnalysis";
 
 erAnalysis::erAnalysis(){};
 
-erAnalysis::erAnalysis(std::string name,std::string infofile,std::string firstImage): 
-  name(name),infoFile(infofile),firstImage(firstImage),incImage(1,1,10),totalImage(10){};
+erAnalysis::erAnalysis(std::string name,std::string infofile): 
+  name(name),infoFile(infofile)
+{  dir_analysis = name+ANALYSIS_EXTENSION;
+  create();
+};
 
 
-void erAnalysis::setImageIncrement(erImageIncrement ii){incImage=ii;};
-void erAnalysis::setTotalImages(int nImax){totalImage=nImax;};
+void erAnalysis::create()
+{ 
+    if (boost::filesystem::exists(dir_analysis))
+      {
+	std::cout << "an analysis with same name :" << name << "  already exist\n";
+      }
+    else{
+         boost::filesystem::create_directory(dir_analysis);
+        };
+};
+
 
 erMacroDropAnalysis::erMacroDropAnalysis(){};
 
-erMacroDropAnalysis::erMacroDropAnalysis(std::string name,std::string infofile,std::string firstImage):
-  erAnalysis(name,infofile,firstImage),rectOI(),cercToStart(),param_smooth1(),param_smooth2(),
+erMacroDropAnalysis::erMacroDropAnalysis(std::string name,std::string infofile):
+  erAnalysis(name,infofile),rectOI(),cercToStart(),param_smooth1(),param_smooth2(),
   param_canny(),param_adaptive_threshold()
 {};
 
-bool erMacroDropAnalysis::defineParameterUI()
+bool erMacroDropAnalysis::defineParametersUI(std::string firstImage)
    {
-  std::cout <<"-----------------------------------------------\n\n";
+   std::cout <<"-----------------------------------------------\n\n";
    std::cout <<"\tMagic treatment for metal transfer\n\tBy Edward Romero\n\tNovember 2009\n\tLMGC/UM2/UM5508\n\tANR-TEMMSA\n\n";
    std::cout <<"-----------------------------------------------\n\n";
-   uint ninc,ndelta,every,Nimax;
-   std::cout << "Increment de photo:";
-   std::cin  >> ninc;
-   std::cout << "Toutes les n photos:";
-   std::cin >>   every;
-   std::cout << " increment de:";
-   std::cin >> ndelta;
-   std::cout << "Nombre max de photos:";
-   std::cin >> Nimax;
-  
+   
    /* Declaration de variables a utiliser par les fonctions */
    INFOFILE = this->infoFile;
-   erImageIncrement inc(ninc,ndelta,every);
-   this->incImage = inc ;
+
    erImage er, bw, eo, ea;
    CvRect rect;
    erCerc cerc; 
@@ -56,10 +61,9 @@ bool erMacroDropAnalysis::defineParameterUI()
    erAdThrP padt;
    bool loaded; 
    std::list< CvPoint> cvPts;
-   std::list< CgalPoint> cgalPts;
-   std::list< CgalSegmt> cgalSeg;
+
    char* file_name =const_cast<char*>(firstImage.c_str());
-   std::cout << file_name << std::endl;
+   
    boost::tie(er,loaded) = erLoadImage(file_name);
    if(!loaded) return false;
    bw            = erConvertToBlackAndWhite( &er); /* Conversion en 8 bit single channel */
@@ -87,7 +91,7 @@ bool erMacroDropAnalysis::defineParameterUI()
 
    };
 
-void erMacroDropAnalysis::defineParameter(CvRect rect,erCerc ecerc,erSmootP smooth1,erSmootP smooth2,erCannyP cann,erAdThrP adthr)
+void erMacroDropAnalysis::defineParameters(CvRect rect,erCerc ecerc,erSmootP smooth1,erSmootP smooth2,erCannyP cann,erAdThrP adthr)
 {
   rectOI                   = rect;
   cercToStart              = ecerc;
@@ -101,9 +105,9 @@ void erMacroDropAnalysis::defineParameter(CvRect rect,erCerc ecerc,erSmootP smoo
 bool erMacroDropAnalysis::doIt(std::string fich)
 {      bool loaded;
        char* file_name = const_cast<char*>(fich.c_str());
-       char* nom       = const_cast<char*>(name.c_str());
+       std::string output_name = (dir_analysis+"/"+name);
+       char* nom       = const_cast<char*>(output_name.c_str());
        erImage erb, bwb, eab; 
-       //std::list< CvPoint> cvPts;
        
        boost::tie(erb,loaded) = erLoadImage( file_name);
        if(!loaded) return false;
@@ -119,5 +123,20 @@ bool erMacroDropAnalysis::doIt(std::string fich)
        erExtractCvPoints( cvPts, &eab, is_equal_255, rectOI);
        erExtractCurveMacroDrop( &eab,cvPts, rectOI, &cercToStart, file_name);
        erPrintCvPoint( cvPts, file_name, nom); 
+
        return true;
 };
+
+void erMacroDropAnalysis::saveParameters(std::string file)
+{ std::string output_file=dir_analysis+"/"+file;
+  std::ofstream out(output_file.c_str());
+  out << "* Begin er MacroDrop Analysis" << std::endl;
+  out << this->rectOI;
+  out << this->cercToStart;
+  out << this->param_smooth1;
+  out << this->param_adaptive_threshold;
+  out << this->param_smooth2;
+  out << this->param_canny;
+  out << "* End er MacroDrop Analysis" << std::endl;
+};
+

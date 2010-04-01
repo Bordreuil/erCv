@@ -14,11 +14,13 @@
     Les fichiers interfaces (.hpp) sont accessibles dans un programme en specifiant le repertoire include ou include/erCv suivant l utilisation qu'on veut en faire.
 
     \section Install Installation
+    CGAL utilise boost. 
+
     Il est conseiller de creer un repertoire build-nom_du_compilo, puis de se placer dans ce repertoire,
     ensuite on tape la ligne de commande : cmake -DCMAKE_CXX_COMPILER=nom_compilo ..
 
     Cela permet d avoir une installation propre et un acces simple au source sans rien surcharge
-
+    
     \section test Tests
     Une serie de tests est en developpement par Edward pour voir si tout tourne correctement apres
     l installation.
@@ -104,7 +106,11 @@ struct erRect:public CvRect
 {
   erRect(int,int,int,int);
 };
-
+// Quelques fonctions pour gerer l impression
+/** \brief Impression d objet dans un flux*/
+std::ostream& operator << (std::ostream&,const erCerc&);
+std::ostream& operator << (std::ostream&,const erRect&);
+std::ostream& operator << (std::ostream&,const CvRect&);
 // Quelques fonctions utiles d' OpenCv
 /** \brief Fonction permettant de visualiser une Image a l aide
  d openCv

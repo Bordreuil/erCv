@@ -8,10 +8,14 @@ INCLUDE_DIRECTORIES(${ERCV_INCLUDE_DIR}
   ${OPENCV_INCLUDE_DIR})
 
 
+
 LINK_LIBRARIES(${OpenCV_CV_LIBRARY} 
                ${OpenCV_CVAUX_LIBRARY} 
                ${OpenCV_HIGHGUI_LIBRARY} 
-               ${OpenCV_CXCORE_LIBRARY} )
+               ${OpenCV_CXCORE_LIBRARY} 
+	       ${Boost_FILESYSTEM_LIBRARY}
+	       ${Boost_SYSTEM_LIBRARY}
+	       )
 
 ADD_LIBRARY(erCv erCvSegmentation
                  erCalibration 
@@ -28,9 +32,6 @@ ADD_LIBRARY(erCv erCvSegmentation
 		 Gui/erCvUserInteraction
                  Gui/erCvSegmentationUser 
 		 params 
-		 ${OpenCV_CV_LIBRARY} 
-                 ${OpenCV_CVAUX_LIBRARY} 
-                 ${OpenCV_HIGHGUI_LIBRARY} 
-                 ${OpenCV_CXCORE_LIBRARY} )
+		 )
 
 ADD_SUBDIRECTORY(bindings)

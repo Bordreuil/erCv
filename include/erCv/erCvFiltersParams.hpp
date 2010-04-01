@@ -32,7 +32,7 @@ struct erSmootP
   SmoothType type; /** < Type of the smooth to be aplied */
 };
 
-std::ostream& operator << (std::ostream&, erSmootP*);
+std::ostream& operator << (std::ostream&, const erSmootP);
 
 /**
    \brief 
@@ -55,7 +55,7 @@ struct erCannyP
   int trh2; /** < Threshold 2 to canny fonction */
 };
 
-
+std::ostream& operator << (std::ostream&,const erCannyP);
 
 /**
    \brief
@@ -97,7 +97,7 @@ struct erAdThrP
   AdaptiveThresholdType type;  //** <                           */
   AdaptiveMethodType    adpt;  //** <                           */
 };
-
+std::ostream& operator << (std::ostream&,const erAdThrP);
 
 /**
    \brief

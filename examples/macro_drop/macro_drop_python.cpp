@@ -23,10 +23,9 @@ int main( int hola, char** file_name)
   erSmootP p1(BLUR,7),p2(GAUSSIAN,5);
   erCannyP cann(355,355);
   erAdThrP adp(THRESH_BINARY,AM_MEAN,50,14,255); //** < 
-  erMacroDropAnalysis mda("peo","peo","imageExemple_1.bmp");
-  mda.defineParameter(rect,cerc,p1,p2,cann,adp);
-  std::cout << "passer defineparameter" << std::endl;
+  erMacroDropAnalysis mda("peo","peo");
+  mda.defineParameters(rect,cerc,p1,p2,cann,adp);
   mda.doIt("imageExemple_1.bmp");
-
+  mda.saveParameters("test.out");
   return(0);
 };
