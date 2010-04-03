@@ -46,53 +46,57 @@
 <a name="l00023"></a>00023 };
 <a name="l00024"></a>00024 
 <a name="l00025"></a>00025 
-<a name="l00026"></a>00026 
-<a name="l00027"></a>00027 <span class="keyword">template</span> &lt; <span class="keyword">class</span> Container &gt;
-<a name="l00028"></a><a class="code" href="er_cgal_alpha_shape2_8hpp.html#bf806e195878ebcdb8953e1330bf6358">00028</a> std::list&lt;CgSegmt&gt; <a class="code" href="er_cgal_alpha_shape2_8hpp.html#bf806e195878ebcdb8953e1330bf6358">alpha_edges_user</a>( Container cgPoints, <a class="code" href="structer_alpha_p.html">erAlphaP</a>* param)
-<a name="l00029"></a>00029 {
-<a name="l00030"></a>00030   <span class="keywordtype">double</span> alfa;
-<a name="l00031"></a>00031   std::list&lt;CgSegmt&gt; cgSegment;
-<a name="l00032"></a>00032   <span class="keyword">typedef</span> <span class="keyword">typename</span> Container::iterator it;
-<a name="l00033"></a>00033   <span class="keywordtype">int</span> ok =1;
-<a name="l00034"></a>00034   <span class="keywordflow">while</span>(ok)
-<a name="l00035"></a>00035     {
-<a name="l00036"></a>00036       std::cout &lt;&lt; std::endl;
-<a name="l00037"></a>00037       std::cout &lt;&lt; <span class="stringliteral">"Value of alpha parameter to Alpha Shape (double v | v&gt;0) "</span>;
-<a name="l00038"></a>00038       std::cin &gt;&gt; alfa;
-<a name="l00039"></a>00039       <a class="code" href="er_cgal_alpha_shape2_8hpp.html#faab254f511cec47db5ea559493a77d2">Alpha_shape_2</a> A( cgPoints.begin(), cgPoints.end(), <a class="code" href="group__cgal.html#g5ae3d19dd338553441d093251ed63b44">CgFTrai</a>(alfa));
-<a name="l00040"></a>00040       <span class="keywordflow">for</span>(<a class="code" href="er_cgal_alpha_shape2_8hpp.html#4b80b4c9d991d7280d3602a0274bf5c6">Alpha_shape_edges_iterator</a> it =  A.alpha_shape_edges_begin(); it != A.alpha_shape_edges_end(); ++it)
-<a name="l00041"></a>00041         {
-<a name="l00042"></a>00042           cgSegment.push_back( A.segment(*it));
-<a name="l00043"></a>00043         }
-<a name="l00044"></a>00044       ok = 0;
-<a name="l00045"></a>00045     }
-<a name="l00046"></a>00046   param-&gt;<a class="code" href="structer_alpha_p.html#93c83285ea166ad540ced9a74d220f66">alpha</a> = alfa;
-<a name="l00047"></a>00047   <span class="keywordflow">return</span> cgSegment;
-<a name="l00048"></a>00048 }
-<a name="l00049"></a>00049 
-<a name="l00050"></a>00050 
-<a name="l00051"></a>00051 
-<a name="l00052"></a>00052 
-<a name="l00053"></a>00053 <span class="keyword">template</span> &lt; <span class="keyword">class</span> Container &gt;
-<a name="l00054"></a><a class="code" href="er_cgal_alpha_shape2_8hpp.html#4368eea3766802ebcc361464ce634ca9">00054</a> std::list&lt;CgSegmt&gt; <a class="code" href="er_cgal_alpha_shape2_8hpp.html#4368eea3766802ebcc361464ce634ca9">alpha_edges</a>( Container cgPoints, <a class="code" href="structer_alpha_p.html">erAlphaP</a>* param)
-<a name="l00055"></a>00055 {
-<a name="l00056"></a>00056   <span class="keywordtype">double</span> alfa = param-&gt;<a class="code" href="structer_alpha_p.html#93c83285ea166ad540ced9a74d220f66">alpha</a>;
-<a name="l00057"></a>00057   <span class="keyword">typedef</span> <span class="keyword">typename</span> Container::iterator it;
-<a name="l00058"></a>00058   
-<a name="l00059"></a>00059   <a class="code" href="er_cgal_alpha_shape2_8hpp.html#faab254f511cec47db5ea559493a77d2">Alpha_shape_2</a> A( cgPoints.begin(), cgPoints.end(), <a class="code" href="group__cgal.html#g5ae3d19dd338553441d093251ed63b44">CgFTrai</a>(alfa));
-<a name="l00060"></a>00060   std::list&lt;CgSegmt&gt; cgSegment;
-<a name="l00061"></a>00061   <span class="keywordflow">for</span>(<a class="code" href="er_cgal_alpha_shape2_8hpp.html#4b80b4c9d991d7280d3602a0274bf5c6">Alpha_shape_edges_iterator</a> it =  A.alpha_shape_edges_begin(); it != A.alpha_shape_edges_end(); ++it)
-<a name="l00062"></a>00062     {
-<a name="l00063"></a>00063       cgSegment.push_back( A.segment(*it));
-<a name="l00064"></a>00064     }
-<a name="l00065"></a>00065   
-<a name="l00066"></a>00066   <span class="keywordflow">return</span> cgSegment;
-<a name="l00067"></a>00067 }
-<a name="l00068"></a>00068 
-<a name="l00069"></a>00069 
-<a name="l00070"></a>00070 <span class="preprocessor">#endif</span>
+<a name="l00026"></a>00026 <span class="comment">/* </span>
+<a name="l00027"></a>00027 <span class="comment">   "AlphaShape Regular" permet de créer des courbes fermes construites sur des segments non conectes, sur les contours detectés </span>
+<a name="l00028"></a>00028 <span class="comment">   par le traitement d'image. L'algorithme place les segments sur use une triangulation de L'Aunneay pour Le dites pointes sont</span>
+<a name="l00029"></a>00029 <span class="comment">   definies sur erCgalBase.hpp.</span>
+<a name="l00030"></a>00030 <span class="comment">*/</span>
+<a name="l00031"></a>00031 <span class="keyword">template</span> &lt; <span class="keyword">class</span> Container, <span class="keyword">class</span> Container2 &gt;
+<a name="l00032"></a><a class="code" href="er_cgal_alpha_shape2_8hpp.html#6d201b19dfc9e2cf2dd8dde66d707243">00032</a> <span class="keywordtype">void</span> <a class="code" href="er_cgal_alpha_shape2_8hpp.html#6d201b19dfc9e2cf2dd8dde66d707243">alpha_edges_user</a>( Container cgalPoints, Container2 cgalSegmts, <a class="code" href="structer_alpha_p.html">erAlphaP</a>* param)
+<a name="l00033"></a>00033 {
+<a name="l00034"></a>00034   <span class="keywordtype">double</span> alfa;
+<a name="l00035"></a>00035   <span class="comment">//std::list&lt;CgSegmt&gt; cgSegment;</span>
+<a name="l00036"></a>00036   <span class="keyword">typedef</span> <span class="keyword">typename</span> Container::iterator it;
+<a name="l00037"></a>00037   <span class="keywordtype">int</span> ok =1;
+<a name="l00038"></a>00038   <span class="keywordflow">while</span>(ok)
+<a name="l00039"></a>00039     {
+<a name="l00040"></a>00040       std::cout &lt;&lt; std::endl;
+<a name="l00041"></a>00041       std::cout &lt;&lt; <span class="stringliteral">"Value of alpha parameter to Alpha Shape (double v | v&gt;0) "</span>;
+<a name="l00042"></a>00042       std::cin &gt;&gt; alfa;
+<a name="l00043"></a>00043       <a class="code" href="er_cgal_alpha_shape2_8hpp.html#faab254f511cec47db5ea559493a77d2">Alpha_shape_2</a> A( cgalPoints.begin(), cgalPoints.end(), <a class="code" href="group__cgal.html#g9da24d524556f1de8ff416c8083c795f">CgalFTrai</a>(alfa));
+<a name="l00044"></a>00044       <span class="keywordflow">for</span>(<a class="code" href="er_cgal_alpha_shape2_8hpp.html#4b80b4c9d991d7280d3602a0274bf5c6">Alpha_shape_edges_iterator</a> it =  A.alpha_shape_edges_begin(); it != A.alpha_shape_edges_end(); ++it)
+<a name="l00045"></a>00045         {
+<a name="l00046"></a>00046           cgalSegmts.push_back( A.segment(*it));
+<a name="l00047"></a>00047         }
+<a name="l00048"></a>00048       ok = 0;
+<a name="l00049"></a>00049     }
+<a name="l00050"></a>00050   param-&gt;<a class="code" href="structer_alpha_p.html#93c83285ea166ad540ced9a74d220f66">alpha</a> = alfa;
+<a name="l00051"></a>00051   <span class="comment">//return cgSegment;</span>
+<a name="l00052"></a>00052 }
+<a name="l00053"></a>00053 
+<a name="l00054"></a>00054 
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056 
+<a name="l00057"></a>00057 <span class="keyword">template</span> &lt; <span class="keyword">class</span> Container, <span class="keyword">class</span> Container2 &gt;
+<a name="l00058"></a><a class="code" href="er_cgal_alpha_shape2_8hpp.html#16cddaac16fa468d472197839d1afdd2">00058</a> <span class="keywordtype">void</span> <a class="code" href="er_cgal_alpha_shape2_8hpp.html#16cddaac16fa468d472197839d1afdd2">alpha_edges</a>( Container cgalPoints, Container2 cgalSegmts, <a class="code" href="structer_alpha_p.html">erAlphaP</a>* param)
+<a name="l00059"></a>00059 {
+<a name="l00060"></a>00060   <span class="keywordtype">double</span> alfa = param-&gt;<a class="code" href="structer_alpha_p.html#93c83285ea166ad540ced9a74d220f66">alpha</a>;
+<a name="l00061"></a>00061   <span class="keyword">typedef</span> <span class="keyword">typename</span> Container::iterator it;
+<a name="l00062"></a>00062   
+<a name="l00063"></a>00063   <a class="code" href="er_cgal_alpha_shape2_8hpp.html#faab254f511cec47db5ea559493a77d2">Alpha_shape_2</a> A( cgalPoints.begin(), cgalPoints.end(), <a class="code" href="group__cgal.html#g9da24d524556f1de8ff416c8083c795f">CgalFTrai</a>(alfa));
+<a name="l00064"></a>00064   <span class="comment">//std::list&lt;CgSegmt&gt; cgSegment;</span>
+<a name="l00065"></a>00065   <span class="keywordflow">for</span>(<a class="code" href="er_cgal_alpha_shape2_8hpp.html#4b80b4c9d991d7280d3602a0274bf5c6">Alpha_shape_edges_iterator</a> it =  A.alpha_shape_edges_begin(); it != A.alpha_shape_edges_end(); ++it)
+<a name="l00066"></a>00066     {
+<a name="l00067"></a>00067       cgalSegmts.push_back( A.segment(*it));
+<a name="l00068"></a>00068     }
+<a name="l00069"></a>00069   
+<a name="l00070"></a>00070   <span class="comment">//return cgSegment;</span>
+<a name="l00071"></a>00071 }
+<a name="l00072"></a>00072 
+<a name="l00073"></a>00073 
+<a name="l00074"></a>00074 <span class="preprocessor">#endif</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Sun Mar 21 16:49:06 2010 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Apr 2 15:42:56 2010 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

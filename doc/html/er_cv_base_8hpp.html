@@ -28,19 +28,21 @@
 <p>
 <code>#include &lt;cv.h&gt;</code><br>
 <code>#include &lt;highgui.h&gt;</code><br>
-<code>#include &lt;boost/lexical_cast.hpp&gt;</code><br>
-<code>#include &lt;vector&gt;</code><br>
 <code>#include &lt;string&gt;</code><br>
 <code>#include &lt;utility&gt;</code><br>
-<code>#include &lt;iostream&gt;</code><br>
-<code>#include &lt;fstream&gt;</code><br>
-<code>#include &lt;<a class="el" href="er_cv_tools_8hpp-source.html">erCv/erCvTools.hpp</a>&gt;</code><br>
+<code>#include &quot;<a class="el" href="er_cv_tools_8hpp-source.html">erCvTools.hpp</a>&quot;</code><br>
 
 <p>
 <a href="er_cv_base_8hpp-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Classes</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">class &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classer_image.html">erImage</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_cerc.html">erCerc</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_cercle_img.html">erCercleImg</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structer_rect.html">erRect</a></td></tr>
 
 <tr><td colspan="2"><br><h2>Namespaces</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">namespace &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceer_cv.html">erCv</a></td></tr>
@@ -49,6 +51,13 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="er_cv_base_8hpp.html#587be83ea788b5b613de38a65e2bccee">nameInfoFile</a> (std::string)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="er_cv_base_8hpp.html#34d22b6f3b3852831f7fdf7e1b68c0ac">nameGoodImagesFile</a> (std::string)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">std::ostream &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#gc54838b1352e7d0d448e038a927bf417">operator&lt;&lt;</a> (std::ostream &amp;, const <a class="el" href="structer_cerc.html">erCerc</a> &amp;)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Impression d objet dans un flux.  <a href="group__cv__group.html#gc54838b1352e7d0d448e038a927bf417"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">std::ostream &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g200baa6efa548c087bfe149ad716133f">operator&lt;&lt;</a> (std::ostream &amp;, const <a class="el" href="structer_rect.html">erRect</a> &amp;)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">std::ostream &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g35a3254f4f9e7dbfb6d6abb9a44e5813">operator&lt;&lt;</a> (std::ostream &amp;, const <a class="el" href="struct_cv_rect.html">CvRect</a> &amp;)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#gd5e49d6b0df6148100f848dec333db5e">erShowImage</a> (char *, IplImage *)</td></tr>
 
@@ -143,7 +152,7 @@ Fichier contenant l encapsulation par une classe de la structure IplImage d open
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Sun Mar 21 16:49:07 2010 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Apr 2 15:42:56 2010 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

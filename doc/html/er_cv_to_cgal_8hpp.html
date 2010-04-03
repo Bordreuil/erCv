@@ -34,26 +34,35 @@
 
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename cvPoint &gt; </td></tr>
-<tr><td class="memTemplItemLeft" nowrap align="right" valign="top"><a class="el" href="group__cgal.html#g41849c7976c8c8fbb94ac29c7f6161a9">CgPoint</a>&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="er_cv_to_cgal_8hpp.html#27f70b5c4706b6240934cca4c28d01c0">CvToCg</a> (cvPoint &amp;cv_pt)</td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top"><a class="el" href="group__cgal.html#g039e16256d9f18e1f026a94b848546c3">CgalPoint</a>&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="er_cv_to_cgal_8hpp.html#d7c075a037ebd26768e87b7f6fe48486">CvToCgal</a> (cvPoint &amp;cv_pt)</td></tr>
 
-<tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename Container &gt; </td></tr>
-<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">std::list&lt; <a class="el" href="group__cgal.html#g41849c7976c8c8fbb94ac29c7f6161a9">CgPoint</a> &gt;&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="er_cv_to_cgal_8hpp.html#a2b697e74378d93dd1212d291ac888fe">convertCvToCgalpoints</a> (Container cvPoint)</td></tr>
+<tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename Container , typename Container2 &gt; </td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="er_cv_to_cgal_8hpp.html#856d8db7a53a2352fe4f3567bfc0021f">convertCvToCgalpoints</a> (Container cvPoint, Container2 cgalPoint)</td></tr>
 
 </table>
 <hr><h2>Function Documentation</h2>
-<a class="anchor" name="a2b697e74378d93dd1212d291ac888fe"></a><!-- doxytag: member="erCvToCgal.hpp::convertCvToCgalpoints" ref="a2b697e74378d93dd1212d291ac888fe" args="(Container cvPoint)" -->
+<a class="anchor" name="856d8db7a53a2352fe4f3567bfc0021f"></a><!-- doxytag: member="erCvToCgal.hpp::convertCvToCgalpoints" ref="856d8db7a53a2352fe4f3567bfc0021f" args="(Container cvPoint, Container2 cgalPoint)" -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Container &gt; </div>
+template&lt;typename Container , typename Container2 &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::list&lt;<a class="el" href="group__cgal.html#g41849c7976c8c8fbb94ac29c7f6161a9">CgPoint</a>&gt; convertCvToCgalpoints           </td>
+          <td class="memname">void convertCvToCgalpoints           </td>
           <td>(</td>
           <td class="paramtype">Container&nbsp;</td>
-          <td class="paramname"> <em>cvPoint</em>          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td><code> [inline]</code></td>
+          <td class="paramname"> <em>cvPoint</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Container2&nbsp;</td>
+          <td class="paramname"> <em>cgalPoint</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [inline]</code></td>
         </tr>
       </table>
 </div>
@@ -63,14 +72,14 @@ template&lt;typename Container &gt; </div>
 Pour un iterateur d entree sur un conteneur de point d opencv on vient completer a partir de l output iterator le conteneur de sortie des points de type cgal 
 </div>
 </div><p>
-<a class="anchor" name="27f70b5c4706b6240934cca4c28d01c0"></a><!-- doxytag: member="erCvToCgal.hpp::CvToCg" ref="27f70b5c4706b6240934cca4c28d01c0" args="(cvPoint &amp;cv_pt)" -->
+<a class="anchor" name="d7c075a037ebd26768e87b7f6fe48486"></a><!-- doxytag: member="erCvToCgal.hpp::CvToCgal" ref="d7c075a037ebd26768e87b7f6fe48486" args="(cvPoint &amp;cv_pt)" -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename cvPoint &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__cgal.html#g41849c7976c8c8fbb94ac29c7f6161a9">CgPoint</a> CvToCg           </td>
+          <td class="memname"><a class="el" href="group__cgal.html#g039e16256d9f18e1f026a94b848546c3">CgalPoint</a> CvToCgal           </td>
           <td>(</td>
           <td class="paramtype">cvPoint &amp;&nbsp;</td>
           <td class="paramname"> <em>cv_pt</em>          </td>
@@ -82,11 +91,11 @@ template&lt;typename cvPoint &gt; </div>
 <div class="memdoc">
 
 <p>
-Permet de transferer un point d opencv de n importe quel type vers le point defini dans Cgal (<a class="el" href="er_cgal_base_8hpp.html">erCgalBase.hpp</a> 
+Permet de transferer un point d opencv de n importe quel type vers le point defini dans Cgal (la class CgalPoint est definie en <a class="el" href="er_cgal_base_8hpp.html">erCgalBase.hpp</a>) 
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Sun Mar 21 16:49:07 2010 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Apr 2 15:42:56 2010 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

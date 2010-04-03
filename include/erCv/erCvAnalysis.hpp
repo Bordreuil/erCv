@@ -16,7 +16,7 @@ struct erAnalysis
   erAnalysis();
   erAnalysis(std::string name,std::string infofile="info"); 
   void  create(); 
- 
+  virtual bool doIt(std::string)=0;  /** < doIt pure virtuel pour utilisation dans BAME */
   std::string          infoFile; /** < Fichier de sortie des infos */
   std::string          name;     /** < Nom a donner a l analyse */
   std::string          dir_analysis; /** < Repertoire de la analyse en general name+_erCvAnalysis */
@@ -29,9 +29,9 @@ struct erAnalysis
 struct erMacroDropAnalysis:public erAnalysis
 { erMacroDropAnalysis();
   erMacroDropAnalysis(std::string name,std::string infofile="info");
-  bool defineParametersUI(std::string image); /** < Definition des parametre interactives */
-  void defineParameters(CvRect,erCerc,erSmootP,erSmootP,erCannyP,erAdThrP); /** < Parametres en dur */
-  bool doIt(std::string);  /** < Analyse sur le fichier */
+  bool defineParametersUI(std::string image); /**\brief < Definition des parametre interactives */
+  void defineParameters(CvRect,erCerc,erSmootP,erSmootP,erCannyP,erAdThrP); /**\brief < Passages Parametres en dur */
+  bool doIt(std::string);  /**\brief < Analyse sur le fichier */
   void saveParameters(std::string);
   void loadParameters(std::string);
   CvRect         rectOI;

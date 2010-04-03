@@ -39,8 +39,8 @@ std::ostream& operator << (std::ostream& o,const erAdThrP ea)
   o << "\tAdaptive Threshold Type\t:\t" << ea.type << std::endl;
   o << "\tAdaptive Method Type\t:\t"    << ea.adpt<< std::endl;
   o << "\tThreshold Parameter\t:\t" << ea.trhP << std::endl;
-  o << "\tNeighbour\t\t\t:\t"    << ea.neig<< std::endl;
-  o << "\tThreshold\t\t\t:\t"    << ea.trh0<< std::endl;
+  o << "\tNeighbour\t\t:\t"    << ea.neig<< std::endl;
+  o << "\tThreshold\t\t:\t"    << ea.trh0<< std::endl;
   o << "** End Adaptive Threshold Parameter------\n";
   
   return o;

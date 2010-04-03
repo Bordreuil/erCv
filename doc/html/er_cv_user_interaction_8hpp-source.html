@@ -26,31 +26,17 @@
 <a name="l00003"></a>00003 <span class="preprocessor"></span><span class="preprocessor">#include &lt;<a class="code" href="er_cv_base_8hpp.html" title="Fichier contenant l encapsulation par une classe de la structure IplImage d openCv...">erCv/erCvBase.hpp</a>&gt;</span>
 <a name="l00004"></a>00004 
 <a name="l00005"></a>00005 
-<a name="l00006"></a><a class="code" href="structer_cerc.html">00006</a> <span class="keyword">struct </span><a class="code" href="structer_cerc.html">erCerc</a>
-<a name="l00007"></a>00007 {
-<a name="l00008"></a><a class="code" href="structer_cerc.html#9639a47222b3166331c7ecf6c08d3a45">00008</a>   CvPoint <a class="code" href="structer_cerc.html#9639a47222b3166331c7ecf6c08d3a45">centro</a>;
-<a name="l00009"></a><a class="code" href="structer_cerc.html#cdb43597e095b5b3c2ed273c998c27f3">00009</a>   <span class="keywordtype">int</span> <a class="code" href="structer_cerc.html#cdb43597e095b5b3c2ed273c998c27f3">radio</a>;
-<a name="l00010"></a>00010 };
-<a name="l00011"></a>00011 
-<a name="l00012"></a><a class="code" href="structer_cercle_img.html">00012</a> <span class="keyword">struct </span><a class="code" href="structer_cercle_img.html">erCercleImg</a>
-<a name="l00013"></a>00013 {
-<a name="l00014"></a><a class="code" href="structer_cercle_img.html#0699ee526a7d265bff04863fbfa9f7c9">00014</a>   IplImage* <a class="code" href="structer_cercle_img.html#0699ee526a7d265bff04863fbfa9f7c9">image</a>;
-<a name="l00015"></a><a class="code" href="structer_cercle_img.html#296474c138150946565a222e06784d00">00015</a>   CvPoint <a class="code" href="structer_cercle_img.html#296474c138150946565a222e06784d00">centeri</a>;
-<a name="l00016"></a><a class="code" href="structer_cercle_img.html#1c65f5c9c3e72f4072b2ec18119bb651">00016</a>   <span class="keywordtype">int</span> <a class="code" href="structer_cercle_img.html#1c65f5c9c3e72f4072b2ec18119bb651">radiusi</a>;
-<a name="l00017"></a><a class="code" href="structer_cercle_img.html#c8812d92e49d2ec61c714975fec935e2">00017</a>   <span class="keywordtype">bool</span> <a class="code" href="structer_cercle_img.html#c8812d92e49d2ec61c714975fec935e2">drawing</a>;
-<a name="l00018"></a>00018 };
-<a name="l00019"></a>00019 
-<a name="l00023"></a>00023 IplImage* <a class="code" href="er_cv_user_interaction_8hpp.html#1bcbe6f49df8bd52e6bb2b837faaf057">erDef_ROIuser</a>( <a class="code" href="classer_image.html">erImage</a>*, CvRect*);
-<a name="l00024"></a>00024 
-<a name="l00028"></a>00028 IplImage* <a class="code" href="er_cv_user_interaction_8hpp.html#471a2d4c2e87680b32afb856b92ff834">erDef_ROI</a>( <a class="code" href="classer_image.html">erImage</a>*, CvRect*);
-<a name="l00029"></a>00029 
-<a name="l00033"></a>00033 <span class="keywordtype">void</span> <a class="code" href="er_cv_user_interaction_8hpp.html#b6c98012487e000b8f3b7a96bc8a9e8e">erRes_ROI_recons</a>( IplImage*);
-<a name="l00034"></a>00034 
-<a name="l00038"></a>00038 std::pair&lt; CvPoint, int&gt; <a class="code" href="er_cv_user_interaction_8hpp.html#796a408ee432b182dc5240ccc5c7515d">erCvDebutCurve</a>( IplImage*);
-<a name="l00039"></a>00039 
-<a name="l00040"></a>00040 <span class="preprocessor">#endif</span>
+<a name="l00009"></a>00009 IplImage* <a class="code" href="er_cv_user_interaction_8hpp.html#1bcbe6f49df8bd52e6bb2b837faaf057">erDef_ROIuser</a>( <a class="code" href="classer_image.html">erImage</a>*, <a class="code" href="struct_cv_rect.html">CvRect</a>*);
+<a name="l00010"></a>00010 
+<a name="l00014"></a>00014 IplImage* <a class="code" href="er_cv_user_interaction_8hpp.html#471a2d4c2e87680b32afb856b92ff834">erDef_ROI</a>( <a class="code" href="classer_image.html">erImage</a>*, <a class="code" href="struct_cv_rect.html">CvRect</a>*);
+<a name="l00015"></a>00015 
+<a name="l00019"></a>00019 <span class="keywordtype">void</span> <a class="code" href="er_cv_user_interaction_8hpp.html#b6c98012487e000b8f3b7a96bc8a9e8e">erRes_ROI_recons</a>( IplImage*);
+<a name="l00020"></a>00020 
+<a name="l00024"></a>00024 std::pair&lt; CvPoint, int&gt; <a class="code" href="er_cv_user_interaction_8hpp.html#796a408ee432b182dc5240ccc5c7515d">erCvDebutCurve</a>( IplImage*);
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026 <span class="preprocessor">#endif</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Sun Mar 21 16:49:06 2010 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Fri Apr 2 15:42:56 2010 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>
