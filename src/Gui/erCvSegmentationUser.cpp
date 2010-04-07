@@ -120,7 +120,7 @@ void erCvDifferencingUser( IplImage* simg, erDiffeP* parm)
 
 
 
-IplImage* erCvTemplateUser( IplImage* img, erTemplP* parm)
+IplImage* erCvTemplateUser( IplImage* img, erTemplP* parm, bool with_trackbar)
 {
 
   IplImage *img_temp, *temp, *result_img, *img_p;
@@ -138,19 +138,39 @@ IplImage* erCvTemplateUser( IplImage* img, erTemplP* parm)
       parm->drawing = false;
       /**Construction du rectangle de la zone d'interet**/
       cvNamedWindow( "Designer la zone patron ou template", 0);  
-      cvSetMouseCallback( "Designer la zone patron ou template", on_mouse_rect2, (void*)parm);
-      while( 1)
+      if( !with_trackbar)
 	{
-	  if( parm->drawing)
-	    {
-	      cvRectangle( parm->image, cvPoint( parm->rectan.x, parm->rectan.y), 
-			   cvPoint( parm->rectan.x + parm->rectan.width, 
-				    parm->rectan.y + parm->rectan.height), cvScalar( 0xff, 0x00, 0x00));
-	    }
-	  cvShowImage( "Designer la zone patron ou template", parm->image);
-	  if( cvWaitKey( 700) ==27) break;
+	  std::cout << "width du zone echantillon: ";
+	  std::cin >> parm->rectan.width;
+	  std::cout << std::endl;
+	  std::cout << "height du zone echantillon: ";
+	  std::cin >> parm->rectan.height;
+	  std::cout << std::endl;
+	  std::cout << "Point X coin sup gauche de la zone: ";
+	  std::cin >> parm->rectan.x;
+	  std::cout << std::endl;
+	  std::cout << "Point Y coin sup gauche de la zone: ";
+	  std::cin >> parm->rectan.y;
+	  cvRectangle( parm->image, cvPoint( parm->rectan.x, parm->rectan.y), 
+		       cvPoint( parm->rectan.x + parm->rectan.width, 
+				parm->rectan.y + parm->rectan.height), cvScalar( 0xff, 0x00, 0x00));
 	}
-      cvDestroyWindow( "Designer la zone patron ou template");
+      else
+	{
+	  cvSetMouseCallback( "Designer la zone patron ou template", on_mouse_rect2, (void*)parm);
+	  while( 1)
+	    {
+	      if( parm->drawing)
+		{
+		  cvRectangle( parm->image, cvPoint( parm->rectan.x, parm->rectan.y), 
+			       cvPoint( parm->rectan.x + parm->rectan.width, 
+					parm->rectan.y + parm->rectan.height), cvScalar( 0xff, 0x00, 0x00));
+		}
+	      cvShowImage( "Designer la zone patron ou template", parm->image);
+	      if( cvWaitKey( 700) ==27) break;
+	    }
+	  cvDestroyWindow( "Designer la zone patron ou template");
+	}
       
       //---------NOTA REVISAR ESTA CONFIGURACION de imagenes entre:  img_temp y rect_img------------------------
       cvSetImageROI( img_temp, parm->rectan);
@@ -189,20 +209,21 @@ IplImage* erCvTemplateUser( IplImage* img, erTemplP* parm)
       std::cout << " T'es content (Oui 0/Non 1)? ";
       std::cin >> ok;
     }; 
+
   /**Conversion de l'image en 32 bit vers 8 bit**/
   img_p  = cvCreateImage( cvGetSize(result_img), IPL_DEPTH_8U, 1);
   erCvConvert32to8( result_img, img_p);
   img = cvCreateImage( cvGetSize(parm->image), IPL_DEPTH_8U, 1);
   cvResize( img_p, img, CV_INTER_CUBIC);
-//   std::cout << "color model: " << img->colorModel << std::endl;
-//   std::cout << "Depth: " << img->depth << " " << "Channels: " << img->nChannels << std::endl;
-//   std::cout << "width: " << img->width << " " << "height: " << img->height << std::endl;
+  parm->type = MatchTemplateType(type);
+  //   std::cout << "color model: " << img->colorModel << std::endl;
+  //   std::cout << "Depth: " << img->depth << " " << "Channels: " << img->nChannels << std::endl;
+  //   std::cout << "width: " << img->width << " " << "height: " << img->height << std::endl;
   //erShowImage( "Segmentation par template", img);
-  parm->type = type;
   
   std::ofstream file( nomb, std::ios_base::app );
   file << "***********Segmentation fonction TEMPLATE***********\n";
-  file << "Rect(with):------------ " << parm->rectan.width << std::endl;
+  file << "Rect(width):------------ " << parm->rectan.width << std::endl;
   file << "Rect(height):---------- " << parm->rectan.height << std::endl;
   file << "Rect(posX):------------ " << parm->rectan.x << std::endl;
   file << "Rect(posY):------------ " << parm->rectan.y << std::endl;

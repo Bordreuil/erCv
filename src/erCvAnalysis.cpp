@@ -16,32 +16,33 @@
 
 std::string ANALYSIS_EXTENSION="_erCvAnalysis";
 
-erAnalysis::erAnalysis(){};
+erAnalysis::erAnalysis( ){ };
 
-erAnalysis::erAnalysis(std::string name,std::string infofile): 
-  name(name),infoFile(infofile)
-{  dir_analysis = name+ANALYSIS_EXTENSION;
-  create();
+erAnalysis::erAnalysis( std::string name, std::string infofile): 
+  name( name),infoFile( infofile)
+{  
+  dir_analysis = name + ANALYSIS_EXTENSION;
+  create( );
 };
 
 
 void erAnalysis::create()
 { 
-    if (boost::filesystem::exists(dir_analysis))
-      {
-	std::cout << "an analysis with same name :" << name << "  already exist\n";
-      }
-    else{
-         boost::filesystem::create_directory(dir_analysis);
-        };
+  if (boost::filesystem::exists(dir_analysis))
+    {
+      std::cout << "an analysis with same name :" << name << "  already exist\n";
+    }
+  else{
+    boost::filesystem::create_directory(dir_analysis);
+  };
 };
 
 
-erMacroDropAnalysis::erMacroDropAnalysis(){};
+erMacroDropAnalysis::erMacroDropAnalysis() { };
 
-erMacroDropAnalysis::erMacroDropAnalysis(std::string name,std::string infofile):
-  erAnalysis(name,infofile),rectOI(),cercToStart(),param_smooth1(),param_smooth2(),
-  param_canny(),param_adaptive_threshold()
+erMacroDropAnalysis::erMacroDropAnalysis( std::string name, std::string infofile):
+  erAnalysis( name, infofile), rectOI( ), cercToStart( ), param_smooth1( ), param_smooth2( ),
+  param_canny( ), param_adaptive_threshold( )
 {};
 
 bool erMacroDropAnalysis::defineParametersUI(std::string firstImage)
@@ -128,7 +129,8 @@ bool erMacroDropAnalysis::doIt(std::string fich)
 };
 
 void erMacroDropAnalysis::saveParameters(std::string file)
-{ std::string output_file=dir_analysis+"/"+file;
+{ 
+  std::string output_file=dir_analysis+"/"+file;
   std::ofstream out(output_file.c_str());
   out << "* Begin er MacroDrop Analysis" << std::endl;
   out << this->rectOI;

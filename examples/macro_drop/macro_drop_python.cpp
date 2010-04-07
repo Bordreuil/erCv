@@ -1,6 +1,7 @@
 #include <erCv/erCv.hpp>
 #include <erCv/erCv.hpp>
 #include <erCv/erCvFilters.hpp>
+#include <erCv/erCvFiltersParams.hpp>
 #include <erCv/erCvAnalysis.hpp>
 #include <erCv/utilities/erPredicates.hpp>
 #include <erCv/erCvExtract.hpp>

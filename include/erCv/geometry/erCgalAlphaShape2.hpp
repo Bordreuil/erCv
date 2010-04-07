@@ -29,7 +29,7 @@ struct erAlphaP
    definies sur erCgalBase.hpp.
 */
 template < class Container, class Container2 >
-void alpha_edges_user( Container cgalPoints, Container2 cgalSegmts, erAlphaP* param)
+void alpha_edges_user( Container cgalPoints, Container2& cgalSegmts, erAlphaP* param)
 {
   double alfa;
   //std::list<CgSegmt> cgSegment;
@@ -55,7 +55,7 @@ void alpha_edges_user( Container cgalPoints, Container2 cgalSegmts, erAlphaP* pa
 
 
 template < class Container, class Container2 >
-void alpha_edges( Container cgalPoints, Container2 cgalSegmts, erAlphaP* param)
+void alpha_edges( Container cgalPoints, Container2& cgalSegmts, erAlphaP* param)
 {
   double alfa = param->alpha;
   typedef typename Container::iterator it;

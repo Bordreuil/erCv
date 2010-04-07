@@ -1,53 +1,54 @@
 #ifndef _ER_CV_SEGMENTATION_HPP_
 #define _ER_CV_SEGMENTATION_HPP_
 #include "erCvBase.hpp"
+#include "erCvSegmentationParams.hpp"
 #include "erCvFilters.hpp"
 #include "cv.h"
 
 
-struct erDiffeP
-{
-  erAdThrP *adapthold;
-  erThresP *threshold;
-  IplImage *image;
-  int type;
-};
+// struct erDiffeP
+// {
+//   erAdThrP *adapthold;
+//   erThresP *threshold;
+//   IplImage *image;
+//   int type;
+// };
 
 
-struct erTemplP
-{
-  CvRect rectan;
-  int type;
-  bool drawing;
-  IplImage *image;
-};
+// struct erTemplP
+// {
+//   CvRect rectan;
+//   int type;
+//   bool drawing;
+//   IplImage *image;
+// };
 
-struct erCallBP
-{
-  CvRect rectan;
-  int type;
-  int typeH;
-  bool drawing;
-  IplImage *image;
-};
-
-
-struct erEqualP
-{
-  int applic;
-};
+// struct erCallBP
+// {
+//   CvRect rectan;
+//   int type;
+//   int typeH;
+//   bool drawing;
+//   IplImage *image;
+// };
 
 
-/**
-   \brief
+// struct erEqualP
+// {
+//   int applic;
+// };
 
- */
-struct erPyramP
-{
-  int trh1; /** < Threshold value to link in pyramid fonction */
-  int trh2; /** < Threshold value to clustering in pyramid fonction */
-  int levl; /** < Number of level to pyramid be applied */
-};
+
+// /**
+//    \brief
+
+//  */
+// struct erPyramP
+// {
+//   int trh1; /** < Threshold value to link in pyramid fonction */
+//   int trh2; /** < Threshold value to clustering in pyramid fonction */
+//   int levl; /** < Number of level to pyramid be applied */
+// };
 
 
 

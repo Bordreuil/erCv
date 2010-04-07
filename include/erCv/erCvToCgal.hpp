@@ -20,8 +20,8 @@
    vers le point defini dans Cgal (la class CgalPoint est definie en erCgalBase.hpp)
  */
 template<typename cvPoint>
-CgalPoint CvToCgal( cvPoint& cv_pt )
-{
+CgalPoint CvToCgal( cvPoint cv_pt )
+{ 
   CgalPoint pt( cv_pt.x, cv_pt.y);
   return pt;
 };
@@ -37,7 +37,7 @@ CgalPoint CvToCgal( cvPoint& cv_pt )
    des points de type cgal
 */
 template< typename Container, typename Container2>
-void convertCvToCgalpoints( Container cvPoint, Container2 cgalPoint)
+void convertCvToCgalpoints( Container cvPoint, Container2& cgalPoint)
 {
   typedef typename Container::iterator Iterator;
 

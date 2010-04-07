@@ -17,7 +17,8 @@ LINK_LIBRARIES(${OpenCV_CV_LIBRARY}
 	       ${Boost_SYSTEM_LIBRARY}
 	       )
 
-ADD_LIBRARY(erCv erCvSegmentation
+ADD_LIBRARY(erCv erCvSegmentationParams
+                 erCvSegmentation
                  erCalibration 
 		 erCvBase 
 		 erCvFiltersParams

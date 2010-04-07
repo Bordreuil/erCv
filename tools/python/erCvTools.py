@@ -31,9 +31,10 @@ def erGetAllImagesNumber(name_analysis,name_image):
     result=os.path.split(name_analysis)
     ls=os.listdir(result[0])
     for f in ls:
-        if (f.startswith(name_analysis) and f.endswith(name_image[-3:])):
-            res=re.split("_|\.",f)
-            all_images_number.append(res[1])
+        if ( f.startswith(result[1]) and (f.endswith(name_image[-3:]) or f.endswith('png'))):
+            res = re.split("_|\.",f)
+            largo = len(res)
+            all_images_number.append( res[largo-2])
     return all_images_number
 
 def erCleanDir(name_analysis):

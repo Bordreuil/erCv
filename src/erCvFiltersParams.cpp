@@ -1,11 +1,9 @@
 #include<erCv/erCvFiltersParams.hpp>
 
 erSmootP::erSmootP():size(7),type(BLUR){};
-
 erSmootP::erSmootP(SmoothType st,int si):size(si),type(st){};
 
 erCannyP::erCannyP():trh1(150),trh2(150){};
-
 erCannyP::erCannyP(int t1,int t2):trh1(t1),trh2(t2){};
 
 
@@ -33,6 +31,8 @@ std::ostream& operator << (std::ostream& o,const erCannyP ec)
 
   return o;
 };
+
+
 std::ostream& operator << (std::ostream& o,const erAdThrP ea)
 {
   o << "** Begin Adaptive Threshold Parameter : \n";
