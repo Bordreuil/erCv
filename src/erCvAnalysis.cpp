@@ -2,14 +2,15 @@
 #include <erCv/erCvFilters.hpp>
 #include <erCv/utilities/erPredicates.hpp>
 #include <erCv/erCvExtract.hpp>
-#include <erCv/erCvToCgal.hpp>
-#include <erCv/erCvSegmentation.hpp>
-#include <erCv/geometry/erCgalAlphaShape2.hpp>
-#include <erCv/Gui/erCvUserInteraction.hpp>
 
+#include <erCv/Gui/erCvUserInteraction.hpp>
 #include <erCv/Gui/erCvFiltersUser.hpp>
 
-#include <erCv/Gui/erCvSegmentationUser.hpp>
+//#include <erCv/erCvToCgal.hpp>
+//#include <erCv/erCvSegmentation.hpp>
+//#include <erCv/geometry/erCgalAlphaShape2.hpp>
+//#include <erCv/Gui/erCvSegmentationUser.hpp>
+
 #include<time.h>
 #include<fstream>
 #include<boost/filesystem.hpp>
@@ -105,9 +106,9 @@ void erMacroDropAnalysis::defineParameters(CvRect rect,erCerc ecerc,erSmootP smo
 
 bool erMacroDropAnalysis::doIt(std::string fich)
 {      bool loaded;
-       char* file_name = const_cast<char*>(fich.c_str());
+       char* file_name         = const_cast<char*>(fich.c_str());
        std::string output_name = (dir_analysis+"/"+name);
-       char* nom       = const_cast<char*>(output_name.c_str());
+       char* nom               = const_cast<char*>(output_name.c_str());
        erImage erb, bwb, eab; 
        
        boost::tie(erb,loaded) = erLoadImage( file_name);

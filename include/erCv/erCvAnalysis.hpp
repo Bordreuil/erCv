@@ -1,7 +1,7 @@
 #ifndef _erCv_ANALYSIS_HPP_
 #define  _erCv_ANALYSIS_HPP_
 
-#include "erCvSegmentationParams.hpp"
+//#include "erCvSegmentationParams.hpp"
 #include "erCvFiltersParams.hpp"
 #include "erCvTools.hpp"
 #include "erCvBase.hpp"
