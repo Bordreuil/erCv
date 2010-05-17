@@ -37,7 +37,7 @@ struct erMacroDropAnalysis:public erAnalysis
   void loadParameters( std::string);
   CvRect         rectOI;
   erCerc         cercToStart;
-  erSmootP       param_smooth1,param_smooth2;
+  erSmootP       param_smooth1, param_smooth2;
   erCannyP       param_canny;
   erAdThrP       param_adaptive_threshold;
 };

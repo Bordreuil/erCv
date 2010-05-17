@@ -151,6 +151,7 @@ IplImage* erCvTemplateUser( IplImage* img, erTemplP* parm, bool with_trackbar)
 	  std::cout << std::endl;
 	  std::cout << "Point Y coin sup gauche de la zone: ";
 	  std::cin >> parm->rectan.y;
+	  std::cout << std::endl;
 	  cvRectangle( parm->image, cvPoint( parm->rectan.x, parm->rectan.y), 
 		       cvPoint( parm->rectan.x + parm->rectan.width, 
 				parm->rectan.y + parm->rectan.height), cvScalar( 0xff, 0x00, 0x00));
@@ -198,6 +199,7 @@ IplImage* erCvTemplateUser( IplImage* img, erTemplP* parm, bool with_trackbar)
       std::cout << "Introduire le type de comparaison a effectuer avec le template" << std::endl;
       std::cout << "1->SQDIFF  2->SQDIFF_NORMED  3->CCORR  4->CCORR_NORMED  5->CCOEFF  6->CCOEFF_NORMED: ";
       std::cin >> type;
+      std::cout << std::endl;
       if( type ==1) cvMatchTemplate( parm->image, temp, result_img, CV_TM_SQDIFF);
       if( type ==2) cvMatchTemplate( parm->image, temp, result_img, CV_TM_SQDIFF_NORMED);
       if( type ==3) cvMatchTemplate( parm->image, temp, result_img, CV_TM_CCORR);
@@ -208,6 +210,7 @@ IplImage* erCvTemplateUser( IplImage* img, erTemplP* parm, bool with_trackbar)
       
       std::cout << " T'es content (Oui 0/Non 1)? ";
       std::cin >> ok;
+      std::cout << std::endl;
     }; 
 
   /**Conversion de l'image en 32 bit vers 8 bit**/
@@ -237,7 +240,7 @@ IplImage* erCvTemplateUser( IplImage* img, erTemplP* parm, bool with_trackbar)
 
 
 /*--------- Methode de segmentation CallBackProject (comparaison par regions avec histogrames) ---------*/
-IplImage* erCvCallBackPatchProjectUser( IplImage* img, erCallBP* parm)
+IplImage* erCvCallBackPatchProjectUser( IplImage* img, erCallBP* parm, bool with_trackbar)
 {
   IplImage *img_temp, *temp, *result_img, *img_p;
   int type, typeH;
@@ -312,7 +315,7 @@ IplImage* erCvCallBackPatchProjectUser( IplImage* img, erCallBP* parm)
       CvHistogram* hist;
       int h_bin = 50, s_bin = 50, v_bin = 50;
       int hist_size[] = { h_bin, s_bin, v_bin};
-      float rang_h[] = { 0, 250};
+      float rang_h[] = { 0, 255};
       float rang_s[] = { 0, 255};
       float rang_v[] = { 0, 255};
       float *rang[] = { rang_h, rang_s, rang_v};  
@@ -371,18 +374,20 @@ void erCvEqualizeHistUser( IplImage* simg, erEqualP* param)
   std::string name = INFOFILE;
   name+= ".txt";
   const char* nomb = name.c_str();
-  img = cvCloneImage(simg);
-  int ok =1; 
-  while(ok)
+  int ok = 1; 
+  while( ok)
     { 
+      img = cvCloneImage(simg);
       std::cout << "Appliquer l'equalisation des histrogrames (Oui 0 / Non 1)";
       std::cin >> usar;
+      std::cout << std::endl;
       if( usar == 0)
 	{
 	  cvEqualizeHist( simg, img);
 	  erShow2Image("Result_equalize", img, "image_temoin", simg );
 	  std::cout << " T'es content (Oui 0/Non 1)? ";
 	  std::cin >> ok;
+	  std::cout << std::endl;
 	}
       else
 	ok = 0;
@@ -405,12 +410,13 @@ void erCvPyramidUser( IplImage* simg, erPyramP* parm, bool with_trackbar)
   double a[2];
   CvSeq *comp; 
   //= NULL;
-  CvMemStorage* stg = NULL;
+  CvMemStorage* stg;
   img = cvCloneImage( simg);
 
   int ok = 1;
   while(ok)
     {
+      stg = cvCreateMemStorage( 1000);
       cvNamedWindow( "Pyramid_trackbar", 0);
       cvNamedWindow( "original", 0);
       if( !with_trackbar)
@@ -418,29 +424,33 @@ void erCvPyramidUser( IplImage* simg, erPyramP* parm, bool with_trackbar)
 	  std::cout << "Put the level of pyramid segmentation: ";
 	  std::cin >> level;
 	  std::cout << std::endl;
-	  std::cout << "Put the error of threshold1(link) et threshold2(clustering): ";
-	  std::cin >> threshold[0] >> threshold[1];
+	  std::cout << "Put the error of threshold1(link 0 up up to 30): ";
+	  std::cin >> threshold[0];
+	  std::cout << std::endl;
+	  std::cout << "Put the error of threshold2(clustering 0 up to 30): ";
+	  std::cin >> threshold[1];
 	  std::cout << std::endl;
 	}
       else
 	{
 	  threshold[0] = 1;
 	  threshold[1] = 1;
-	  level = 3;
+	  level = 2;
 	  maxt[0] = maxt[1] = 30;
 	  itrak[0] = cvCreateTrackbar( "max_thresh_link", "Pyramid_trackbar", &threshold[0], maxt[0], NULL);
 	  itrak[1] = cvCreateTrackbar( "max_thresh_clus", "Pyramid_trackbar", &threshold[1], maxt[1], NULL);
 	}
       while(1)
 	{
-	  if (stg==NULL)
-	    {
-	      stg = cvCreateMemStorage(1000);
-	    }
-	  else 
-	    {
-	      cvClearMemStorage(stg);
-	    }
+	  
+	  // 	  if (stg==NULL)
+	  // 	    {
+	  // 	      stg = cvCreateMemStorage(1000);
+	  // 	    }
+	  // 	  else 
+	  // 	    {
+	  // 	      cvClearMemStorage(stg);
+	  // 	    }
 	  //a[0] = (double)(threshold[0]/1);
 	  //a[1] = (double)(threshold[1]/1);
 	  std::cout << "hola1" << std::endl;
@@ -501,3 +511,87 @@ void erCvPyramidUser( IplImage* simg, erPyramP* parm, bool with_trackbar)
 //{
   
 
+
+
+void erCvFindContours( IplImage* simg, erFindcP* parm, bool with_trackbar)
+{
+  CvSeq* contours = 0;
+  CvSeq* result = 0;
+  int level = 1, itrak, mode, meth;
+  CvMemStorage* storage = cvCreateMemStorage(0);
+  IplImage *img;
+  std::string name = INFOFILE;
+  name+= ".txt";
+  const char* nomb = name.c_str();
+  img = cvCreateImage( cvGetSize( simg), simg->depth, simg->nChannels);
+  cvCopy( simg, img);
+  //img_temp = cvCreateImage( cvGetSize(img), img->depth, img->nChannels);
+  //cvCopy( img, img_temp);
+  int ok =1;
+  while(ok)
+    {
+      std::cout << "Choose find contour mode: ";
+      for( uint i=0; i < nbFindContoursMode; i++)
+	{std::cout << i << " -> " << findcontoursmode[i] << "  ";}
+      //std::cout << std::endl;
+      std::cin >> mode;
+      std::cout << std::endl;
+      std::cout << "Choose find contour method: ";
+      for( uint i=0; i < nbFindContoursMeth; i++)
+	{std::cout << i << " -> " << findcontoursmeth[i] << "  ";}
+      //std::cout << std::endl;
+      std::cin >> meth;
+      std::cout << std::endl;
+      if( !storage) 
+	{
+	  cvClearMemStorage(storage);
+	}
+      cvNamedWindow( "Original", 0);
+      cvNamedWindow( "Findc_trackbar", 0);
+      if( !with_trackbar)
+	{
+	  std::cout << "Choose level to draw the find contour: ";
+	  std::cin >> level;
+	  std::cout << std::endl;
+	}
+      else
+	{
+	  itrak = cvCreateTrackbar( "levels+3", "Findc_trackbar", &level, 4, NULL );
+	}
+      while( 1)
+	{
+
+	  cvFindContours( simg, storage, &contours, sizeof(CvContour), mode, meth, cvPoint(0,0) );
+	  std::cout << "hola0" << std::endl;
+	  // comment this out if you do not want approximation
+	  contours = cvApproxPoly( contours, sizeof(CvContour), storage, CV_POLY_APPROX_DP, 3, 1 );
+	  //if( level-3 <= 0 ) // get to the nearest face to make it look more funny
+	  //  contours = contours->h_next->h_next->h_next;
+	  //cvZero( img );
+	  cvDrawContours( img, contours, CV_RGB(255,0,0), CV_RGB(0,255,0), level, 4, 4, cvPoint(0,0) );
+	  cvShowImage( "Original", simg );
+	  cvShowImage( "Findc_trackbar", img );
+
+	  //cvReleaseImage( &cnt_img );
+	  if( cvWaitKey( 10) == 27) break;
+	} 
+      cvDestroyWindow( "Original");
+      cvDestroyWindow( "Findc_trackbar");
+      std::cout << " T'es content (Oui 0/Non 1)? ";
+      std::cin >> ok;
+      std::cout << std::endl;
+    }
+  parm->level = level;
+  parm->mode = FindContoursMode(mode);
+  parm->meth = FindContoursMeth(meth);
+  *simg = *img;
+  
+  // std::ofstream file( nameInfoFile(INFOFILE), std::ios_base::app );
+  std::ofstream file( nomb, std::ios_base::app );
+  file << "***********Filter fonction THRESHOLD***********\n";
+  file << "Level Draw Contour :------------ " << parm->level << std::endl;
+  file << "Mode contour---------:---------- " << parm->mode << std::endl;
+  file << "Methode Contour------:---------- " << parm->meth << std::endl;
+  file << std::endl;
+  file << parm;
+}

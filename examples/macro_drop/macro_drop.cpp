@@ -44,7 +44,7 @@ int main( int hola, char** file_name)
   char* name = file_name[2];
   erImageIncrement inc(ninc,ndelta,every);
   std::cout << INFOFILE << std::endl;
-  erImage er, bw, eo, ea;
+  erImage ea, eb, ec, ed, ee;
   CvRect rect;
   erCerc cerc; 
   erSmootP psmo, psmo1;
@@ -63,16 +63,16 @@ int main( int hola, char** file_name)
   
   /* Chargement de la premiere image a travailler et conversion a 8bit*/
 
-  boost::tie(er,loaded) = erLoadImage(name);
+  boost::tie(ea,loaded) = erLoadImage(name);
   if(!loaded) return 0;
-  std::cout << "Image :" << name << " chargee\n";
-  bw = erConvertToBlackAndWhite( &er); /* Conversion en 8 bit single channel */
+  erSaveImage( &ea, name, exit);
+  eb = erConvertToBlackAndWhite( &ea); /* Conversion en 8 bit single channel */
 
   /* Conversion de l'image du RGB->GRIS */
-  eo = bw; //ca.transform_image( bw);
+  //ca.transform_image( bw);
 
   /* Definision de la zone d'interet ou on souhaite travvailler */
-  ea = erDef_ROIuser( &bw, &rect);
+  ec = erDef_ROIuser( &eb, &rect, true);
 
 
   //erCvEqualizeHist( &ea);
@@ -81,25 +81,25 @@ int main( int hola, char** file_name)
   /* Pour reduire la granulosite issue du bruit dans les pixels et la non homogenite de l'eclairage sur l'image;*/
   /* l'image est lisse avec un filtre Smooth du type BLUR (moyennage standart)*/
   //std::cout << "Before Smooth User\n";
-  erCvSmoothUser( &ea, &psmo);
+  erCvSmoothUser( &ec, &psmo);
   
   /* Dans les zones affectes par la procedure d'ombroscopie, des inegalites dans l'intensite de niveaux de gris sont observes. */
   /* Pour faire resortir les bordes principaux (par contraste) entres les zones zommbres et eclaires, */
   /* un methode de filtrage par seuil, adapte par zone, est utilise */
-  erCvAdaptiveThresholdUser( &ea, &padt);
+  erCvAdaptiveThresholdUser( &ec, &padt, true);
 
   /* Le Sueillage par zones fait aussi resortir les bordes a l'interior des zones zombres */ 
   /* (ou affectes par la procedure d'ombroscopie). Neanmoins ses deffauts resten minoritaires dans cette region, */ 
   /* ainsi,  un filtre smooth du type MEDIAN, permet de les reduires considerablement*/
-  erCvSmoothUser( &ea, &psmo1);
+  erCvSmoothUser( &ec, &psmo1);
  
   /* Une fois etablie les bordes pricipaux dans l'image, un filtre derivatif permet de marquer les contours dans l'image.*/ 
   /* Le filtre choisi est le filtre a repose impulsionelle de Canny*/
-  erCvCannyUser( &ea, &pcan);
+  erCvCannyUser( &ec, &pcan, true);
 
   /* L'image final post-traitement est saufgarde dans un ficher qui a pour nom: */
   /* le nom definie par l'usager + le No Serial de l'image traite */
-  erSaveImage( &ea, name, exit);  
+  //erSaveImage( &ec, name, exit);  
 
   /* Extraction */
   /* Definition d un foncteur comme critere pour extraire des pixels suivant leur niveau de gris. cf->utilities/erPredicates.hpp */     
@@ -109,14 +109,14 @@ int main( int hola, char** file_name)
 
   /* Le contours obtenues avec le filtre Canny, sont definies par des pixels ayant une intensite maximal de 255 en 8 bit. */
   /* cette fonction ecrit un vecteur avec les coordonnes en pixels de le dites pixels*/
-  erExtractCvPoints( cvPts, &ea, is_equal_255, rect); /* Extraction */
+  erExtractCvPoints( cvPts, &ec, is_equal_255, rect); /* Extraction */
   std::cout << "cvPts.size(): " << cvPts.size() << std::endl;
   std::cout << "hola1" << std::endl;
 
   /* L'usager doit selectionner le contour ou courbe d'interet dans l'image resultant du Canny. */
   /* Cette fonction extrait (depuis le vecteur construit auparavant) les coordones des pixels de le dit curbe */
-  erExtractCurveMacroDropUser( cvPts, &ea, rect, &cerc, name);
-
+  erExtractCurveMacroDropUser( cvPts, &ec, rect, &cerc, name);
+  std::cout << "cvPts.size(): " << cvPts.size() << std::endl;
   std::cout << "hola2" << std::endl;
 
   /*Cette fonction ecrit la curbe d'interet, dans un ficher qui a pour nom, */ 

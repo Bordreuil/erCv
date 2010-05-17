@@ -13,26 +13,24 @@
    \brief Structure contenant les parametre utiles pour 
    un lissage
  */
-
-
 extern const int nbSmoothType;
-extern char* smoothtype []; 
-
+extern char* smoothtype[]; 
 enum SmoothType {BLUR_NO_SCALE,
-		BLUR,
-		GAUSSIAN,
-		MEDIAN, 
-		BILATERAL
-                 };
-
+		 BLUR,
+		 GAUSSIAN,
+		 MEDIAN, 
+		 BILATERAL
+};
 struct erSmootP
-{ erSmootP();
+{ 
+  erSmootP();
   erSmootP(SmoothType,int);
   int        size; /** < Beside size (in pixels) of smoothness region */
   SmoothType type; /** < Type of the smooth to be aplied */
 };
-
 std::ostream& operator << (std::ostream&, const erSmootP);
+
+
 
 /**
    \brief 
@@ -54,7 +52,6 @@ struct erCannyP
   int trh1; /** < Threshold 1 to canny fonction */
   int trh2; /** < Threshold 2 to canny fonction */
 };
-
 std::ostream& operator << (std::ostream&,const erCannyP);
 
 /**
@@ -74,15 +71,12 @@ struct erThresP
    \brief
 
  */
-enum Adapt{};
-enum AdaptiveThresholdType {
-    THRESH_BINARY=1,
-    THRESH_BINARY_INV=2 
+//enum Adapt{};
+enum AdaptiveThresholdType{THRESH_BINARY=1,
+			   THRESH_BINARY_INV=2 
 };
-
-enum AdaptiveMethodType {
-  AM_MEAN=1,
-  AM_GAUSSIAN=2
+enum AdaptiveMethodType{AM_MEAN=1,
+			AM_GAUSSIAN=2
 };
 extern char* adaptivethresholdtype[];
 extern char* adaptivemethodtype[];

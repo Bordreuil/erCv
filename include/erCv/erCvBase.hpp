@@ -59,7 +59,7 @@ const char* nameGoodImagesFile(std::string);
 /** \addtogroup cv_group */
 /*@{*/
 
-
+typedef unsigned  uint;
 
 class erImage : public IplImage
 /** 
@@ -108,9 +108,12 @@ struct erRect:public CvRect
 };
 // Quelques fonctions pour gerer l impression
 /** \brief Impression d objet dans un flux*/
-std::ostream& operator << (std::ostream&,const erCerc&);
-std::ostream& operator << (std::ostream&,const erRect&);
-std::ostream& operator << (std::ostream&,const CvRect&);
+std::ostream& operator << ( std::ostream&, const erCerc&);
+std::ostream& operator << ( std::ostream&, const erRect&);
+std::ostream& operator << ( std::ostream&, const CvRect&);
+
+
+
 // Quelques fonctions utiles d' OpenCv
 /** \brief Fonction permettant de visualiser une Image a l aide
  d openCv

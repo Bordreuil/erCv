@@ -52,7 +52,7 @@ void on_mouse_rect( int event, int x, int y, int flags, void* param)
 
 
 
-void erCvCannyUser( IplImage* simg, erCannyP* parm)
+void erCvCannyUser( IplImage* simg, erCannyP* parm, bool with_trackbar)
 {
   IplImage* img;
   int threshold[2], maxt[2], itrak[2];
@@ -63,29 +63,46 @@ void erCvCannyUser( IplImage* simg, erCannyP* parm)
   threshold[0] = 1;
   threshold[1] = 1;
   img = cvCloneImage(simg);
- 
-  //std::cout << "Put the max values to two thresholds (thr1, thr2) of Canny fonction: ";
-  //std::cin >> maxt[0];
-  maxt[1] = maxt[0] = 355;
-  std::cout << std::endl;
-  
-  cvNamedWindow( "Canny_trackbar", 0);
-  //itrak[0] = cvCreateTrackbar( "threshold1", "Canny_trackbar", &threshold[0], maxt[0], NULL);
-  //itrak[1] = cvCreateTrackbar( "threshold2", "Canny_trackbar", &threshold[1], maxt[1], NULL);
-  while( 1)
-    {   
-      //cvCanny( simg, img, (float)threshold[0]*10., (float)threshold[1]*10., 5);
-      cvCanny( simg, img, (float)maxt[0], (float)maxt[1], 5);
-      cvShowImage( "Canny_trackbar", img);
-      if( cvWaitKey( 10) == 27) break;
-    }
-  //cvShowImage( "original", simg);
-  //parm->trh1 = cvGetTrackbarPos( "threshold1", "Canny_trackbar");
-  //parm->trh2 = cvGetTrackbarPos( "threshold2", "Canny_trackbar");
-  parm->trh1 = maxt[0];
-  parm->trh2 = maxt[1];
-  cvDestroyWindow( "Canny_trackbar");
+  int ok =1;
+  while( ok)
+    {
+      cvNamedWindow( "Canny_trackbar", 0);
+      if( !with_trackbar)
+	{
+	  std::cout << "Put the values to threshold thr1 of Canny fonction: ";
+	  std::cin >> threshold[0];
+	  std::cout << std::endl;
+	  std::cout << "Put the values to threshold thr2 of Canny fonction: ";
+	  std::cin >> threshold[1];
+	  std::cout << std::endl; 
+	}
+      else
+	{
+	  //std::cout << "Put the max values to two thresholds (thr1, thr2) of Canny fonction: ";
+	  //std::cin >> maxt[0];
+	  maxt[1] = maxt[0] = 500;
+	  std::cout << std::endl;
+	  itrak[0] = cvCreateTrackbar( "threshold1", "Canny_trackbar", &threshold[0], maxt[0], NULL);
+	  itrak[1] = cvCreateTrackbar( "threshold2", "Canny_trackbar", &threshold[1], maxt[1], NULL);
+	}
+      while( 1)
+	{   
+	  cvCanny( simg, img, (float)threshold[0], (float)threshold[1], 5);
+	  //cvCanny( simg, img, (float)maxt[0], (float)maxt[1], 5);
+	  cvShowImage( "Canny_trackbar", img);
+	  if( cvWaitKey( 10) == 27) break;
+	}
+      //cvShowImage( "original", simg);
+      //parm->trh1 = cvGetTrackbarPos( "threshold1", "Canny_trackbar");
+      //parm->trh2 = cvGetTrackbarPos( "threshold2", "Canny_trackbar");
+      cvDestroyWindow( "Canny_trackbar");
+      std::cout << " T'es content (Oui 0/Non 1)? ";
+      std::cin >> ok;
+      std::cout << std::endl;
+    };
   //simg = cvCloneImage( img);
+  parm->trh1 = threshold[0];
+  parm->trh2 = threshold[1];
   *simg = *img;
   std::ofstream file( nomb, std::ios_base::app );
   file << "***********Filter fonction CANNY***************\n";
@@ -131,6 +148,7 @@ void erCvSmoothUser( IplImage* simg, erSmootP* parm)
       cvDestroyWindow( "Smooth");
       std::cout << " T'es content (Oui 0/Non 1)? ";
       std::cin >> ok;
+      std::cout << std::endl;
     };
   parm->size = size;
   parm->type  = SmoothType(type);
@@ -142,9 +160,7 @@ void erCvSmoothUser( IplImage* simg, erSmootP* parm)
   file << "Dimensions :------------ " << parm->size << std::endl;
   file << "Type---------:---------- " << parm->type << std::endl;
   file << std::endl;
-  file << parm;
-
- 
+  file << parm; 
 }
 
 
@@ -203,14 +219,14 @@ void erCvThresholdUser( IplImage* simg, erThresP* parm, bool with_trackbar)
   int ok=1;
   while(ok)
     {
+      std::cout << "Type of threshold: 1->CV_THRESH_BINARY  2->CV_THRESH_BINARY_INV  3->CV_THRESH_TRUNC  4->CV_THRESH_TOZERO  5->CV_THRESH_TOZERO_INV : ";
+      std::cin >> threstype;
+      std::cout << std::endl;
       cvNamedWindow( "Threshold_trackbar", 0);
       cvNamedWindow( "original", 0);
       maxt = 255;
       if(!with_trackbar)
 	{
-	  std::cout << "Type of threshold: 1->CV_THRESH_BINARY  2->CV_THRESH_BINARY_INV  3->CV_THRESH_TRUNC  4->CV_THRESH_TOZERO  5->CV_THRESH_TOZERO_INV : ";
-	  std::cin >> threstype;
-	  std::cout << std::endl;
 	  std::cout << "Put the value of Threshold fonction (to 8-bit image = 255): ";
 	  std::cin >> threshold[0];
 	  std::cout << std::endl;
@@ -244,17 +260,26 @@ void erCvThresholdUser( IplImage* simg, erThresP* parm, bool with_trackbar)
       cvDestroyWindow( "original");
       std::cout << " T'es content (Oui 0/Non 1)? ";
       std::cin >> ok;
+      std::cout << std::endl;
     }  
  
   *simg = *img;
-  parm->trh1 = cvGetTrackbarPos( "max_threshold", "Threshold_trackbar");
-  parm->trh2 = cvGetTrackbarPos( "threshold", "Threshold_trackbar");
+  //parm->trh1 = cvGetTrackbarPos( "max_threshold", "Threshold_trackbar");
+  //parm->trh2 = cvGetTrackbarPos( "threshold", "Threshold_trackbar");
+  parm->trh1 = threshold[0];
+  if( threstype == 1 or threstype == 2)
+    {
+      parm->trh2 = threshold[1];
+    }
   parm->type = threstype;
 
   std::ofstream file( nomb, std::ios_base::app );
   file << "***********Filter fonction THRESHOLD***********\n";
   file << "Threshold :------------ " << parm->trh1 << std::endl;
-  file << "SubThreshold:---------- " << parm->trh2 << std::endl;
+  if( threstype == 1 or threstype == 2)
+    {
+      file << "SubThreshold:---------- " << parm->trh2 << std::endl;
+    }
   file << "Threshold type:-------- " << parm->type << std::endl;
   file << std::endl;
 }
@@ -293,6 +318,7 @@ void erCvAdaptiveThresholdUser( IplImage* simg, erAdThrP* parm, bool with_trackb
 	  std::cout << std::endl;
 	  std::cout << "Neighboor to threshold in pixels (3,5,7,..): ";
 	  std::cin >> neigh;
+	  std::cout << std::endl;
 	}
       else
 	{
@@ -322,10 +348,11 @@ void erCvAdaptiveThresholdUser( IplImage* simg, erAdThrP* parm, bool with_trackb
       cvDestroyWindow( "Threshold_trackbar");
       std::cout << " T'es content (Oui 0/Non 1)? ";
       std::cin >> ok;
+      std::cout << std::endl;
     }  
   *simg = *img;
-  std::cout << "param: " << param << std::endl;
-  std::cout << "neigh: " << neigh << std::endl;
+  //std::cout << "param: " << param << std::endl;
+  //std::cout << "neigh: " << neigh << std::endl;
   //parm->trhP = cvGetTrackbarPos( "premier_param", "Threshold_trackbar");
   //parm->neig = cvGetTrackbarPos( "seconde_pixel", "Threshold_trackbar");
 
@@ -338,11 +365,11 @@ void erCvAdaptiveThresholdUser( IplImage* simg, erAdThrP* parm, bool with_trackb
 
   std::ofstream file( nomb, std::ios_base::app );
   file << "***********Filter fonction ADAPTIVE_THRESHOLD***********\n";
+  file << "Threshold type:------------- " << parm->type << std::endl;
+  file << "Adapt type:----------------- " << parm->adpt << std::endl;
   file << "Parameter weight mean:------ " << parm->trhP << std::endl;
   file << "Neighboor_size:------------- " << parm->neig << std::endl;
   file << "Threshold value:------------ " << parm->trh0 << std::endl;
-  file << "Threshold type:------------- " << parm->type << std::endl;
-  file << "Adapt type:----------------- " << parm->adpt << std::endl;
   file << std::endl;
   //std::cout << "parm->t: " << parm->trhP << std::endl;
   //std::cout << "parm->n: " << parm->neig << std::endl;

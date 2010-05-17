@@ -40,6 +40,7 @@ void alpha_edges_user( Container cgalPoints, Container2& cgalSegmts, erAlphaP* p
       std::cout << std::endl;
       std::cout << "Value of alpha parameter to Alpha Shape (double v | v>0) ";
       std::cin >> alfa;
+      std::cout << std::endl;
       Alpha_shape_2 A( cgalPoints.begin(), cgalPoints.end(), CgalFTrai(alfa));
       for(Alpha_shape_edges_iterator it =  A.alpha_shape_edges_begin(); it != A.alpha_shape_edges_end(); ++it)
 	{

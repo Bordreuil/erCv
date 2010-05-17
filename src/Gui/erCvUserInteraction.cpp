@@ -200,7 +200,7 @@ void on_mouse_rect3( int event, int x, int y, int flags, void* param)
 
 // >>>>>>> .r43
 /* Definition and isolating the interesting zone by user */
-IplImage* erDef_ROIuser( erImage* simag, CvRect* rect)
+IplImage* erDef_ROIuser( erImage* simag, CvRect* rect, bool with_trackbar)
 {
   IplImage *img_trans, *imag; 
   std::string name = INFOFILE;
@@ -210,20 +210,41 @@ IplImage* erDef_ROIuser( erImage* simag, CvRect* rect)
   img_trans = cvCreateImage( cvGetSize(simag), simag->depth, simag->nChannels);
   cvCopy( simag, img_trans);
   cvNamedWindow( "Draw_ROI", 0);
-  cvSetMouseCallback( "Draw_ROI", on_mouse_rect3,  (void*) simag );
-  while( 1)
+  if( !with_trackbar)
     {
-      if( simag->drawing)
-	{
-	  cvRectangle( simag, cvPoint( simag->rectan.x, simag->rectan.y), 
-		       cvPoint( simag->rectan.x + simag->rectan.width, 
-				simag->rectan.y + simag->rectan.height), cvScalar( 0xff, 0x00, 0x00));
-	}
-      cvShowImage( "Draw_ROI", simag);
-      if( cvWaitKey( 700) == 27) break;
+      std::cout << "width du zone d'interet: ";
+      std::cin >> simag->rectan.width;
+      std::cout << std::endl;
+      std::cout << "height du zone d'interet: ";
+      std::cin >> simag->rectan.height;
+      std::cout << std::endl;
+      std::cout << "Point X coin sup gauche de la zone: ";
+      std::cin >> simag->rectan.x;
+      std::cout << std::endl;
+      std::cout << "Point Y coin sup gauche de la zone: ";
+      std::cin >> simag->rectan.y;
+      std::cout << std::endl;
+      cvRectangle( simag, cvPoint( simag->rectan.x, simag->rectan.y), 
+		   cvPoint( simag->rectan.x + simag->rectan.width, 
+			    simag->rectan.y + simag->rectan.height), cvScalar( 0xff, 0x00, 0x00));
     }
-  cvDestroyWindow("Draw_ROI");
-
+  else
+    {
+      cvSetMouseCallback( "Draw_ROI", on_mouse_rect3,  (void*) simag );
+      while( 1)
+	{
+	  if( simag->drawing)
+	    {
+	      cvRectangle( simag, cvPoint( simag->rectan.x, simag->rectan.y), 
+			   cvPoint( simag->rectan.x + simag->rectan.width, 
+				    simag->rectan.y + simag->rectan.height), cvScalar( 0xff, 0x00, 0x00));
+	    }
+	  cvShowImage( "Draw_ROI", simag);
+	  if( cvWaitKey( 700) == 27) break;
+	}
+      cvDestroyWindow("Draw_ROI");
+    }
+  
   cvSetImageROI( img_trans, simag->rectan);
 
   imag = cvCreateImage( cvGetSize(img_trans), img_trans->depth, img_trans->nChannels);

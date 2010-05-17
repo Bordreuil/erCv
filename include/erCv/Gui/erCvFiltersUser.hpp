@@ -10,7 +10,7 @@
 
 /** \brief Permet d effectuer un filtrage par bordes en binaire sur l image (peramettres definies par l usager)
 */
-void erCvCannyUser( IplImage*, erCannyP*);
+void erCvCannyUser( IplImage*, erCannyP*, bool with_trackbar = false);
 
 
 
