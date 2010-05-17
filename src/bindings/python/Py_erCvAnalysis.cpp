@@ -4,6 +4,32 @@
 
 namespace bp = boost::python;
 
+struct erAnalysis_wrapper : erAnalysis, bp::wrapper< erAnalysis > {
+
+    erAnalysis_wrapper( )
+    : erAnalysis( )
+      , bp::wrapper< erAnalysis >(){
+        // null constructor
+    
+    }
+
+  erAnalysis_wrapper(std::string name, std::string infofile="info" )
+    : erAnalysis( name, infofile )
+      , bp::wrapper< erAnalysis >(){
+        // constructor
+    
+    }
+
+  virtual bool doIt(std::string arg0 ){
+        bp::override func_doIt = this->get_override( "doIt" );
+        return func_doIt( arg0 );
+    }
+
+};
+
+
+
+
 // Wrapper parce que erMacroDropAnalysis derive de erAnalysis et que erAnalysis
 // a une methode virtuelle pure pour etre utilise dans la BAME
 // Genere par py++
@@ -51,6 +77,15 @@ void export_erCvAnalysis(){
   // Seul les applications sont a wrapper: - erMacroDropAnalysis
   //                                       - erMetalTransfer
   //                                       - erMeltPool
+  bp::class_< erAnalysis_wrapper, boost::noncopyable >( "erAnalysis", bp::init< >() )    
+        .def( bp::init< char *, bp::optional< char * > >(( bp::arg("name"), bp::arg("infofile")="info" )) )    
+        .def( 
+            "create"
+            , (void ( ::erAnalysis::* )(  ) )( &::erAnalysis::create ) )    
+        .def( 
+            "doIt"
+            , bp::pure_virtual( (bool ( ::erAnalysis::* )( char * ) )(&::erAnalysis::doIt) )
+            , ( bp::arg("arg0") ) );
 
   bp::class_< erMacroDropAnalysis_wrapper, bp::bases< erAnalysis > >( "erMacroDropAnalysis",bp::init<>())
         .def(bp::init<std::string,bp::optional<std::string> >(( bp::arg("name"), bp::arg("infofile")="info" )))   
