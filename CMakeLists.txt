@@ -13,7 +13,7 @@ FIND_PACKAGE(Boost COMPONENTS graph python filesystem system)
 #"<<<<<<< .mine
 #OPTION(BUILD_PYTHON_MODULE  "Build python module for erCv" ON)
 #=======
-#OPTION(BUILD_PYTHON_MODULE  "Build python module for erCv" 1)
+OPTION(BUILD_PYTHON_MODULE  "Build python module for erCv" 1)
 #>>>>>>> .r67
 if(NOT ${BUILD_PYTHON_MODULE})
        MESSAGE(STATUS "Python Module of erCv will not be built")
