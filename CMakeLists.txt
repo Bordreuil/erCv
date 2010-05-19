@@ -11,9 +11,9 @@ FIND_PACKAGE(CGAL REQUIRED)
 FIND_PACKAGE(Boost COMPONENTS graph python filesystem system)
 
 # A COMMENTER Pour Julien
-OPTION(BUILD_PYTHON_MODULE  "Build python module for erCv" 1)
+#OPTION(BUILD_PYTHON_MODULE  "Build python module for erCv" 1)
 # A DECOMMENTER Pour Julien
-#SET(BUILD_PYTHON_MODULE 1)
+SET(BUILD_PYTHON_MODULE 1)
 if(NOT ${BUILD_PYTHON_MODULE})
        MESSAGE(STATUS "Python Module of erCv will not be built")
 endif(NOT ${BUILD_PYTHON_MODULE})
