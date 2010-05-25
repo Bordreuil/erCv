@@ -20,8 +20,9 @@ if(${BUILD_PYTHON_MODULE})
          SET_TARGET_PROPERTIES(PyerCv PROPERTIES PREFIX ""
 				            SUFFIX ".so")
 
-         TARGET_LINK_LIBRARIES(PyerCv ${Boost_PYTHON_LIBRARY} 
+         TARGET_LINK_LIBRARIES(PyerCv 
 	       ${PYTHON_LIBRARIES}
+	       ${Boost_PYTHON_LIBRARY} 
 	       erCv)
 
 endif(${BUILD_PYTHON_MODULE})
