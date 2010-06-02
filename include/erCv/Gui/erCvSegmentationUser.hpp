@@ -17,4 +17,6 @@ void erCvPyramidUser( IplImage*, erPyramP*, bool with_trackbar = false);
 
 void erCvFindContours( IplImage*, erFindcP*, bool with_trackbar = false);
 
+void erCvWatershed( IplImage*);
+
 #endif

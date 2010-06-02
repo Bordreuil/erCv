@@ -54,9 +54,10 @@ int main( int hola, char** file_name)
   erSmootP psmo, psmo1;
   erCannyP pcan;
   erAdThrP padt;
+  erAlphaP palp;
   std::list< CvPoint> cvPts;
   std::list< CgalPoint> cgalPts;
-  std::list< CgalSegmt> cgalSeg;
+  std::list< CgalSegmt> cgalSeg, bgraphSeg;
   bool loaded;
 
   
@@ -102,20 +103,21 @@ int main( int hola, char** file_name)
   /* le nom definie par l'usager + le No Serial de l'image traite */
   erSaveImage( &ea, name, exit);  
 
-//   /* Extraction */
-//   /* Definition d un foncteur comme critere pour extraire des pixels suivant leur niveau de gris. cf->utilities/erPredicates.hpp */     
-//   IsEqualTo is_equal_255( 255);
-
+  //   /* Extraction */
+  //   /* Definition d un foncteur comme critere pour extraire des pixels suivant leur niveau de gris. cf->utilities/erPredicates.hpp */     
+  IsEqualTo is_equal_255( 255);
+  
 //   /* Definition du conteneur pour points au moment de l extraction */
 //   std::vector< CvPoint> cvPts;
 
 //   /* Le contours obtenues avec le filtre Canny, sont definies par des pixels ayant une intensite maximal de 255 en 8 bit. */
 //   /* cette fonction ecrit un vecteur avec les coordonnes en pixels de le dites pixels*/
-//   erExtractPoints( &ea, cvPts, is_equal_255,rect,1); /* Extraction */
+  erExtractCvPoints( cvPts, &ea, is_equal_255, rect); /* Extraction */
 //   std::list<Point_2> cgalPts;
   
 //   /* Conversion des points OpenCv en point CGAL */
-//   cvPointsToCgal(cvPts.begin(),cvPts.end(),std::back_inserter(cgalPts));
+  convertCvToCgalpoints( cvPts, cgalPts);
+  alpha_edges_user( cgalPts, cgalSeg, &palp);
 //   Alpha_shape_2 as2(cgalPts.begin(),cgalPts.end(),FT(2));
 //   cgalPts.clear();
 
@@ -141,8 +143,9 @@ int main( int hola, char** file_name)
 
 //   /*Cette fonction ecrit la curbe d'interet, dans un ficher qui a pour nom, */ 
 //   /* le nom definie par l'usager + le No serial de l'image depuis laquelle etait extrait */
-//   //erEcriturePointPixel( cvPts, file_name); 
-  
+//   //erEcriturePointPixel( cvPts, file_name);
+  largest_closed_segment( cgalSeg, bgraphSeg); 
+  erPrintCgalPoint( bgraphSeg, name, exit);
 //   /* Boucle de lecteure des images  */
 //   time_t tbeg = time(NULL);
 //   uint nIm(0);

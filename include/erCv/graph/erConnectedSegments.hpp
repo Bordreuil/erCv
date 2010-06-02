@@ -62,7 +62,7 @@ public:
 /** 
     Definition des types pour la gestion des graphes
 */
-typedef boost::adjacency_list < boost::vecS, boost::vecS, boost::undirectedS, boost::property< boost::vertex_name_t, CgalPoint> >  Graph;
+typedef boost::adjacency_list < boost::vecS, boost::vecS, boost::undirectedS, boost::property< boost::vertex_name_t, CgalPoint> >                                     Graph;
 typedef boost::property_map< Graph, boost::vertex_name_t>::type                  Points_graph_map_t;
 typedef boost::graph_traits< Graph>::vertex_descriptor                           Vertex;
 typedef std::map< CgalPoint, Vertex>                                             PointVertexMap;
@@ -172,4 +172,17 @@ BgraphSegmt filterMapOfSegments( BgraphSegmtMap& map_of_connected, Criteria& cri
   
   return output;
 };
+
+
+
+
+template< class Container, class Container2>
+void largest_closed_segment( Container cgalSegmts, Container2& bgraphSegmts)
+{
+  BgraphSegmtMap c_segment = get_connected_segments( cgalSegmts.begin(), cgalSegmts.end());
+
+  Segments_set_is_closed criteria;
+  bgraphSegmts = filterMapOfSegments( c_segment, criteria);
+}
+
 #endif

@@ -370,11 +370,15 @@ IplImage* erCvCallBackPatchProjectUser( IplImage* img, erCallBP* parm, bool with
 void erCvEqualizeHistUser( IplImage* simg, erEqualP* param)
 {
   IplImage* img;
+  
   int usar;
   std::string name = INFOFILE;
   name+= ".txt";
   const char* nomb = name.c_str();
   int ok = 1; 
+
+  
+
   while( ok)
     { 
       img = cvCloneImage(simg);
@@ -594,4 +598,40 @@ void erCvFindContours( IplImage* simg, erFindcP* parm, bool with_trackbar)
   file << "Methode Contour------:---------- " << parm->meth << std::endl;
   file << std::endl;
   file << parm;
+}
+
+
+
+void erCvWatershed( IplImage* img)
+{
+
+  IplImage *simg, *simg1;
+  erTemplP *prue, *parm; 
+  simg = cvCreateImage( cvGetSize(img), 32, 1);
+  parm->image = cvCreateImage( cvGetSize( img), img->depth, img->nChannels);
+  simg1 = cvCreateImage( cvGetSize( img), img->depth, img->nChannels);
+  cvCopy( img, simg1);
+  erShowImage( "img", simg1);
+  //prue->image = cvCreateImage( cvGetSize(img), img->depth, img->nChannels);  
+  
+  std::cout << "hola" << std::endl; 
+  //cvCopy( img, simg);
+ 
+  //prue->drawing = false;
+  //prue->rectan = cvRect( 0,0,0,0);
+  // cvNamedWindow( "Marquez la zone", 0);
+  // cvSetMouseCallback( "Marquez la zone", on_mouse_rect2,  (void*)prue );
+  // while( 1)
+  //   {
+  //     cvShowImage( "Marquez la zone", prue->image);
+  //     if( cvWaitKey( 700) == 27) break;
+  //   }
+  // std::cout << "depth (pru): " << prue->image->depth << std::endl;
+  // std::cout << "depth (sim): " << simg->depth << std::endl;  
+  // std::cout << "chanl (pru): " << pru->image->nChannels << std::endl;
+  // std::cout << "chanl (sim): " << simg->nChannels << std::endl;
+  
+  
+  //cvWatershed( prue->image, simg );
+  cvShowImage( "WaterShet", simg); 
 }

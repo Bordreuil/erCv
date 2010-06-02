@@ -47,7 +47,28 @@ struct erTemplP
 };
 
 
+/**
+   \brief
 
+ */
+// enum CallBP{};
+// enum CallBPColorConversion {CV_RGB2XYZ=1,
+// 			    CV_RGB2HSV=2,
+// 			    CV_RGB2HLS=3,
+// 			    CV_RGB2Lab=4,
+// 			    CV_RGB2YCrCb=5,
+// 			    CCOEFF_NORMED=6
+// };
+// extern char* matchtemplatetype[];
+// struct erTemplP
+// {
+//   erTemplP(MatchTemplateType,CvRect,bool,IplImage*);
+//   erTemplP();
+//   CvRect rectan;
+//   bool drawing;
+//   IplImage *image;
+//   MatchTemplateType type;
+// };
 struct erCallBP
 {
   CvRect rectan;
