@@ -32,6 +32,7 @@ ADD_LIBRARY(erCv erCvSegmentationParams
 	         Gui/erCvFiltersUser
 		 Gui/erCvUserInteraction
                  Gui/erCvSegmentationUser 
+		 geometricalParameters
 		 params 
 		 )
 

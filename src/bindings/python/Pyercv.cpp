@@ -6,9 +6,11 @@ extern void export_erCvFiltersParams();
 extern void export_erCvTools();
 extern void export_erCvBase();
 extern void export_erCvAnalysis();
+extern void export_erGeometricalParams();
+
 
 BOOST_PYTHON_MODULE(PyerCv)
-{
+{ export_erGeometricalParams();
   export_erCvFiltersParams();
   export_erCvAnalysis();
   export_erCvTools();

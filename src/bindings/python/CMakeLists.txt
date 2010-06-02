@@ -13,6 +13,8 @@ if(${BUILD_PYTHON_MODULE})
 	LINK_DIRECTORIES(${Boost_LIBRARIES_DIRS})
 
 	ADD_LIBRARY(PyerCv  SHARED Pyercv 
+
+			   Py_erGeometricalParams
 		           Py_erCvFiltersParams
 			   Py_erCvTools
 			   Py_erCvAnalysis

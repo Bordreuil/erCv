@@ -6,6 +6,7 @@
 #include <CGAL/Delaunay_triangulation_2.h>
 #include <CGAL/Alpha_shape_2.h>
 
+#include<erCv/geometry/geometricalParameters.hpp>
 
 typedef CGAL::Alpha_shape_vertex_base_2<K> Vb;
 typedef CGAL::Alpha_shape_face_base_2<K>  Fb;
@@ -17,15 +18,12 @@ typedef Alpha_shape_2::Alpha_shape_edges_iterator Alpha_shape_edges_iterator;
 
 
 
-struct erAlphaP
-{
-  double alpha;       /** < Value of parameter alpha to AlphaShape */
-};
+
 
 
 /* 
    "AlphaShape Regular" permet de créer des courbes fermes construites sur des segments non conectes, sur les contours detectés 
-   par le traitement d'image. L'algorithme place les segments sur use une triangulation de L'Aunneay pour Le dites pointes sont
+   par le traitement d'image. L'algorithme place les segments sur use une triangulation delaunnay pour Le dites pointes sont
    definies sur erCgalBase.hpp.
 */
 template < class Container, class Container2 >
