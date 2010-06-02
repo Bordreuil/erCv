@@ -2,6 +2,7 @@
 #define  _erCv_ANALYSIS_HPP_
 
 //#include "erCvSegmentationParams.hpp"
+#include "geometry/erCgalAlphaShape2.hpp"
 #include "erCvFiltersParams.hpp"
 #include "erCvTools.hpp"
 #include "erCvBase.hpp"
@@ -42,21 +43,21 @@ struct erMacroDropAnalysis:public erAnalysis
   erAdThrP       param_adaptive_threshold;
 };
 
-//struct erMetalTransfertAnalysis:public erAnalysis
-//{
-//  erMetalTransfertAnalysis();
-//  erMetalTransfertAnalysis( std::string name, std::string infofile = "info");
-//  bool defineParametersUI( std::string image);
-//  void defineParameters( CvRect, erSmootP, erSmootP, erCannyP, erAdThrP,double); /**\brief < Passages Parametres en dur */
-//  bool doIt( std::string);  /**\brief < Analyse sur le fichier */
-//  void saveParameters( std::string);
-//  void loadParameters( std::string);
-//  CvRect         rectOI;
-//  erSmootP       param_smooth1, param_smooth2;
-//  erCannyP       param_canny;
-//  erAdThrP       param_adaptive_threshold;
-//  double         alpha_shape_parameter;
-//};
+struct erMetalTransfertAnalysis:public erAnalysis
+{
+  erMetalTransfertAnalysis();
+  erMetalTransfertAnalysis( std::string name, std::string infofile = "info");
+  bool defineParametersUI( std::string image);
+  void defineParameters( CvRect, erSmootP, erSmootP, erCannyP, erAdThrP, erAlphaP); /**\brief < Passages Parametres en dur */
+  bool doIt( std::string);  /**\brief < Analyse sur le fichier */
+  void saveParameters( std::string);
+  void loadParameters( std::string);
+  CvRect         rectOI;
+  erSmootP       param_smooth1, param_smooth2;
+  erCannyP       param_canny;
+  erAdThrP       param_adaptive_threshold;
+  erAlphaP       param_alpha_shape;
+};
 /**\}*/
 
 
