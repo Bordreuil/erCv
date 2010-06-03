@@ -2,7 +2,7 @@
 #define  _erCv_ANALYSIS_HPP_
 
 //#include "erCvSegmentationParams.hpp"
-#include "geometry/geometricalParameters.hpp"
+#include "geometry/geometricalParams.hpp"
 #include "erCvFiltersParams.hpp"
 #include "erCvTools.hpp"
 #include "erCvBase.hpp"

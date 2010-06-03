@@ -6,7 +6,7 @@
 #include <CGAL/Delaunay_triangulation_2.h>
 #include <CGAL/Alpha_shape_2.h>
 
-#include<erCv/geometry/geometricalParameters.hpp>
+#include<erCv/geometry/geometricalParams.hpp>
 
 typedef CGAL::Alpha_shape_vertex_base_2<K> Vb;
 typedef CGAL::Alpha_shape_face_base_2<K>  Fb;
