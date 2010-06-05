@@ -182,6 +182,7 @@ void export_erCvAnalysis(){
         .def_readwrite( "param_canny",              &erMetalTransfertAnalysis::param_canny )    
         .def_readwrite( "param_smooth1",            &erMetalTransfertAnalysis::param_smooth1 )    
         .def_readwrite( "param_smooth2",            &erMetalTransfertAnalysis::param_smooth2 )    
+        .def_readwrite( "output_geo",               &erMetalTransfertAnalysis::output_geometry_characteristics )
         .def_readwrite( "rectOI",                   &erMetalTransfertAnalysis::rectOI );
 
 };

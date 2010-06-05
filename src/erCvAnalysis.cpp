@@ -2,19 +2,21 @@
 #include <erCv/erCvFilters.hpp>
 #include <erCv/utilities/erPredicates.hpp>
 #include <erCv/erCvExtract.hpp>
+#include <erCv/erCvToCgal.hpp>
 
+#include <erCv/geometry/erGeometricalCharacteristics.hpp>
 #include <erCv/Gui/erCvUserInteraction.hpp>
 #include <erCv/Gui/erCvFiltersUser.hpp>
 
-#include <erCv/erCvToCgal.hpp>
-//#include <erCv/erCvSegmentation.hpp>
+
+
 #include <erCv/graph/erConnectedSegments.hpp>
-//#include <erCv/geometry/erCgalAlphaShape2.hpp>
-//#include <erCv/Gui/erCvSegmentationUser.hpp>
+
 
 #include<time.h>
 #include<fstream>
 #include<boost/filesystem.hpp>
+#include<CGAL/centroid.h>
 
 std::string ANALYSIS_EXTENSION="_erCvAnalysis";
 
@@ -143,14 +145,10 @@ void erMacroDropAnalysis::saveParameters(std::string file)
 };
 
 
-
-
-
-
 erMetalTransfertAnalysis::erMetalTransfertAnalysis(){ };
 
 erMetalTransfertAnalysis::erMetalTransfertAnalysis( std::string name, std::string infofile):
-  erAnalysis( name, infofile), rectOI( ), param_smooth1( ), param_smooth2( ), param_canny( ), param_adaptive_threshold( ), param_alpha_shape(){ }; 
+  erAnalysis( name, infofile), rectOI( ), param_smooth1( ), param_smooth2( ), param_canny( ), param_adaptive_threshold( ), param_alpha_shape(),output_geometry_characteristics(true){ }; 
 
 bool erMetalTransfertAnalysis::defineParametersUI( std::string firstImage)
 { 
@@ -207,7 +205,7 @@ void erMetalTransfertAnalysis::defineParameters( CvRect rect, erSmootP smooth1, 
   rectOI = rect;
   param_smooth1 = smooth1;
   param_smooth2 = smooth2;
-  param_canny = cann;
+  param_canny   = cann;
   param_adaptive_threshold = adthr;
   param_alpha_shape = alphas;
 };
@@ -217,11 +215,11 @@ void erMetalTransfertAnalysis::defineParameters( CvRect rect, erSmootP smooth1, 
 bool  erMetalTransfertAnalysis::doIt( std::string fich)
 {
   bool loaded;
-  char* file_name = const_cast< char*>( fich.c_str());
+  char* file_name         = const_cast< char*>( fich.c_str());
   std::string output_name = (dir_analysis+"/"+name);
   char* nom = const_cast< char*>( output_name.c_str());
   erImage ea, eb, ec;
-  std::list< CvPoint> cvPts;
+  std::list< CvPoint>   cvPts;
   std::list< CgalPoint> cgalPts;
   std::list< CgalSegmt> cgalSeg, bgraphSeg;
 
@@ -231,15 +229,32 @@ bool  erMetalTransfertAnalysis::doIt( std::string fich)
   ec = erDef_ROI( &eb, &rectOI);
   erCvSmooth( &ec, &param_smooth1);
   erCvAdaptiveThreshold( &ec, &param_adaptive_threshold);
+
   erCvSmooth( &ec, &param_smooth2);
   erCvCanny( &ec, &param_canny);
+
   erSaveImage( &ec, file_name, nom);
+
   IsEqualTo is_equal_255( 255);
   erExtractCvPoints( cvPts, &ec, is_equal_255, rectOI);
+  
   convertCvToCgalpoints( cvPts, cgalPts);
-  alpha_edges_user( cgalPts, cgalSeg, &param_alpha_shape);
+
+  alpha_edges( cgalPts, cgalSeg, &param_alpha_shape);
+  std::list< CgalSegmt>::iterator dede=cgalSeg.begin();
+  
+  
   largest_closed_segment( cgalSeg, bgraphSeg);
   erPrintCgalPoint( bgraphSeg, file_name, nom);
+  if(output_geometry_characteristics)
+    {
+      std::list<CgalTrian> triangs=erGeometryExtractTriangles(bgraphSeg.begin(),bgraphSeg.end());
+      double area   = getArea(triangs.begin(),triangs.end());
+      CgalPoint pt  = centroid(triangs.begin(),triangs.end(),CGAL::Dimension_tag<2>());	
+      // Ajouter les axes principaux plus l ecriture
+      
+    };
+ 
 
   return true;
 };

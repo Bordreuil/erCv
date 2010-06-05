@@ -57,16 +57,17 @@ template < class Container, class Container2 >
 void alpha_edges( Container cgalPoints, Container2& cgalSegmts, erAlphaP* param)
 {
   double alfa = param->alpha;
+  
   typedef typename Container::iterator it;
   
   Alpha_shape_2 A( cgalPoints.begin(), cgalPoints.end(), CgalFTrai(alfa));
-  //std::list<CgSegmt> cgSegment;
+
   for(Alpha_shape_edges_iterator it =  A.alpha_shape_edges_begin(); it != A.alpha_shape_edges_end(); ++it)
     {
       cgalSegmts.push_back( A.segment(*it));
     }
   
-  //return cgSegment;
+
 }
 
 

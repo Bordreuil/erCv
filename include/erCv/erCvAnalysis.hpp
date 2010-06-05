@@ -57,6 +57,8 @@ struct erMetalTransfertAnalysis:public erAnalysis
   erCannyP       param_canny;
   erAdThrP       param_adaptive_threshold;
   erAlphaP       param_alpha_shape;
+  bool           output_geometry_characteristics;
+  std::string    output_geometry_file
 };
 /**\}*/
 

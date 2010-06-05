@@ -122,8 +122,8 @@ BgraphSegmtMap  get_connected_segments( Iterator debut, Iterator fin)
   int num = boost::connected_components
     ( graph, boost::make_iterator_property_map( connect.begin(), boost::get( boost::vertex_index, graph), connect[0]));
   
-  std::cout << "Nombre de sommet du graphe:" << boost::num_vertices(graph) << std::endl;
-  std::cout << "Nombre de domaine connecte:" << num  << std::endl; 
+  //std::cout << "Nombre de sommet du graphe:" << boost::num_vertices(graph) << std::endl;
+  //std::cout << "Nombre de domaine connecte:" << num  << std::endl; 
   
   boost::graph_traits< Graph>::edge_iterator     ei,ei_end;
   BgraphSegmtMap map_of_connected;
