@@ -12,14 +12,18 @@
 /**
    \brief Structure contenant les parametre utiles pour 
    un lissage
+
+   Ajouter explication Edward!!!
+
+
  */
 extern const int nbSmoothType;
 extern char* smoothtype[]; 
-enum SmoothType {BLUR_NO_SCALE,
-		 BLUR,
-		 GAUSSIAN,
-		 MEDIAN, 
-		 BILATERAL
+enum SmoothType {BLUR_NO_SCALE, /** < 0 :   */
+		 BLUR,          /** < 1 :   */
+		 GAUSSIAN,      /** < 2 :   */
+		 MEDIAN,        /** < 3 :   */
+		 BILATERAL      /** < 4 :   */
 };
 struct erSmootP
 { 
@@ -72,11 +76,11 @@ struct erThresP
 
  */
 //enum Adapt{};
-enum AdaptiveThresholdType{THRESH_BINARY=1,
-			   THRESH_BINARY_INV=2 
+enum AdaptiveThresholdType{THRESH_BINARY=1,     /** < 1:    */
+			   THRESH_BINARY_INV=2  /** < 2:   */
 };
-enum AdaptiveMethodType{AM_MEAN=1,
-			AM_GAUSSIAN=2
+enum AdaptiveMethodType{AM_MEAN=1,              /** < 1:   */
+			AM_GAUSSIAN=2           /** < 2:   */
 };
 extern char* adaptivethresholdtype[];
 extern char* adaptivemethodtype[];

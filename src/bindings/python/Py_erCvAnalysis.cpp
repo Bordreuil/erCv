@@ -176,7 +176,11 @@ void export_erCvAnalysis(){
         .def( 
             "saveParameters"
             , (void ( ::erMetalTransfertAnalysis::* )( std::string ) )( &::erMetalTransfertAnalysis::saveParameters )
-            , ( bp::arg("arg0") ) )    
+            , ( bp::arg("arg0") ) )   
+        .def( 
+            "setOutputGeometryFile"
+            , (void ( ::erMetalTransfertAnalysis::* )( std::string ) )( &::erMetalTransfertAnalysis::setOutputGeometryFile )
+            , ( bp::arg("arg0") ) )   
         .def_readwrite( "param_adaptive_threshold", &erMetalTransfertAnalysis::param_adaptive_threshold )    
         .def_readwrite( "param_alpha_shape",        &erMetalTransfertAnalysis::param_alpha_shape )    
         .def_readwrite( "param_canny",              &erMetalTransfertAnalysis::param_canny )    

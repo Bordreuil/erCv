@@ -15,8 +15,11 @@
 
 #include<time.h>
 #include<fstream>
+#include<iomanip>
 #include<boost/filesystem.hpp>
-#include<CGAL/centroid.h>
+
+#include<CGAL/linear_least_squares_fitting_2.h>
+
 
 std::string ANALYSIS_EXTENSION="_erCvAnalysis";
 
@@ -109,7 +112,7 @@ void erMacroDropAnalysis::defineParameters( CvRect rect, erCerc ecerc, erSmootP 
 bool erMacroDropAnalysis::doIt(std::string fich)
 {      bool loaded;
        char* file_name         = const_cast<char*>(fich.c_str());
-       std::string output_name = (dir_analysis+"/"+name);
+       std::string output_name = (dir_analysis+"/"+name+"_mcr");
        char* nom               = const_cast<char*>(output_name.c_str());
        erImage ea, eb, ec, ed; 
        std::list<CvPoint> cvPts;       
@@ -148,7 +151,9 @@ void erMacroDropAnalysis::saveParameters(std::string file)
 erMetalTransfertAnalysis::erMetalTransfertAnalysis(){ };
 
 erMetalTransfertAnalysis::erMetalTransfertAnalysis( std::string name, std::string infofile):
-  erAnalysis( name, infofile), rectOI( ), param_smooth1( ), param_smooth2( ), param_canny( ), param_adaptive_threshold( ), param_alpha_shape(),output_geometry_characteristics(true){ }; 
+  erAnalysis( name, infofile), rectOI( ), param_smooth1( ), param_smooth2( ), param_canny( ), 
+  param_adaptive_threshold( ), param_alpha_shape(),output_geometry_characteristics(true)
+{setOutputGeometryFile(name); }; 
 
 bool erMetalTransfertAnalysis::defineParametersUI( std::string firstImage)
 { 
@@ -210,13 +215,19 @@ void erMetalTransfertAnalysis::defineParameters( CvRect rect, erSmootP smooth1, 
   param_alpha_shape = alphas;
 };
 
+void erMetalTransfertAnalysis::setOutputGeometryFile(std::string file) //** Le fichier existant est ecrase!!
+{
+  output_geometry_file = dir_analysis+"/"+file+"_mtl"+".geo";
+  std::ofstream out(output_geometry_file.c_str());
+  out << "Nom_du_fichier\t\tCentroid_x\tCentroid_y\tAire\tAxe_Princ_x\tAxe_Princ_y\tFit(0-1)\n";
 
+};
 
 bool  erMetalTransfertAnalysis::doIt( std::string fich)
 {
   bool loaded;
   char* file_name         = const_cast< char*>( fich.c_str());
-  std::string output_name = (dir_analysis+"/"+name);
+  std::string output_name = (dir_analysis+"/"+name+"_mtl");
   char* nom = const_cast< char*>( output_name.c_str());
   erImage ea, eb, ec;
   std::list< CvPoint>   cvPts;
@@ -246,12 +257,17 @@ bool  erMetalTransfertAnalysis::doIt( std::string fich)
   
   largest_closed_segment( cgalSeg, bgraphSeg);
   erPrintCgalPoint( bgraphSeg, file_name, nom);
+
   if(output_geometry_characteristics)
     {
       std::list<CgalTrian> triangs=erGeometryExtractTriangles(bgraphSeg.begin(),bgraphSeg.end());
       double area   = getArea(triangs.begin(),triangs.end());
-      CgalPoint pt  = centroid(triangs.begin(),triangs.end(),CGAL::Dimension_tag<2>());	
-      // Ajouter les axes principaux plus l ecriture
+      CgalLine  line;
+      CgalPoint pt;
+      CgalFTrai fit = linear_least_squares_fitting_2(triangs.begin(),triangs.end(),line,pt,CGAL::Dimension_tag<2>());	
+      std::ofstream ot(output_geometry_file.c_str(),std::ios_base::app);
+      CgalVect vect=line.to_vector();
+      ot << std::setprecision(10) << fich << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;
       
     };
  

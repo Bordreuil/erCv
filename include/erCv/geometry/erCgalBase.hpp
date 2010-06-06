@@ -16,8 +16,9 @@ typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 
 typedef K::FT          CgalFTrai;
 typedef K::Point_2     CgalPoint;
+typedef K::Line_2      CgalLine;
 typedef K::Segment_2   CgalSegmt;
 typedef K::Triangle_2  CgalTrian;
-
+typedef K::Vector_2    CgalVect;
 /*@}*/
 #endif

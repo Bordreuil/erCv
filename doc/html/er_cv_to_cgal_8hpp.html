@@ -34,14 +34,14 @@
 
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename cvPoint &gt; </td></tr>
-<tr><td class="memTemplItemLeft" nowrap align="right" valign="top"><a class="el" href="group__cgal.html#g039e16256d9f18e1f026a94b848546c3">CgalPoint</a>&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="er_cv_to_cgal_8hpp.html#d7c075a037ebd26768e87b7f6fe48486">CvToCgal</a> (cvPoint &amp;cv_pt)</td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top"><a class="el" href="group__cgal.html#g039e16256d9f18e1f026a94b848546c3">CgalPoint</a>&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="er_cv_to_cgal_8hpp.html#24268b965168e1e9efbb9e08f642aaa3">CvToCgal</a> (cvPoint cv_pt)</td></tr>
 
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename Container , typename Container2 &gt; </td></tr>
-<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="er_cv_to_cgal_8hpp.html#856d8db7a53a2352fe4f3567bfc0021f">convertCvToCgalpoints</a> (Container cvPoint, Container2 cgalPoint)</td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="er_cv_to_cgal_8hpp.html#a97267417ac80744741bee25e995d556">convertCvToCgalpoints</a> (Container cvPoint, Container2 &amp;cgalPoint)</td></tr>
 
 </table>
 <hr><h2>Function Documentation</h2>
-<a class="anchor" name="856d8db7a53a2352fe4f3567bfc0021f"></a><!-- doxytag: member="erCvToCgal.hpp::convertCvToCgalpoints" ref="856d8db7a53a2352fe4f3567bfc0021f" args="(Container cvPoint, Container2 cgalPoint)" -->
+<a class="anchor" name="a97267417ac80744741bee25e995d556"></a><!-- doxytag: member="erCvToCgal.hpp::convertCvToCgalpoints" ref="a97267417ac80744741bee25e995d556" args="(Container cvPoint, Container2 &amp;cgalPoint)" -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -56,7 +56,7 @@ template&lt;typename Container , typename Container2 &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Container2&nbsp;</td>
+          <td class="paramtype">Container2 &amp;&nbsp;</td>
           <td class="paramname"> <em>cgalPoint</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -72,7 +72,7 @@ template&lt;typename Container , typename Container2 &gt; </div>
 Pour un iterateur d entree sur un conteneur de point d opencv on vient completer a partir de l output iterator le conteneur de sortie des points de type cgal 
 </div>
 </div><p>
-<a class="anchor" name="d7c075a037ebd26768e87b7f6fe48486"></a><!-- doxytag: member="erCvToCgal.hpp::CvToCgal" ref="d7c075a037ebd26768e87b7f6fe48486" args="(cvPoint &amp;cv_pt)" -->
+<a class="anchor" name="24268b965168e1e9efbb9e08f642aaa3"></a><!-- doxytag: member="erCvToCgal.hpp::CvToCgal" ref="24268b965168e1e9efbb9e08f642aaa3" args="(cvPoint cv_pt)" -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -81,7 +81,7 @@ template&lt;typename cvPoint &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="group__cgal.html#g039e16256d9f18e1f026a94b848546c3">CgalPoint</a> CvToCgal           </td>
           <td>(</td>
-          <td class="paramtype">cvPoint &amp;&nbsp;</td>
+          <td class="paramtype">cvPoint&nbsp;</td>
           <td class="paramname"> <em>cv_pt</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td><code> [inline]</code></td>
@@ -95,7 +95,7 @@ Permet de transferer un point d opencv de n importe quel type vers le point defi
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Fri Apr 2 15:42:56 2010 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Sun Jun 6 16:29:46 2010 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

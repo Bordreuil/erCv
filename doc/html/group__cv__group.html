@@ -33,6 +33,8 @@
 <tr><td colspan="2"><br><h2>Typedefs</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">typedef std::pair&lt; double, double &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g6975c35581129727b0b64eac15c9f352">erFactorRealDimension</a></td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">typedef unsigned&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g4d3943ddea65db7163a58e6c7e8df95a">uint</a></td></tr>
+
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">std::ostream &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#gc54838b1352e7d0d448e038a927bf417">operator&lt;&lt;</a> (std::ostream &amp;, const <a class="el" href="structer_cerc.html">erCerc</a> &amp;)</td></tr>
 
@@ -50,7 +52,7 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">std::pair&lt; <a class="el" href="classer_image.html">erImage</a>, bool &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#ge0be11733993eab4d6e5f4c4222a82ea">erLoadImage</a> (char *)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de charge une Image a l aide d openCv.  <a href="#ge0be11733993eab4d6e5f4c4222a82ea"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">std::pair&lt; <a class="el" href="classer_image.html">erImage</a>, bool &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#gbd24204cf182e26da1b76fab35bc5004">erLoadImageSeries</a> (char *, uint inc=1)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">std::pair&lt; <a class="el" href="classer_image.html">erImage</a>, bool &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#gbd24204cf182e26da1b76fab35bc5004">erLoadImageSeries</a> (char *, <a class="el" href="group__cv__group.html#g4d3943ddea65db7163a58e6c7e8df95a">uint</a> inc=1)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de charger une serie d Image a l aide d openCv ayant comme extentions une succesion ordonne et continue de intieres.  <a href="#gbd24204cf182e26da1b76fab35bc5004"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#ga00df399b6b51b54d4b86426bb1d4569">erSaveImage</a> (IplImage *, char *, char *)</td></tr>
@@ -70,7 +72,7 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#gdd388b1a396d4158f7e460569a968dd6">erEcrireNomFichier</a> (char *, char *, std::string)</td></tr>
 
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename Container , typename Criteria &gt; </td></tr>
-<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g56009982d47c8e162caffc76f62787f5">erExtractCvPoints</a> (Container &amp;pts, IplImage *im, Criteria crit, <a class="el" href="struct_cv_rect.html">CvRect</a> rect=cvRect(0, 0, 0, 0), uint delta=1)</td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g56009982d47c8e162caffc76f62787f5">erExtractCvPoints</a> (Container &amp;pts, IplImage *im, Criteria crit, <a class="el" href="struct_cv_rect.html">CvRect</a> rect=cvRect(0, 0, 0, 0), <a class="el" href="group__cv__group.html#g4d3943ddea65db7163a58e6c7e8df95a">uint</a> delta=1)</td></tr>
 
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename Container &gt; </td></tr>
 <tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g428eaf43d88ebc2615f72aeda032c0a8">erExtractCurveMacroDropUser</a> (Container &amp;pts, IplImage *simag, <a class="el" href="struct_cv_rect.html">CvRect</a> rect, <a class="el" href="structer_cerc.html">erCerc</a> *cerc, char *file_name)</td></tr>
@@ -99,6 +101,21 @@ Decrit l encapsulation de base d opencv pour les developpements d edward<hr><h2>
       <table class="memname">
         <tr>
           <td class="memname">typedef std::pair&lt;double,double&gt; <a class="el" href="group__cv__group.html#g6975c35581129727b0b64eac15c9f352">erFactorRealDimension</a>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="g4d3943ddea65db7163a58e6c7e8df95a"></a><!-- doxytag: member="erCvBase.hpp::uint" ref="g4d3943ddea65db7163a58e6c7e8df95a" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef unsigned <a class="el" href="group__cv__group.html#g4d3943ddea65db7163a58e6c7e8df95a">uint</a>          </td>
         </tr>
       </table>
 </div>
@@ -396,7 +413,7 @@ template&lt;typename Container , typename Criteria &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint&nbsp;</td>
+          <td class="paramtype"><a class="el" href="group__cv__group.html#g4d3943ddea65db7163a58e6c7e8df95a">uint</a>&nbsp;</td>
           <td class="paramname"> <em>delta</em> = <code>1</code></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -493,7 +510,7 @@ Fonction permettant de charge une Image a l aide d openCv.
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint&nbsp;</td>
+          <td class="paramtype"><a class="el" href="group__cv__group.html#g4d3943ddea65db7163a58e6c7e8df95a">uint</a>&nbsp;</td>
           <td class="paramname"> <em>inc</em> = <code>1</code></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -849,7 +866,7 @@ Impression d objet dans un flux.
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Fri Apr 2 15:42:57 2010 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Sun Jun 6 16:29:46 2010 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>
