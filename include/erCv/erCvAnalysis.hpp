@@ -1,8 +1,13 @@
 #ifndef _erCv_ANALYSIS_HPP_
 #define  _erCv_ANALYSIS_HPP_
 
-//#include "erCvSegmentationParams.hpp"
+#include "erCvSegmentationParams.hpp"
+//<<<<<<< .mine
+
+#include "geometry/erCgalAlphaShape2.hpp"
+//=======
 #include "geometry/geometricalParams.hpp"
+//>>>>>>> .r86
 #include "erCvFiltersParams.hpp"
 #include "erCvTools.hpp"
 #include "erCvBase.hpp"
@@ -114,6 +119,33 @@ struct erMeltPoolAnalysis:public erAnalysis
 
 
 /**\}*/
+
+
+/** \brief Class pour des analysis des bains de fusion
+
+    Cette classe encapsule les methodes pour obtenir le 
+    contour ferme du bain fusion observe par reflexion 
+    speculaire. 
+*/
+
+struct erWeldPoolAnalysis:public erAnalysis
+{
+  erWeldPoolAnalysis( );
+  erWeldPoolAnalysis( std::string name, std::string infofile = "info");
+  bool defineParametersUI( std::string image); /** < Definitions des parametres interactive */
+  void defineParameters( CvRect, erSmootP, erSmootP, erEqualP, erCannyP, erAdThrP, erTemplP, erFindcP, erAlphaP); /* < Passages Parametreds en dur */
+  bool doIt( std::string); /** < Analyse sur le ficher */
+  void saveParameters( std::string);
+  void loadParameters( std::string);
+  CvRect rectOI;
+  erSmootP param_smooth1, param_smooth2;
+  erEqualP param_equalizer_histogram;
+  erCannyP param_canny;
+  erAdThrP param_adaptive_threshold;
+  erTemplP param_template;
+  erFindcP param_find_contours;
+  erAlphaP param_alpha_shape;
+};
 
 
 #endif

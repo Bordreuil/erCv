@@ -1,5 +1,6 @@
 #include <erCv/erCvAnalysis.hpp>
 #include <erCv/erCvFilters.hpp>
+#include <erCv/erCvSegmentation.hpp>
 #include <erCv/utilities/erPredicates.hpp>
 #include <erCv/erCvExtract.hpp>
 #include <erCv/erCvToCgal.hpp>
@@ -7,7 +8,7 @@
 #include <erCv/geometry/erGeometricalCharacteristics.hpp>
 #include <erCv/Gui/erCvUserInteraction.hpp>
 #include <erCv/Gui/erCvFiltersUser.hpp>
-
+#include <erCv/Gui/erCvSegmentationUser.hpp>
 
 
 #include <erCv/graph/erConnectedSegments.hpp>
@@ -43,6 +44,12 @@ void erAnalysis::create()
   };
 };
 
+
+
+
+
+
+/* Analysis pour le macro drop */
 
 erMacroDropAnalysis::erMacroDropAnalysis() { };
 
@@ -148,11 +155,17 @@ void erMacroDropAnalysis::saveParameters(std::string file)
 };
 
 
+
+
+
+
+/* Analysis pour la goutelette de metal de tranfer*/
+
 erMetalTransfertAnalysis::erMetalTransfertAnalysis(){ };
 
 erMetalTransfertAnalysis::erMetalTransfertAnalysis( std::string name, std::string infofile):
   erAnalysis( name, infofile), rectOI( ), param_smooth1( ), param_smooth2( ), param_canny( ), 
-  param_adaptive_threshold( ), param_alpha_shape(),output_geometry_characteristics(true)
+  param_adaptive_threshold( ), param_alpha_shape(), output_geometry_characteristics(true)
 {setOutputGeometryFile(name); }; 
 
 bool erMetalTransfertAnalysis::defineParametersUI( std::string firstImage)
@@ -290,5 +303,100 @@ void erMetalTransfertAnalysis::saveParameters( std::string file)
   out << "* End er MetalTransfert Analysis" << std::endl;
 };
 
+
+
+
+
+/* Analysis pour le bain de fusion */
+
+/* Constructeur par defaut */
+erWeldPoolAnalysis::erWeldPoolAnalysis( ){ };
+
+/* Constructeur avec des paramettres determines ailleurs */
+erWeldPoolAnalysis::erWeldPoolAnalysis( std::string name, std::string infofile): 
+  erAnalysis( name, infofile), rectOI( ), param_smooth1( ), param_smooth2( ), 
+  param_equalizer_histogram( ), param_canny( ), param_adaptive_threshold( ), 
+  param_template( ), param_find_contours( ), param_alpha_shape( ) { };
+
+/* Boucle de execution du programe en utilisant le la user interface de openCv */
+bool erWeldPoolAnalysis::defineParametersUI( std::string firstImage) 
+{
+  std::cout <<"--------------------------------------------------\n\n";
+  std::cout <<"\tMagic treatment for metal transfert\ntBy Edward Romero\n\tMay 2010\n\tLMGC/UM2/UM5508\n\tANR-TEMMSA\n\n";
+  std::cout <<"-------------------------------------------------\n\n";
+
+  /*Declaration de variables a utiliser par les fonctions */
+  INFOFILE = this->infoFile;
+  erImage ea, eb, ec, ed, ee;
+  CvRect rect;
+  erSmootP psmo, psmo1;
+  erEqualP pequ;
+  erCannyP pcan;
+  erAdThrP padt;
+  erTemplP ptem;
+  erFindcP pfin;
+  std::list< CvPoint> cvPts;
+  std::list< CgalPoint> cgalPts;
+  std::list< CgalSegmt> cgalSeg, bgraphSeg;
+  erAlphaP palp;
+  bool loaded;
+
+  char* file_name = const_cast< char*>(firstImage.c_str());
+
+  boost::tie( ea, loaded) = erLoadImage( file_name);
+  if(!loaded) return false;
+
+  erCalibration ca( "cuadro5-rescale-511.jpg", "rec_droite_256_2.bmp", 3, 3);
+  eb = ca.transform_image(ea);
+
+  ec = erDef_ROIuser( &eb, &rect);
+  rectOI = rect;
+
+  erCvSmoothUser( &ec, &psmo);
+  param_smooth1 = psmo;
+
+  erCvEqualizeHistUser( &ec, &pequ);
+  param_equalizer_histogram = pequ;
+
+  ed = erCvTemplateUser( &ec, &ptem);
+  param_template = ptem;
+
+  erCvAdaptiveThresholdUser( &ed, &padt);
+  param_adaptive_threshold = padt;
+
+  erCvWatershed( &ed);
+
+  erCvCannyUser( &ed, &pcan);
+  param_canny = pcan;
+
+  erCvFindContours( &ed, &pfin);
+  param_find_contours = pfin;
+
+  IsEqualTo is_equal_255(255);
+  erExtractCvPoints( cvPts, &ed, is_equal_255, rect);
+  convertCvToCgalpoints( cvPts, cgalPts);
+
+  alpha_edges( cgalPts, cgalSeg, &palp);
+
+  return true;
+};
+
+
+/* On sauve garde les parammettres utilisé dans un ficher de backup */
+void erWeldPoolAnalysis::saveParameters( std::string file)
+{
+  std::string output_file = dir_analysis+"/"+file;
+  std::ofstream out( output_file.c_str());
+  out << "* Begin er WeldPool Analysis" << std::endl;
+  out << this->rectOI;
+  out << this->param_smooth1;
+  // out << this->param_equalizer_histogram;
+  //out << this->param_template;
+  out << this->param_adaptive_threshold;
+  out << this->param_canny;  
+  out << this->param_find_contours;
+  //out << this->param_alpha_shape;
+  out << "* End er WeldPool Analysis" << std::endl;
+};
 
 
