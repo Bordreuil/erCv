@@ -303,22 +303,17 @@ void erMetalTransfertAnalysis::saveParameters( std::string file)
   out << "* End er MetalTransfert Analysis" << std::endl;
 };
 
-
-
-
-
 /* Analysis pour le bain de fusion */
 
 /* Constructeur par defaut */
-erWeldPoolAnalysis::erWeldPoolAnalysis( ){ };
-
-/* Constructeur avec des paramettres determines ailleurs */
+erWeldPoolAnalysis::erWeldPoolAnalysis(){};
+//** Constructeur avec des paramettres determines ailleurs */
 erWeldPoolAnalysis::erWeldPoolAnalysis( std::string name, std::string infofile): 
-  erAnalysis( name, infofile), rectOI( ), param_smooth1( ), param_smooth2( ), 
-  param_equalizer_histogram( ), param_canny( ), param_adaptive_threshold( ), 
-  param_template( ), param_find_contours( ), param_alpha_shape( ) { };
+ erAnalysis( name, infofile), rectOI( ), param_smooth1( ), param_smooth2( ), 
+ param_equalizer_histogram( ), param_canny( ), param_adaptive_threshold( ), 
+ param_template( ), param_find_contours( ), param_alpha_shape( ) { };
 
-/* Boucle de execution du programe en utilisant le la user interface de openCv */
+//** Boucle de execution du programe en utilisant le la user interface de openCv */
 bool erWeldPoolAnalysis::defineParametersUI( std::string firstImage) 
 {
   std::cout <<"--------------------------------------------------\n\n";
@@ -381,7 +376,7 @@ bool erWeldPoolAnalysis::defineParametersUI( std::string firstImage)
   return true;
 };
 
-
+bool erWeldPoolAnalysis::doIt(std::string name){};
 /* On sauve garde les parammettres utilisé dans un ficher de backup */
 void erWeldPoolAnalysis::saveParameters( std::string file)
 {

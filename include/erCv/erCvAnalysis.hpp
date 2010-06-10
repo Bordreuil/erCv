@@ -2,12 +2,8 @@
 #define  _erCv_ANALYSIS_HPP_
 
 #include "erCvSegmentationParams.hpp"
-//<<<<<<< .mine
-
 #include "geometry/erCgalAlphaShape2.hpp"
-//=======
 #include "geometry/geometricalParams.hpp"
-//>>>>>>> .r86
 #include "erCvFiltersParams.hpp"
 #include "erCvTools.hpp"
 #include "erCvBase.hpp"
@@ -99,26 +95,10 @@ struct erMetalTransfertAnalysis:public erAnalysis
   std::string    output_geometry_file;             /** <  Nom du fichier de sortie pour la geometrie */
 };
 
-// Afinir
-
-struct erMeltPoolAnalysis:public erAnalysis
-{
-  erMeltPoolAnalysis();
-  erMeltPoolAnalysis(std::string name,std::string infofile="info");
-  bool defineParametersUI( std::string image);
-  void defineParameters(CvRect ); /** < Passages Parametres en dur */
-  bool doIt( std::string);  /** < Analyse sur le fichier */
-  void saveParameters( std::string);               /** < Sauvegarde des parametres utilises   */
-  void loadParameters( std::string);               /** < Pas encore active */
-
-  CvRect         rectOI;
 
 
 
-};
 
-
-/**\}*/
 
 
 /** \brief Class pour des analysis des bains de fusion
@@ -130,14 +110,14 @@ struct erMeltPoolAnalysis:public erAnalysis
 
 struct erWeldPoolAnalysis:public erAnalysis
 {
-  erWeldPoolAnalysis( );
+  erWeldPoolAnalysis();
   erWeldPoolAnalysis( std::string name, std::string infofile = "info");
   bool defineParametersUI( std::string image); /** < Definitions des parametres interactive */
   void defineParameters( CvRect, erSmootP, erSmootP, erEqualP, erCannyP, erAdThrP, erTemplP, erFindcP, erAlphaP); /* < Passages Parametreds en dur */
   bool doIt( std::string); /** < Analyse sur le ficher */
   void saveParameters( std::string);
   void loadParameters( std::string);
-  CvRect rectOI;
+  CvRect   rectOI;
   erSmootP param_smooth1, param_smooth2;
   erEqualP param_equalizer_histogram;
   erCannyP param_canny;
@@ -146,6 +126,6 @@ struct erWeldPoolAnalysis:public erAnalysis
   erFindcP param_find_contours;
   erAlphaP param_alpha_shape;
 };
-
+/**\}*/
 
 #endif
