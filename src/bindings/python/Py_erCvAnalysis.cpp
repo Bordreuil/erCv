@@ -108,6 +108,43 @@ struct erMetalTransfertAnalysis_wrapper : erMetalTransfertAnalysis, bp::wrapper<
 
 };
 
+struct erWeldPoolAnalysis_wrapper : erWeldPoolAnalysis, bp::wrapper< erWeldPoolAnalysis > {
+
+    erWeldPoolAnalysis_wrapper(erWeldPoolAnalysis const & arg )
+    : erWeldPoolAnalysis( arg )
+      , bp::wrapper< erWeldPoolAnalysis >(){
+        // copy constructor
+        
+    }
+
+    erWeldPoolAnalysis_wrapper( )
+    : erWeldPoolAnalysis( )
+      , bp::wrapper< erWeldPoolAnalysis >(){
+        // null constructor
+    
+    }
+
+  erWeldPoolAnalysis_wrapper(std::string name,std::string infofile="info" )
+    : erWeldPoolAnalysis( name, infofile )
+      , bp::wrapper< erWeldPoolAnalysis >(){
+        // constructor
+    
+    }
+
+  virtual bool doIt(std::string arg0 ) {
+        if( bp::override func_doIt = this->get_override( "doIt" ) )
+            return func_doIt( arg0 );
+        else
+            return this->erWeldPoolAnalysis::doIt( arg0 );
+    }
+    
+    
+  bool default_doIt(std::string arg0 ) {
+        return erWeldPoolAnalysis::doIt( arg0 );
+    }
+
+};
+
 void export_erCvAnalysis(){
   // Seul les applications sont a wrapper: - erMacroDropAnalysis
   //                                       - erMetalTransfer
@@ -156,10 +193,12 @@ void export_erCvAnalysis(){
 
  bp::class_< erMetalTransfertAnalysis_wrapper, bp::bases< erAnalysis > >( "erMetalTransfertAnalysis", bp::init< >() )    
         .def( bp::init< std::string, bp::optional< std::string > >(( bp::arg("name"), bp::arg("infofile")="info" )) )    
-        .def( 
-            "defineParameters"
-            , (void ( ::erMetalTransfertAnalysis::* )( ::CvRect,::erSmootP,::erSmootP,::erCannyP,::erAdThrP,::erAlphaP ) )( &::erMetalTransfertAnalysis::defineParameters )
-            , ( bp::arg("arg0"), bp::arg("arg1"), bp::arg("arg2"), bp::arg("arg3"), bp::arg("arg4"), bp::arg("arg5") ) )    
+
+   //       .def( 
+   //         "defineParameters"
+   //         , (void ( ::erMetalTransfertAnalysis::* )( ::CvRect,::erSmootP,::erSmootP,::erCannyP,::erAdThrP,::erAlphaP ) )( &::erMetalTransfertAnalysis::defineParameters )
+   //         , ( bp::arg("arg0"), bp::arg("arg1"), bp::arg("arg2"), bp::arg("arg3"), bp::arg("arg4"), bp::arg("arg5") ) )  
+  
         .def( 
             "defineParametersUI"
             , (bool ( ::erMetalTransfertAnalysis::* )( std::string ) )( &::erMetalTransfertAnalysis::defineParametersUI )
@@ -188,5 +227,39 @@ void export_erCvAnalysis(){
         .def_readwrite( "param_smooth2",            &erMetalTransfertAnalysis::param_smooth2 )    
         .def_readwrite( "output_geo",               &erMetalTransfertAnalysis::output_geometry_characteristics )
         .def_readwrite( "rectOI",                   &erMetalTransfertAnalysis::rectOI );
+
+
+  bp::class_< erWeldPoolAnalysis_wrapper, bp::bases< erAnalysis > >( "erWeldPoolAnalysis", bp::init< >() )    
+        .def( bp::init< std::string, bp::optional< std::string > >(( bp::arg("name"), bp::arg("infofile")="info" )) )    
+    //.def( 
+    //         "defineParameters"
+    //        , (void ( ::erWeldPoolAnalysis::* )( ::CvRect,::erSmootP,::erSmootP,::erEqualP,::erCannyP,::erAdThrP,::erTemplP,::erFindcP,::erAlphaP ) )( &::erWeldPoolAnalysis::defineParameters )
+    //        , ( bp::arg("arg0"), bp::arg("arg1"), bp::arg("arg2"), bp::arg("arg3"), bp::arg("arg4"), bp::arg("arg5"), bp::arg("arg6"), bp::arg("arg7"), bp::arg("arg8") ) )    
+        .def( 
+            "defineParametersUI"
+            , (bool ( ::erWeldPoolAnalysis::* )( std::string ) )( &::erWeldPoolAnalysis::defineParametersUI )
+            , ( bp::arg("image") ) )    
+        .def( 
+            "doIt"
+            , (bool ( ::erWeldPoolAnalysis::* )( std::string ) )(&::erWeldPoolAnalysis::doIt)
+            , (bool ( erWeldPoolAnalysis_wrapper::* )( std::string ) )(&erWeldPoolAnalysis_wrapper::default_doIt)
+            , ( bp::arg("arg0") ) )    
+       //  .def( 
+//             "loadParameters"
+//             , (void ( ::erWeldPoolAnalysis::* )( std::string ) )( &::erWeldPoolAnalysis::loadParameters )
+//             , ( bp::arg("arg0") ) )    
+//         .def( 
+//             "saveParameters"
+//             , (void ( ::erWeldPoolAnalysis::* )( std::string ) )( &::erWeldPoolAnalysis::saveParameters )
+//             , ( bp::arg("arg0") ) )    
+        .def_readwrite( "param_adaptive_threshold", &erWeldPoolAnalysis::param_adaptive_threshold )    
+        .def_readwrite( "param_alpha_shape", &erWeldPoolAnalysis::param_alpha_shape )    
+        .def_readwrite( "param_canny", &erWeldPoolAnalysis::param_canny )    
+        .def_readwrite( "param_equalizer_histogram", &erWeldPoolAnalysis::param_equalizer_histogram )    
+        .def_readwrite( "param_find_contours", &erWeldPoolAnalysis::param_find_contours )    
+        .def_readwrite( "param_smooth1", &erWeldPoolAnalysis::param_smooth1 )    
+        .def_readwrite( "param_smooth2", &erWeldPoolAnalysis::param_smooth2 )    
+        .def_readwrite( "param_template", &erWeldPoolAnalysis::param_template )    
+        .def_readwrite( "rectOI", &erWeldPoolAnalysis::rectOI );
 
 };

@@ -3,10 +3,11 @@
 #include "erCvFiltersParams.hpp"
 #include "erCvBase.hpp"
 #include<iostream>
-/** \defgroup filters_params FiltersParams */
-/** \ingroup filters  */
+#include<string>
+/** \defgroup seg_params SegmentationsParams */
+/** \ingroup segmentations  */
 
-/** \addtogroup filters_params */
+/** \addtogroup seg_params */
 /*@{*/
 
 
@@ -15,6 +16,8 @@
 
 struct erDiffeP
 {
+  //erDiffeP();
+  //erDiffeP(erAdThrP,erThresP,std::string,int);
   erAdThrP *adapthold;
   erThresP *threshold;
   IplImage *image;
@@ -39,6 +42,7 @@ extern char* matchtemplatetype[];
 struct erTemplP
 {
   erTemplP(MatchTemplateType,CvRect,bool,IplImage*);
+  erTemplP(MatchTemplateType,CvRect,bool,std::string);
   erTemplP();
   CvRect rectan;
   bool drawing;
@@ -96,6 +100,8 @@ struct erEqualP
  */
 struct erPyramP
 {
+  erPyramP();
+  erPyramP(int,int,int);
   int trh1; /** < Threshold value to link in pyramid fonction */
   int trh2; /** < Threshold value to clustering in pyramid fonction */
   int levl; /** < Number of level to pyramid be applied */

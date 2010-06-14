@@ -15,10 +15,12 @@ if(${BUILD_PYTHON_MODULE})
 	ADD_LIBRARY(PyerCv  SHARED Pyercv 
 
 			   Py_erGeometricalParams
+			   Py_erCvSegmentationParams
 		           Py_erCvFiltersParams
 			   Py_erCvTools
 			   Py_erCvAnalysis
 			   Py_erCvBase)
+
          SET_TARGET_PROPERTIES(PyerCv PROPERTIES PREFIX ""
 				            SUFFIX ".so")
 
