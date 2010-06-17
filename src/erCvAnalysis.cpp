@@ -33,6 +33,8 @@ erAnalysis::erAnalysis( std::string name, std::string infofile):
   create( );
 };
 
+
+
 void erAnalysis::create()
 { 
   if (boost::filesystem::exists(dir_analysis))
@@ -135,7 +137,7 @@ bool erMacroDropAnalysis::doIt(std::string fich)
        erSaveImage( &ec, file_name,nom);
        IsEqualTo is_equal_255( 255); 
        erExtractCvPoints( cvPts, &ec, is_equal_255, rectOI);
-       erExtractCurveMacroDrop( &ec, cvPts, rectOI, &cercToStart, file_name);
+       erExtractCurveMacroDrop( cvPts, &ec, rectOI, &cercToStart, file_name);
        erPrintCvPoint( cvPts, file_name, nom); 
        return true;
 };
@@ -303,6 +305,14 @@ void erMetalTransfertAnalysis::saveParameters( std::string file)
   out << "* End er MetalTransfert Analysis" << std::endl;
 };
 
+
+
+
+
+
+
+
+
 /* Analysis pour le bain de fusion */
 
 /* Constructeur par defaut */
@@ -330,6 +340,7 @@ bool erWeldPoolAnalysis::defineParametersUI( std::string firstImage)
   erAdThrP padt;
   erTemplP ptem;
   erFindcP pfin;
+  erWaterP pwat;
   std::list< CvPoint> cvPts;
   std::list< CgalPoint> cgalPts;
   std::list< CgalSegmt> cgalSeg, bgraphSeg;
@@ -359,7 +370,7 @@ bool erWeldPoolAnalysis::defineParametersUI( std::string firstImage)
   erCvAdaptiveThresholdUser( &ed, &padt);
   param_adaptive_threshold = padt;
 
-  erCvWatershed( &ed);
+  erCvWatershed( &ed, &pwat);
 
   erCvCannyUser( &ed, &pcan);
   param_canny = pcan;
@@ -376,7 +387,8 @@ bool erWeldPoolAnalysis::defineParametersUI( std::string firstImage)
   return true;
 };
 
-bool erWeldPoolAnalysis::doIt(std::string name){};
+bool erWeldPoolAnalysis::doIt(std::string name){ };
+
 /* On sauve garde les parammettres utilisé dans un ficher de backup */
 void erWeldPoolAnalysis::saveParameters( std::string file)
 {

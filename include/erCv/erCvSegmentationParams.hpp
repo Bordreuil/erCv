@@ -141,5 +141,12 @@ std::ostream& operator << (std::ostream&, const erFindcP);
 
 
 
+struct erWaterP
+{
+  CvRect rectan;
+  IplImage *image;
+};
+
+
 /*@}*/
 #endif

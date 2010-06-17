@@ -63,7 +63,7 @@ int main( int hola, char** file_name)
   
   /* Chargement de la premiere image a travailler et conversion a 8bit*/
 
-  boost::tie(ea,loaded) = erLoadImage(name);
+  boost::tie( ea, loaded) = erLoadImage( name);
   if(!loaded) return 0;
   erSaveImage( &ea, name, exit);
   eb = erConvertToBlackAndWhite( &ea); /* Conversion en 8 bit single channel */
@@ -111,45 +111,45 @@ int main( int hola, char** file_name)
   /* cette fonction ecrit un vecteur avec les coordonnes en pixels de le dites pixels*/
   erExtractCvPoints( cvPts, &ec, is_equal_255, rect); /* Extraction */
   std::cout << "cvPts.size(): " << cvPts.size() << std::endl;
-  std::cout << "hola1" << std::endl;
 
   /* L'usager doit selectionner le contour ou courbe d'interet dans l'image resultant du Canny. */
   /* Cette fonction extrait (depuis le vecteur construit auparavant) les coordones des pixels de le dit curbe */
   erExtractCurveMacroDropUser( cvPts, &ec, rect, &cerc, name);
   std::cout << "cvPts.size(): " << cvPts.size() << std::endl;
-  std::cout << "hola2" << std::endl;
 
   /*Cette fonction ecrit la curbe d'interet, dans un ficher qui a pour nom, */ 
   /* le nom definie par l'usager + le No serial de l'image depuis laquelle etait extrait */
   erPrintCvPoint( cvPts, name, exit); 
   
-//   /* Boucle de lecteure des images  */
-//   clock_t tbeg = clock();
-//   uint nIm(0);
-//    while(true)
-//      { 
-//        erImage erb, bwb, eab; 
-//        boost::tie(erb,loaded) = erLoadImageSeries( file_name,inc.inc());
-//        if(!loaded) break;
-//        bwb = erConvertToBlackAndWhite( &erb);        
-//        //eo = ca.transform_image( bw);
-//        eab = erDef_ROI( &bwb, &rect);    
-//        erCvSmooth( &eab, &psmo);
-//        erCvAdaptiveThreshold( &eab, &padt);
-//        erCvSmooth( &eab, &psmo1);
-//        erCvCanny( &eab, &pcan);
-//        erSaveImage( &eab, file_name);
-//        IsEqualTo is_equal_255( 255);
-//        std::vector<CvPoint> cvPts; 
-//        erExtractPoints( &eab, cvPts, is_equal_255);
-//        erExtractionCurve( &eab, &cerc, file_name, cvPts, rect);
-//        erEcriturePointPixel( cvPts, file_name); 
+  //   /* Boucle de lecteure des images  */
+  clock_t tbeg = clock();
+  uint nIm(0);
+  while(true)
+    { 
+      erImage eab, ebb, ecb;
+      std::list< CvPoint> cvPtsb;
       
-//       nIm++;
-//       std::cout << "Image number :" << nIm << " passed: " << file_name[2] << "\n";
-//       if (nIm>Nimax) break;
-//     }
-//     clock_t tfin = clock();
-//     std::cout << "Temps en ms pour " << nIm << " images :" << (tfin-tbeg)  << std::endl;
+      boost::tie( eab, loaded) = erLoadImageSeries( name, inc.inc());
+      if(!loaded) break;
+      ebb = erConvertToBlackAndWhite( &eab);        
+      //eo = ca.transform_image( bw);
+      ecb = erDef_ROI( &ebb, &rect);    
+      erCvSmooth( &ecb, &psmo);
+      erCvAdaptiveThreshold( &ecb, &padt);
+      erCvSmooth( &ecb, &psmo1);
+      erCvCanny( &ecb, &pcan);
+      //        erSaveImage( &eab, file_name);
+      IsEqualTo is_equal_255( 255);
+      //        std::vector<CvPoint> cvPts; 
+      erExtractCvPoints( cvPtsb, &ecb, is_equal_255, rect);
+      erExtractCurveMacroDrop( cvPtsb, &ecb, rect,  &cerc, name);
+      erPrintCvPoint( cvPtsb, name, exit); 
+      
+      nIm++;
+      //       std::cout << "Image number :" << nIm << " passed: " << file_name[2] << "\n";
+      if (nIm>Nimax) break;
+    }
+  //     clock_t tfin = clock();
+  //     std::cout << "Temps en ms pour " << nIm << " images :" << (tfin-tbeg)  << std::endl;
   return(0);
 }

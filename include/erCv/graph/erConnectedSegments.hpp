@@ -156,11 +156,10 @@ BgraphSegmt filterMapOfSegments( BgraphSegmtMap& map_of_connected, Criteria& cri
   uint nmax=0;
   uint current=0;
   
-  for(deb=map_of_connected.begin();deb!=map_of_connected.end();deb++)
+  for( deb = map_of_connected.begin(); deb != map_of_connected.end(); deb++)
     {
-      if(crit(deb->second.begin(),deb->second.end()))
-	{
-	  
+      if( crit( deb->second.begin(), deb->second.end()))
+	{	  
 	  if(deb->second.size() > nmax)
 	    {
 	      nmax=deb->second.size();

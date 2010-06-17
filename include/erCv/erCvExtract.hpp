@@ -268,7 +268,7 @@ void erExtractCurveMacroDropUser( Container &pts, IplImage* simag, CvRect rect, 
 
 
 template< typename Container>
-void erExtractCurveMacroDrop( IplImage* simag, Container &pts, CvRect recROI, erCerc* cerc, char* file_name )
+void erExtractCurveMacroDrop( Container &pts, IplImage* simag, CvRect recROI, erCerc* cerc, char* file_name )
 {
   //typedef Container typeContainer;
   typedef std::map< double, Container> erMap;
@@ -515,7 +515,6 @@ void erConvertPixelToMks( std::pair< double, double> factor, Container &pts, cha
 
 
 
-
 template< typename Container>
 void erPrintCgalPoint( Container & pts, char* file_name, char* exit_name)
 {
@@ -539,26 +538,9 @@ void erPrintCgalPoint( Container & pts, char* file_name, char* exit_name)
       std::cout << "Unable to open file";
     }
 };
-// =======
-//   //Ouverture du ficher
-//   std::ofstream myfile( new_name);
-//   if (myfile.is_open())
-//     {
-//       //Ecriture des donnes dans le ficher
-//       typedef typename Container::iterator Iterator;
-//       Iterator deb=pts.begin();
-//       Iterator fin=pts.end();
-//       for(;deb!=fin;deb++)
-// 	{	  
-// 	  myfile << deb->x << "  " << deb->y << std::endl;
-// 	}	  
-//       myfile.close();
-//     }
-//   else 
-//     {
-//       std::cout << "Unable to open file";
-//     }
-// };
+
+
+
 
 
 
@@ -609,7 +591,12 @@ Iterator erFindCvPoint( Iterator p1, Iterator p2, CvPoint punto)
   return p2;
 }; 
 
+
+
+
 /*@}*/
 #endif
+
+
 
 

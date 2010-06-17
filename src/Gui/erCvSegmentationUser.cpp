@@ -514,7 +514,12 @@ void erCvPyramidUser( IplImage* simg, erPyramP* parm, bool with_trackbar)
 //void erCvDrawLines( IplImage* img)
 //{
   
-
+void erCvFindContours(std::string name, erFindcP* parm, bool with_trackbar)
+{
+  IplImage* simg;
+  simg=cvLoadImage(name.c_str());
+  erCvFindContours(simg,parm,with_trackbar);
+};
 
 
 void erCvFindContours( IplImage* simg, erFindcP* parm, bool with_trackbar)
@@ -602,19 +607,24 @@ void erCvFindContours( IplImage* simg, erFindcP* parm, bool with_trackbar)
 
 
 
-void erCvWatershed( IplImage* img)
+void erCvWatershed( IplImage* img, erWaterP* parm)
 {
-
-  IplImage *simg, *simg1;
-  erTemplP *prue, *parm; 
-  simg = cvCreateImage( cvGetSize(img), 32, 1);
-  parm->image = cvCreateImage( cvGetSize( img), img->depth, img->nChannels);
-  simg1 = cvCreateImage( cvGetSize( img), img->depth, img->nChannels);
-  cvCopy( img, simg1);
-  erShowImage( "img", simg1);
-  //prue->image = cvCreateImage( cvGetSize(img), img->depth, img->nChannels);  
+  IplImage *simg, *simg1, *image;
+  //erWaterP *prue, *parm; 
   
-  std::cout << "hola" << std::endl; 
+  simg = cvCreateImage( cvGetSize(img), 32, 1);
+
+  //parm.image = cvCreateImage( cvGetSize( img), img->depth, img->nChannels);
+  std::cout << "hola-0" << std::endl;  
+  simg1 = cvCreateImage( cvGetSize( img), img->depth, img->nChannels);
+  std::cout << "hola-1" << std::endl; 
+  //cvCopy( img, simg1);
+  //simg1 = img;
+  erShowImage( "simg1", simg1);
+  //prue->image = cvCreateImage( cvGetSize(img), img->depth, img->nChannels);  
+
+  std::cout << "width: " << img->width << "  height: " << img->height <<  "  depth: " << img->depth << "  chanel: " << img->nChannels << std::endl; 
+  std::cout << "width: " << simg1->width << "  height: " << simg1->height <<  "  depth: " << simg1->depth << "  chanel: " << simg1->nChannels << std::endl; 
   //cvCopy( img, simg);
  
   //prue->drawing = false;
@@ -633,5 +643,5 @@ void erCvWatershed( IplImage* img)
   
   
   //cvWatershed( prue->image, simg );
-  cvShowImage( "WaterShet", simg); 
+  erShowImage( "WaterShet", img); 
 }

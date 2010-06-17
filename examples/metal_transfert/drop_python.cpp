@@ -18,7 +18,8 @@ Canny            : 355, 355
 
 
 int main( int hola, char** file_name)
-{ CvRect rect;
+{ 
+  CvRect rect;
   rect.x=100;rect.y=120;rect.width=70;rect.height=70;
   erSmootP p1(BLUR,5),p2(GAUSSIAN,5);
   erCannyP cann(355,355);
