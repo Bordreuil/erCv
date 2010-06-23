@@ -60,7 +60,7 @@ erMacroDropAnalysis::erMacroDropAnalysis( std::string name, std::string infofile
   param_canny( ), param_adaptive_threshold( )
 {};
 
-bool erMacroDropAnalysis::defineParametersUI(std::string firstImage)
+bool erMacroDropAnalysis::defineParametersUI( std::string firstImage)
 {
   std::cout <<"-----------------------------------------------\n\n";
   std::cout <<"\tMagic treatment for metal transfer\n\tBy Edward Romero\n\tNovember 2009\n\tLMGC/UM2/UM5508\n\tANR-TEMMSA\n\n";
@@ -83,7 +83,7 @@ bool erMacroDropAnalysis::defineParametersUI(std::string firstImage)
   boost::tie(ea,loaded) = erLoadImage(file_name);
   if(!loaded) return false;
   eb            = erConvertToBlackAndWhite( &ea); /* Conversion en 8 bit single channel */
-  ed            = eb; 
+  //ed            = eb; 
   
   ec            = erDef_ROIuser( &eb, &rect);
   rectOI        = rect;
@@ -125,7 +125,6 @@ bool erMacroDropAnalysis::doIt(std::string fich)
        char* nom               = const_cast<char*>(output_name.c_str());
        erImage ea, eb, ec, ed; 
        std::list<CvPoint> cvPts;       
-
        boost::tie( ea, loaded) = erLoadImage( file_name);
        if( !loaded) return false;
        eb = erConvertToBlackAndWhite( &ea);        
@@ -134,7 +133,7 @@ bool erMacroDropAnalysis::doIt(std::string fich)
        erCvAdaptiveThreshold( &ec, &param_adaptive_threshold);
        erCvSmooth( &ec, &param_smooth2);
        erCvCanny( &ec, &param_canny);
-       erSaveImage( &ec, file_name,nom);
+       erSaveImage( &ec, file_name, nom);
        IsEqualTo is_equal_255( 255); 
        erExtractCvPoints( cvPts, &ec, is_equal_255, rectOI);
        erExtractCurveMacroDrop( cvPts, &ec, rectOI, &cercToStart, file_name);

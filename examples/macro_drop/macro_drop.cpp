@@ -128,7 +128,7 @@ int main( int hola, char** file_name)
     { 
       erImage eab, ebb, ecb;
       std::list< CvPoint> cvPtsb;
-      
+      std::cout << "HOLA_1" << std::endl;
       boost::tie( eab, loaded) = erLoadImageSeries( name, inc.inc());
       if(!loaded) break;
       ebb = erConvertToBlackAndWhite( &eab);        
@@ -141,6 +141,7 @@ int main( int hola, char** file_name)
       //        erSaveImage( &eab, file_name);
       IsEqualTo is_equal_255( 255);
       //        std::vector<CvPoint> cvPts; 
+      std::cout << "HOLA_2" << std::endl;
       erExtractCvPoints( cvPtsb, &ecb, is_equal_255, rect);
       erExtractCurveMacroDrop( cvPtsb, &ecb, rect,  &cerc, name);
       erPrintCvPoint( cvPtsb, name, exit); 

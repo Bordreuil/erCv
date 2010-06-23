@@ -169,6 +169,14 @@ void erExtractCurveMacroDropUser( Container &pts, IplImage* simag, CvRect rect, 
 			}
 		      if( !candidat || iterV_insidecurv != pts.end())
 			{
+			  if( iterMap == ptsMap.begin())
+			    {
+			      std::ofstream file( nameGoodImagesFile(INFOFILE), std::ios_base::app );
+			      file << file_name << std::endl;
+			      file << std::endl;
+			      pts.clear();
+			      return;
+			    }
 			  iterMap--;
 			  candidat = false;
 			  iterV_polyvalent = erFindCvPoint( iterMap->second.begin(), iterMap->second.end(), cvPoint( iterMap->first, cpt.y + 1));
@@ -274,46 +282,45 @@ void erExtractCurveMacroDrop( Container &pts, IplImage* simag, CvRect recROI, er
   typedef std::map< double, Container> erMap;
   erMap ptsMap;
   typename erMap::iterator iterMap;
-  typename Container::iterator iterV_polyvalent, iterV_insidecurv;
+  typename Container::iterator iterV_construcMap, iterV_cercleDepart, iterV_insidecurv, iterV_polyvalent;
   
-  for( iterV_polyvalent = pts.begin(); iterV_polyvalent != pts.end(); iterV_polyvalent++)
+  for( iterV_construcMap = pts.begin(); iterV_construcMap != pts.end(); iterV_construcMap++)
     {
-      ptsMap[iterV_polyvalent->x].push_back(*iterV_polyvalent);
+      ptsMap[ iterV_construcMap->x].push_back( *iterV_construcMap);
     }
   pts.clear();
   
-  std::pair< CvPoint, int> cercle(cerc->centro, cerc->radio);
-  CvPoint p_polyvalent;
+  std::pair< CvPoint, int> cercle( cerc->centro, cerc->radio);
+  CvPoint p_cercleDepart, p_polyvalent;
   std::vector< int> ptsDmin, ptsY0;
   std::vector< int>::iterator iterDmin;
   bool Dmin = false;
   int a = 0, b = 0, c = 0;
   iterMap = ptsMap.begin();
-  for( iterV_polyvalent = iterMap->second.begin(); iterV_polyvalent != iterMap->second.end(); iterV_polyvalent++)
+  for( iterV_cercleDepart = iterMap->second.begin(); iterV_cercleDepart != iterMap->second.end(); iterV_cercleDepart++)
     {
-      a = abs( iterV_polyvalent->y - cercle.first.y);
+      a = abs( iterV_cercleDepart->y - cercle.first.y);
       if( a <= cercle.second)
 	{
 	  if( a < b || Dmin==false)
 	    {
-	      c = iterV_polyvalent->y;
+	      c = iterV_cercleDepart->y;
 	      Dmin = true;
 	      b = a;
 	    }
 	}
     }
   if( Dmin)
-    {
+    {      
+      p_cercleDepart.x = iterMap->first;
+      p_cercleDepart.y = c;
       
-      p_polyvalent.x = iterMap->first;
-      p_polyvalent.y = c;
-      
-      pts.push_back( p_polyvalent);
+      pts.push_back( p_cercleDepart);
       
     }
   else
     {
-      std::ofstream file(nameGoodImagesFile(INFOFILE), std::ios_base::app );
+      std::ofstream file( nameGoodImagesFile( INFOFILE), std::ios_base::app );
       file << file_name << std::endl; // A proscrire
       file << std::endl;
       pts.clear();
@@ -322,11 +329,13 @@ void erExtractCurveMacroDrop( Container &pts, IplImage* simag, CvRect recROI, er
   int SSmap = 7*(ptsMap.size())/10;
   int A=0;
   bool candidat;
+  CvPoint cpt;
+  int Dmap;
   iterMap++;
   for( ; iterMap != ptsMap.end(); iterMap++)
     {       
-      int Dmap =  distance( ptsMap.begin(), iterMap);
-      CvPoint cpt = pts.back();
+      Dmap =  distance( ptsMap.begin(), iterMap);
+      cpt = pts.back();
       //iterV_pts = pts.begin();
       candidat = false;
       iterV_polyvalent = erFindCvPoint( iterMap->second.begin(), iterMap->second.end(), cvPoint( iterMap->first, cpt.y));
@@ -374,6 +383,14 @@ void erExtractCurveMacroDrop( Container &pts, IplImage* simag, CvRect recROI, er
 			}
 		      if( !candidat || iterV_insidecurv != pts.end())
 			{
+			  if( iterMap == ptsMap.begin())
+			    {
+			      std::ofstream file( nameGoodImagesFile(INFOFILE), std::ios_base::app );
+			      file << file_name << std::endl;
+			      file << std::endl;
+			      pts.clear();
+			      return;
+			    }
 			  iterMap--;
 			  candidat = false;
 			  iterV_polyvalent = erFindCvPoint( iterMap->second.begin(), iterMap->second.end(), cvPoint( iterMap->first, cpt.y + 1));
@@ -581,7 +598,8 @@ Iterator erFindCvPoint( Iterator p1, Iterator p2, CvPoint punto)
 {
   while(p1 != p2)
     {
-      if( (p1->y == punto.y) & (p1->x == punto.x))
+      //std::cout << "p1->y: " << p1->y << " " << "punto.y: " << punto.y << " " << "p1->x: " << p1->x << " " << "punto.x: " << punto.x << std::endl;
+      if( (p1->y == punto.y) && (p1->x == punto.x))
 	{
 	  return p1;
 	  break;
