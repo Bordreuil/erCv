@@ -272,7 +272,7 @@ bool  erMetalTransfertAnalysis::doIt( std::string fich)
   largest_closed_segment( cgalSeg, bgraphSeg);
   erPrintCgalPoint( bgraphSeg, file_name, nom);
 
-  if(output_geometry_characteristics)
+  if(output_geometry_characteristics && bgraphSeg.size() > 6)
     {
       std::list<CgalTrian> triangs=erGeometryExtractTriangles(bgraphSeg.begin(),bgraphSeg.end());
       double area   = getArea(triangs.begin(),triangs.end());
