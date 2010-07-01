@@ -362,6 +362,12 @@ void erCvAdaptiveThresholdUser( IplImage* simg, erAdThrP* parm, bool with_trackb
   parm->type = AdaptiveThresholdType(threstype);
   parm->adpt = AdaptiveMethodType(adapt);
 
+  std::cout << "***********Filter fonction ADAPTIVE_THRESHOLD***********\n" << std::endl;
+  std::cout << "Threshold type:------------- " << parm->type << std::endl;
+  std::cout << "Adapt type:----------------- " << parm->adpt << std::endl;
+  std::cout << "Parameter weight mean:------ " << parm->trhP << std::endl;
+  std::cout << "Neighboor_size:------------- " << parm->neig << std::endl;
+  std::cout  << "Threshold value:------------ " << parm->trh0 << std::endl;
 
   std::ofstream file( nomb, std::ios_base::app );
   file << "***********Filter fonction ADAPTIVE_THRESHOLD***********\n";

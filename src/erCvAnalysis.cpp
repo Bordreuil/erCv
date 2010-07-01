@@ -108,10 +108,10 @@ bool erMacroDropAnalysis::defineParametersUI( std::string firstImage)
 
 
 
-void erMacroDropAnalysis::defineParameters( CvRect rect, erCerc ecerc, erSmootP smooth1, erSmootP smooth2, erCannyP cann, erAdThrP adthr)
+void erMacroDropAnalysis::defineParameters( CvRect rect, erCerc cerc, erSmootP smooth1, erSmootP smooth2, erCannyP cann, erAdThrP adthr)
 {
   rectOI                   = rect;
-  cercToStart              = ecerc;
+  cercToStart              = cerc;
   param_smooth1            = smooth1;
   param_smooth2            = smooth2;
   param_canny              = cann;
@@ -267,8 +267,7 @@ bool  erMetalTransfertAnalysis::doIt( std::string fich)
 
   alpha_edges( cgalPts, cgalSeg, &param_alpha_shape);
   std::list< CgalSegmt>::iterator dede=cgalSeg.begin();
-  
-  
+    
   largest_closed_segment( cgalSeg, bgraphSeg);
   erPrintCgalPoint( bgraphSeg, file_name, nom);
 
@@ -281,8 +280,7 @@ bool  erMetalTransfertAnalysis::doIt( std::string fich)
       CgalFTrai fit = linear_least_squares_fitting_2(triangs.begin(),triangs.end(),line,pt,CGAL::Dimension_tag<2>());	
       std::ofstream ot(output_geometry_file.c_str(),std::ios_base::app);
       CgalVect vect=line.to_vector();
-      ot << std::setprecision(10) << fich << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;
-      
+      ot << std::setprecision(10) << fich << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
     };
  
 
@@ -385,6 +383,21 @@ bool erWeldPoolAnalysis::defineParametersUI( std::string firstImage)
 
   return true;
 };
+
+
+void erWeldPoolAnalysis::defineParameters( CvRect rect, erSmootP smooth1, erSmootP smooth2, erEqualP equal, erCannyP canny, erAdThrP adthr, erTemplP templ, erFindcP findc, erAlphaP alphas)
+{
+  rectOI = rect;
+  param_smooth1 = smooth1;
+  param_smooth2 = smooth2;
+  param_equalizer_histogram = equal;
+  param_canny = canny;
+  param_adaptive_threshold = adthr;
+  param_template = templ;
+  param_find_contours = findc;
+  param_alpha_shape = alphas;
+};
+
 
 bool erWeldPoolAnalysis::doIt(std::string name){ };
 

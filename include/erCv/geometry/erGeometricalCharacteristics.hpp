@@ -2,8 +2,11 @@
 #define  _ERCV_GEOMETRICAL_CHARACTERISTICS_HPP_
 
 #include <erCv/geometry/erConstrainedTriangulation2.hpp>
+
+
+
 template<typename InputSegmentIterator>
-std::list<CgalTrian> erGeometryExtractTriangles(InputSegmentIterator debut,InputSegmentIterator fin)
+std::list< CgalTrian> erGeometryExtractTriangles( InputSegmentIterator debut, InputSegmentIterator fin)
 {
   CDT cdt ;
   for( InputSegmentIterator icg=debut;icg!=fin;icg++)

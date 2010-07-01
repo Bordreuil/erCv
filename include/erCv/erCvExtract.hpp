@@ -124,6 +124,14 @@ void erExtractCurveMacroDropUser( Container &pts, IplImage* simag, CvRect rect, 
       CvPoint cpt = pts.back();
       //iterV_pts = pts.begin();
       candidat = false;
+      if( iterMap == ptsMap.begin())
+	{
+	  std::ofstream file( nameGoodImagesFile(INFOFILE), std::ios_base::app );
+	  file << file_name << std::endl;
+	  file << std::endl;
+	  pts.clear();
+	  return;
+	}
       iterV_polyvalent = erFindCvPoint( iterMap->second.begin(), iterMap->second.end(), cvPoint( iterMap->first, cpt.y));
       if( iterV_polyvalent != iterMap->second.end())
 	{
@@ -338,6 +346,14 @@ void erExtractCurveMacroDrop( Container &pts, IplImage* simag, CvRect recROI, er
       cpt = pts.back();
       //iterV_pts = pts.begin();
       candidat = false;
+      if( iterMap == ptsMap.begin())
+	{
+	  std::ofstream file( nameGoodImagesFile(INFOFILE), std::ios_base::app );
+	  file << file_name << std::endl;
+	  file << std::endl;
+	  pts.clear();
+	  return;
+	}
       iterV_polyvalent = erFindCvPoint( iterMap->second.begin(), iterMap->second.end(), cvPoint( iterMap->first, cpt.y));
       if( iterV_polyvalent != iterMap->second.end())
 	{

@@ -50,6 +50,8 @@ int main( int hola, char** file_name)
   erSmootP psmo, psmo1;
   erCannyP pcan;
   erAdThrP padt;
+  erThresP pthr, pthr1;
+  erEqualP pequ;
   bool loaded;
 
   std::list< CvPoint> cvPts;
@@ -75,7 +77,7 @@ int main( int hola, char** file_name)
   ec = erDef_ROIuser( &eb, &rect, true);
 
 
-  //erCvEqualizeHist( &ea);
+  //erCvEqualizeHist( &ec, &pequ);
 
   /* Debut du trataiment de l'image par methodes de filtrage optiques */
   /* Pour reduire la granulosite issue du bruit dans les pixels et la non homogenite de l'eclairage sur l'image;*/
@@ -87,15 +89,16 @@ int main( int hola, char** file_name)
   /* Pour faire resortir les bordes principaux (par contraste) entres les zones zommbres et eclaires, */
   /* un methode de filtrage par seuil, adapte par zone, est utilise */
   erCvAdaptiveThresholdUser( &ec, &padt, true);
+  //erCvThresholdUser( &ec, &pthr, true);
 
   /* Le Sueillage par zones fait aussi resortir les bordes a l'interior des zones zombres */ 
   /* (ou affectes par la procedure d'ombroscopie). Neanmoins ses deffauts resten minoritaires dans cette region, */ 
   /* ainsi,  un filtre smooth du type MEDIAN, permet de les reduires considerablement*/
   erCvSmoothUser( &ec, &psmo1);
- 
+  //erCvThresholdUser( &ec, &pthr1, true); 
   /* Une fois etablie les bordes pricipaux dans l'image, un filtre derivatif permet de marquer les contours dans l'image.*/ 
   /* Le filtre choisi est le filtre a repose impulsionelle de Canny*/
-  erCvCannyUser( &ec, &pcan, true);
+  erCvCannyUser( &ec, &pcan);
 
   /* L'image final post-traitement est saufgarde dans un ficher qui a pour nom: */
   /* le nom definie par l'usager + le No Serial de l'image traite */
@@ -121,14 +124,14 @@ int main( int hola, char** file_name)
   /* le nom definie par l'usager + le No serial de l'image depuis laquelle etait extrait */
   erPrintCvPoint( cvPts, name, exit); 
   
-  //   /* Boucle de lecteure des images  */
+    /* Boucle de lecteure des images  */
   clock_t tbeg = clock();
   uint nIm(0);
   while(true)
     { 
       erImage eab, ebb, ecb;
       std::list< CvPoint> cvPtsb;
-      std::cout << "HOLA_1" << std::endl;
+      //std::cout << "HOLA_1" << std::endl;
       boost::tie( eab, loaded) = erLoadImageSeries( name, inc.inc());
       if(!loaded) break;
       ebb = erConvertToBlackAndWhite( &eab);        
@@ -141,13 +144,13 @@ int main( int hola, char** file_name)
       //        erSaveImage( &eab, file_name);
       IsEqualTo is_equal_255( 255);
       //        std::vector<CvPoint> cvPts; 
-      std::cout << "HOLA_2" << std::endl;
+      //std::cout << "HOLA_2" << std::endl;
       erExtractCvPoints( cvPtsb, &ecb, is_equal_255, rect);
       erExtractCurveMacroDrop( cvPtsb, &ecb, rect,  &cerc, name);
       erPrintCvPoint( cvPtsb, name, exit); 
       
       nIm++;
-      //       std::cout << "Image number :" << nIm << " passed: " << file_name[2] << "\n";
+      std::cout << "Image number :" << nIm << " passed: " << name << "\n";
       if (nIm>Nimax) break;
     }
   //     clock_t tfin = clock();
