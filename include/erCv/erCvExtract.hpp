@@ -68,8 +68,8 @@ void erExtractCurveMacroDropUser( Container &pts, IplImage* simag, CvRect rect, 
   //typedef Container typeContainer; 
   typedef std::map< double, Container> erMap;
   erMap ptsMap;
-  typename erMap::iterator iterMap;
-  typename Container::iterator iterV_polyvalent, iterV_insidecurv;
+  typename erMap::iterator iterMap, iterMap_border;
+  typename Container::iterator iterV_polyvalent, iterV_insidecurv, iterV_border_bas, iterV_border_hau;
   
   for( iterV_polyvalent = pts.begin(); iterV_polyvalent != pts.end(); iterV_polyvalent++)
     {
@@ -118,13 +118,18 @@ void erExtractCurveMacroDropUser( Container &pts, IplImage* simag, CvRect rect, 
   int SSmap = 7*(ptsMap.size())/10;
   bool candidat;
   iterMap++;
-  for( ; iterMap != ptsMap.end(); iterMap++)
+  iterMap_border = ptsMap.end();
+  iterMap_border--;
+  for( ; iterMap != iterMap_border; iterMap++)
     { 
       int Dmap =  distance( ptsMap.begin(), iterMap);
       CvPoint cpt = pts.back();
       //iterV_pts = pts.begin();
       candidat = false;
-      if( iterMap == ptsMap.begin())
+      //iterV_border_bas = iterMap->second.begin();
+      //iterV_border_hau = iterMap->second.end();
+      //iterV_border_hau--;
+      if( cpt.y <= rect.y || cpt.y >= rect.y + rect.height)
 	{
 	  std::ofstream file( nameGoodImagesFile(INFOFILE), std::ios_base::app );
 	  file << file_name << std::endl;
@@ -289,8 +294,8 @@ void erExtractCurveMacroDrop( Container &pts, IplImage* simag, CvRect recROI, er
   //typedef Container typeContainer;
   typedef std::map< double, Container> erMap;
   erMap ptsMap;
-  typename erMap::iterator iterMap;
-  typename Container::iterator iterV_construcMap, iterV_cercleDepart, iterV_insidecurv, iterV_polyvalent;
+  typename erMap::iterator iterMap, iterMap_border;
+  typename Container::iterator iterV_construcMap, iterV_cercleDepart, iterV_insidecurv, iterV_polyvalent, iterV_border_bas, iterV_border_hau;
   
   for( iterV_construcMap = pts.begin(); iterV_construcMap != pts.end(); iterV_construcMap++)
     {
@@ -340,13 +345,15 @@ void erExtractCurveMacroDrop( Container &pts, IplImage* simag, CvRect recROI, er
   CvPoint cpt;
   int Dmap;
   iterMap++;
-  for( ; iterMap != ptsMap.end(); iterMap++)
+  iterMap_border = ptsMap.end();
+  iterMap_border--;
+  for( ; iterMap != iterMap_border; iterMap++)
     {       
       Dmap =  distance( ptsMap.begin(), iterMap);
       cpt = pts.back();
       //iterV_pts = pts.begin();
       candidat = false;
-      if( iterMap == ptsMap.begin())
+      if( cpt.y <= recROI.y || cpt.y >= recROI.y + recROI.height)
 	{
 	  std::ofstream file( nameGoodImagesFile(INFOFILE), std::ios_base::app );
 	  file << file_name << std::endl;
