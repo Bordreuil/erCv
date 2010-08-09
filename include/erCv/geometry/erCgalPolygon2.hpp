@@ -50,7 +50,7 @@ std::list<CgalPoint> erCgalConvertSegmentToPoint( Container bgraphSgm)
   cgalPts.push_back( bgraphSgm.begin()->source);
   //cgalPts.push_back( bgraphSgm.begin()->target); 
   
-  for( itContainer = bgraphSgm.begin()+1, itContainer =! bgraphSgm.end(), itContrainer++)
+  for( itContainer = bgraphSgm.begin()+1; itContainer =! bgraphSgm.end(); itContainer++)
     {
       itcgalPts = erFindCgalPoint( cgalPts.begin(), cgalPts.end(), itContainer->source);
       if( itcgalPts == cgalPts.end())

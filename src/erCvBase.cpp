@@ -139,6 +139,45 @@ std::pair<erImage,bool> erLoadImageSeries( char* file_name, uint inc)
 
 
 
+/* Read, name files manipulations, and convert to one channel the pictures in the loop */
+/************** ATTENTION cet MODULE est une manipulation pour utiliser "doIt" de erCvAnalysis dans "erCvWeldPoolAnalysis::doIt" ******************/ 
+std::string erLoadImageSeriesManipulationWeldPool( std::string name, uint inc)
+{
+  //std::string name( file_name); 
+  size_t ext_pos = name.find_last_of( '_' );
+  size_t ext_pos1 = name.find_last_of( '.');
+  if( ext_pos != std::string::npos && ext_pos1 != std::string::npos )
+    {
+      std::string ext2 = name.substr( ext_pos + 1);
+      std::string name2 = ext2.substr( 0,  ext_pos1 - (ext_pos + 1));
+      int num = boost::lexical_cast<int>( name2);
+      num+=inc;
+      std::string name3 = boost::lexical_cast<std::string>(num);
+      while(name2.size()>name3.size())
+	{
+	  name3.insert( 0, "0" );
+	}
+      std::string name4 = name.substr( 0,  ext_pos+1);
+      name4.insert( ext_pos + 1, name3 );
+      std::string name5 = name.substr( ext_pos1);
+      name4+=name5;
+      //file_name = new char[ name4.size() + 1];
+      //std::copy( name4.begin(), name4.end(), file_name);
+      //file_name[ name4.size()] = '\0';
+      return name4;
+      //return erLoadImage( file_name);
+    }
+  else
+    {
+      /* ATTENTION IL N'Y A PAS LES RETOURS DE SECURITE , SI JAMAIS LE FICHER IL N'EXISTE PAS */
+      std::cout << "Incorrect file name or end of the stockpile" << std::endl;
+      std::string exit = "0";
+      return exit;
+    }
+}
+
+
+
 
 /* Save final images to post processing procedure with CGAL */
 void erSaveImage( IplImage* simag, char* file_name, char* exit_name)

@@ -223,6 +223,14 @@ IplImage* erCvTemplateUser( IplImage* img, erTemplP* parm, bool with_trackbar)
   //   std::cout << "Depth: " << img->depth << " " << "Channels: " << img->nChannels << std::endl;
   //   std::cout << "width: " << img->width << " " << "height: " << img->height << std::endl;
   //erShowImage( "Segmentation par template", img);
+
+
+  std::cout << "***********Segmentation fonction TEMPLATE***********\n";
+  std::cout << "Rect(width):------------ " << parm->rectan.width << std::endl;
+  std::cout << "Rect(height):---------- " << parm->rectan.height << std::endl;
+  std::cout << "Rect(posX):------------ " << parm->rectan.x << std::endl;
+  std::cout << "Rect(posY):------------ " << parm->rectan.y << std::endl;
+  std::cout << "Template type:--------- " << parm->type << std::endl;
   
   std::ofstream file( nomb, std::ios_base::app );
   file << "***********Segmentation fonction TEMPLATE***********\n";
@@ -612,36 +620,61 @@ void erCvWatershed( IplImage* img, erWaterP* parm)
   IplImage *simg, *simg1, *image;
   //erWaterP *prue, *parm; 
   
-  simg = cvCreateImage( cvGetSize(img), 32, 1);
+  simg = cvCreateImage( cvGetSize(img), IPL_DEPTH_32S, 1);
 
-  //parm.image = cvCreateImage( cvGetSize( img), img->depth, img->nChannels);
-  std::cout << "hola-0" << std::endl;  
-  simg1 = cvCreateImage( cvGetSize( img), img->depth, img->nChannels);
-  std::cout << "hola-1" << std::endl; 
-  //cvCopy( img, simg1);
+  parm->image = cvCreateImage( cvGetSize( img), img->depth, img->nChannels);
+  //std::cout << "hola-0" << std::endl;  
+  //simg1 = cvCreateImage( cvGetSize( img), img->depth, img->nChannels);
+  //std::cout << "hola-1" << std::endl; 
+  cvCopy( img, parm->image);
   //simg1 = img;
-  erShowImage( "simg1", simg1);
+  //erShowImage( "simg1", parm->image);
   //prue->image = cvCreateImage( cvGetSize(img), img->depth, img->nChannels);  
 
-  std::cout << "width: " << img->width << "  height: " << img->height <<  "  depth: " << img->depth << "  chanel: " << img->nChannels << std::endl; 
-  std::cout << "width: " << simg1->width << "  height: " << simg1->height <<  "  depth: " << simg1->depth << "  chanel: " << simg1->nChannels << std::endl; 
+  std::cout << "width: " << parm->image->width << "  height: " << parm->image->height <<  "  depth: " << parm->image->depth << "  chanel: " << parm-image->nChannels << std::endl; 
+  std::cout << "width: " << simg->width << "  height: " << simg->height <<  "  depth: " << simg->depth << "  chanel: " << simg->nChannels << std::endl; 
   //cvCopy( img, simg);
  
-  //prue->drawing = false;
-  //prue->rectan = cvRect( 0,0,0,0);
-  // cvNamedWindow( "Marquez la zone", 0);
-  // cvSetMouseCallback( "Marquez la zone", on_mouse_rect2,  (void*)prue );
-  // while( 1)
-  //   {
-  //     cvShowImage( "Marquez la zone", prue->image);
-  //     if( cvWaitKey( 700) == 27) break;
-  //   }
+  parm->drawing = false;
+  parm->rectan = cvRect( 0,0,0,0);
+  cvNamedWindow( "Marquez la zone", 0);
+  cvSetMouseCallback( "Marquez la zone", on_mouse_rect2,  (void*)parm );
+  while( 1)
+    {
+      cvShowImage( "Marquez la zone", parm->image);
+      if( cvWaitKey( 700) == 27) break;
+    }
   // std::cout << "depth (pru): " << prue->image->depth << std::endl;
   // std::cout << "depth (sim): " << simg->depth << std::endl;  
   // std::cout << "chanl (pru): " << pru->image->nChannels << std::endl;
   // std::cout << "chanl (sim): " << simg->nChannels << std::endl;
   
+  IplImage* wshed = cvCloneImage( parm->image);
+  IplImage* img_gray = cvCloneImage( parm->image);
+  cvCvtColor( parm->image, img_gray, CV_GRAY2BGR);
+  cvWatershed( parm->image, simg );
+  std::cout << "watershed" << std::endl;
+  int i,j, comp_count = 0;
+  CvMat* color_tab;
+  color_tab = cvCreateMat( 1, comp_count, CV_8UC3);
+  for( i = 0; i < simg->height; i++ )
+    for( j = 0; j < simg->width; j++ )
+      {
+	int idx = CV_IMAGE_ELEM( simg, int, i, j );
+	uchar* dst = &CV_IMAGE_ELEM( wshed, uchar, i, j*3 );
+	if( idx == -1 )
+	  dst[0] = dst[1] = dst[2] = (uchar)255;
+	else if( idx <= 0 || idx > comp_count )
+	  dst[0] = dst[1] = dst[2] = (uchar)0; // should not get here
+	else
+	  {
+	    uchar* ptr = color_tab->data.ptr + (idx-1)*3;
+	    dst[0] = ptr[0]; dst[1] = ptr[1]; dst[2] = ptr[2];
+	  }
+      }
   
-  //cvWatershed( prue->image, simg );
-  erShowImage( "WaterShet", img); 
+  cvAddWeighted( wshed, 0.5, img_gray, 0.5, 0, wshed );
+  //cvShowImage( "watershed transform", wshed );
+  
+  erShowImage( "WaterShet", wshed); 
 }

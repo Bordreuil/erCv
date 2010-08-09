@@ -146,6 +146,10 @@ std::pair<erImage,bool> erLoadImage( char*);
 std::pair<erImage,bool> erLoadImageSeries( char*, uint inc=1);
 
 
+/** \brief Fonction permettant de charger une serie d Image a l aide
+ d openCv ayant comme extentions une succesion ordonne et continue de intieres
+ ATTENTION CET MODULE EST UNE MANIPULATION POUR TRAVAILLER DANS erCvAnalysis avec la fonction erCvAnalysisWeldPool::doIt */
+std::string erLoadImageSeriesManipulationWeldPool( std::string, uint inc=1);
 
 
 

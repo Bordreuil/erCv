@@ -113,7 +113,8 @@ struct erWeldPoolAnalysis:public erAnalysis
   erWeldPoolAnalysis();
   erWeldPoolAnalysis( std::string name, std::string infofile = "info");
   bool defineParametersUI( std::string image); /** < Definitions des parametres interactive */
-  void defineParameters( CvRect, erSmootP, erSmootP, erEqualP, erCannyP, erAdThrP, erTemplP, erFindcP, erAlphaP); /* < Passages Parametres en dur */
+  //void defineParameters( CvRect, erSmootP smooth1 = 0, erSmootP smooth2 = 0, erEqualP equal = 0, erCannyP canny = 0, erAdThrP adthr = 0, erTemplP templ = 0, erAlphaP alphas = 0, erFindcP findc = 0); /* < Passages Parametres en dur */
+  void defineParameters( CvRect, erSmootP smooth1, erSmootP smooth2, erEqualP equal, erCannyP canny, erAdThrP adthr, erTemplP templ, erAlphaP alphas); /* < Passages Parametres en dur */
   bool doIt( std::string); /** < Analyse sur le ficher */
   void saveParameters( std::string);
   void loadParameters( std::string);

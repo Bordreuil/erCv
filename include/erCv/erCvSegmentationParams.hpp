@@ -41,8 +41,9 @@ enum MatchTemplateType {SQDIFF=1,
 extern char* matchtemplatetype[];
 struct erTemplP
 {
-  erTemplP(MatchTemplateType,CvRect,bool,IplImage*);
-  erTemplP(MatchTemplateType,CvRect,bool,std::string);
+  //erTemplP(MatchTemplateType, CvRect,bool,IplImage*);    /*REVISAR cet declaration avec Cyril */
+  //erTemplP(MatchTemplateType, CvRect,bool,std::string);  /*REVISAR cet declaration avec Cyril */
+  erTemplP( MatchTemplateType, CvRect, bool);
   erTemplP();
   CvRect rectan;
   bool drawing;
@@ -87,6 +88,8 @@ struct erCallBP
 
 struct erEqualP
 {
+  erEqualP( int);
+  erEqualP();
   int applic;
 };
 
@@ -143,6 +146,7 @@ std::ostream& operator << (std::ostream&, const erFindcP);
 
 struct erWaterP
 {
+  bool drawing;
   CvRect rectan;
   IplImage *image;
 };

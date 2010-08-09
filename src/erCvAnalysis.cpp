@@ -316,9 +316,9 @@ void erMetalTransfertAnalysis::saveParameters( std::string file)
 erWeldPoolAnalysis::erWeldPoolAnalysis(){};
 //** Constructeur avec des paramettres determines ailleurs */
 erWeldPoolAnalysis::erWeldPoolAnalysis( std::string name, std::string infofile): 
- erAnalysis( name, infofile), rectOI( ), param_smooth1( ), param_smooth2( ), 
- param_equalizer_histogram( ), param_canny( ), param_adaptive_threshold( ), 
- param_template( ), param_find_contours( ), param_alpha_shape( ) { };
+  erAnalysis( name, infofile), rectOI( ), param_smooth1( ), param_smooth2( ), 
+  param_equalizer_histogram( ), param_canny( ), param_adaptive_threshold( ), 
+  param_template( ), param_alpha_shape( ), param_find_contours( ) { };
 
 //** Boucle de execution du programe en utilisant le la user interface de openCv */
 bool erWeldPoolAnalysis::defineParametersUI( std::string firstImage) 
@@ -326,7 +326,7 @@ bool erWeldPoolAnalysis::defineParametersUI( std::string firstImage)
   std::cout <<"--------------------------------------------------\n\n";
   std::cout <<"\tMagic treatment for metal transfert\ntBy Edward Romero\n\tMay 2010\n\tLMGC/UM2/UM5508\n\tANR-TEMMSA\n\n";
   std::cout <<"-------------------------------------------------\n\n";
-
+  
   /*Declaration de variables a utiliser par les fonctions */
   INFOFILE = this->infoFile;
   erImage ea, eb, ec, ed, ee;
@@ -343,49 +343,53 @@ bool erWeldPoolAnalysis::defineParametersUI( std::string firstImage)
   std::list< CgalSegmt> cgalSeg, bgraphSeg;
   erAlphaP palp;
   bool loaded;
-
+  
   char* file_name = const_cast< char*>(firstImage.c_str());
-
+  
   boost::tie( ea, loaded) = erLoadImage( file_name);
   if(!loaded) return false;
-
+  
   erCalibration ca( "cuadro5-rescale-511.jpg", "rec_droite_256_2.bmp", 3, 3);
   eb = ca.transform_image(ea);
-
+  //erSaveImage2( &eb, name, exit, "tra");
+  
   ec = erDef_ROIuser( &eb, &rect);
   rectOI = rect;
-
+  
   erCvSmoothUser( &ec, &psmo);
   param_smooth1 = psmo;
-
-  erCvEqualizeHistUser( &ec, &pequ);
-  param_equalizer_histogram = pequ;
-
+  
+  //erCvEqualizeHistUser( &ec, &pequ);
+  //param_equalizer_histogram = pequ;
+  
   ed = erCvTemplateUser( &ec, &ptem);
   param_template = ptem;
-
+  
   erCvAdaptiveThresholdUser( &ed, &padt);
   param_adaptive_threshold = padt;
-
-  erCvWatershed( &ed, &pwat);
-
+  
+  //erCvWatershed( &ed, &pwat);
+  
   erCvCannyUser( &ed, &pcan);
   param_canny = pcan;
-
-  erCvFindContours( &ed, &pfin);
-  param_find_contours = pfin;
-
+  
+  //erCvFindContours( &ed, &pfin);
+  //param_find_contours = pfin;
+  
   IsEqualTo is_equal_255(255);
+  char* nom   = const_cast<char*>(name.c_str());
   erExtractCvPoints( cvPts, &ed, is_equal_255, rect);
   convertCvToCgalpoints( cvPts, cgalPts);
-
+  
   alpha_edges( cgalPts, cgalSeg, &palp);
-
+  
+  erPrintCgalPoint( cgalSeg, file_name, nom);
+  
   return true;
 };
 
-
-void erWeldPoolAnalysis::defineParameters( CvRect rect, erSmootP smooth1, erSmootP smooth2, erEqualP equal, erCannyP canny, erAdThrP adthr, erTemplP templ, erFindcP findc, erAlphaP alphas)
+//void erWeldPoolAnalysis::defineParameters( CvRect rect, erSmootP smooth1, erSmootP smooth2, erEqualP equal, erCannyP canny, erAdThrP adthr, erTemplP templ, erAlphaP alphas, erFindcP findc)
+void erWeldPoolAnalysis::defineParameters( CvRect rect, erSmootP smooth1, erSmootP smooth2, erEqualP equal, erCannyP canny, erAdThrP adthr, erTemplP templ, erAlphaP alphas)
 {
   rectOI = rect;
   param_smooth1 = smooth1;
@@ -394,12 +398,53 @@ void erWeldPoolAnalysis::defineParameters( CvRect rect, erSmootP smooth1, erSmoo
   param_canny = canny;
   param_adaptive_threshold = adthr;
   param_template = templ;
-  param_find_contours = findc;
+  //param_find_contours = findc;
   param_alpha_shape = alphas;
 };
 
 
-bool erWeldPoolAnalysis::doIt(std::string name){ };
+bool erWeldPoolAnalysis::doIt(std::string fich)
+{ 
+  bool loaded;
+  char* file_name         = const_cast< char*>( fich.c_str());
+  std::string output_name = (dir_analysis+"/"+name+"_mtl");
+  char* nom = const_cast< char*>( output_name.c_str());
+  erImage ea, eb, ec, ed, ee;
+  CvRect rect;
+  erSmootP psmo, psmo1;
+  erEqualP pequ;
+  erCannyP pcan;
+  erAdThrP padt;
+  erTemplP ptem;
+  erFindcP pfin;
+  erWaterP pwat;
+  erAlphaP palp;
+  std::list< CvPoint>   cvPts;
+  std::list< CgalPoint> cgalPts;
+  std::list< CgalSegmt> cgalSeg, bgraphSeg;
+  
+  boost::tie(ea, loaded) = erLoadImage( file_name);
+  if( !loaded) return false;
+  erCalibration ca( "cuadro5-rescale-511.jpg", "rec_droite_256_2.bmp", 3, 3);
+  eb = ca.transform_image(ea);
+  ec = erConvertToBlackAndWhite( &eb);
+  ed = erDef_ROI( &ec, &rectOI);
+  erCvSmooth( &ed, &param_smooth1);
+  std::cout << "hola0" << std::endl;
+  ee = erCvTemplate( &ed, &param_template);
+  erCvEqualizeHist( &ee, &param_equalizer_histogram);
+  erCvAdaptiveThreshold( &ee, &param_adaptive_threshold);
+  erCvCannyUser( &ee, &param_canny);
+  IsEqualTo is_equal_255(255);
+  erExtractCvPoints( cvPts, &ee, is_equal_255, rect);
+  convertCvToCgalpoints( cvPts, cgalPts);
+  alpha_edges( cgalPts, cgalSeg, &param_alpha_shape);
+  erPrintCgalPoint( cgalSeg, file_name, nom);
+  return true;
+};
+
+
+
 
 /* On sauve garde les parammettres utilisé dans un ficher de backup */
 void erWeldPoolAnalysis::saveParameters( std::string file)

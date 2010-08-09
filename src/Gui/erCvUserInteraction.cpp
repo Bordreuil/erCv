@@ -251,6 +251,13 @@ IplImage* erDef_ROIuser( erImage* simag, CvRect* rect, bool with_trackbar)
   cvCopy( img_trans, imag);
   *rect = simag->rectan;
 
+  std::cout << "***********Zone d'interet principal** ***********\n";
+  std::cout << "Rect(with):------------ " << rect->width << std::endl;
+  std::cout << "Rect(height):---------- " << rect->height << std::endl;
+  std::cout << "Rect(posX):------------ " << rect->x << std::endl;
+  std::cout << "Rect(posY):------------ " << rect->y << std::endl;
+
+
   std::ofstream file( nomb, std::ios_base::app );
   file << "***********Zone d'interet principal** ***********\n";
   file << "Rect(with):------------ " << rect->width << std::endl;
