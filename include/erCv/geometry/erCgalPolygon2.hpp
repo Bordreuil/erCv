@@ -15,7 +15,7 @@ typedef Polygon_2::Vertex_iterator Polygon_vertex_iterator;
 
 
 template< class Container>
-void polygon_creation_user( Container cgalSegments, Container cgalPoints )
+void polygon_creation_user( Container cgalSegments)
 {
   std::list<CgalPoint> cgalPoints;
   erAlignementSegmentContour( cgalSegments);
