@@ -390,12 +390,17 @@ void erCvEqualizeHistUser( IplImage* simg, erEqualP* param)
   while( ok)
     { 
       img = cvCloneImage(simg);
+      img = cvCreateImage( cvGetSize( simg), simg->depth, simg->nChannels);
+      cvCopy( simg, img );
       std::cout << "Appliquer l'equalisation des histrogrames (Oui 0 / Non 1)";
       std::cin >> usar;
       std::cout << std::endl;
       if( usar == 0)
-	{
+	{ 
+	  std::cout << "  simg widht: " << simg->width << "  simg height: " << simg->height << "  simg depth: " << simg->depth <<  std::endl;
+	  std::cout << "  img widht: " << img->width << "  img height: " << img->height << "  img depth: " << img->depth <<  std::endl;
 	  cvEqualizeHist( simg, img);
+	  std::cout << "hola2" << std::endl;
 	  erShow2Image("Result_equalize", img, "image_temoin", simg );
 	  std::cout << " T'es content (Oui 0/Non 1)? ";
 	  std::cin >> ok;
@@ -405,6 +410,7 @@ void erCvEqualizeHistUser( IplImage* simg, erEqualP* param)
 	ok = 0;
     };
   //erShowImage("Result_equalize", img );
+  std::cout << "hola3" << std::endl;
   param->applic = usar;
   *simg = *img;
 }
@@ -652,7 +658,7 @@ void erCvWatershed( IplImage* img, erWaterP* parm)
   IplImage* wshed = cvCloneImage( parm->image);
   IplImage* img_gray = cvCloneImage( parm->image);
   cvCvtColor( parm->image, img_gray, CV_GRAY2BGR);
-  cvWatershed( parm->image, simg );
+  cvWatershed( parm->image, simg ); 
   std::cout << "watershed" << std::endl;
   int i,j, comp_count = 0;
   CvMat* color_tab;

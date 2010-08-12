@@ -21,18 +21,18 @@ Canny            : 355, 355 */
 int main( int hola, char** file_name)
 {
   CvRect rect;
-  rect.x=117;rect.y=102;rect.width=301;rect.height=273;
-  erSmootP p1(BLUR,7), p2(GAUSSIAN,5);
+  rect.x=127;rect.y=82;rect.width=272;rect.height=296;
+  erSmootP p1(BLUR,5), p2(MEDIAN,13);
   erCannyP cann(355,355);
   erEqualP app(0); 
-  erAdThrP adp(THRESH_BINARY,AM_MEAN,50,14,255); //** <
+  erAdThrP adp(THRESH_BINARY,AM_MEAN,123,130,255); //** <
   CvRect rec_tem;
-  rec_tem.x = 142; rec_tem.y = 175; rec_tem.width = 7; rec_tem.height = 6;
+  rec_tem.x = 245; rec_tem.y = 279; rec_tem.width = 8; rec_tem.height = 7;
   erTemplP templ(CCORR_NORMED, rec_tem, true); 
   erAlphaP alp(1.);
   erWeldPoolAnalysis wpa("peo_1");
 
-  //wpa.define_calibration("calibration_source.jpg","calibration_target.bmp");
+  wpa.define_calibration("calibration_source.jpg","calibration_target.bmp");
 
   wpa.defineParameters( rect, p1, p2, app, cann, adp, templ, alp);
   std::string filename = "imageExemple_1.bmp";  

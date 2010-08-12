@@ -445,9 +445,11 @@ bool erWeldPoolAnalysis::doIt(std::string fich)
   ed = erDef_ROI( &ec, &rectOI);
  
   erCvSmooth( &ed, &param_smooth1);
-  std::cout << "Aprs smooth" << std::endl;
+  std::cout << "Aprs smooth1" << std::endl;
   ee = erCvTemplate( &ed, &param_template);
   std::cout << "Aprs Template" << std::endl;
+  erCvSmooth( &ee, &param_smooth2);
+  std::cout << "Aprs smooth2" << std::endl;
   erCvEqualizeHist( &ee, &param_equalizer_histogram);
   std::cout << "Aprs Equaliz" << std::endl;
   erCvAdaptiveThreshold( &ee, &param_adaptive_threshold);
