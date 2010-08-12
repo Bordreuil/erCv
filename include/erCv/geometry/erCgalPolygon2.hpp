@@ -21,10 +21,10 @@ void polygon_creation_user( Container cgalSegments, Container cgalPoints )
   erAlignementSegmentContour( cgalSegments);
   cgalPoints = erCgalConvertSegmentToPoint( cgalSegments); 
   Polygon_2 P( cgalPoints.begin(), cgalPoints.end());    
-  for( Polygon_vertex_iterator it = P.vertices_begin(); it != P.vertices_end(); ++it)
-    //  {
-    //  cgalPoints.push_back( P.
-
+  //for( Polygon_vertex_iterator it = P.vertices_begin(); it != P.vertices_end(); ++it)
+  //  {
+  //    cgalPoints.push_back( P.
+			    
 };
 
 
