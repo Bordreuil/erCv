@@ -14,17 +14,17 @@ typedef CGAL::Polygon_2<K> Polygon_2;
 typedef Polygon_2::Vertex_iterator Polygon_vertex_iterator;
 
 
-template< class Container>
-void polygon_creation_user( Container cgalSegments)
+template< class Container, class Container2>
+void polygon_creation_user( Container cgalSegments, Container cgalPoints)
 {
-  std::list<CgalPoint> cgalPoints;
+  std::list<CgalPoint> cgalPoints2;
   erAlignementSegmentContour( cgalSegments);
-  cgalPoints = erCgalConvertSegmentToPoint( cgalSegments); 
-  Polygon_2 P( cgalPoints.begin(), cgalPoints.end());    
-  //for( Polygon_vertex_iterator it = P.vertices_begin(); it != P.vertices_end(); ++it)
-  //  {
-  //    cgalPoints.push_back( P.
-			    
+  cgalPoints2 = erCgalConvertSegmentToPoint( cgalSegments); 
+  Polygon_2 P( cgalPoints2.begin(), cgalPoints2.end());    
+  for( Polygon_vertex_iterator it = P.vertices_begin(); it != P.vertices_end(); ++it)
+    {
+      cgalPoints.push_back( *it);
+    }		    
 };
 
 
