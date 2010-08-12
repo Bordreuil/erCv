@@ -154,6 +154,10 @@ void export_erCvAnalysis(){
         .def( 
             "create"
             , (void ( ::erAnalysis::* )(  ) )( &::erAnalysis::create ) )    
+     .def( 
+            "defineCalibration"
+            , (void ( ::erAnalysis::* )( char *,char * ) )( &::erAnalysis::defineCalibration )
+            , ( bp::arg("arg0"), bp::arg("arg1") ) )    
         .def( 
             "doIt"
             , bp::pure_virtual( (bool ( ::erAnalysis::* )( std::string ) )(&::erAnalysis::doIt) )
@@ -231,10 +235,10 @@ void export_erCvAnalysis(){
 
   bp::class_< erWeldPoolAnalysis_wrapper, bp::bases< erAnalysis > >( "erWeldPoolAnalysis", bp::init< >() )    
         .def( bp::init< std::string, bp::optional< std::string > >(( bp::arg("name"), bp::arg("infofile")="info" )) )    
-    //.def( 
-    //         "defineParameters"
-    //        , (void ( ::erWeldPoolAnalysis::* )( ::CvRect,::erSmootP,::erSmootP,::erEqualP,::erCannyP,::erAdThrP,::erTemplP,::erFindcP,::erAlphaP ) )( &::erWeldPoolAnalysis::defineParameters )
-    //        , ( bp::arg("arg0"), bp::arg("arg1"), bp::arg("arg2"), bp::arg("arg3"), bp::arg("arg4"), bp::arg("arg5"), bp::arg("arg6"), bp::arg("arg7"), bp::arg("arg8") ) )    
+    .def( 
+             "defineParameters"
+            , (void ( ::erWeldPoolAnalysis::* )( ::CvRect,::erSmootP,::erSmootP,::erEqualP,::erCannyP,::erAdThrP,::erTemplP,::erFindcP,::erAlphaP ) )( &::erWeldPoolAnalysis::defineParameters )
+            , ( bp::arg("arg0"), bp::arg("arg1"), bp::arg("arg2"), bp::arg("arg3"), bp::arg("arg4"), bp::arg("arg5"), bp::arg("arg6"), bp::arg("arg7"), bp::arg("arg8") ) )    
         .def( 
             "defineParametersUI"
             , (bool ( ::erWeldPoolAnalysis::* )( std::string ) )( &::erWeldPoolAnalysis::defineParametersUI )

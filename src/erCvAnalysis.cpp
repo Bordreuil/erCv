@@ -47,11 +47,11 @@ void erAnalysis::create()
 };
 
 
-void erAnalysis::define_calibration(std::string source,std::string target)
+void erAnalysis::defineCalibration(std::string source,std::string target)
 {  char* source_c =  const_cast<char*>(source.c_str());
    char*  target_c =   const_cast<char*>(target.c_str());
    _calibration      = erCalibration(source_c,target_c,3,3);
-   _with_calibration = false;
+   _with_calibration = true;
 };
 
 
@@ -440,31 +440,33 @@ bool erWeldPoolAnalysis::doIt(std::string fich)
     {
       eb = ea;
     };
+
   ec = erConvertToBlackAndWhite( &eb);
-  
+  erSaveImage( &ec, file_name, nom);
   ed = erDef_ROI( &ec, &rectOI);
- 
+  
   erCvSmooth( &ed, &param_smooth1);
-  std::cout << "Aprs smooth1" << std::endl;
+
   ee = erCvTemplate( &ed, &param_template);
-  std::cout << "Aprs Template" << std::endl;
   erCvSmooth( &ee, &param_smooth2);
-  std::cout << "Aprs smooth2" << std::endl;
+ 
   erCvEqualizeHist( &ee, &param_equalizer_histogram);
-  std::cout << "Aprs Equaliz" << std::endl;
+
   erCvAdaptiveThreshold( &ee, &param_adaptive_threshold);
-  std::cout << "Aprs Adapt Thres" << std::endl;
+
   erCvCanny( &ee, &param_canny);
-  std::cout << "Aprs Canny" << std::endl;
+
   erShowImage( "image_canny", &ee);
   //erSaveImage2Analysis( &ee, file_name, fich, "can");
   IsEqualTo is_equal_255(255);
-  erExtractCvPoints( cvPts, &ee, is_equal_255, rect);
+  erExtractCvPoints( cvPts, &ee, is_equal_255, rectOI);
+ 
   convertCvToCgalpoints( cvPts, cgalPts);
   alpha_edges( cgalPts, cgalSeg, &param_alpha_shape);
+
   erPrintCgalPoint( cgalSeg, file_name, nom);
   return true;
-  std::cout << "hola_Analysis" << std::endl;
+ 
 };
 
 

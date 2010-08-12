@@ -46,23 +46,13 @@ void export_erCvSegmentationParams()
         .def_readwrite( "trh1", &erPyramP::trh1 )    
         .def_readwrite( "trh2", &erPyramP::trh2 );
 
-    /*bp::class_< erTemplP >( "erTemplP", bp::init< MatchTemplateType, CvRect, bool, std::string >(( bp::arg("arg0"), 
-											    bp::arg("arg1"), 
-											    bp::arg("arg2"), 
-											    bp::arg("arg3") )) )    
-        .def( bp::init< >() )    
-        .def_readwrite( "drawing", &erTemplP::drawing )    
-        .def_readonly( "rectan", &erTemplP::rectan )    
-        .def_readwrite( "type", &erTemplP::type );*/
-    /* REVISAR cet declaration avec Cyril*/
-    bp::class_< erTemplP >( "erTemplP", bp::init< MatchTemplateType, CvRect, bool >(( bp::arg("arg0"), 
-											    bp::arg("arg1"), 
-											    bp::arg("arg2"))) )    
+
+    bp::class_< erTemplP >( "erTemplP", bp::init< MatchTemplateType, CvRect, bool >
+			    (( bp::arg("arg0"), bp::arg("arg1"), bp::arg("arg2") )) )    
         .def( bp::init< >() )    
         .def_readwrite( "drawing", &erTemplP::drawing )    
         .def_readonly( "rectan", &erTemplP::rectan )    
         .def_readwrite( "type", &erTemplP::type );
-
 
    bp::class_< erEqualP >( "erEqualP" )    
         .def_readwrite( "applic", &erEqualP::applic );

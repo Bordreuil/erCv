@@ -29,6 +29,7 @@
 template< typename Container, typename Criteria>
 void erExtractCvPoints( Container &pts, IplImage *im, Criteria crit, CvRect rect=cvRect(0,0,0,0), uint delta=1)
 {  
+ 
   typedef typename Container::value_type CvPoint;
   int y, x;
   for( y = 0; y < im->height; y+=delta)
@@ -41,6 +42,7 @@ void erExtractCvPoints( Container &pts, IplImage *im, Criteria crit, CvRect rect
 	      CvPoint p;
 	      p.x = x+rect.x;
 	      p.y = y+rect.y;
+
 	      pts.push_back(p); 
 	    }
 	}

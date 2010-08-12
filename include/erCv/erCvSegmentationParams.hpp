@@ -47,7 +47,7 @@ struct erTemplP
   erTemplP();
   CvRect rectan;
   bool drawing;
-  IplImage *image;
+  IplImage* image;
   MatchTemplateType type;
 };
 

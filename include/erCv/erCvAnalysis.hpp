@@ -33,7 +33,7 @@ struct erAnalysis
    */
   erAnalysis( std::string name, std::string infofile="info"); 
   void  create( ); 
-  void  define_calibration(std::string,std::string);
+  void  defineCalibration(std::string,std::string);
   virtual bool doIt( std::string)=0;  /** < doIt pure virtuel pour utilisation dans BAME */
   std::string          infoFile;      /** < Fichier de sortie des infos */
   std::string          name;          /** < Nom a donner a l analyse */
