@@ -32,7 +32,7 @@ int main( int hola, char** file_name)
   erAlphaP alp(1.);
   erWeldPoolAnalysis wpa("peo_1");
 
-  wpa.define_calibration("calibration_source.jpg","calibration_target.bmp");
+  //wpa.define_calibration("calibration_source.jpg","calibration_target.bmp");
 
   wpa.defineParameters( rect, p1, p2, app, cann, adp, templ, alp);
   std::string filename = "imageExemple_1.bmp";  
