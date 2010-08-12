@@ -31,18 +31,13 @@ int main( int hola, char** file_name)
   erTemplP templ(CCORR_NORMED, rec_tem, true); 
   erAlphaP alp(1.);
   erWeldPoolAnalysis wpa("peo_1");
+
+  wpa.define_calibration("calibration_source.jpg","calibration_target.bmp");
+
   wpa.defineParameters( rect, p1, p2, app, cann, adp, templ, alp);
-  std::string img_base = "../pictures/melt_pool_TIG/tiro_4_bain/gtaw_10022010_00444.bmp";  
-  for(int i=1;i<17;i++)
-    {
-      /**** ATTENTION ici j'utilise une manipulation de la fonction erLoadImageSeries pour travailler avec le module erCvAnalysisWeldPool::doIt de erCvAnalysis *****/
-      std::string filename = erLoadImageSeriesManipulationWeldPool( img_base);  
-      //boost::tie(filename,loaded) = erLoadImageSeries2( img_base);      
-      //std::string filename=img_base+boost::lexical_cast<std::string>(i)+".bmp";
-      wpa.doIt(filename);
-      img_base = filename;
-      std::cout << "hola_main: " << i << std::endl;
-    };
-  wpa.saveParameters("result/test.out");
+  std::string filename = "imageExemple_1.bmp";  
+  std::cout << "Param defined" << std::endl;
+  wpa.doIt(filename);
+  //wpa.saveParameters("result/test.out");
   return(0);
 };

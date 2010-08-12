@@ -24,15 +24,110 @@
 <h1>include/erCv/geometry/erCgalPolygon2.hpp</h1><a href="er_cgal_polygon2_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="preprocessor">#ifndef _ER_CGAL_POLYGON_2_HPP_</span>
 <a name="l00002"></a>00002 <span class="preprocessor"></span><span class="preprocessor">#define _ER_CGAL_POLYGON_2_HPP_</span>
 <a name="l00003"></a>00003 <span class="preprocessor"></span>
-<a name="l00004"></a>00004 
-<a name="l00008"></a>00008 <span class="preprocessor">#include "<a class="code" href="er_cgal_base_8hpp.html">erCgalBase.hpp</a>"</span>
-<a name="l00009"></a>00009 <span class="preprocessor">#include&lt;CGAL/Polygon_2.h&gt;</span>
-<a name="l00010"></a>00010 
-<a name="l00011"></a><a class="code" href="group__cgal.html#g8c493b4407f1eab1fc792fe406d0db86">00011</a> <span class="keyword">typedef</span> CGAL::Polygon_2&lt;K&gt; <a class="code" href="group__cgal.html#g8c493b4407f1eab1fc792fe406d0db86" title="definition du polygone de cgal">Polygon_2</a>;
+<a name="l00004"></a>00004 <span class="preprocessor">#include "<a class="code" href="er_cgal_base_8hpp.html">erCgalBase.hpp</a>"</span>
+<a name="l00005"></a>00005 <span class="preprocessor">#include &lt;CGAL/Polygon_2.h&gt;</span>
+<a name="l00006"></a>00006 
+<a name="l00010"></a>00010 <span class="preprocessor">#include "<a class="code" href="er_cgal_base_8hpp.html">erCgalBase.hpp</a>"</span>
+<a name="l00011"></a>00011 <span class="preprocessor">#include&lt;CGAL/Polygon_2.h&gt;</span>
 <a name="l00012"></a>00012 
-<a name="l00014"></a>00014 <span class="preprocessor">#endif</span>
+<a name="l00013"></a><a class="code" href="group__cgal.html#g8c493b4407f1eab1fc792fe406d0db86">00013</a> <span class="keyword">typedef</span> CGAL::Polygon_2&lt;K&gt; <a class="code" href="group__cgal.html#g8c493b4407f1eab1fc792fe406d0db86" title="definition du polygone de cgal">Polygon_2</a>;
+<a name="l00014"></a>00014 
+<a name="l00015"></a>00015 
+<a name="l00016"></a>00016 <span class="keyword">template</span>&lt; <span class="keyword">class</span> Container&gt;
+<a name="l00017"></a><a class="code" href="group__cgal.html#g715a751a7e7990bc46732611efb916ff">00017</a> <span class="keywordtype">void</span> <a class="code" href="group__cgal.html#g715a751a7e7990bc46732611efb916ff">polygon_creation_user</a>( Container unkown)
+<a name="l00018"></a>00018 {
+<a name="l00019"></a>00019   std::list&lt;CgalPoint&gt; cgalPoints;
+<a name="l00020"></a>00020   <a class="code" href="group__cgal.html#g4bdf387e52ce9711bf3ba8d5bea76e3f">erAlignementSegmentContour</a>( unkown);
+<a name="l00021"></a>00021   cgalPoints = <a class="code" href="group__cgal.html#g11d9be46f61f6ef83f533f2408065606">erCgalConvertSegmentToPoint</a>( unkown); 
+<a name="l00022"></a>00022   <a class="code" href="group__cgal.html#g8c493b4407f1eab1fc792fe406d0db86" title="definition du polygone de cgal">Polygon_2</a> P( cgalPoints.begin(), cgalPoints.end());    
+<a name="l00023"></a>00023 };
+<a name="l00024"></a>00024 
+<a name="l00025"></a>00025 
+<a name="l00026"></a>00026 <span class="keyword">template</span>&lt; <span class="keyword">typename</span> Container&gt;
+<a name="l00027"></a><a class="code" href="group__cgal.html#g4bdf387e52ce9711bf3ba8d5bea76e3f">00027</a> <span class="keywordtype">void</span> <a class="code" href="group__cgal.html#g4bdf387e52ce9711bf3ba8d5bea76e3f">erAlignementSegmentContour</a>( Container &amp;seg)
+<a name="l00028"></a>00028 {
+<a name="l00029"></a>00029   <span class="keyword">typename</span> Container::iterator itseg, itseg_chain;
+<a name="l00030"></a>00030   Container seg_chain;
+<a name="l00031"></a>00031   itseg = seg.begin( );
+<a name="l00032"></a>00032   seg_chain.push_back( *itseg);
+<a name="l00033"></a>00033   <span class="keywordflow">do</span> 
+<a name="l00034"></a>00034     { 
+<a name="l00035"></a>00035       itseg_chain = <a class="code" href="group__cgal.html#g5dc9fddd3ba4f4079f61aa1882d8c191">erFindCgalSegment</a>( seg.begin( ), seg.end( ), (seg_chain.end( ))-&gt;target); 
+<a name="l00036"></a>00036       seg_chain.push_back( *itseg_chain);
+<a name="l00037"></a>00037     }
+<a name="l00038"></a>00038   <span class="keywordflow">while</span>( itseg_chain-&gt;target == itseg-&gt;source);
+<a name="l00039"></a>00039   seg = seg_chain;
+<a name="l00040"></a>00040 };
+<a name="l00041"></a>00041 
+<a name="l00042"></a>00042 
+<a name="l00043"></a>00043 <span class="keyword">template</span>&lt; <span class="keyword">typename</span> Container&gt;
+<a name="l00044"></a><a class="code" href="group__cgal.html#g11d9be46f61f6ef83f533f2408065606">00044</a> std::list&lt;CgalPoint&gt; <a class="code" href="group__cgal.html#g11d9be46f61f6ef83f533f2408065606">erCgalConvertSegmentToPoint</a>( Container bgraphSgm)
+<a name="l00045"></a>00045 {
+<a name="l00046"></a>00046   <span class="keyword">typename</span> Container::iterator itContainer;
+<a name="l00047"></a>00047   std::list&lt; CgalPoint&gt; cgalPts;
+<a name="l00048"></a>00048   std::list&lt;CgalPoint&gt;::iterator itcgalPts;
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050   cgalPts.push_back( bgraphSgm.begin()-&gt;source);
+<a name="l00051"></a>00051   <span class="comment">//cgalPts.push_back( bgraphSgm.begin()-&gt;target); </span>
+<a name="l00052"></a>00052   
+<a name="l00053"></a>00053   <span class="keywordflow">for</span>( itContainer = bgraphSgm.begin()+1; itContainer =! bgraphSgm.end(); itContainer++)
+<a name="l00054"></a>00054     {
+<a name="l00055"></a>00055       itcgalPts = <a class="code" href="group__cgal.html#g7976f62168ebc64ec9beb9cdd18a3916">erFindCgalPoint</a>( cgalPts.begin(), cgalPts.end(), itContainer-&gt;source);
+<a name="l00056"></a>00056       <span class="keywordflow">if</span>( itcgalPts == cgalPts.end())
+<a name="l00057"></a>00057         {
+<a name="l00058"></a>00058           cgalPts.push_back( itContainer-&gt;source);
+<a name="l00059"></a>00059         }
+<a name="l00060"></a>00060       <span class="comment">//itcgalPts = erFindCgalPoint( cgalPts.begin(), cgalPts.end(), itContainer-&gt;target);</span>
+<a name="l00061"></a>00061       <span class="comment">//if( itcgalPts == cgalPts.end())</span>
+<a name="l00062"></a>00062       <span class="comment">//{</span>
+<a name="l00063"></a>00063       <span class="comment">//  cgalPts.push_back( itContainer-&gt;target);</span>
+<a name="l00064"></a>00064       <span class="comment">//}</span>
+<a name="l00065"></a>00065     }  
+<a name="l00066"></a>00066   <span class="keywordflow">return</span> cgalPts;
+<a name="l00067"></a>00067 };
+<a name="l00068"></a>00068 
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070 
+<a name="l00071"></a>00071 <span class="keyword">template</span>&lt; <span class="keyword">typename</span> Iterator&gt;
+<a name="l00072"></a><a class="code" href="group__cgal.html#g5dc9fddd3ba4f4079f61aa1882d8c191">00072</a> Iterator <a class="code" href="group__cgal.html#g5dc9fddd3ba4f4079f61aa1882d8c191">erFindCgalSegment</a>( Iterator p1, Iterator p2, <a class="code" href="group__cgal.html#g039e16256d9f18e1f026a94b848546c3">CgalPoint</a> punto)
+<a name="l00073"></a>00073 {
+<a name="l00074"></a>00074   <span class="keywordflow">while</span>( p1 != p2)
+<a name="l00075"></a>00075     {
+<a name="l00076"></a>00076       <span class="keywordflow">if</span>( ( p1-&gt;source).operator == (punto))
+<a name="l00077"></a>00077         {
+<a name="l00078"></a>00078           <span class="keywordflow">return</span> p1;
+<a name="l00079"></a>00079           <span class="keywordflow">break</span>;
+<a name="l00080"></a>00080         }
+<a name="l00081"></a>00081       <span class="keywordflow">if</span>( ( p1-&gt;target).operator == (punto))
+<a name="l00082"></a>00082         {
+<a name="l00083"></a>00083           *p1 = *p1.opposite;
+<a name="l00084"></a>00084           <span class="keywordflow">return</span> p1;
+<a name="l00085"></a>00085           <span class="keywordflow">break</span>;
+<a name="l00086"></a>00086         }
+<a name="l00087"></a>00087       p1++;
+<a name="l00088"></a>00088     }
+<a name="l00089"></a>00089   <span class="keywordflow">return</span> p2;
+<a name="l00090"></a>00090 };
+<a name="l00091"></a>00091 
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093 <span class="keyword">template</span>&lt; <span class="keyword">typename</span> Iterator&gt;
+<a name="l00094"></a><a class="code" href="group__cgal.html#g7976f62168ebc64ec9beb9cdd18a3916">00094</a> Iterator <a class="code" href="group__cgal.html#g7976f62168ebc64ec9beb9cdd18a3916">erFindCgalPoint</a>( Iterator p1, Iterator p2, <a class="code" href="group__cgal.html#g039e16256d9f18e1f026a94b848546c3">CgalPoint</a> punto)
+<a name="l00095"></a>00095 {
+<a name="l00096"></a>00096   <span class="keywordflow">while</span>( p1 != p2)
+<a name="l00097"></a>00097     {
+<a name="l00098"></a>00098       <span class="keywordflow">if</span>( p1.operator == (punto))
+<a name="l00099"></a>00099         {
+<a name="l00100"></a>00100           <span class="keywordflow">return</span> p1;
+<a name="l00101"></a>00101           <span class="keywordflow">break</span>;
+<a name="l00102"></a>00102         }
+<a name="l00103"></a>00103       p1++;
+<a name="l00104"></a>00104     }
+<a name="l00105"></a>00105   <span class="keywordflow">return</span> p2;
+<a name="l00106"></a>00106 };
+<a name="l00107"></a>00107 
+<a name="l00109"></a>00109 <span class="preprocessor">#endif</span>
 </pre></div></div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Sun Jun 6 16:29:46 2010 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue Aug 10 08:29:01 2010 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

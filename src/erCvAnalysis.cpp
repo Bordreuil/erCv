@@ -27,7 +27,7 @@ std::string ANALYSIS_EXTENSION="_erCvAnalysis";
 erAnalysis::erAnalysis( ){ };
 
 erAnalysis::erAnalysis( std::string name, std::string infofile): 
-  name( name), infoFile( infofile)
+  name( name), infoFile( infofile),_with_calibration(false)
 {  
   dir_analysis = name + ANALYSIS_EXTENSION;
   create( );
@@ -47,7 +47,12 @@ void erAnalysis::create()
 };
 
 
-
+void erAnalysis::define_calibration(std::string source,std::string target)
+{  char* source_c =  const_cast<char*>(source.c_str());
+   char*  target_c =   const_cast<char*>(target.c_str());
+   _calibration      = erCalibration(source_c,target_c,3,3);
+   _with_calibration = false;
+};
 
 
 
@@ -407,7 +412,7 @@ bool erWeldPoolAnalysis::doIt(std::string fich)
 { 
   bool loaded;
   char* file_name         = const_cast< char*>( fich.c_str());
-  std::string output_name = (dir_analysis+"/"+name+"_mtl");
+  std::string output_name = (dir_analysis+"/"+name+"_wep");
   char* nom = const_cast< char*>( output_name.c_str());
   erImage ea, eb, ec, ed, ee;
   CvRect rect;
@@ -424,16 +429,31 @@ bool erWeldPoolAnalysis::doIt(std::string fich)
   std::list< CgalSegmt> cgalSeg, bgraphSeg;
   
   boost::tie(ea, loaded) = erLoadImage( file_name);
+
   if( !loaded) return false;
-  erCalibration ca( "cuadro5-rescale-511.jpg", "rec_droite_256_2.bmp", 3, 3);
-  eb = ca.transform_image(ea);
+ 
+  if( _with_calibration)
+    {
+      eb = _calibration.transform_image(ea);
+    }
+  else
+    {
+      eb = ea;
+    };
   ec = erConvertToBlackAndWhite( &eb);
+  
   ed = erDef_ROI( &ec, &rectOI);
+ 
   erCvSmooth( &ed, &param_smooth1);
+  std::cout << "Aprs smooth" << std::endl;
   ee = erCvTemplate( &ed, &param_template);
+  std::cout << "Aprs Template" << std::endl;
   erCvEqualizeHist( &ee, &param_equalizer_histogram);
+  std::cout << "Aprs Equaliz" << std::endl;
   erCvAdaptiveThreshold( &ee, &param_adaptive_threshold);
+  std::cout << "Aprs Adapt Thres" << std::endl;
   erCvCanny( &ee, &param_canny);
+  std::cout << "Aprs Canny" << std::endl;
   erShowImage( "image_canny", &ee);
   //erSaveImage2Analysis( &ee, file_name, fich, "can");
   IsEqualTo is_equal_255(255);

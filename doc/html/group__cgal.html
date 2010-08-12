@@ -42,6 +42,22 @@ CGAL::Exact_predicates_inexact_constructions_kernel&nbsp;</td><td class="memItem
 <tr><td class="memItemLeft" nowrap align="right" valign="top">typedef <a class="el" href="group__cgal.html#g8c493b4407f1eab1fc792fe406d0db86">CGAL::Polygon_2</a>&lt; <a class="el" href="group__cgal.html#g891e241aa245ae63618f03737efba309">K</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cgal.html#g8c493b4407f1eab1fc792fe406d0db86">Polygon_2</a></td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">definition du polygone de cgal  <a href="#g8c493b4407f1eab1fc792fe406d0db86"></a><br></td></tr>
+<tr><td colspan="2"><br><h2>Functions</h2></td></tr>
+<tr><td class="memTemplParams" nowrap colspan="2">template&lt;class Container &gt; </td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cgal.html#g715a751a7e7990bc46732611efb916ff">polygon_creation_user</a> (Container unkown)</td></tr>
+
+<tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename Container &gt; </td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cgal.html#g4bdf387e52ce9711bf3ba8d5bea76e3f">erAlignementSegmentContour</a> (Container &amp;seg)</td></tr>
+
+<tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename Container &gt; </td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">std::list&lt; <a class="el" href="group__cgal.html#g039e16256d9f18e1f026a94b848546c3">CgalPoint</a> &gt;&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cgal.html#g11d9be46f61f6ef83f533f2408065606">erCgalConvertSegmentToPoint</a> (Container bgraphSgm)</td></tr>
+
+<tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename Iterator &gt; </td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">Iterator&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cgal.html#g5dc9fddd3ba4f4079f61aa1882d8c191">erFindCgalSegment</a> (Iterator p1, Iterator p2, <a class="el" href="group__cgal.html#g039e16256d9f18e1f026a94b848546c3">CgalPoint</a> punto)</td></tr>
+
+<tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename Iterator &gt; </td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">Iterator&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cgal.html#g7976f62168ebc64ec9beb9cdd18a3916">erFindCgalPoint</a> (Iterator p1, Iterator p2, <a class="el" href="group__cgal.html#g039e16256d9f18e1f026a94b848546c3">CgalPoint</a> punto)</td></tr>
+
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Le type de noyau pour la construction geometrique est defini des objets 2d. 
@@ -171,8 +187,149 @@ definition du polygone de cgal
 
 </div>
 </div><p>
+<hr><h2>Function Documentation</h2>
+<a class="anchor" name="g4bdf387e52ce9711bf3ba8d5bea76e3f"></a><!-- doxytag: member="erCgalPolygon2.hpp::erAlignementSegmentContour" ref="g4bdf387e52ce9711bf3ba8d5bea76e3f" args="(Container &amp;seg)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Container &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void erAlignementSegmentContour           </td>
+          <td>(</td>
+          <td class="paramtype">Container &amp;&nbsp;</td>
+          <td class="paramname"> <em>seg</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Sun Jun 6 16:29:46 2010 for 'erCv' by&nbsp;
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="g11d9be46f61f6ef83f533f2408065606"></a><!-- doxytag: member="erCgalPolygon2.hpp::erCgalConvertSegmentToPoint" ref="g11d9be46f61f6ef83f533f2408065606" args="(Container bgraphSgm)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Container &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::list&lt;<a class="el" href="group__cgal.html#g039e16256d9f18e1f026a94b848546c3">CgalPoint</a>&gt; erCgalConvertSegmentToPoint           </td>
+          <td>(</td>
+          <td class="paramtype">Container&nbsp;</td>
+          <td class="paramname"> <em>bgraphSgm</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="g7976f62168ebc64ec9beb9cdd18a3916"></a><!-- doxytag: member="erCgalPolygon2.hpp::erFindCgalPoint" ref="g7976f62168ebc64ec9beb9cdd18a3916" args="(Iterator p1, Iterator p2, CgalPoint punto)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Iterator &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">Iterator erFindCgalPoint           </td>
+          <td>(</td>
+          <td class="paramtype">Iterator&nbsp;</td>
+          <td class="paramname"> <em>p1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Iterator&nbsp;</td>
+          <td class="paramname"> <em>p2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__cgal.html#g039e16256d9f18e1f026a94b848546c3">CgalPoint</a>&nbsp;</td>
+          <td class="paramname"> <em>punto</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="g5dc9fddd3ba4f4079f61aa1882d8c191"></a><!-- doxytag: member="erCgalPolygon2.hpp::erFindCgalSegment" ref="g5dc9fddd3ba4f4079f61aa1882d8c191" args="(Iterator p1, Iterator p2, CgalPoint punto)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Iterator &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">Iterator erFindCgalSegment           </td>
+          <td>(</td>
+          <td class="paramtype">Iterator&nbsp;</td>
+          <td class="paramname"> <em>p1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Iterator&nbsp;</td>
+          <td class="paramname"> <em>p2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__cgal.html#g039e16256d9f18e1f026a94b848546c3">CgalPoint</a>&nbsp;</td>
+          <td class="paramname"> <em>punto</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="g715a751a7e7990bc46732611efb916ff"></a><!-- doxytag: member="erCgalPolygon2.hpp::polygon_creation_user" ref="g715a751a7e7990bc46732611efb916ff" args="(Container unkown)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Container &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void polygon_creation_user           </td>
+          <td>(</td>
+          <td class="paramtype">Container&nbsp;</td>
+          <td class="paramname"> <em>unkown</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td><code> [inline]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+</div>
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue Aug 10 08:29:02 2010 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

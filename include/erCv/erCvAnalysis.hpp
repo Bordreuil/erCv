@@ -6,6 +6,7 @@
 #include "geometry/geometricalParams.hpp"
 #include "erCvFiltersParams.hpp"
 #include "erCvTools.hpp"
+#include "erCalibration.hpp"
 #include "erCvBase.hpp"
 
 #include<string>
@@ -25,16 +26,20 @@ struct erAnalysis
 		   Plusieurs analyses differents peuvent utiliser le meme nom.
 		   Chaque analyse a un tag supplementaire:
 		   - _mcr : pour une analyse macrodrop
-		   - _mtl : pout metal transfert
+		   - _mtl : pour metal transfert
+		   - _wep : pour weld pool
 
      \param infoFile : nom du fichier ou sont ecrit le blabla
    */
   erAnalysis( std::string name, std::string infofile="info"); 
   void  create( ); 
+  void  define_calibration(std::string,std::string);
   virtual bool doIt( std::string)=0;  /** < doIt pure virtuel pour utilisation dans BAME */
   std::string          infoFile;      /** < Fichier de sortie des infos */
   std::string          name;          /** < Nom a donner a l analyse */
   std::string          dir_analysis;  /** < Repertoire de la analyse en general name+_erCvAnalysis */  
+  erCalibration        _calibration;
+  bool                 _with_calibration;  // Pour savoir si on active la calibration
 };
 
 

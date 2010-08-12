@@ -47,7 +47,7 @@ public:
       Aujourd'hui(mai 2009), uniquement (3,3)
   */
   //erCalibration( char*, char*, int, int);
-  erCalibration( char*, char*, int, int, char* file_dimention = "cuadro_size.dat");
+  erCalibration( char*,char*, int, int, char* file_dimention = "cuadro_size.dat");
   ~erCalibration(); 
   
   // Methodes d acces

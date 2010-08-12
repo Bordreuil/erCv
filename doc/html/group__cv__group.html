@@ -55,6 +55,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">std::pair&lt; <a class="el" href="classer_image.html">erImage</a>, bool &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#gbd24204cf182e26da1b76fab35bc5004">erLoadImageSeries</a> (char *, <a class="el" href="group__cv__group.html#g4d3943ddea65db7163a58e6c7e8df95a">uint</a> inc=1)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de charger une serie d Image a l aide d openCv ayant comme extentions une succesion ordonne et continue de intieres.  <a href="#gbd24204cf182e26da1b76fab35bc5004"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">std::string&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g8e4b8071148cd1620785aaa123f05330">erLoadImageSeriesManipulationWeldPool</a> (std::string, <a class="el" href="group__cv__group.html#g4d3943ddea65db7163a58e6c7e8df95a">uint</a> inc=1)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de charger une serie d Image a l aide d openCv ayant comme extentions une succesion ordonne et continue de intieres ATTENTION CET MODULE EST UNE MANIPULATION POUR TRAVAILLER DANS erCvAnalysis avec la fonction erCvAnalysisWeldPool::doIt.  <a href="#g8e4b8071148cd1620785aaa123f05330"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#ga00df399b6b51b54d4b86426bb1d4569">erSaveImage</a> (IplImage *, char *, char *)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de sauvegarder une image a l aide d openCv.  <a href="#ga00df399b6b51b54d4b86426bb1d4569"></a><br></td></tr>
@@ -78,7 +81,7 @@
 <tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g428eaf43d88ebc2615f72aeda032c0a8">erExtractCurveMacroDropUser</a> (Container &amp;pts, IplImage *simag, <a class="el" href="struct_cv_rect.html">CvRect</a> rect, <a class="el" href="structer_cerc.html">erCerc</a> *cerc, char *file_name)</td></tr>
 
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename Container &gt; </td></tr>
-<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cv__group.html#gb51312457bdb0468d6ed242cb7139dbe">erExtractCurveMacroDrop</a> (IplImage *simag, Container &amp;pts, <a class="el" href="struct_cv_rect.html">CvRect</a> recROI, <a class="el" href="structer_cerc.html">erCerc</a> *cerc, char *file_name)</td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cv__group.html#gc8b881450dbd189e84c0ada939d33e15">erExtractCurveMacroDrop</a> (Container &amp;pts, IplImage *simag, <a class="el" href="struct_cv_rect.html">CvRect</a> recROI, <a class="el" href="structer_cerc.html">erCerc</a> *cerc, char *file_name)</td></tr>
 
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename Container &gt; </td></tr>
 <tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g2801fe51acb05031f00e514792b5900e">erConvertPixelToMks</a> (std::pair&lt; double, double &gt; factor, Container &amp;pts, char *file_name, char *exit_name)</td></tr>
@@ -273,7 +276,7 @@ Fonction permettant d convertir une image 32bit en 8bit
 Fonction permettant d ecrir le nom d un ficher de sortie avec l extension correspondante 
 </div>
 </div><p>
-<a class="anchor" name="gb51312457bdb0468d6ed242cb7139dbe"></a><!-- doxytag: member="erCvExtract.hpp::erExtractCurveMacroDrop" ref="gb51312457bdb0468d6ed242cb7139dbe" args="(IplImage *simag, Container &amp;pts, CvRect recROI, erCerc *cerc, char *file_name)" -->
+<a class="anchor" name="gc8b881450dbd189e84c0ada939d33e15"></a><!-- doxytag: member="erCvExtract.hpp::erExtractCurveMacroDrop" ref="gc8b881450dbd189e84c0ada939d33e15" args="(Container &amp;pts, IplImage *simag, CvRect recROI, erCerc *cerc, char *file_name)" -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -282,14 +285,14 @@ template&lt;typename Container &gt; </div>
         <tr>
           <td class="memname">void erExtractCurveMacroDrop           </td>
           <td>(</td>
-          <td class="paramtype">IplImage *&nbsp;</td>
-          <td class="paramname"> <em>simag</em>, </td>
+          <td class="paramtype">Container &amp;&nbsp;</td>
+          <td class="paramname"> <em>pts</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Container &amp;&nbsp;</td>
-          <td class="paramname"> <em>pts</em>, </td>
+          <td class="paramtype">IplImage *&nbsp;</td>
+          <td class="paramname"> <em>simag</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -524,6 +527,37 @@ Fonction permettant de charge une Image a l aide d openCv.
 
 <p>
 Fonction permettant de charger une serie d Image a l aide d openCv ayant comme extentions une succesion ordonne et continue de intieres. 
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="g8e4b8071148cd1620785aaa123f05330"></a><!-- doxytag: member="erCvBase.hpp::erLoadImageSeriesManipulationWeldPool" ref="g8e4b8071148cd1620785aaa123f05330" args="(std::string, uint inc=1)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string erLoadImageSeriesManipulationWeldPool           </td>
+          <td>(</td>
+          <td class="paramtype">std::string&nbsp;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__cv__group.html#g4d3943ddea65db7163a58e6c7e8df95a">uint</a>&nbsp;</td>
+          <td class="paramname"> <em>inc</em> = <code>1</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Fonction permettant de charger une serie d Image a l aide d openCv ayant comme extentions une succesion ordonne et continue de intieres ATTENTION CET MODULE EST UNE MANIPULATION POUR TRAVAILLER DANS erCvAnalysis avec la fonction erCvAnalysisWeldPool::doIt. 
 <p>
 
 </div>
@@ -866,7 +900,7 @@ Impression d objet dans un flux.
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Sun Jun 6 16:29:46 2010 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Tue Aug 10 08:29:02 2010 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>
