@@ -25,7 +25,7 @@ IplImage* erCvTemplate( IplImage* img, erTemplP* parm)
   erImage *rect_img;
   int type;
   rect_img = (erImage*)img;
-  std::cout << " rect-width:" << parm->rectan.width << " rect-height:" << parm->rectan.height << std::endl;
+  //std::cout << " rect-width:" << parm->rectan.width << " rect-height:" << parm->rectan.height << std::endl;
   rect_img->rectan = parm->rectan;
   type = parm->type;
   /**Cet configuration est mise en place pour empecher l'aparition des multiples rectangles lors du desin**/
@@ -40,10 +40,9 @@ IplImage* erCvTemplate( IplImage* img, erTemplP* parm)
   int iheight = rect_img->height - patchy + 1;
   result_img = cvCreateImage( cvSize(iwidth,iheight),32,1);
   cvZero( result_img);
-  std::cout << "hola1" << std::endl;
-  std::cout << "width:" << rect_img->width << " height:" << rect_img->height << " depth:" << rect_img->depth << std::endl;
-  std::cout << "width:" << temp->width << " height:" << temp->height << " depth:" << temp->depth << std::endl;
-  std::cout << "width:" << result_img->width << " height:" << result_img->height << " depth:" << result_img->depth << std::endl;
+  //std::cout << "width:" << rect_img->width << " height:" << rect_img->height << " depth:" << rect_img->depth << std::endl;
+  //std::cout << "width:" << temp->width << " height:" << temp->height << " depth:" << temp->depth << std::endl;
+  //std::cout << "width:" << result_img->width << " height:" << result_img->height << " depth:" << result_img->depth << std::endl;
   if( type ==1) cvMatchTemplate( rect_img, temp, result_img, CV_TM_SQDIFF);
   if( type ==2) cvMatchTemplate( rect_img, temp, result_img, CV_TM_SQDIFF_NORMED);
   if( type ==3) cvMatchTemplate( rect_img, temp, result_img, CV_TM_CCORR);
@@ -51,10 +50,9 @@ IplImage* erCvTemplate( IplImage* img, erTemplP* parm)
   if( type ==5) cvMatchTemplate( rect_img, temp, result_img, CV_TM_CCOEFF);
   if( type ==6) cvMatchTemplate( rect_img, temp, result_img, CV_TM_CCOEFF_NORMED); 
   /**Conversion de l'image en 32 bit vers 8 bit**/
-  std::cout << "hola2" << std::endl;
   img_p  = cvCreateImage( cvGetSize(result_img), IPL_DEPTH_8U, 1);
   erCvConvert32to8( result_img, img_p);
-  img = cvCreateImage( cvGetSize(parm->image), IPL_DEPTH_8U, 1);
+  img = cvCreateImage( cvGetSize(rect_img), IPL_DEPTH_8U, 1);
   cvResize( img_p, img, CV_INTER_CUBIC);
   return img; 
 }
@@ -173,7 +171,7 @@ void erCvEqualizeHist( IplImage* simg, erEqualP* param)
   if( usar == 0)
     {
       cvEqualizeHist( simg, img);
-      erShow2Image("Result_equalize", simg, "image-temoin", img );
+      //erShow2Image("Result_equalize", simg, "image-temoin", img );
     }
   //erShowImage("Result_equalize", img );
   *simg = *img;

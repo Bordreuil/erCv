@@ -241,6 +241,42 @@ void erSaveImage2( IplImage* simag, char* file_name, char* exit_name, char* a )
 }
 
 
+
+
+/* Save final images to post processing procedure with CGAL */
+void erSaveImage2Analysis( IplImage* simag, char* file_name, std::string exit_name, char* a )
+{
+  std::string name( file_name);
+  //std::string tipo( a)
+  size_t ext_pos = name.find_last_of( '_' );
+  size_t ext_pos1 = name.find_last_of( '.');
+  if( ext_pos != std::string::npos && ext_pos1 != std::string::npos )
+    {
+      
+      std::string ext2 = name.substr( ext_pos + 1);
+      std::string name2 = ext2.substr( 0,  ext_pos1 - (ext_pos + 1));
+      int num = boost::lexical_cast<int>( name2);
+      std::string name3 = boost::lexical_cast<std::string>(num);
+      while(name2.size()>name3.size())
+	{
+	  name3.insert( 0, "0" );
+	}
+      std::string name4 = exit_name;
+      name4+= "_";
+      name4+= a;
+      name4+= "_";
+      name4+= name3; 
+      name4+= ".png";
+      char* new_name = new char[ name4.size() + 1];
+      std::copy( name4.begin(), name4.end(), new_name);
+      new_name[ name4.size()] = '\0';
+      cvSaveImage( new_name, simag);
+    }
+}
+
+
+
+
 // erImage erConvertToBlackAndWhite( IplImage* simag)
 // {
 //    IplImage * ipbw = cvCreateImage( cvGetSize(simag), simag->depth, 1);

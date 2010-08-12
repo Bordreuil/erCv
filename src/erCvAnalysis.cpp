@@ -430,17 +430,19 @@ bool erWeldPoolAnalysis::doIt(std::string fich)
   ec = erConvertToBlackAndWhite( &eb);
   ed = erDef_ROI( &ec, &rectOI);
   erCvSmooth( &ed, &param_smooth1);
-  std::cout << "hola0" << std::endl;
   ee = erCvTemplate( &ed, &param_template);
   erCvEqualizeHist( &ee, &param_equalizer_histogram);
   erCvAdaptiveThreshold( &ee, &param_adaptive_threshold);
-  erCvCannyUser( &ee, &param_canny);
+  erCvCanny( &ee, &param_canny);
+  erShowImage( "image_canny", &ee);
+  //erSaveImage2Analysis( &ee, file_name, fich, "can");
   IsEqualTo is_equal_255(255);
   erExtractCvPoints( cvPts, &ee, is_equal_255, rect);
   convertCvToCgalpoints( cvPts, cgalPts);
   alpha_edges( cgalPts, cgalSeg, &param_alpha_shape);
   erPrintCgalPoint( cgalSeg, file_name, nom);
   return true;
+  std::cout << "hola_Analysis" << std::endl;
 };
 
 

@@ -165,8 +165,14 @@ void erSaveImage( IplImage*, char*, char*);
 /** \brief Fonction permettant de sauvegarder une image a l aide
  d openCv
  */
-void erSaveImage2( IplImage*,char*,char*, char*);
+void erSaveImage2( IplImage*,char*, char*, char*);
 
+
+
+/** \brief Fonction permettant de sauvegarder une image a l aide
+ d openCv
+ */
+void erSaveImage2Analysis( IplImage*,char*, std::string, char*);
 
 
 
