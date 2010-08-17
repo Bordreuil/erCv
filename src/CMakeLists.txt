@@ -36,4 +36,8 @@ ADD_LIBRARY(erCv erCvSegmentationParams
 		 params 
 		 )
 
+install(TARGETS erCv  DESTINATION lib 
+                      COMPONENT Runtime
+		      EXPORT erCv-targets)
+
 ADD_SUBDIRECTORY(bindings)

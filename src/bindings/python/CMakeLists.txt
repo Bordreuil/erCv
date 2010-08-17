@@ -28,5 +28,8 @@ if(${BUILD_PYTHON_MODULE})
 	       ${PYTHON_LIBRARIES}
 	       ${Boost_PYTHON_LIBRARY} 
 	       erCv)
-
+	 install(TARGETS PyerCv DESTINATION lib 
+	                        COMPONENT Runtime
+				EXPORT erCv-targets)
+			      
 endif(${BUILD_PYTHON_MODULE})

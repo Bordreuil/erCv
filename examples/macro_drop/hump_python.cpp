@@ -26,7 +26,7 @@ int main( int hola, char** file_name)
   erAdThrP adp(THRESH_BINARY,AM_MEAN,49,119,255); //** < 
   erMacroDropAnalysis mda("peo_5");
   mda.defineParameters(rect,cerc,p1,p2,cann,adp);
-  std::string img_base="../pictures/macro_drop/hump_";
+  std::string img_base="hump_";
   for(int i=1;i<4;i++)
       {
 	std::string filename=img_base+boost::lexical_cast<std::string>(i)+".bmp";
