@@ -23,11 +23,11 @@ int main( int hola, char** file_name)
   erCerc cerc(123,293,17);
   erSmootP p1(BLUR,7),p2(MEDIAN,5);
   erCannyP cann(355,355);
-  erAdThrP adp(THRESH_BINARY,AM_MEAN,49,115,255); //** < 
-  erMacroDropAnalysis mda("peo_1");
+  erAdThrP adp(THRESH_BINARY,AM_MEAN,49,119,255); //** < 
+  erMacroDropAnalysis mda("peo_5");
   mda.defineParameters(rect,cerc,p1,p2,cann,adp);
-  std::string img_base="../pictures/macro_drop/MCR_hongo_";
-  for(int i=1;i<17;i++)
+  std::string img_base="../pictures/macro_drop/hump_";
+  for(int i=1;i<4;i++)
       {
 	std::string filename=img_base+boost::lexical_cast<std::string>(i)+".bmp";
 	mda.doIt(filename);
