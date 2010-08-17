@@ -383,7 +383,7 @@ bool erWeldPoolAnalysis::defineParametersUI( std::string firstImage)
   
   IsEqualTo is_equal_255(255);
   char* nom   = const_cast<char*>(name.c_str());
-  erExtractCvPoints( cvPts, &ed, is_equal_255, rect);
+  erExtractCvPoints( cvPts, &ed, is_equal_255, rectOI);
   convertCvToCgalpoints( cvPts, cgalPts);
   
   alpha_edges( cgalPts, cgalSeg, &palp);

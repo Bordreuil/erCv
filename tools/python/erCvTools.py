@@ -27,7 +27,7 @@ def erGetAllImagesNumber(name_analysis,name_image):
     permet d obtenir tous les numeros d images associes
     a l image de base
     """
-    all_images_number=[]
+    all_images_number=[ ]
     result=os.path.split(name_analysis)
     ls=os.listdir(result[0])
     for f in ls:

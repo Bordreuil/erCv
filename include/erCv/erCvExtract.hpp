@@ -82,6 +82,9 @@ void erExtractCurveMacroDropUser( Container &pts, IplImage* simag, CvRect rect, 
   std::pair< CvPoint, int> cercle = erCvDebutCurve( simag);
   cercle.first.x = cercle.first.x + rect.x;
   cercle.first.y = cercle.first.y + rect.y;
+  std::cout << "centro.x: " << cercle.first.x << std::endl;
+  std::cout << "centro.y: " << cercle.first.y << std::endl;
+  std::cout << "radio:    " << cercle.second << std::endl;
   cerc->centro = cercle.first;
   cerc->radio = cercle.second;
   CvPoint p_polyvalent;

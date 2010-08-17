@@ -400,7 +400,7 @@ void erCvEqualizeHistUser( IplImage* simg, erEqualP* param)
 	  std::cout << "  simg widht: " << simg->width << "  simg height: " << simg->height << "  simg depth: " << simg->depth <<  std::endl;
 	  std::cout << "  img widht: " << img->width << "  img height: " << img->height << "  img depth: " << img->depth <<  std::endl;
 	  cvEqualizeHist( simg, img);
-	  std::cout << "hola2" << std::endl;
+	  //std::cout << "hola2" << std::endl;
 	  erShow2Image("Result_equalize", img, "image_temoin", simg );
 	  std::cout << " T'es content (Oui 0/Non 1)? ";
 	  std::cin >> ok;
@@ -410,7 +410,7 @@ void erCvEqualizeHistUser( IplImage* simg, erEqualP* param)
 	ok = 0;
     };
   //erShowImage("Result_equalize", img );
-  std::cout << "hola3" << std::endl;
+  //std::cout << "hola3" << std::endl;
   param->applic = usar;
   *simg = *img;
 }
