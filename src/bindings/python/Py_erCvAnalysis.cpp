@@ -156,7 +156,7 @@ void export_erCvAnalysis(){
             , (void ( ::erAnalysis::* )(  ) )( &::erAnalysis::create ) )    
      .def( 
             "defineCalibration"
-            , (void ( ::erAnalysis::* )( char *,char * ) )( &::erAnalysis::defineCalibration )
+            , (void ( ::erAnalysis::* )(std::string,std::string) )( &::erAnalysis::defineCalibration )
             , ( bp::arg("arg0"), bp::arg("arg1") ) )    
         .def( 
             "doIt"
@@ -172,9 +172,9 @@ void export_erCvAnalysis(){
     
         .def( 
             "defineParameters"
-            , (void ( ::erMacroDropAnalysis::* )( ::CvRect,::erCerc,::erSmootP,::erSmootP,::erCannyP,::erAdThrP ) )
+            , (void ( ::erMacroDropAnalysis::* )( ::CvRect,::erCerc,::erSmootP,::erSmootP,::erCannyP,::erAdThrP ,::erEqualP) )
 	    ( &::erMacroDropAnalysis::defineParameters )
-            , ( bp::arg("arg0"), bp::arg("arg1"), bp::arg("arg2"), bp::arg("arg3"), bp::arg("arg4"), bp::arg("arg5") ) )    
+            , ( bp::arg("arg0"), bp::arg("arg1"), bp::arg("arg2"), bp::arg("arg3"), bp::arg("arg4"), bp::arg("arg5"), bp::arg("equal")=::erEqualP( 1 )) )    
 
         .def( 
             "doIt"
@@ -193,7 +193,8 @@ void export_erCvAnalysis(){
         .def_readwrite( "param_smooth1",           &erMacroDropAnalysis::param_smooth1 )
         .def_readwrite( "param_smooth2",           &erMacroDropAnalysis::param_smooth2 )
         .def_readwrite( "param_canny",             &erMacroDropAnalysis::param_canny )
-	.def_readwrite( "param_adaptive_threshold",&erMacroDropAnalysis::param_adaptive_threshold );
+	.def_readwrite( "param_adaptive_threshold",&erMacroDropAnalysis::param_adaptive_threshold )
+	.def_readwrite( "param_equalizer_histogram",&erMacroDropAnalysis::param_equalizer_histogram );
 
  bp::class_< erMetalTransfertAnalysis_wrapper, bp::bases< erAnalysis > >( "erMetalTransfertAnalysis", bp::init< >() )    
         .def( bp::init< std::string, bp::optional< std::string > >(( bp::arg("name"), bp::arg("infofile")="info" )) )    

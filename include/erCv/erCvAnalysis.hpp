@@ -59,7 +59,7 @@ struct erMacroDropAnalysis:public erAnalysis
   erMacroDropAnalysis( );
   erMacroDropAnalysis( std::string name, std::string infofile = "info");
   bool defineParametersUI( std::string image); /** < Definition des parametre interactives */
-  void defineParameters( CvRect, erCerc, erSmootP, erSmootP, erCannyP, erAdThrP, erEqualP); /** < Passages Parametres en dur */
+  void defineParameters( CvRect, erCerc, erSmootP, erSmootP, erCannyP, erAdThrP, erEqualP equal=erEqualP(1)); /** < Passages Parametres en dur */
   bool doIt( std::string);  /** < Analyse sur le fichier */
   void saveParameters( std::string);
   void loadParameters( std::string);
