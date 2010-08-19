@@ -130,8 +130,7 @@ std::pair<erImage,bool> erLoadImageSeries( char* file_name, uint inc)
     }
   else
     {
-      std::cout << "Incorrect file name or end of the stockpile" << std::endl;
-     
+      std::cout << "Incorrect file name or end of the stockpile" << std::endl;     
       return std::make_pair(erImage(),false);
     }
 }

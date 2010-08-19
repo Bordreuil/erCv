@@ -62,7 +62,7 @@ erMacroDropAnalysis::erMacroDropAnalysis() { };
 
 erMacroDropAnalysis::erMacroDropAnalysis( std::string name, std::string infofile):
   erAnalysis( name, infofile), rectOI( ), cercToStart( ), param_smooth1( ), param_smooth2( ),
-  param_canny( ), param_adaptive_threshold( )
+  param_canny( ), param_adaptive_threshold( ), param_equalizer_histogram( )
 {};
 
 bool erMacroDropAnalysis::defineParametersUI( std::string firstImage)
@@ -80,6 +80,7 @@ bool erMacroDropAnalysis::defineParametersUI( std::string firstImage)
   erSmootP psmo, psmo1;
   erCannyP pcan;
   erAdThrP padt;
+  erEqualP pequ;
   bool loaded; 
   std::list< CvPoint> cvPts;
   
@@ -92,6 +93,7 @@ bool erMacroDropAnalysis::defineParametersUI( std::string firstImage)
   
   ec            = erDef_ROIuser( &eb, &rect);
   rectOI        = rect;
+  erCvEqualizeHist( &ec, &pequ);
   erCvSmoothUser( &ec, &psmo);
   param_smooth1 = psmo;
   erCvAdaptiveThresholdUser( &ec, &padt);
@@ -113,7 +115,7 @@ bool erMacroDropAnalysis::defineParametersUI( std::string firstImage)
 
 
 
-void erMacroDropAnalysis::defineParameters( CvRect rect, erCerc cerc, erSmootP smooth1, erSmootP smooth2, erCannyP cann, erAdThrP adthr)
+void erMacroDropAnalysis::defineParameters( CvRect rect, erCerc cerc, erSmootP smooth1, erSmootP smooth2, erCannyP cann, erAdThrP adthr, erEqualP equal)
 {
   rectOI                   = rect;
   cercToStart              = cerc;
@@ -121,6 +123,7 @@ void erMacroDropAnalysis::defineParameters( CvRect rect, erCerc cerc, erSmootP s
   param_smooth2            = smooth2;
   param_canny              = cann;
   param_adaptive_threshold = adthr;
+  param_equalizer_histogram = equal;
 };
 
 bool erMacroDropAnalysis::doIt(std::string fich)
@@ -133,7 +136,8 @@ bool erMacroDropAnalysis::doIt(std::string fich)
        boost::tie( ea, loaded) = erLoadImage( file_name);
        if( !loaded) return false;
        eb = erConvertToBlackAndWhite( &ea);        
-       ec = erDef_ROI( &eb, &rectOI);    
+       ec = erDef_ROI( &eb, &rectOI); 
+       erCvEqualizeHist( &ec, &param_equalizer_histogram);
        erCvSmooth( &ec, &param_smooth1);
        erCvAdaptiveThreshold( &ec, &param_adaptive_threshold);
        erCvSmooth( &ec, &param_smooth2);
@@ -153,6 +157,7 @@ void erMacroDropAnalysis::saveParameters(std::string file)
   out << "* Begin er MacroDrop Analysis" << std::endl;
   out << this->rectOI;
   out << this->cercToStart;
+  //out << this->param_equalizer_histogram;
   out << this->param_smooth1;
   out << this->param_adaptive_threshold;
   out << this->param_smooth2;

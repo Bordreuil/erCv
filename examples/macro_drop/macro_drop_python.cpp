@@ -19,14 +19,15 @@ Canny            : 355, 355 */
 int main( int hola, char** file_name)
 {
   CvRect rect;
-  rect.x=20;rect.y=160;rect.width=230;rect.height=75;
-  erCerc cerc(20,210,5);
+  rect.x=121;rect.y=110;rect.width=814;rect.height=220;
+  erCerc cerc(135,293,25);
+  erEqualP equ(0);
   erSmootP p1(BLUR,7),p2(GAUSSIAN,5);
   erCannyP cann(355,355);
-  erAdThrP adp(THRESH_BINARY,AM_MEAN,50,14,255); //** < 
-  erMacroDropAnalysis mda("peo_1");
-  mda.defineParameters(rect,cerc,p1,p2,cann,adp);
-  std::string img_base="../pictures/macro_drop/MCR_hongo_";
+  erAdThrP adp(THRESH_BINARY,AM_MEAN,28,130,255); //** < 
+  erMacroDropAnalysis mda("peo_7");
+  mda.defineParameters(rect,cerc,p1,p2,cann,adp,equ);
+  std::string img_base="/Volumes/JP/hump_frames/HUM_30062010_8_";
   for(int i=1;i<17;i++)
       {
 	std::string filename=img_base+boost::lexical_cast<std::string>(i)+".bmp";

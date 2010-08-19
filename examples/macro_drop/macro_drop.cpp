@@ -77,7 +77,7 @@ int main( int hola, char** file_name)
   ec = erDef_ROIuser( &eb, &rect, true);
 
 
-  //erCvEqualizeHist( &ec, &pequ);
+  erCvEqualizeHistUser( &ec, &pequ);
 
   /* Debut du trataiment de l'image par methodes de filtrage optiques */
   /* Pour reduire la granulosite issue du bruit dans les pixels et la non homogenite de l'eclairage sur l'image;*/
@@ -136,7 +136,8 @@ int main( int hola, char** file_name)
       if(!loaded) break;
       ebb = erConvertToBlackAndWhite( &eab);        
       //eo = ca.transform_image( bw);
-      ecb = erDef_ROI( &ebb, &rect);    
+      ecb = erDef_ROI( &ebb, &rect);  
+      erCvEqualizeHist( &ecb, &pequ);  
       erCvSmooth( &ecb, &psmo);
       erCvAdaptiveThreshold( &ecb, &padt);
       erCvSmooth( &ecb, &psmo1);

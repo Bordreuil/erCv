@@ -74,7 +74,8 @@ int main(int HOLA, char** file_name)
   //erSaveImage2( &ec, name, exit, "roi");
 
   ed = erConvertToBlackAndWhite( &ec); /* Conversion en 8 bit single channel */ 
-  
+  erCvSmoothUser( &ed, &psmo);
+  //erCvCannyUser( &ed, &pcan, true);
   //erCvEqualizeHistUser( &ed, &pequ);
 
   //erCvPyramidUser( &ec, &pyra, true);
@@ -82,9 +83,9 @@ int main(int HOLA, char** file_name)
   //erCvSmoothUser( &ed, &psmo);
   //erSaveImage2( &eb, file_name, "smo");
   erCvCannyUser( &ee, &pcan, true);
-  //erCvDilateUser( &ed, &pdil);
+  erCvDilateUser( &ee, &pdil);
   //erCvEqualizeHistUser( &ed, &pequ);
-  //erCvSmoothUser( &ed, &psmo1);
+  erCvSmoothUser( &ee, &psmo1);
   //ee = erCvTemplateUser( &ed, &ptem, true);
   //erSaveImage2( &ec, file_name, "tem");
   //erCvEqualizeHistUser( &ee, &pequ);
@@ -94,8 +95,8 @@ int main(int HOLA, char** file_name)
   //ee = erCvCallBackPatchProjectUser( &ed, &pcal, true);
   //erSaveImage2( &ec, file_name, "call");
   //erCvEqualizeHistUser( &eb, &pequ);
-  
-  //erCvAdaptiveThresholdUser( &ee, &padt, true);
+ 
+  erCvAdaptiveThresholdUser( &ee, &padt, true);
   //erSaveImage2( &ec, name, exit, "ada");
 
   //erCvWatershed( &ea, &pwat);
@@ -103,7 +104,7 @@ int main(int HOLA, char** file_name)
   //erCvThresholdUser( &ee, &pthr, true);
   //erSaveImage2( &ec, file_name, "thr");
   
-  //erCvCannyUser( &ee, &pcan, true);
+  erCvCannyUser( &ee, &pcan, true);
   //erSaveImage2( &ee, name, exit, "can");
  
   //erCvFindContours( &ee, &pfin, true);
