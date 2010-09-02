@@ -87,6 +87,7 @@ struct erCallBP
 
 
 struct erEqualP
+/* */
 {
   erEqualP( int);
   erEqualP();
@@ -151,6 +152,10 @@ struct erWaterP
   IplImage *image;
 };
 
+//struc
+
 
 /*@}*/
 #endif
+
+

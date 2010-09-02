@@ -36,7 +36,7 @@ int main(int HOLA, char** file_name)
   /* Chargement et visualisation de l image de base */
   char* exit = file_name[1];
   char* name = file_name[2];
-  erImage bw, ea, eb, ec, ed, ee;
+  erImage bw, ea, eb, ec, ed, ee, ef;
   erImage pimg, bwpimg;
   CvRect rect;
   erCerc cerc;
@@ -77,16 +77,16 @@ int main(int HOLA, char** file_name)
   erCvSmoothUser( &ed, &psmo);
   //erCvCannyUser( &ed, &pcan, true);
   //erCvEqualizeHistUser( &ed, &pequ);
-
+  erCvThresholdUser( &ed, &pthr, true);
   //erCvPyramidUser( &ec, &pyra, true);
   ee = erCvTemplateUser( &ed, &ptem, true);
   //erCvSmoothUser( &ed, &psmo);
   //erSaveImage2( &eb, file_name, "smo");
-  erCvCannyUser( &ee, &pcan, true);
-  erCvDilateUser( &ee, &pdil);
+  //erCvCannyUser( &ee, &pcan, true);
+  //erCvDilateUser( &ee, &pdil);
   //erCvEqualizeHistUser( &ed, &pequ);
-  erCvSmoothUser( &ee, &psmo1);
-  //ee = erCvTemplateUser( &ed, &ptem, true);
+  //erCvSmoothUser( &ee, &psmo1);
+  ef = erCvTemplateUser( &ee, &ptem, true);
   //erSaveImage2( &ec, file_name, "tem");
   //erCvEqualizeHistUser( &ee, &pequ);
   //erCvSmoothUser( &ed, &psmo1);
@@ -108,22 +108,23 @@ int main(int HOLA, char** file_name)
   //erSaveImage2( &ee, name, exit, "can");
  
   //erCvFindContours( &ee, &pfin, true);
+  //_________________________________________________________________________________________________
+//   IsEqualTo is_equal_255(255);
+//   erExtractCvPoints( cvPts, &ee, is_equal_255, rect); /* Extraction */
+//   erPrintCvPoint( cvPts, name, exit);
+//   std::cout << "cvPts.size: " << cvPts.size() << std::endl;
 
-  IsEqualTo is_equal_255(255);
-  erExtractCvPoints( cvPts, &ee, is_equal_255, rect); /* Extraction */
-  erPrintCvPoint( cvPts, name, exit);
-  std::cout << "cvPts.size: " << cvPts.size() << std::endl;
-
-  convertCvToCgalpoints( cvPts, cgalPts);
-  std::cout << "cgPts.size: " << cgalPts.size() << std::endl;
-
-  alpha_edges_user( cgalPts, cgalSeg,  &palp);
-  erPrintCgalPoint( cgalPts, name, exit);
-
-  largest_closed_segment( cgalSeg, bgraphSeg);
-  polygon_creation_user( bgraphSeg, cgalPts2);
-
+//   convertCvToCgalpoints( cvPts, cgalPts);
  
+//   alpha_edges_user( cgalPts, cgalSeg,  &palp);
+//   erPrintCgalPoint( cgalPts, name, exit);
+//   convertCvToCgalpoints( cvPts, cgalPts);
+//   std::cout << "cgPts.size: " << cgalPts.size() << std::endl;
+
+//   largest_closed_segment( cgalSeg, bgraphSeg);
+//   polygon_creation_user( bgraphSeg, cgalPts2);
+//   std::cout << "cgPts2.size: " << cgalPts2.size() << std::endl;
+  //_________________________________________________________________________________________________
 //   if(output_geometry_characteristics && bgraphSeg.size() > 6)
 //     {
 //       std::list<CgalTrian> triangs=erGeometryExtractTriangles(bgraphSeg.begin(),bgraphSeg.end());
@@ -153,7 +154,7 @@ int main(int HOLA, char** file_name)
   //   clock_t tbeg = clock();
   //   std::cout << "Temps image :" << tbeg  << std::endl;
   //erExtractCurveMacroDropUser( &ea, &cerc, file_name, cvPts, rect);
-  erPrintCgalPoint( cgalSeg, name, exit); 
+  //erPrintCgalPoint( cgalSeg, name, exit); 
   //erConvertPixelToMks( ca.mm_per_pixels(), cvPts, file_name); /*Ecriture des donnes dans un ficher .txt */
   
 //   cvPts.clear();

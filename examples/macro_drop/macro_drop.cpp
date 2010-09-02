@@ -5,7 +5,7 @@
 #include <erCv/erCvExtract.hpp>
 #include <erCv/erCvToCgal.hpp>
 #include <erCv/geometry/erCgalAlphaShape2.hpp>
-#include<time.h>
+#include <time.h>
 
 /* Valeurs des paramettres a introduire, pour chaque fonction:
 Smooth           : 7, 1 (0 pour OK)
