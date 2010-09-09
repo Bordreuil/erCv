@@ -63,4 +63,10 @@ void erCvEqualizeHist( IplImage*, erEqualP*);
  */
 void erCvPyramid( IplImage*, erPyramP*);
 
+
+
+void erWhiteBlobCorrection( IplImage*, erWhitBP*);
+
+
+
 #endif

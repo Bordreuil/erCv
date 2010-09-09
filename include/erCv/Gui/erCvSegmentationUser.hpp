@@ -19,6 +19,6 @@ void erCvFindContours( IplImage*, erFindcP*, bool with_trackbar = false);
 
 void erCvWatershed( IplImage*, erWaterP*);
 
-//void erBlobWhiteCorrection( IplImage*, erBlobWP*);
+void erWhiteBlobCorrectionUser( IplImage*, erWhitBP*);
 
 #endif

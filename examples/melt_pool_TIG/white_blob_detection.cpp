@@ -29,7 +29,7 @@ struct blob
 {
   //unsigned int blobId;
   coordinate min, max;
-  
+  bool is_valid;
   coordinate center;
 };
 
@@ -40,9 +40,9 @@ bool detectBlobs(IplImage* frame, IplImage* finalFrame)
   int blobCounter = 0, blob_bord = 5, isize = 100;
   std::map<unsigned int, blob> blobs;
   std::map<unsigned int, std::vector<lineBlob> > manchas;
-  std::map<unsigned int, std::pair<std::vector<lineBlob>, blob> > taches;
+  //std::map<unsigned int, std::pair<std::vector<lineBlob>, blob> > taches;
   std::map<unsigned int, std::vector<lineBlob> >::iterator iter_map_line;
-  std::map<unsigned int, std::pair< std::vector< lineBlob>, blob> >::iterator iter_map_pair;
+  //std::map<unsigned int, std::pair< std::vector< lineBlob>, blob> >::iterator iter_map_pair;
   std::vector<lineBlob>::iterator iter_vector_line;
   //unsigned char threshold = ithreshold;
   
@@ -170,16 +170,14 @@ bool detectBlobs(IplImage* frame, IplImage* finalFrame)
       for(int entry = 0; entry < imgData[row].size(); ++entry)
 	{
 	  if(blobs.find(imgData[row][entry].blobId) == blobs.end()) // Blob does not exist yet
-	    
 	    {
 	      //std::cout << "row: " << row << std::endl;
 	      //std::cout << "blobId: " << imgData[row][entry].blobId << std::endl;
-	      blob blobData = {{imgData[row][entry].min, row}, {imgData[row][entry].max, row}, {0,0}};
+	      blob blobData = {{imgData[row][entry].min, row}, {imgData[row][entry].max, row}, false, {0,0}};
 	      
 	      blobs[imgData[row][entry].blobId] = blobData;
 	    }
-	  else
-	    
+	  else	    
 	    {
 	      if(imgData[row][entry].min < blobs[imgData[row][entry].blobId].min.x)
 		
@@ -197,35 +195,11 @@ bool detectBlobs(IplImage* frame, IplImage* finalFrame)
 		
 		blobs[imgData[row][entry].blobId].max.y = row;
 	    }
+	  //blobs[imgData[row][entry].blobId].is_valid = false;
 	}
     }
  std::cout << "map size: " << blobs.size() << std::endl;
   
-  
-  /* Map des vecteurs appele "manchas" par Edward ROMERO */
-  for(int row = 0; row < imgData.size(); ++row)
-    {    
-      for(int entry = 0; entry < imgData[row].size(); ++entry)
-	{  
-	  manchas[ imgData[ row][ entry].blobId].push_back( imgData[ row][ entry]);
-	}
-    }
-
-  
-  /* Fusion du map "blobs" avec la map "manchas" dans une seule map<int, pair> de nom "taches" */
-  std::cout << "map size: " << manchas.size() << std::endl;
-  //for(int row = 0; row < imgData.size(); ++row)
-  //  {    
-  //    for(int entry = 0; entry < imgData[row].size(); ++entry)
-  //	{  
-  for( iter_map_line = manchas.begin(); iter_map_line != manchas.end(); iter_map_line++)
-    {
-      //taches[].push_back( std::make_pair( iter_map_line->second, blobs[iter_map_line->first]));
-      taches[ iter_map_line->first].push_back( std::make_pair( iter_map_line->second, blobs[iter_map_line->first]));
-    }
-  //}
-  //}
-  std::cout << "map size: " << taches.size() << std::endl;
   
   
   // Calculate center
@@ -239,6 +213,7 @@ bool detectBlobs(IplImage* frame, IplImage* finalFrame)
       // Print coordinates on image, if it is large enough
       if(size > isize)
 	{
+	  (*i).second.is_valid = true;
 	  CvFont font;
 	  cvInitFont(&font, CV_FONT_HERSHEY_PLAIN, 1.0, 1.0, 0, 1, CV_AA);
 	  
@@ -259,7 +234,47 @@ bool detectBlobs(IplImage* frame, IplImage* finalFrame)
 	  //cout << "(" << (*i).second.center.x << ", " << (*i).second.center.y << ")" << endl;
 	}
     }
-}
+
+  /* Map des vecteurs appele "manchas" par Edward ROMERO */
+  for(int row = 0; row < imgData.size(); ++row)
+    {    
+      for(int entry = 0; entry < imgData[row].size(); ++entry)
+	{  
+	  int id = imgData[ row][ entry].blobId;
+	  if( blobs[id].is_valid)
+	    {
+	      manchas[id].push_back( imgData[ row][ entry]);
+	    }
+	}
+    }
+  /* Discriminateur des taches par les bordes superieur et inferieur */
+  //  for( iter_map_line = manchas.begin(); iter_map_line != manchas.end(); iter_map_line++)
+  //{
+      // iter_vector_line
+  //}
+  int x;
+  for(iter_map_line = manchas.begin(); iter_map_line != manchas.end(); iter_map_line++)
+    {
+      std::cout << "blobId: " << iter_map_line->first << std::endl;
+      for( iter_vector_line = (iter_map_line->second).begin(); iter_vector_line != (iter_map_line->second).end(); iter_vector_line++)
+	{	  
+	  std::cout << "row: " << iter_vector_line->row << "  blobId: " << iter_vector_line->blobId << std::endl;
+	  std::cout << "min: " << iter_vector_line->min << "  max: " << iter_vector_line->max << std::endl;
+	  for( x = iter_vector_line->min; x < iter_vector_line->max + 1; x++)
+	    {
+
+	      //std::cout << "x: " << x << std::endl;
+	      CvScalar a;
+	      a.val[0] = (int) threshold2;
+   	      cvSet2D( finalFrame, iter_vector_line->row, x, a);
+	    }
+	}
+    }
+
+  std::cout << "map size: " << manchas.size() << std::endl;}
+	  
+
+
 
 int main(int HOLA, char** file_name)
 {

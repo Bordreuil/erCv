@@ -152,8 +152,15 @@ struct erWaterP
   IplImage *image;
 };
 
-//struc
-
+struct erWhitBP
+{
+  erWhitBP();
+  erWhitBP( unsigned char, unsigned char, int, int);
+  unsigned char trh_w;
+  unsigned char trh_b;
+  int blob_b;
+  int size_b; 
+};
 
 /*@}*/
 #endif

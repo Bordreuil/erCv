@@ -55,6 +55,7 @@ int main(int HOLA, char** file_name)
   erAlphaP palp;
   erFindcP pfin;
   erWaterP pwat;
+  erWhitBP pwhi;
   bool loaded;
 
   std::list< CvPoint> cvPts;
@@ -66,36 +67,38 @@ int main(int HOLA, char** file_name)
   
   boost::tie(ea,loaded) = erLoadImage(name);
 
-  eb = ca.transform_image(ea);
-  erSaveImage2( &eb, name, exit, "tra");
+  eb = erConvertToBlackAndWhite( &ea); /* Conversion en 8 bit single channel */ 
+  
+  erCvSmoothUser( &eb, &psmo);
+  
+  erWhiteBlobCorrectionUser( &eb, &pwhi);
+  
+  ec = ca.transform_image(eb);
+  //erSaveImage2( &eb, name, exit, "tra");
 
   /* Definision de la zone d'interet ou on souhaite travailler */
-  ec = erDef_ROIuser( &eb, &rect, true);
-  //erSaveImage2( &ec, name, exit, "roi");
-
-  ed = erConvertToBlackAndWhite( &ec); /* Conversion en 8 bit single channel */ 
+  ed = erDef_ROIuser( &ec, &rect, true);
+  //erSaveImage2( &ec, name, exit, "roi"); 
+  //erCvCannyUser( &ec, &pcan, true);
   erCvSmoothUser( &ed, &psmo);
-  //erCvCannyUser( &ed, &pcan, true);
-  //erCvEqualizeHistUser( &ed, &pequ);
-  erCvThresholdUser( &ed, &pthr, true);
+
+  erCvEqualizeHistUser( &ed, &pequ);
   //erCvPyramidUser( &ec, &pyra, true);
-  ee = erCvTemplateUser( &ed, &ptem, true);
-  //erCvSmoothUser( &ed, &psmo);
+  //ee = erCvTemplateUser( &ed, &ptem, true);
+  //erCvThresholdUser( &ee, &pthr, true);
   //erSaveImage2( &eb, file_name, "smo");
-  //erCvCannyUser( &ee, &pcan, true);
-  //erCvDilateUser( &ee, &pdil);
+  //erCvCannyUser( &ed, &pcan, true);
+  //erCvDilateUser( &ed, &pdil);
   //erCvEqualizeHistUser( &ed, &pequ);
-  //erCvSmoothUser( &ee, &psmo1);
-  ef = erCvTemplateUser( &ee, &ptem, true);
+  //erCvSmoothUser( &ed, &psmo1);
+  ee = erCvTemplateUser( &ed, &ptem, true);
   //erSaveImage2( &ec, file_name, "tem");
   //erCvEqualizeHistUser( &ee, &pequ);
   //erCvSmoothUser( &ed, &psmo1);
   //ee = ed;
-
   //ee = erCvCallBackPatchProjectUser( &ed, &pcal, true);
   //erSaveImage2( &ec, file_name, "call");
   //erCvEqualizeHistUser( &eb, &pequ);
- 
   erCvAdaptiveThresholdUser( &ee, &padt, true);
   //erSaveImage2( &ec, name, exit, "ada");
 

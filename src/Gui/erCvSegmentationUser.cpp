@@ -102,6 +102,33 @@ void on_mouse_rect4( int event, int x, int y, int flags, void* param)
 }
 
 
+struct coordinate
+{
+  unsigned int x, y;
+  void * data;
+};
+
+struct lineBlob
+{
+  unsigned int min, max;
+  unsigned int blobId;
+  unsigned int row;
+  bool attached;
+};
+
+struct blob
+{
+  //unsigned int blobId;
+  coordinate min, max;
+  bool is_valid;
+  coordinate center;
+};
+
+
+
+
+
+
 void erCvDifferencingUser( IplImage* simg, erDiffeP* parm)
 {
   int type;
@@ -686,139 +713,264 @@ void erCvWatershed( IplImage* img, erWaterP* parm)
 }
 
 
-// void erBlobWhiteCorrection( IplImage* img, erBlobWP* parm)
-// {
-//   int blobCounter = 0;
-//   map<unsigned int, blob> blobs;
-  
-//   unsigned char threshold = 235;
-  
-  
-//   vector< vector<lineBlob> > imgData(img->width);
-  
-//   for(int row = 0; row < img->height; ++row)
-//     {
+void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
+{
+  IplImage* img;
+  unsigned char byte, byte_right, byte_left, col_avg_up = 0, col_avg_down = 0;
+  unsigned char white_thres, black_thres;
+  unsigned int id_refused;
+  int int_white, int_black;  
+  int blobCounter = 0, bord_blob = 5, size_blob = 100, col_avg = 0;
+  std::string name = INFOFILE;
+  name+= ".txt";
+  const char* nomb = name.c_str();
+  std::map<unsigned int, blob> blobs;
+  std::map<unsigned int, int> color;
+  std::map<unsigned int, std::vector<lineBlob> > manchas;
+  std::map<unsigned int, std::vector<lineBlob> >::iterator iter_map_line;
+  std::vector<lineBlob>::iterator iter_vector_line, iter_vector_line_up, iter_vector_line_down;
+  std::vector<lineBlob>::reverse_iterator riter_vector_line_down;
+  img = cvCloneImage(simg);
+  std::vector< std::vector<lineBlob> > imgData(simg->width);
+  int ok = 1;
+  while( ok)
+    {
+      std::cout << "Threshold upper value to blob detection: ";
+      std::cin >> int_white;
+      //int_white = 180;
+      white_thres = (unsigned char) int_white;
+      std::cout << std::endl;
+      std::cout << "Threshold donwest value to blob detection: ";
+      std::cin >> int_black;
+      //int_black = 120;
+      black_thres = (unsigned char) int_black;
+      std::cout << std::endl;
+      std::cout << "Taille en No de pixles de la tache: ";
+      std::cin >> size_blob;
+      //size_blob = 100;
+      std::cout << std::endl;
+      std::cout << "Extension en pixels du bord de la tache: ";
+      std::cin >> bord_blob;
+      std::cout << std::endl;
+
+      for(int row = 0; row < simg->height; ++row)
+	{
+	  for(int column = 0; column < simg->width; ++column)
+	    {
+	      byte =  (unsigned char) simg->imageData[ ( row * simg->width) + column];
+	      if(byte >= white_thres && column > bord_blob)
+		{
+		  byte_left = (unsigned char) simg->imageData[ ( row * simg->width) + ( column - bord_blob)];
+		  if( byte_left <= black_thres)
+		    {		
+		      int start = column;
+		      do
+			{
+			  column++;
+			  byte = (unsigned char) simg->imageData[ ( row * simg->width) + column];
+			  if( column >= ( simg->width - bord_blob)) break;
+			}
+		      while( byte >= white_thres);
+		      byte_right = (unsigned char) simg->imageData[ ( row * simg->width) + (column + bord_blob)];
+		      if(  byte_right <= white_thres)
+			{
+			  int stop = column-1;
+			  lineBlob lineBlobData = {start, stop, blobCounter, row, false};
+			  imgData[row].push_back(lineBlobData);
+			  blobCounter++;
+			}
+		    }
+		}
+	    }
+	}
       
-//       for(int column = 0; column < img->width; ++column)
-// 	{
-	  
-// 	  //unsigned char byte = (unsigned char) imgStream.get();
-// 	  unsigned char byte = (unsigned char) frame->imageData[(row*frame->width)+ column];
-	  
-// 	  if(byte >= threshold)
-// 	    {
-// 	      int start = column;
-	      
-// 	      for(;byte >= threshold; byte = (unsigned char) frame->imageData[(row*frame->width)+ column], ++column);
-	      
-// 	      int stop = column-1;
-// 	      lineBlob lineBlobData = {start, stop, blobCounter, false};
-	      
-// 	      imgData[row].push_back(lineBlobData);
-// 	      blobCounter++;
-// 	    }
-// 	}
-//     }
-  
-//   /* Check lineBlobs for a touching lineblob on the next row */
-  
-//   for(int row = 0; row < imgData.size(); ++row)
-//     {
+      /* Check lineBlobs for a touching lineblob on the next row */
+      // Aqui se asocian los ima
+      for(int row = 0; row < imgData.size(); ++row) //
+	{      
+	  for(int entryLine1 = 0; entryLine1 < imgData[row].size(); ++entryLine1)
+	    {
+	      for(int entryLine2 = 0; entryLine2 < imgData[row+1].size(); ++entryLine2)
+		{
+		  if(!((imgData[row][entryLine1].max < imgData[row+1][entryLine2].min) || (imgData[row][entryLine1].min > imgData[row+1][entryLine2].max)))
+		    {
+		      if(imgData[row+1][entryLine2].attached == false)
+			{
+			  imgData[row+1][entryLine2].blobId = imgData[row][entryLine1].blobId;
+			  imgData[row+1][entryLine2].attached = true;
+			}
+		      else
+			{
+			  imgData[row][entryLine1].blobId = imgData[row+1][entryLine2].blobId;
+			  imgData[row][entryLine1].attached = true;
+			}
+		    }
+		}
+	    }
+	} 
       
-//       for(int entryLine1 = 0; entryLine1 < imgData[row].size(); ++entryLine1)
-// 	{
-	  
-// 	  for(int entryLine2 = 0; entryLine2 < imgData[row+1].size(); ++entryLine2)
-// 	    {
-	      
-// 	      if(!((imgData[row][entryLine1].max < imgData[row+1][entryLine2].min) || (imgData[row][entryLine1].min > imgData[row+1][entryLine2].max)))
-// 		{
-		  
-// 		  if(imgData[row+1][entryLine2].attached == false)
-// 		    {
-		      
-// 		      imgData[row+1][entryLine2].blobId = imgData[row][entryLine1].blobId;
-		      
-// 		      imgData[row+1][entryLine2].attached = true;
-// 		    }
-// 		  else
+      /* Allocation de la map "blobs" cet map contien les blobs dans la forme de le struc blob*/
+      // Sort and group blobs  
+      for(int row = 0; row < imgData.size(); ++row)
+	{      
+	  for(int entry = 0; entry < imgData[row].size(); ++entry)
+	    {
+	      if(blobs.find(imgData[row][entry].blobId) == blobs.end()) // Blob does not exist yet
+		{
+		  blob blobData = {{imgData[row][entry].min, row}, {imgData[row][entry].max, row}, false, {0,0}};	      
+		  blobs[imgData[row][entry].blobId] = blobData;
+		}
+	      else	    
+		{
+		  if(imgData[row][entry].min < blobs[imgData[row][entry].blobId].min.x)
 		    
-// 		    {
-// 		      imgData[row][entryLine1].blobId = imgData[row+1][entryLine2].blobId;
-		      
-// 		      imgData[row][entryLine1].attached = true;
-// 		    }
-// 		}
-// 	    }
-// 	}
-//     }
-  
-//   // Sort and group blobs
-  
-//   for(int row = 0; row < imgData.size(); ++row)
-//     {
-      
-//       for(int entry = 0; entry < imgData[row].size(); ++entry)
-// 	{
-	  
-// 	  if(blobs.find(imgData[row][entry].blobId) == blobs.end()) // Blob does not exist yet
+		    blobs[imgData[row][entry].blobId].min.x = imgData[row][entry].min;
+		  
+		  else if(imgData[row][entry].max > blobs[imgData[row][entry].blobId].max.x)
+		    
+		    blobs[imgData[row][entry].blobId].max.x = imgData[row][entry].max;
+		  
+		  if(row < blobs[imgData[row][entry].blobId].min.y)	
 	    
-// 	    {
-// 	      blob blobData = {{imgData[row][entry].min, row}, {imgData[row][entry].max, row}, {0,0}};
-	      
-// 	      blobs[imgData[row][entry].blobId] = blobData;
-// 	    }
-// 	  else
-	    
-// 	    {
-// 	      if(imgData[row][entry].min < blobs[imgData[row][entry].blobId].min.x)
-		
-// 		blobs[imgData[row][entry].blobId].min.x = imgData[row][entry].min;
-	      
-// 	      else if(imgData[row][entry].max > blobs[imgData[row][entry].blobId].max.x)
-		
-// 		blobs[imgData[row][entry].blobId].max.x = imgData[row][entry].max;
-	      
-// 	      if(row < blobs[imgData[row][entry].blobId].min.y)
-		
-// 		blobs[imgData[row][entry].blobId].min.y = row;
-	      
-// 	      else if(row > blobs[imgData[row][entry].blobId].max.y)
-		
-// 		blobs[imgData[row][entry].blobId].max.y = row;
-// 	    }
-// 	}
-//     }
+		    blobs[imgData[row][entry].blobId].min.y = row;		
   
-//   // Calculate center
-//   for(map<unsigned int, blob>::iterator i = blobs.begin(); i != blobs.end(); ++i)
-//     {
-//       (*i).second.center.x = (*i).second.min.x + ((*i).second.max.x - (*i).second.min.x) / 2;
-//       (*i).second.center.y = (*i).second.min.y + ((*i).second.max.y - (*i).second.min.y) / 2;
+		  else if(row > blobs[imgData[row][entry].blobId].max.y)		    
+
+		    blobs[imgData[row][entry].blobId].max.y = row;
+		}
+	      //blobs[imgData[row][entry].blobId].is_valid = false;
+	    }
+	}
       
-//       int size = ((*i).second.max.x - (*i).second.min.x) * ((*i).second.max.y - (*i).second.min.y);
+      // Calculate center
+      for( std::map<unsigned int, blob>::iterator i = blobs.begin(); i != blobs.end(); ++i)
+	{
+	  (*i).second.center.x = (*i).second.min.x + ((*i).second.max.x - (*i).second.min.x) / 2;
+	  (*i).second.center.y = (*i).second.min.y + ((*i).second.max.y - (*i).second.min.y) / 2;
+	  
+	  int size = ((*i).second.max.x - (*i).second.min.x) * ((*i).second.max.y - (*i).second.min.y);
+	  
+	  // Print coordinates on image, if it is large enough
+	  if(size > size_blob)
+	    {
+	      (*i).second.is_valid = true;
+	    }
+	}
       
-//       // Print coordinates on image, if it is large enough
-//       if(size > 800)
-// 	{
-// 	  CvFont font;
-// 	  cvInitFont(&font, CV_FONT_HERSHEY_PLAIN, 1.0, 1.0, 0, 1, CV_AA);
-	  
-// 	  char textBuffer[128];
-	  
-// 	  // Draw crosshair and print coordinates (just for debugging, not necessary for later multi-touch use)
-// 	  cvLine(finalFrame, cvPoint((*i).second.center.x - 5, (*i).second.center.y), cvPoint((*i).second.center.x + 5, (*i).second.center.y), cvScalar(0, 0, 153), 1);
-	  
-// 	  cvLine(finalFrame, cvPoint((*i).second.center.x, (*i).second.center.y - 5), cvPoint((*i).second.center.x, (*i).second.center.y + 5), cvScalar(0, 0, 153), 1);
-	  
-// 	  sprintf(textBuffer, "(%d, %d)", (*i).second.center.x, (*i).second.center.y);
-	  
-// 	  cvPutText(finalFrame, textBuffer, cvPoint((*i).second.center.x + 5, (*i).second.center.y - 5), &font, cvScalar(0, 0, 153));
-	  
-// 	  cvRectangle(finalFrame, cvPoint((*i).second.min.x, (*i).second.min.y), cvPoint((*i).second.max.x, (*i).second.max.y), cvScalar(0, 0, 153), 1);
-	  
-// 	  // Show center point
-// 	  //cout << "(" << (*i).second.center.x << ", " << (*i).second.center.y << ")" << endl;
-// 	}
-//     }
-// }
+      /* Map des vecteurs denome "manchas" contenant les taches a colorer*/
+      for(int row = 0; row < imgData.size(); ++row)
+	{    
+	  for(int entry = 0; entry < imgData[row].size(); ++entry)
+	    {  
+	      int id = imgData[ row][ entry].blobId;
+	      if( blobs[id].is_valid)
+		{
+		  manchas[id].push_back( imgData[ row][ entry]);
+		}
+	    }
+	}
+
+      /* Discriminateur des taches par les bordes superieur et inferieur */
+      for(iter_map_line = manchas.begin(); iter_map_line != manchas.end(); iter_map_line++)
+	{
+	  iter_vector_line_up = (iter_map_line->second).begin();
+	  riter_vector_line_down = (iter_map_line->second).rbegin();
+	  int fila_up = iter_vector_line_up->row;
+	  int fila_down = riter_vector_line_down->row;
+      	  if( fila_up > bord_blob && fila_down < simg->height - bord_blob)
+	    {
+	      bool valide = true;
+	      int x;
+	      for( x = (iter_vector_line_up->min); x < (iter_vector_line_up->max) + 1; x++)
+		{
+		  CvScalar a;
+		  a = cvGet2D( img, fila_up - bord_blob, x);
+		  if( a.val[0] < black_thres) 
+		    {
+		      col_avg_up = col_avg_up + a.val[0];
+		    }
+		  else
+		    {
+		      valide = false;
+		      id_refused = iter_map_line->first;
+		    }
+		}
+	      if( valide)
+		{
+		  int xx;
+		  for( xx = (riter_vector_line_down->min); xx < (riter_vector_line_down->max) + 1; xx++)
+		    {
+		      CvScalar a;
+		      a = cvGet2D( img, fila_down + bord_blob, xx);
+		      if( a.val[0] < black_thres) 
+			{
+			  col_avg_down = col_avg_down + a.val[0];
+			}
+		      else
+			{
+			  valide = false;
+			  id_refused = iter_map_line->first;
+			} 
+		    }
+		}
+	      if( valide)
+		{
+		  col_avg =  ( (int)col_avg_up/2*( iter_vector_line_up->max - iter_vector_line_up->min)) + ( (int)col_avg_down/2*( riter_vector_line_down->max - riter_vector_line_down->min));
+		  color[iter_map_line->first] =  col_avg;
+		}
+	    }
+	  else
+	    {
+	      std::cout << "ATTENTION: Bord_blob value thickest that distance beetwen image border and blob border" << std::endl;
+	    }
+	}
+      manchas.erase(id_refused);
+
+      /* Recouvrement des taches blanches */
+      int x, y;
+      for(iter_map_line = manchas.begin(); iter_map_line != manchas.end(); iter_map_line++)
+	{
+	  iter_vector_line_up = (iter_map_line->second).begin();
+	  iter_vector_line_down = (iter_map_line->second).end();
+	  riter_vector_line_down = (iter_map_line->second).rbegin();
+  	  for( iter_vector_line = iter_vector_line_up; iter_vector_line != iter_vector_line_down; iter_vector_line++)
+	    {
+	      for( x = (iter_vector_line->min) - bord_blob; x < (iter_vector_line->max) + bord_blob + 1; x++)
+		{
+		  CvScalar a,b;
+		  int c;
+		  a = cvGet2D( img, iter_vector_line_up->row - bord_blob, x);
+		  b = cvGet2D( img, riter_vector_line_down->row + bord_blob, x);
+		  c = (a.val[0] + b.val[0])/2;
+		  for( y = (iter_vector_line_up->row) - bord_blob; y < (riter_vector_line_down->row) + bord_blob + 1; y++) 
+		    { 
+		      CvScalar d;
+		      d.val[0] = (unsigned char) c;
+		      cvSet2D( img, y, x, d);
+		    }
+		}
+	    }
+	}
+      cvNamedWindow( "Blob correction", 1);
+      cvShowImage( "Blob corrrection", img);
+      while(1){if(cvWaitKey(10) == 27) break;};
+      cvDestroyWindow( "Blob correction");
+      std::cout << " T'es content (Oui 0/Non 1)? ";
+      std::cin >> ok;
+      std::cout << std::endl;
+    }    
+  parm->trh_w = white_thres;
+  parm->trh_b = black_thres;
+  parm->blob_b = size_blob;
+  parm->size_b = bord_blob;
+  *simg = *img;
+  // std::ofstream file( nameInfoFile(INFOFILE), std::ios_base::app );
+  std::ofstream file( nomb, std::ios_base::app );
+  file << "***********Segmentation fonction WhiteBlobCorrection***********\n";
+  file << "upper Threshold :------------ " << parm->trh_w << std::endl;
+  file << "down Threshold :------------- " << parm->trh_b << std::endl;
+  file << "blob border :---------------- " << parm->blob_b << std::endl;
+  file << "blob size :------------------ " << parm->size_b << std::endl;
+  file << std::endl;
+  file << parm; 
+}
