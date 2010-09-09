@@ -6,8 +6,8 @@ LINK_DIRECTORIES(${OPENCV_LIBRARY_DIR})
 ADD_EXECUTABLE(hump_python hump_python.cpp)
 TARGET_LINK_LIBRARIES(hump_python erCv ${OPENCV_LIBS})
 
-ADD_EXECUTABLE(hump_python_edward hump_python_edward.cpp)
-TARGET_LINK_LIBRARIES(hump_python_edward erCv ${OPENCV_LIBS})
+#ADD_EXECUTABLE(hump_python_edward hump_python_edward.cpp)
+#TARGET_LINK_LIBRARIES(hump_python_edward erCv ${OPENCV_LIBS})
 
 ADD_EXECUTABLE(macro_drop macro_drop.cpp)
 TARGET_LINK_LIBRARIES(macro_drop erCv ${OPENCV_LIBS})

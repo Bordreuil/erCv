@@ -460,3 +460,10 @@ void erWhiteBlobCorrection( IplImage* simg, erWhitBP* parm)
 }   
 
 
+void erWhiteBlobDelete(std::string file,erWhitBP param)
+{
+  IplImage* im = cvLoadImage(file.c_str());
+  erWhiteBlobCorrection(im,&param);
+  cvSaveImage(file.c_str(),im);
+  
+}

@@ -4,7 +4,7 @@
 #include "erCvSegmentationParams.hpp"
 #include "erCvFilters.hpp"
 #include "cv.h"
-
+#include<string>
 
 // struct erDiffeP
 // {
@@ -67,6 +67,6 @@ void erCvPyramid( IplImage*, erPyramP*);
 
 void erWhiteBlobCorrection( IplImage*, erWhitBP*);
 
-
+void erWhiteBlobDelete(std::string,erWhitBP);
 
 #endif

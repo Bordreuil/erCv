@@ -33,7 +33,9 @@ struct blob
   coordinate center;
 };
 
-
+// Gueule de l interface pour etre cabler dans python
+// Est ce qu il ne faut pas prevoir le niveau de seuillage en parametre d entree
+//bool erDetectBlobs(std::string,std::string);
 bool detectBlobs(IplImage* frame, IplImage* finalFrame)
 {
   unsigned char threshold2 = 120, threshold = 185, byte, byte2;  
@@ -202,6 +204,26 @@ bool detectBlobs(IplImage* frame, IplImage* finalFrame)
   
   
   
+ //<<<<<<< .mine
+  /* Fusion du map "blobs" avec la map "manchas" dans une seule map<int, pair> de nom "taches" */
+  //std::cout << "map size: " << manchas.size() << std::endl;
+  //for(int row = 0; row < imgData.size(); ++row)
+  //  {    
+  //    for(int entry = 0; entry < imgData[row].size(); ++entry)
+  //	{  
+  //for( iter_map_line = manchas.begin(); iter_map_line != manchas.end(); iter_map_line++)
+    //  {
+      //taches[].push_back( std::make_pair( iter_map_line->second, blobs[iter_map_line->first]));
+      // taches[ iter_map_line->first].push_back( std::make_pair( iter_map_line->second, blobs[iter_map_line->first]));
+	  //taches[ iter_map_line->first].first.push_back( std::make_pair( iter_map_line->second, blobs[iter_map_line->first]));  
+	  //  }
+  //}
+  //}
+  //std::cout << "map size: " << taches.size() << std::endl;
+  
+  
+  //=======
+    //>>>>>>> .r119
   // Calculate center
   for(map<unsigned int, blob>::iterator i = blobs.begin(); i != blobs.end(); ++i)
     {

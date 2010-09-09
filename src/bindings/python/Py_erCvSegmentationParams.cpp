@@ -56,4 +56,11 @@ void export_erCvSegmentationParams()
 
    bp::class_< erEqualP >( "erEqualP" )    
         .def_readwrite( "applic", &erEqualP::applic );
+
+   bp::class_< erWhitBP >( "erWhitBP", bp::init< >() )    
+        .def( bp::init< unsigned char, unsigned char, int, int >(( bp::arg("arg0"), bp::arg("arg1"), bp::arg("arg2"), bp::arg("arg3") )) )    
+        .def_readwrite( "blob_b", &erWhitBP::blob_b )    
+        .def_readwrite( "size_b", &erWhitBP::size_b )    
+        .def_readwrite( "trh_b", &erWhitBP::trh_b )    
+        .def_readwrite( "trh_w", &erWhitBP::trh_w );
 };

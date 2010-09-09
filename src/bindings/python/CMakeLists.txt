@@ -16,6 +16,7 @@ if(${BUILD_PYTHON_MODULE})
 
 			   Py_erGeometricalParams
 			   Py_erCvSegmentationParams
+			   Py_erCvSegmentation
 		           Py_erCvFiltersParams
 			   Py_erCvTools
 			   Py_erCvAnalysis
