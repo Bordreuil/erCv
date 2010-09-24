@@ -26,6 +26,21 @@ CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/imageExemple_2.bmp
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/imageExemple_3.bmp
 			${CMAKE_CURRENT_BINARY_DIR}/imageExemple_3.bmp
 			COPYONLY)
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/example_full_bain_1.bmp
+			${CMAKE_CURRENT_BINARY_DIR}/example_full_bain_1.bmp
+			COPYONLY)
+
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/example_full_bain_2.bmp
+			${CMAKE_CURRENT_BINARY_DIR}/example_full_bain_2.bmp
+			COPYONLY)
+
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/example_full_bain_3.bmp
+			${CMAKE_CURRENT_BINARY_DIR}/example_full_bain_3.bmp
+			COPYONLY)
+
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/example_full_bain_4.bmp
+			${CMAKE_CURRENT_BINARY_DIR}/example_full_bain_4.bmp
+			COPYONLY)
 
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/calibration_target.bmp
 			${CMAKE_CURRENT_BINARY_DIR}/calibration_target.bmp

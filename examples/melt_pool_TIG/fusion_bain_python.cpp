@@ -37,20 +37,14 @@ int main( int hola, char** file_name)
 
   wpa.defineCalibration("calibration_source.jpg","calibration_target.bmp");
   wpa.defineParameters( rect, whi, p1, p2, cann, dil, thr, templ, alp);
-  wpa.doIt( "imageExemple_3.bmp");
-  std::string img_base="../pictures/melt_pool_TIG/tiro_4_bain/gtaw_10022010_00191.bmp";
-//   for(int i = 1; i < 15;i++)
-//     {
-//       std::string filename = erLoadImageSeriesManipulationWeldPool( img_base, 3);
-//       std::cout << "file name: " << filename << std::endl;
-//       std::cout << "hola0" << std::endl;
-//       wpa.doIt(filename);
-//     };
-//   wpa.saveParameters( "result/test.out");
+
+  wpa.doIt( "example_full_bain_1.bmp");
+  wpa.doIt( "example_full_bain_2.bmp");
+  wpa.doIt( "example_full_bain_3.bmp");
+  erSmootP p12(BLUR,7), p22(MEDIAN,7);
+  erThresP thr2(_THRESH_BINARY,215,255); 
+  wpa.defineParameters( rect, whi, p12, p22, cann, dil, thr2, templ, alp);
+  wpa.doIt( "example_full_bain_4.bmp");
   
-  //wpa.doIt("");
-  //wpa.doIt("imageExemple_2.bmp");
-  //wpa.doIt("imageExemple_1.bmp");
-  //wpa.saveParameters("result/test.out");
   return(0);
 };

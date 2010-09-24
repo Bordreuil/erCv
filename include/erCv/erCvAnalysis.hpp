@@ -133,8 +133,9 @@ struct erWeldPoolAnalysis:public erAnalysis
   erThresP param_threshold;
   erTemplP param_template;
   erAlphaP param_alpha_shape;
-  bool           output_geometry_characteristics;  /** <  Desactiviation des sorties geometriques */
+  bool           output_geometry_characteristics;  /** <  Desactiviation des sorties geometriques  Initialiser a true*/
   std::string    output_geometry_file;             /** <  Nom du fichier de sortie pour la geometrie */
+  bool           output_convex_polygon;           /** < Si on veut extraire le domaine convexe initialiser a true au depart */
 };
 /**\}*/
 

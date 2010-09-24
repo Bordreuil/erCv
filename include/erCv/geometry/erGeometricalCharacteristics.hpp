@@ -27,6 +27,36 @@ std::list< CgalTrian> erGeometryExtractTriangles( InputSegmentIterator debut, In
     };
     return triangs;
 };
+
+template<typename InputSegmentIterator>
+std::list<CgalPoint> erGeometryExtractConvexPolygon(InputSegmentIterator debut,InputSegmentIterator fin)
+{
+  CDT cdt ;
+  std::list<CgalPoint> result;
+  for( InputSegmentIterator icg=debut;icg!=fin;icg++)
+    {
+      cdt.insert_constraint(icg->source(),icg->target());
+    };
+
+  CDT::Vertex_handle v_inf = cdt.infinite_vertex();
+  
+  CDT::Face_circulator fc  = cdt.incident_faces(v_inf);
+  CDT::Face_circulator fi=fc;
+  CGAL_For_all(fc,fi)
+    {
+      int id_inf=fc->index(v_inf);
+      CDT::Vertex_handle vp = fc->vertex(fc->cw(id_inf));
+      result.push_back(vp->point());
+    };
+  fc++;
+   int id_inf=fc->index(v_inf);
+    CDT::Vertex_handle vp = fc->vertex(fc->cw(id_inf));
+    result.push_back(vp->point());
+  return result;
+
+};
+
+
 template<typename InputGeoObjectIterator>
 double getArea(InputGeoObjectIterator debut,InputGeoObjectIterator fin)
 {
