@@ -70,10 +70,12 @@ void erCvCannyUser( IplImage* simg, erCannyP* parm, bool with_trackbar)
       if( !with_trackbar)
 	{
 	  std::cout << "Put the values to threshold thr1 of Canny fonction: ";
-	  std::cin >> threshold[0];
+	  //std::cin >> threshold[0];
+	  threshold[0] = 500;
 	  std::cout << std::endl;
 	  std::cout << "Put the values to threshold thr2 of Canny fonction: ";
-	  std::cin >> threshold[1];
+	  //std::cin >> threshold[1];
+	  threshold[1] = 500;
 	  std::cout << std::endl; 
 	}
       else
@@ -97,7 +99,8 @@ void erCvCannyUser( IplImage* simg, erCannyP* parm, bool with_trackbar)
       //parm->trh2 = cvGetTrackbarPos( "threshold2", "Canny_trackbar");
       cvDestroyWindow( "Canny_trackbar");
       std::cout << " T'es content (Oui 0/Non 1)? ";
-      std::cin >> ok;
+      //std::cin >> ok;
+      ok = 0;
       std::cout << std::endl;
     };
   //simg = cvCloneImage( img);
@@ -147,7 +150,8 @@ void erCvSmoothUser( IplImage* simg, erSmootP* parm)
       while(1){if(cvWaitKey(10) == 27) break;};
       cvDestroyWindow( "Smooth");
       std::cout << " T'es content (Oui 0/Non 1)? ";
-      std::cin >> ok;
+      //std::cin >> ok;
+      ok = 0;
       std::cout << std::endl;
     };
   parm->size = size;
@@ -220,7 +224,8 @@ void erCvThresholdUser( IplImage* simg, erThresP* parm, bool with_trackbar)
   while(ok)
     {
       std::cout << "Type of threshold: 1->CV_THRESH_BINARY  2->CV_THRESH_BINARY_INV  3->CV_THRESH_TRUNC  4->CV_THRESH_TOZERO  5->CV_THRESH_TOZERO_INV : ";
-      std::cin >> threstype;
+      //std::cin >> threstype;
+      threstype = 1;
       std::cout << std::endl;
       cvNamedWindow( "Threshold_trackbar", 0);
       cvNamedWindow( "original", 0);
@@ -228,12 +233,14 @@ void erCvThresholdUser( IplImage* simg, erThresP* parm, bool with_trackbar)
       if(!with_trackbar)
 	{
 	  std::cout << "Put the value of Threshold fonction (to 8-bit image = 255): ";
-	  std::cin >> threshold[0];
+	  //std::cin >> threshold[0];
+	  threshold[0] = 230;
 	  std::cout << std::endl;
 	  if( threstype == 1 or threstype == 2)
 	    {
 	      std::cout << "Put the value of Second Threshold fonction (to 8-bit image = 255): ";
-	      std::cin >> threshold[1];
+	      //std::cin >> threshold[1];
+	      threshold[1] = 255;
 	      std::cout << std::endl;
 	    }
 	}
@@ -259,7 +266,8 @@ void erCvThresholdUser( IplImage* simg, erThresP* parm, bool with_trackbar)
       cvDestroyWindow( "Threshold_trackbar");
       cvDestroyWindow( "original");
       std::cout << " T'es content (Oui 0/Non 1)? ";
-      std::cin >> ok;
+      //std::cin >> ok;
+      ok = 0;
       std::cout << std::endl;
     }  
  
@@ -271,14 +279,16 @@ void erCvThresholdUser( IplImage* simg, erThresP* parm, bool with_trackbar)
     {
       parm->trh2 = threshold[1];
     }
-  parm->type = threstype;
+  parm->type = ThresholdType(threstype);
 
   std::ofstream file( nomb, std::ios_base::app );
   file << "***********Filter fonction THRESHOLD***********\n";
   file << "Threshold :------------ " << parm->trh1 << std::endl;
+  std::cout << "trh2: " << parm->trh1 << std::endl;
   if( threstype == 1 or threstype == 2)
     {
       file << "SubThreshold:---------- " << parm->trh2 << std::endl;
+      std::cout << "trh2: " << parm->trh2 << std::endl;
     }
   file << "Threshold type:-------- " << parm->type << std::endl;
   file << std::endl;
@@ -385,7 +395,7 @@ void erCvAdaptiveThresholdUser( IplImage* simg, erAdThrP* parm, bool with_trackb
 
 
 
-void erCvDilateUser( IplImage* simg, erDilatP* parm)
+void erCvDilateUser( IplImage* simg, erDilatP* parm, bool with_trackbar)
 {
   IplImage* img;
   int iteration, itrak, maxt; 
@@ -396,31 +406,43 @@ void erCvDilateUser( IplImage* simg, erDilatP* parm)
   //std::ofstream myfile( nomb);
   iteration = 1;
   img = cvCloneImage( simg);
-
-  //std::cout << "Put max iteration numbers of dilate its applies: ";
+  std::cout << "Put max iteration numbers of dilate its applies: ";
   //std::cin >> maxt;
   maxt = 20;
   //std::cout << std::endl;
-
-
-  cvNamedWindow( "Dilate_trackbar", 0);
-  itrak = cvCreateTrackbar( "iteration number", "Dilate_trackbar", &iteration, maxt, NULL);
-
-  
-  while(1)
+  int ok=1;
+  while(ok)
     {
-      cvDilate( simg, img, ele, iteration);
-      cvShowImage( "Dilate_trackbar", img);
-      if( cvWaitKey( 10) == 27) break;
+      cvNamedWindow( "Dilate_trackbar", 0);
+      if( !with_trackbar)
+	{
+	  std::cout << "Put the number of dilate iterations (int < 20): ";
+	  //std::cin >> iteration;
+	  iteration = 1;
+	  std::cout << std::endl;
+	}
+      else
+	{
+	  itrak = cvCreateTrackbar( "iteration number", "Dilate_trackbar", &iteration, maxt, NULL);
+	}
+      while(1)
+	{
+	  cvDilate( simg, img, ele, iteration);
+	  cvShowImage( "Dilate_trackbar", img);
+	  if( cvWaitKey( 10) == 27) break;
+	}
+      parm->iter = cvGetTrackbarPos( "iteration number", "Dilate_trackbar");
+      cvDestroyWindow( "Dilate_trackbar");
+      std::cout << " T'es content (Oui 0/Non 1)? ";
+      //std::cin >> ok;
+      ok = 0;
+      std::cout << std::endl;
     }
-  parm->iter = cvGetTrackbarPos( "iteration number", "Dilate_trackbar");
-  cvDestroyWindow( "Dilate_trackbar");
-
-   std::ofstream file( nomb, std::ios_base::app );
-   file << "***********Filter fonction DILATE**************\n";
-   file << "No Iterations :-------- " << parm->iter << std::endl;
-   file << std::endl;
-   *simg = *img;
+  std::ofstream file( nomb, std::ios_base::app );
+  file << "***********Filter fonction DILATE**************\n";
+  file << "No Iterations :-------- " << parm->iter << std::endl;
+  file << std::endl;
+  *simg = *img;
 }
 
 

@@ -119,19 +119,22 @@ struct erWeldPoolAnalysis:public erAnalysis
   erWeldPoolAnalysis();
   erWeldPoolAnalysis( std::string name, std::string infofile = "info");
   bool defineParametersUI( std::string image); /** < Definitions des parametres interactive */
-  //void defineParameters( CvRect, erSmootP smooth1 = 0, erSmootP smooth2 = 0, erEqualP equal = 0, erCannyP canny = 0, erAdThrP adthr = 0, erTemplP templ = 0, erAlphaP alphas = 0, erFindcP findc = 0); /* < Passages Parametres en dur */
-  void defineParameters( CvRect, erSmootP smooth1, erSmootP smooth2, erEqualP equal, erCannyP canny, erAdThrP adthr, erTemplP templ, erAlphaP alphas); /* < Passages Parametres en dur */
+  void defineParameters( CvRect, erWhitBP, erSmootP, erSmootP, erCannyP, erDilatP, erThresP, erTemplP, erAlphaP); /* < Passages Parametres en dur */
   bool doIt( std::string); /** < Analyse sur le ficher */
   void saveParameters( std::string);
   void loadParameters( std::string);
+  void setOutputGeometryFile(std::string);         /** < Methode pour reinitialiser le nom du fichier de geometrie */
+
   CvRect   rectOI;
+  erWhitBP param_white_blob;
   erSmootP param_smooth1, param_smooth2;
-  erEqualP param_equalizer_histogram;
+  erDilatP param_dilate;
   erCannyP param_canny;
-  erAdThrP param_adaptive_threshold;
+  erThresP param_threshold;
   erTemplP param_template;
-  erFindcP param_find_contours;
   erAlphaP param_alpha_shape;
+  bool           output_geometry_characteristics;  /** <  Desactiviation des sorties geometriques */
+  std::string    output_geometry_file;             /** <  Nom du fichier de sortie pour la geometrie */
 };
 /**\}*/
 

@@ -6,6 +6,11 @@ erSmootP::erSmootP(SmoothType st,int si):size(si),type(st){};
 erCannyP::erCannyP():trh1(150),trh2(150){};
 erCannyP::erCannyP(int t1,int t2):trh1(t1),trh2(t2){};
 
+erDilatP::erDilatP():iter(1){};
+erDilatP::erDilatP( int it):iter(it){};
+
+erThresP::erThresP():type(_THRESH_BINARY),trh1(150),trh2(255){};
+erThresP::erThresP( ThresholdType tt, int th1, int th2):type(tt), trh1(th1), trh2(th2){};
 
 erAdThrP::erAdThrP():type(THRESH_BINARY),adpt(AM_MEAN),trhP(10),neig(7),trh0(51){};
 erAdThrP::erAdThrP(AdaptiveThresholdType tt,AdaptiveMethodType mt ,int thrp,int neig,int thr0):

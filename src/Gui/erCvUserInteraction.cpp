@@ -214,15 +214,19 @@ IplImage* erDef_ROIuser( erImage* simag, CvRect* rect, bool with_trackbar)
     {
       std::cout << "width du zone d'interet: ";
       std::cin >> simag->rectan.width;
+      //simag->rectan.width = 225;
       std::cout << std::endl;
       std::cout << "height du zone d'interet: ";
       std::cin >> simag->rectan.height;
+      //simag->rectan.height = 225;
       std::cout << std::endl;
       std::cout << "Point X coin sup gauche de la zone: ";
       std::cin >> simag->rectan.x;
+      //simag->rectan.x = 158;
       std::cout << std::endl;
       std::cout << "Point Y coin sup gauche de la zone: ";
       std::cin >> simag->rectan.y;
+      //simag->rectan.y = 121;
       std::cout << std::endl;
       cvRectangle( simag, cvPoint( simag->rectan.x, simag->rectan.y), 
 		   cvPoint( simag->rectan.x + simag->rectan.width, 

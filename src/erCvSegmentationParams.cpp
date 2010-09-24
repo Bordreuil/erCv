@@ -29,7 +29,7 @@ erFindcP::erFindcP(): level(7), mode(erCV_RETR_LIST), meth(erCV_CHAIN_APPROX_SIM
 erFindcP::erFindcP( FindContoursMode co, FindContoursMeth ce, int le): level(le), mode(co), meth(ce){};
 
 erWhitBP::erWhitBP():trh_w(185),trh_b(120),blob_b(5),size_b(10){};
-erWhitBP::erWhitBP( unsigned char tw, unsigned char tb, int bb, int sb):trh_w(tw),trh_b(tb),blob_b(bb),size_b(sb){};
+erWhitBP::erWhitBP( int tw, int tb, int bb, int sb):trh_w(tw),trh_b(tb),blob_b(bb),size_b(sb){};
 
 std::ostream& operator << (std::ostream& o,const erFindcP ef)
 {

@@ -58,23 +58,37 @@ struct erCannyP
 };
 std::ostream& operator << (std::ostream&,const erCannyP);
 
+
+
 /**
    \brief
-
- */
+   
+*/
+//enum Thres{}
+enum ThresholdType{ _THRESH_BINARY=1,     /** < 1:   */
+		    _THRESH_BINARY_INV=2, /** < 2:   */
+		    _THRESH_TRUNC=3,      /** < 3:   */
+		    _THRESH_TOZERO=4,     /** < 4:   */
+		    _THRESH_TOZERO_INV=5  /** < 5:   */
+};
+extern char* thresholdtype[ ];
+// ATTENTION : Finir les commentaires
 struct erThresP
 {
+  erThresP(ThresholdType,int,int);
+  erThresP();
   int trh1; /** < Threshold principal value in Threshold fonction */
   int trh2; /** < Threshold secondary value in Threshold fonction */
-  int type; /** < Type of Threshold to be applied */
+  ThresholdType type; /** < Type of Threshold to be applied */
 };
+//std::ostream& operator << (std::ostream&,const erThresP);
 
 
 
 /**
    \brief
 
- */
+*/
 //enum Adapt{};
 enum AdaptiveThresholdType{THRESH_BINARY=1,     /** < 1:    */
 			   THRESH_BINARY_INV=2  /** < 2:   */
@@ -97,12 +111,15 @@ struct erAdThrP
 };
 std::ostream& operator << (std::ostream&,const erAdThrP);
 
+
 /**
    \brief
 
  */
 struct erDilatP
 {
+  erDilatP( int);
+  erDilatP();
   int iter; /** < Iteration number to be applied dilate fonction */
 };
 

@@ -238,7 +238,7 @@ void export_erCvAnalysis(){
         .def( bp::init< std::string, bp::optional< std::string > >(( bp::arg("name"), bp::arg("infofile")="info" )) )    
     .def( 
              "defineParameters"
-            , (void ( ::erWeldPoolAnalysis::* )( ::CvRect,::erSmootP,::erSmootP,::erEqualP,::erCannyP,::erAdThrP,::erTemplP,::erFindcP,::erAlphaP ) )( &::erWeldPoolAnalysis::defineParameters )
+	     , (void ( ::erWeldPoolAnalysis::* )( ::CvRect, ::erWhitBP, ::erSmootP,::erSmootP,::erCannyP,::erDilatP,::erAdThrP,::erTemplP,::erAlphaP ) )( &::erWeldPoolAnalysis::defineParameters )
             , ( bp::arg("arg0"), bp::arg("arg1"), bp::arg("arg2"), bp::arg("arg3"), bp::arg("arg4"), bp::arg("arg5"), bp::arg("arg6"), bp::arg("arg7"), bp::arg("arg8") ) )    
         .def( 
             "defineParametersUI"
@@ -257,11 +257,13 @@ void export_erCvAnalysis(){
 //             "saveParameters"
 //             , (void ( ::erWeldPoolAnalysis::* )( std::string ) )( &::erWeldPoolAnalysis::saveParameters )
 //             , ( bp::arg("arg0") ) )    
-        .def_readwrite( "param_adaptive_threshold", &erWeldPoolAnalysis::param_adaptive_threshold )    
+//        .def_readwrite( "param_adaptive_threshold", &erWeldPoolAnalysis::param_adaptive_threshold )    
         .def_readwrite( "param_alpha_shape", &erWeldPoolAnalysis::param_alpha_shape )    
         .def_readwrite( "param_canny", &erWeldPoolAnalysis::param_canny )    
-        .def_readwrite( "param_equalizer_histogram", &erWeldPoolAnalysis::param_equalizer_histogram )    
-        .def_readwrite( "param_find_contours", &erWeldPoolAnalysis::param_find_contours )    
+        .def_readwrite( "param_white_blob", &erWeldPoolAnalysis::param_white_blob )
+        .def_readwrite( "param_dilate", &erWeldPoolAnalysis::param_dilate )      
+//        .def_readwrite( "param_equalizer_histogram", &erWeldPoolAnalysis::param_equalizer_histogram )    
+//        .def_readwrite( "param_find_contours", &erWeldPoolAnalysis::param_find_contours )    
         .def_readwrite( "param_smooth1", &erWeldPoolAnalysis::param_smooth1 )    
         .def_readwrite( "param_smooth2", &erWeldPoolAnalysis::param_smooth2 )    
         .def_readwrite( "param_template", &erWeldPoolAnalysis::param_template )    

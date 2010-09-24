@@ -21,26 +21,36 @@ Canny            : 355, 355 */
 int main( int hola, char** file_name)
 { // Zone d interet dans l image retournee
   CvRect rect;
-  rect.x=127;rect.y=82;rect.width=272;rect.height=296;
+  rect.x=158;rect.y=121;rect.width=225;rect.height=225;
   //rect.x=50;rect.y=50;rect.width=150;rect.height=190;
-  erSmootP p1(BLUR,5), p2(MEDIAN,13);
-  erCannyP cann(355,355);
-  erEqualP app(0); 
-  erAdThrP adp(THRESH_BINARY,AM_MEAN,123,130,255); //** <
+  erWhitBP whi( 150, 150, 5, 100);
+  erSmootP p1(BLUR,5), p2(MEDIAN,5);
+  erCannyP cann(500,500);
+  erDilatP dil(1); 
+  erThresP thr(_THRESH_BINARY,200,255); //** <
   CvRect rec_tem;
-  rec_tem.x = 245; rec_tem.y = 279; rec_tem.width = 8; rec_tem.height = 7;
+  rec_tem.x = 9; rec_tem.y = 208; rec_tem.width = 8; rec_tem.height = 8;
   //rec_tem.x = 14; rec_tem.y = 20; rec_tem.width = 5; rec_tem.height = 5;
-  erTemplP templ(CCORR_NORMED, rec_tem, true); 
-  erAlphaP alp(75);
-  erWeldPoolAnalysis wpa("peo_1");
+  erTemplP templ(SQDIFF_NORMED, rec_tem, true); 
+  erAlphaP alp(1);
+  erWeldPoolAnalysis wpa("full_bain_1");
 
   wpa.defineCalibration("calibration_source.jpg","calibration_target.bmp");
-
-  wpa.defineParameters( rect, p1, p2, app, cann, adp, templ, alp);
-
-  wpa.doIt("imageExemple_3.bmp");
-  wpa.doIt("imageExemple_2.bmp");
-  wpa.doIt("imageExemple_1.bmp");
+  wpa.defineParameters( rect, whi, p1, p2, cann, dil, thr, templ, alp);
+  wpa.doIt( "imageExemple_3.bmp");
+  std::string img_base="../pictures/melt_pool_TIG/tiro_4_bain/gtaw_10022010_00191.bmp";
+//   for(int i = 1; i < 15;i++)
+//     {
+//       std::string filename = erLoadImageSeriesManipulationWeldPool( img_base, 3);
+//       std::cout << "file name: " << filename << std::endl;
+//       std::cout << "hola0" << std::endl;
+//       wpa.doIt(filename);
+//     };
+//   wpa.saveParameters( "result/test.out");
+  
+  //wpa.doIt("");
+  //wpa.doIt("imageExemple_2.bmp");
+  //wpa.doIt("imageExemple_1.bmp");
   //wpa.saveParameters("result/test.out");
   return(0);
 };

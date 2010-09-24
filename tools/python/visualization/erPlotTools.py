@@ -73,11 +73,23 @@ def erLoadCurve(curve,type='asItIs'):
         print "erLoadCurve : prevue uniquement pour type ='pointsToClose' ou 'segmentsToList' ou 'asItIs'"
     return test,x
 
-def erLoadImageAndCurve( name_analysis, base_image, number, typ_curve = '_curve_', typ_image = '', format='bmp',type='asItIs'):
+def erLoadImageAndCurve( name_analysis, base_image, number, typ_curve = '_curve_', typ_image = '', format='bmp', type='asItIs'):
     """
     permet de charger une image et une courbe a un temps donne
     si l une des deux n a pas ete charge, la premiere sortie sera fausse
     """
+    #print 'name_analysis:'
+    #print name_analysis
+    #print 'base_image'
+    #print base_image
+    #print 'typ_curve:'
+    #print typ_curve
+    #print 'typ_image:'
+    #print typ_image
+    #print 'format:'
+    #print format
+    #print 'type:'
+    #print type
     fich     = name_analysis + typ_curve + number + '.txt'
     imag     = base_image + typ_image + number + '.' + format
     loadc,x  = erLoadCurve(fich,type)

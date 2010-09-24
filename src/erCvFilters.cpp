@@ -53,7 +53,7 @@ void erCvCanny( IplImage* simg, erCannyP* parm)
   threshold[1] = parm->trh2;
   //std::cout << "cany_0: " << threshold[0] << std::endl;
   //std::cout << "cany_1: " << threshold[1] << std::endl;
-  cvCanny( simg, simg, (float)threshold[0]*10., (float)threshold[1]*10., 5);
+  cvCanny( simg, simg, (float)threshold[0], (float)threshold[1], 5);
 }
 
 

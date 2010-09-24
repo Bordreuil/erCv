@@ -43,7 +43,7 @@ void erCvAdaptiveThresholdUser( IplImage*, erAdThrP*, bool with_trackbar = false
 
 /**  \brief  Permet d effectuer un filtrage de l image en reduissant le nombre de pixels avec noir (peramettres definies par l usager)
  */
-void erCvDilateUser( IplImage*, erDilatP*);
+void erCvDilateUser( IplImage*, erDilatP*, bool with_trackbar = false);
 
 
 

@@ -23,13 +23,17 @@ int main(int HOLA, char** file_name)
   std::cout <<"-----------------------------------------------\n\n";
   uint ninc,ndelta,every,Nimax;
   std::cout << "Increment de photo:\n";
-  std::cin  >> ninc;
+  //std::cin  >> ninc;
+  ninc = 1;
   std::cout << "Toutes les n photos:\n";
-  std::cin >>   every;
+  //std::cin >>   every;
+  every = 1;
   std::cout << " increment de:\n";
-  std::cin >> ndelta;
+  //std::cin >> ndelta;
+  ndelta = 1;
   std::cout << "Nombre max de photos a traiter:\n";
-  std::cin >> Nimax;
+  //std::cin >> Nimax;
+  Nimax = 1;
   /* Objet permettant de modifier l increment entre deux photos */
   erImageIncrement inc(ninc,ndelta,every);
 
@@ -69,64 +73,57 @@ int main(int HOLA, char** file_name)
 
   eb = erConvertToBlackAndWhite( &ea); /* Conversion en 8 bit single channel */ 
   
-  erCvSmoothUser( &eb, &psmo);
+  //erCvSmoothUser( &eb, &psmo);
   
   erWhiteBlobCorrectionUser( &eb, &pwhi);
   
   ec = ca.transform_image(eb);
-  //erSaveImage2( &eb, name, exit, "tra");
+  erSaveImage2( &eb, name, exit, "tra");
 
   /* Definision de la zone d'interet ou on souhaite travailler */
-  ed = erDef_ROIuser( &ec, &rect, true);
-  //erSaveImage2( &ec, name, exit, "roi"); 
-  //erCvCannyUser( &ec, &pcan, true);
-  erCvSmoothUser( &ed, &psmo);
-
-  erCvEqualizeHistUser( &ed, &pequ);
-  //erCvPyramidUser( &ec, &pyra, true);
-  //ee = erCvTemplateUser( &ed, &ptem, true);
-  //erCvThresholdUser( &ee, &pthr, true);
-  //erSaveImage2( &eb, file_name, "smo");
-  //erCvCannyUser( &ed, &pcan, true);
-  //erCvDilateUser( &ed, &pdil);
+  ed = erDef_ROIuser( &ec, &rect);
+  erSaveImage2( &ec, name, exit, "roi"); 
   //erCvEqualizeHistUser( &ed, &pequ);
-  //erCvSmoothUser( &ed, &psmo1);
-  ee = erCvTemplateUser( &ed, &ptem, true);
+  erCvCannyUser( &ed, &pcan);
+  //erCvSmoothUser( &ed, &psmo);
+  //erCvPyramidUser( &ec, &pyra, true);
+  erCvDilateUser( &ed, &pdil);
+  //erCvEqualizeHistUser( &ed, &pequ);
+  erCvSmoothUser( &ed, &psmo1);
+  //ee = erCvTemplateUser( &ed, &ptem, true);
   //erSaveImage2( &ec, file_name, "tem");
   //erCvEqualizeHistUser( &ee, &pequ);
-  //erCvSmoothUser( &ed, &psmo1);
+  //ef = erCvTemplateUser( &ee, &ptem, true);
+  erCvSmoothUser( &ed, &psmo1);
+  ee = erCvTemplateUser( &ed, &ptem);
   //ee = ed;
   //ee = erCvCallBackPatchProjectUser( &ed, &pcal, true);
-  //erSaveImage2( &ec, file_name, "call");
-  //erCvEqualizeHistUser( &eb, &pequ);
-  erCvAdaptiveThresholdUser( &ee, &padt, true);
-  //erSaveImage2( &ec, name, exit, "ada");
-
-  //erCvWatershed( &ea, &pwat);
-
-  //erCvThresholdUser( &ee, &pthr, true);
+  erCvThresholdUser( &ee, &pthr, true);
   //erSaveImage2( &ec, file_name, "thr");
   
-  erCvCannyUser( &ee, &pcan, true);
+  erCvCannyUser( &ee, &pcan);
   //erSaveImage2( &ee, name, exit, "can");
  
   //erCvFindContours( &ee, &pfin, true);
   //_________________________________________________________________________________________________
-//   IsEqualTo is_equal_255(255);
-//   erExtractCvPoints( cvPts, &ee, is_equal_255, rect); /* Extraction */
-//   erPrintCvPoint( cvPts, name, exit);
-//   std::cout << "cvPts.size: " << cvPts.size() << std::endl;
+  IsEqualTo is_equal_255(255);
+  erExtractCvPoints( cvPts, &ee, is_equal_255, rect); /* Extraction */
+  erPrintCvPoint( cvPts, name, exit);
+  std::cout << "cvPts.size: " << cvPts.size() << std::endl;
 
-//   convertCvToCgalpoints( cvPts, cgalPts);
+  convertCvToCgalpoints( cvPts, cgalPts);
  
-//   alpha_edges_user( cgalPts, cgalSeg,  &palp);
-//   erPrintCgalPoint( cgalPts, name, exit);
-//   convertCvToCgalpoints( cvPts, cgalPts);
-//   std::cout << "cgPts.size: " << cgalPts.size() << std::endl;
+  alpha_edges_user( cgalPts, cgalSeg,  &palp);
+  //erPrintCgalPoint( cgalSeg, name, exit);
+  std::cout << "cgalSeg.size: " << cgalSeg.size() << std::endl;
 
-//   largest_closed_segment( cgalSeg, bgraphSeg);
-//   polygon_creation_user( bgraphSeg, cgalPts2);
-//   std::cout << "cgPts2.size: " << cgalPts2.size() << std::endl;
+  largest_closed_segment( cgalSeg, bgraphSeg);
+  erPrintCgalPoint( bgraphSeg, name, exit);
+  std::cout << "bgraphSeg.size: " << bgraphSeg.size() << std::endl;
+
+  polygon_creation_user( bgraphSeg, cgalPts2);
+  //erPrintCgalPoint( cgalPts2, name, exit);
+  std::cout << "cgPts2.size: " << cgalPts2.size() << std::endl;
   //_________________________________________________________________________________________________
 //   if(output_geometry_characteristics && bgraphSeg.size() > 6)
 //     {
