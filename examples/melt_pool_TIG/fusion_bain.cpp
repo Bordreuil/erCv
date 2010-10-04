@@ -74,14 +74,15 @@ int main(int HOLA, char** file_name)
   eb = erConvertToBlackAndWhite( &ea); /* Conversion en 8 bit single channel */ 
   
   //erCvSmoothUser( &eb, &psmo);
-  
   erWhiteBlobCorrectionUser( &eb, &pwhi);
-  
+
+  std::cout << "que peo" << std::endl;
+
   ec = ca.transform_image(eb);
   erSaveImage2( &eb, name, exit, "tra");
-
+  std::cout << "que peo es" << std::endl;
   /* Definision de la zone d'interet ou on souhaite travailler */
-  ed = erDef_ROIuser( &ec, &rect);
+  ed = erDef_ROIuser( &ec, &rect, true);
   erSaveImage2( &ec, name, exit, "roi"); 
   //erCvEqualizeHistUser( &ed, &pequ);
   erCvCannyUser( &ed, &pcan);
@@ -95,7 +96,7 @@ int main(int HOLA, char** file_name)
   //erCvEqualizeHistUser( &ee, &pequ);
   //ef = erCvTemplateUser( &ee, &ptem, true);
   erCvSmoothUser( &ed, &psmo1);
-  ee = erCvTemplateUser( &ed, &ptem);
+  ee = erCvTemplateUser( &ed, &ptem, true);
   //ee = ed;
   //ee = erCvCallBackPatchProjectUser( &ed, &pcal, true);
   erCvThresholdUser( &ee, &pthr, true);

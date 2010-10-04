@@ -1,3 +1,4 @@
 ADD_SUBDIRECTORY(macro_drop)
 ADD_SUBDIRECTORY(metal_transfert)
 ADD_SUBDIRECTORY(melt_pool_TIG)
+ADD_SUBDIRECTORY(laser_weld_pool)

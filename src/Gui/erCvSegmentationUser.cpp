@@ -241,8 +241,8 @@ IplImage* erCvTemplateUser( IplImage* img, erTemplP* parm, bool with_trackbar)
       erShow2Image("Result-Template", result_img, "image-temoin", img );
       
       std::cout << " T'es content (Oui 0/Non 1)? ";
-      //std::cin >> ok;
-      ok = 0;
+      std::cin >> ok;
+      //ok = 0;
       std::cout << std::endl;
     }; 
 
@@ -725,7 +725,7 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
   unsigned char white_thres, black_thres;
   unsigned int id_refused[simg->width];
   bool valide_map;
-  int int_white, int_black;  
+  int int_white, int_black, vector_blob_size, k;  
   int blobCounter = 0, bord_blob = 5, size_blob = 100, col_avg = 0, count = 0, l;
   std::string name = INFOFILE;
   name+= ".txt";
@@ -734,6 +734,7 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
   std::map<unsigned int, int> color;
   std::map<unsigned int, std::vector<lineBlob> > manchas;
   std::map<unsigned int, std::vector<lineBlob> >::iterator iter_map_line;
+  std::vector<lineBlob> vector_blob;
   std::vector<lineBlob>::iterator iter_vector_line, iter_vector_line_up, iter_vector_line_down;
   std::vector<lineBlob>::reverse_iterator riter_vector_line_down;
   //img = cvCloneImage(simg);
@@ -745,30 +746,24 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
       cvCopy( simg, img);
       std::cout << "Threshold upper value to blob detection: ";
       //std::cin >> int_white;
-      //int_white = 150;
+      int_white = 150;
       white_thres = (unsigned char) int_white;
       std::cout << std::endl;
       std::cout << "Threshold donwest value to blob detection: ";
       //std::cin >> int_black;
-      //int_black = 150;
+      int_black = 150;
       black_thres = (unsigned char) int_black;
       std::cout << std::endl;
       std::cout << "Taille en No de pixles de la tache: ";
       //std::cin >> size_blob;
-      //size_blob = 100;
+      size_blob = 50;
       std::cout << std::endl;
       std::cout << "Extension en pixels du bord de la tache: ";
       //std::cin >> bord_blob;
-      //bord_blob = 5;
-      
+      bord_blob = 5;    
       std::cout << std::endl;
       
-      white_thres = (unsigned char) parm->trh_w;
-      //black_thres = parm->trh_b;
-      black_thres = (unsigned char) parm->trh_b;
-      size_blob = parm->size_b;
-      bord_blob = parm->blob_b;
-      std::cout << "white:" << parm->trh_w << " " << parm->trh_b << " " << size_blob << " " << bord_blob << std::endl;
+
 
 
  for(int row = 0; row < simg->height; ++row)
@@ -794,38 +789,6 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
 	    }
 	}
     }
-
-
-  //     for(int row = 0; row < simg->height; ++row)
-// 	{
-// 	  for(int column = 0; column < simg->width; ++column)
-// 	    {
-// 	      byte =  (unsigned char) simg->imageData[ ( row * simg->width) + column];
-// 	      //if(byte > white_thres && column > bord_blob)
-// 	      //{
-// 	      //  byte_left = (unsigned char) simg->imageData[ ( row * simg->width) + ( column - bord_blob)];
-// 	      //  if( byte_left < black_thres)
-// 	      //    {		
-// 	      int start = column;
-// 	      do
-// 		{
-// 		  column++;
-// 		  byte = (unsigned char) simg->imageData[ ( row * simg->width) + column];
-// 		  //if( column >= ( simg->width - bord_blob)) break;
-// 		}
-// 	      while( byte > white_thres);
-// 	      //byte_right = (unsigned char) simg->imageData[ ( row * simg->width) + (column + bord_blob)];
-// 	      //if(  byte_right < black_thres)
-// 	      //	{
-// 	      int stop = column-1;
-// 	      lineBlob lineBlobData = {start, stop, blobCounter, row, false};
-// 	      imgData[row].push_back(lineBlobData);
-// 	      blobCounter++;
-// 	      //	    }
-// 	      //}
-// 	      //   }
-// 	    }
-// 	}
       
       /* Check lineBlobs for a touching lineblob on the next row */
       // Aqui se asocian los ima
@@ -881,7 +844,7 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
 
 		    blobs[imgData[row][entry].blobId].max.y = row;
 		}
-	      blobs[imgData[row][entry].blobId].is_valid = false;
+	      //blobs[imgData[row][entry].blobId].is_valid = false;
 	    }
 	}
       
@@ -913,55 +876,100 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
 	    }
 	}
       std::cout << "manchas.size_initial: " << manchas.size() << std::endl;
+      if( manchas.size() == 0) return;
+      
 
-
-
+      
       /*Discriminateur des taches par les bordes gauche et droites*/
       int pos_x, pos_y_L, pos_y_R;
       CvScalar val_L, val_R;
+      unsigned char valor;
       count = 0;
+      int mancha = 0, linea = 0;
       valide_map = true;
       //std::cout << "hola0" << std::endl;
       for(iter_map_line = manchas.begin(); iter_map_line != manchas.end(); iter_map_line++)
 	{
-	  //std::cout << "hola1" << std::endl;
-	  for( iter_vector_line = (iter_map_line->second).begin(); iter_vector_line != (iter_map_line->second).end(); iter_vector_line++)
+	  mancha++;
+	  linea = 0;
+	  vector_blob = iter_map_line->second;
+	  vector_blob_size = vector_blob.size();
+	  //std::cout << "size mancha: " << iter_map_line->second.size() << std::endl;
+	  for( l = 0; l < vector_blob_size; l++) 
+	    //for( iter_vector_line = (iter_map_line->second).begin(); iter_vector_line != (iter_map_line->second).end(); iter_vector_line++)
 	    {
-	      if( iter_vector_line->min > bord_blob && iter_vector_line->max < simg->width - bord_blob)
+	      linea++;
+	      //std::cout << "hola_chao.0" << std::endl;
+	      if( vector_blob[l].min > bord_blob && vector_blob[l].max < simg->width - bord_blob)
 		{
-		  //std::cout << "hola2" << std::endl;
-		  pos_x = iter_vector_line->row;
-		  pos_y_L = iter_vector_line->min - bord_blob;
+	    	  //std::cout << "hola_chao.1" << std::endl;
+		  pos_x = vector_blob[l].row;
+		  pos_y_L = vector_blob[l].min - bord_blob;
+		  //std::cout << "pos_x: " << pos_x << "  pos_y_L: " << pos_y_L << "  mancha: " << mancha << " linea: " << linea <<  std::endl;  
+		  //std::cout << "img_width: " << simg->width << " " << "img_height: " << simg->height << std::endl;
+		  //valor =  simg->imageData[pos_x*(simg->width) + pos_y_L];
+		  //std::cout << "valor: " << (int)valor << std::endl;
+		  
+		  // if( mancha == 26 && linea == 18)
+		  // 		    {
+		  // 		      int xc, yc;
+		  // 		      CvScalar d;
+		  // 		      for( xc = pos_x - 4; xc < pos_x + 5; xc++)
+		  // 			{
+		  // 			  for( yc = pos_y_L - 4; yc < pos_y_L + 5; yc++)
+		  // 			    {
+		  // 			      d.val[0] = 0;
+		  // 			      //std::cout << "peo A " << std::endl;
+		  // 			      cvSet2D( simg, xc, yc, d); 
+		  // 			    }
+		  // 			}
+		  // 		      erShow2Image( "prueba", img, "image_temoin", simg);
+		  // 		    }
+		  
+		  //		  std::cout << "hola_chao.2" << std::endl;
+		  //erShowImage( "prueba", simg);
+		  //valor =  simg->imageData[ pos_x*( simg->width) + pos_y_L];
+		  //val_L.val[0] = valor; 
 		  val_L = cvGet2D( simg, pos_x, pos_y_L);
-		  //std::cout << "val_L.val[0]: " << (int)val_L.val[0] << "  black_thres: " << (int)black_thres << std::endl;
+		  //std::cout << "val_L.val[0]: " << (int)val_L.val[0] << " valor: " << (int)valor << " black_thres: " << (int)black_thres << std::endl;
+		  //std::cout << " " << std::endl;
 		  if( val_L.val[0] >= black_thres)
 		    {
 		      //std::cout << "hola_chao" << std::endl;
 		      count++;
 		      valide_map = false;
 		      id_refused[count] = iter_map_line->first;
+		      //std::cout << "hola_chao.2: " << std::endl;
 		    }
 		  else
 		    {
+		      //std::cout << "hola3.1" <<std::endl;
 		      pos_y_R = iter_vector_line->max + bord_blob;
-		      val_R = cvGet2D( simg, pos_x, pos_y_R);
+		      //std::cout << "pos_x: " << pos_x << " " << "pos_y_R: " << pos_y_R << std::endl;
+		      //val_R = cvGet2D( simg, pos_x, pos_y_R);
+		      //std::cout << "hola3.3" <<std::endl;
 		      if( val_R.val[0] >= black_thres)
 			{
-			  //std::cout << "hola_chao" << std::endl;
+			  //std::cout << "hola_chao->" << std::endl;
 			  count++;
 			  valide_map = false;
 			  id_refused[count] = iter_map_line->first;
 			}
 		    }
+		  //std::cout << "hola_chao.3: " << std::endl;
 		}
 	      else
 		{
 		  count++;
 		  valide_map = false;
+		  id_refused[count]  = iter_map_line->first;
 		  std::cout << "ATTENTION: Bord_blob value thickest that distance beetwen image border and blob border" << std::endl;
 		}
+	      //std::cout << "hola_chao.4: " << std::endl;
 	    }
+	  //std::cout << "hola_chao.5: " << std::endl;
 	}
+      //std::cout << "hola" << std::endl;
       if( !valide_map)
 	{
 	  for( l = 0 ; l < count + 1; l++)
@@ -969,23 +977,27 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
 	      manchas.erase(id_refused[l]);
 	    }
 	}
-      //std::cout << "map size_left_right: " << manchas.size() << std::endl;      
+      std::cout << "map size_left_right: " << manchas.size() << std::endl;   
+      if( manchas.size() == 0) return;   
       
+
       
       /* Discriminateur des taches par les bordes superieur et inferieur */
       count = 0;
       valide_map = true;
       for(iter_map_line = manchas.begin(); iter_map_line != manchas.end(); iter_map_line++)
 	{
-	  iter_vector_line_up = (iter_map_line->second).begin();
-	  riter_vector_line_down = (iter_map_line->second).rbegin();
-	  int fila_up = iter_vector_line_up->row;
-	  int fila_down = riter_vector_line_down->row;
+	  vector_blob = iter_map_line->second;
+	  vector_blob_size = vector_blob.size();
+	  //iter_vector_line_up = (iter_map_line->second).begin();
+	  //riter_vector_line_down = (iter_map_line->second).rbegin();
+	  int fila_up = vector_blob[0].row;
+	  int fila_down = vector_blob[vector_blob_size - 1].row;
       	  if( fila_up > bord_blob && fila_down < simg->height - bord_blob)
 	    {
 	      bool valide = true;
 	      int y;
-	      for( y = (iter_vector_line_up->min); y < (iter_vector_line_up->max) + 1; y++)
+	      for( y = vector_blob[0].min; y < vector_blob[0].max + 1; y++)
 		{
 		  CvScalar a;
 		  a = cvGet2D( simg, fila_up - bord_blob, y);
@@ -1004,7 +1016,7 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
 	      if( valide)
 		{
 		  int yy;
-		  for( yy = (riter_vector_line_down->min); yy < (riter_vector_line_down->max) + 1; yy++)
+		  for( yy = (vector_blob[vector_blob_size - 1].min); yy < (vector_blob[vector_blob_size -1].max) + 1; yy++)
 		    {
 		      CvScalar a;
 		      a = cvGet2D( simg, fila_down + bord_blob, yy);
@@ -1021,16 +1033,17 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
 			} 
 		    }
 		}
-	      if( valide)
-		{
-		  col_avg =  ( (int)col_avg_up/2*( iter_vector_line_up->max - iter_vector_line_up->min)) + ( (int)col_avg_down/2*( riter_vector_line_down->max - riter_vector_line_down->min));
-		  color[iter_map_line->first] =  col_avg;
-		}
+	      //if( valide)
+	      //{
+	      //col_avg =  ( (int)col_avg_up/2*( iter_vector_line_up->max - iter_vector_line_up->min)) + ( (int)col_avg_down/2*( riter_vector_line_down->max - riter_vector_line_down->min));
+	      //color[iter_map_line->first] =  col_avg;
+	      //}
 	    }
 	  else
 	    {
 	      count++;
 	      valide_map = false;
+	      id_refused[count] = iter_map_line->first;
 	      std::cout << "ATTENTION: Bord_blob value thickest that distance beetwen image border and blob border" << std::endl;
 	    }
 	}
@@ -1041,60 +1054,62 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
 	      manchas.erase(id_refused[l]);
 	    }
 	}
-      //std::cout << "map size_up_down: " << manchas.size() << std::endl;
+      std::cout << "map size_up_down: " << manchas.size() << std::endl;
+      if( manchas.size() == 0) return;      
       
-
-
-
+      
+      
       /* Recouvrement des taches blanches */
       int x, y, xx, yy, ii = 0, jj = 0;
       CvScalar a_up, a_down, a_left, a_right , d, bord_w;
       int bx, by, cxy, p_up, p_down, p_left, p_right;
       for(iter_map_line = manchas.begin(); iter_map_line != manchas.end(); iter_map_line++)
 	{
-	  int line_size = (iter_map_line->second).size();
+	  vector_blob = iter_map_line->second;
+	  vector_blob_size = vector_blob.size();
 	  //iter_vector_line_up = (iter_map_line->second)(line_size);
-	  iter_vector_line_up = (iter_map_line->second).begin();
-	  iter_vector_line_down = (iter_map_line->second).end();
-	  riter_vector_line_down = (iter_map_line->second).rbegin();
-	  for( iter_vector_line = iter_vector_line_up; iter_vector_line != iter_vector_line_down; iter_vector_line++)
+	  //iter_vector_line_up = (iter_map_line->second).begin();
+	  //iter_vector_line_down = (iter_map_line->second).end();
+	  //riter_vector_line_down = (iter_map_line->second).rbegin();
+	  //--------------OJO ------------- revisar esto con Ciryl, hay que cambiar la sintaxis del iterator iter_vector_line_down 
+	  for( l = 0; l < vector_blob_size; l++)
+	    //for( iter_vector_line = iter_vector_line_up; iter_vector_line != iter_vector_line_down; iter_vector_line++)
 	    {
-	      x = iter_vector_line->row;
-	      if( x == iter_vector_line_up->row )
+	      x = vector_blob[l].row;
+	      if( x == vector_blob[0].row )
 		{
-		  for( yy = (iter_vector_line->min) - bord_blob; yy < (iter_vector_line->max) + bord_blob + 1; yy++)
+		  for( yy = (vector_blob[0].min) - bord_blob; yy < (vector_blob[0].max) + bord_blob + 1; yy++)
 		    {
 		      bord_w = cvGet2D( simg, x - bord_blob, yy);
 		      for( xx = x - bord_blob; xx < x; xx++)
 			{
-			  //std::cout << "holas" << std::endl;
+			  std::cout << "holas" << std::endl;
 			  //bord_w.val[0] = 255;
 			  cvSet2D( img, xx, yy, bord_w);
 			}
 		    } 
 		}
-	      if( x == riter_vector_line_down->row)
+	      std::cout << "HOLAS" << std::endl;
+	      //----------------OJO ------------- Aqui hay un error con el puntero "riter", X no puede acceder a este valor, preguntar a Ciryl como leer un vector sin necesidad del puntero inverso
+	      if( x == vector_blob[vector_blob_size - 1].row)
 		{
-		  for( yy = (iter_vector_line->min) + bord_blob; yy < (iter_vector_line->max) + bord_blob + 1; yy++)
+		  std::cout << "HOLAS2" << std::endl;
+		  for( yy = (vector_blob[vector_blob_size - 1].min) + bord_blob; yy < (vector_blob[vector_blob_size - 1].max) + bord_blob + 1; yy++)
 		    {
 		      bord_w = cvGet2D( simg, x + bord_blob, yy);
 		      for( xx = x + 1; xx < x + bord_blob + 1; xx++)
 			{
+			  //std::cout << "peo" << std::endl;
 			  cvSet2D( img, xx, yy, bord_w);
 			}
 		    } 
 		}
-	      for( y = (iter_vector_line->min) - bord_blob; y < (iter_vector_line->max) + bord_blob + 1; y++)
+	      for( y = ( vector_blob[l].min) - bord_blob; y < ( vector_blob[l].max) + bord_blob + 1; y++)
 		{
-		  //for( x = (iter_vector_line_up->row) - bord_blob; x < (riter_vector_line_down->row) + bord_blob + 1; x++) 
-		  //  { 
-		  //CvScalar a_up, a_down, a_left, a_right , d;
-		  //int bx, by, cxy;
-		  
-		  a_up = cvGet2D( simg, (iter_vector_line_up->row) - bord_blob, y);
-		  a_down = cvGet2D( simg, (riter_vector_line_down->row) + bord_blob, y);
-		  a_left = cvGet2D( simg, x, (iter_vector_line->min) - bord_blob);
-		  a_right = cvGet2D( simg, x, (iter_vector_line->max) + bord_blob);
+		  a_up = cvGet2D( simg, (vector_blob[0].row) - bord_blob, y);
+		  a_down = cvGet2D( simg, (vector_blob[vector_blob_size - 1].row) + bord_blob, y);
+		  a_left = cvGet2D( simg, x, (vector_blob[l].min) - bord_blob);
+		  a_right = cvGet2D( simg, x, (vector_blob[l].max) + bord_blob);
 		  //     if(  (iter_vector_line_up->row  != p_up) || (riter_vector_line_down->row != p_down) || (iter_vector_line->min != p_left) || (iter_vector_line->max != p_right))
 		  // 			{
 		  // 			  std::cout <<  "iter_map_line->second.begin()->row: " << iter_vector_line_up->row << std::endl;
@@ -1108,11 +1123,11 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
 		  cxy = (by + bx)/2;
 		  d.val[0] = (unsigned char) cxy;
 		  cvSet2D( img, x, y, d);
-// 		  if( (x == (iter_vector_line_up->row) - bord_blob || x == (riter_vector_line_down->row) + bord_blob ) || ( y == (iter_vector_line->min) - bord_blob || y == (iter_vector_line->max) + bord_blob))
-// 		    { 
-// 		      d.val[0] = 100;
-// 		      cvSet2D( img, x, y, d);
-// 		    }
+		  // 		  if( (x == (iter_vector_line_up->row) - bord_blob || x == (riter_vector_line_down->row) + bord_blob ) || ( y == (iter_vector_line->min) - bord_blob || y == (iter_vector_line->max) + bord_blob))
+		  // 		    { 
+		  // 		      d.val[0] = 100;
+		  // 		      cvSet2D( img, x, y, d);
+		  // 		    }
 		  // 		      p_up = iter_vector_line_up->row ;
 		  // 		      p_down = riter_vector_line_down->row;
 		  // 		      p_left = iter_vector_line->min;
@@ -1121,39 +1136,39 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
 		}
 	    }
 	}
-//       for( int x = 1; x < simg->width; x++)
-// 	{
-// 	  for( int y = 1; y < simg->height; y++)
-// 	    {
-// 	      CvScalar d;
-// 	      if( x > 10 && x < 30)
-// 		{
-// 		  d.val[0] = 230;
-// 		  //d.val[0] = 10;
-// 		  cvSet2D( img, x, y, d);      
-// 		}
-// 	    }
-// 	}
-//       //std::cout << "width: " << simg->width << " height : " << simg->height << std::endl;
-//       for( int column = 1; column < simg->width; ++column)
-// 	{
-// 	  for( int row = 1; row < simg->height; ++row)
-// 	    {
-// 	      if( column > 10 && column < 30)
-// 		{
-// 		  simg->imageData[ ( row*simg->width) + column] = 230;
-// 		}
-// 	    }
-// 	}
-	      
-
+      //       for( int x = 1; x < simg->width; x++)
+      // 	{
+      // 	  for( int y = 1; y < simg->height; y++)
+      // 	    {
+      // 	      CvScalar d;
+      // 	      if( x > 10 && x < 30)
+      // 		{
+      // 		  d.val[0] = 230;
+      // 		  //d.val[0] = 10;
+      // 		  cvSet2D( img, x, y, d);      
+      // 		}
+      // 	    }
+      // 	}
+      //       //std::cout << "width: " << simg->width << " height : " << simg->height << std::endl;
+      //       for( int column = 1; column < simg->width; ++column)
+      // 	{
+      // 	  for( int row = 1; row < simg->height; ++row)
+      // 	    {
+      // 	      if( column > 10 && column < 30)
+      // 		{
+      // 		  simg->imageData[ ( row*simg->width) + column] = 230;
+      // 		}
+      // 	    }
+      // 	}
+      
+      
       //cvNamedWindow( "Blob correction", 0);
       erShow2Image( "Blob corrrection", img, "image_temoin", simg);
       //while(1){if(cvWaitKey(10) == 27) break;
       //cvDestroyWindow( "Blob correction");
       std::cout << " T'es content (Oui 0/Non 1)? ";
-      //std::cin >> ok;
-      ok = 0;
+      std::cin >> ok;
+      //ok = 0;
       std::cout << std::endl;
     }    
   parm->trh_w = (int) white_thres;
@@ -1161,7 +1176,7 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
   parm->blob_b = size_blob;
   parm->size_b = bord_blob;
   *simg = *img;
-  // std::ofstream file( nameInfoFile(INFOFILE), std::ios_base::app );
+  //std::ofstream file( nameInfoFile(INFOFILE), std::ios_base::app );
   std::ofstream file( nomb, std::ios_base::app );
   file << "***********Segmentation fonction WhiteBlobCorrection***********\n";
   file << "upper Threshold :------------ " << parm->trh_w << std::endl;

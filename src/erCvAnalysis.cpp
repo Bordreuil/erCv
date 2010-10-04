@@ -472,7 +472,7 @@ bool erWeldPoolAnalysis::doIt(std::string fich)
   erCvThreshold( &ee, &param_threshold);
 
   erCvCanny( &ee, &param_canny);
-
+  erShowImage( "result canny 2", &ee);
   //erSaveImage2Analysis( &ee, file_name, fich, "can");
 
   IsEqualTo is_equal_255(255);
@@ -527,3 +527,189 @@ void erWeldPoolAnalysis::saveParameters( std::string file)
 };
 
 
+
+
+
+/* Analysis pour le laser du prototypage */
+
+/* Constructeur par defaut */
+erLaserPrototypageAnalysis::erLaserPrototypageAnalysis(){};
+
+//** Constructeur avec des paramettres determines ailleurs */
+erLaserPrototypageAnalysis::erLaserPrototypageAnalysis( std::string name, std::string infofile): 
+  erAnalysis( name, infofile), rectOI( ), param_smooth1( ), param_smooth2( ), param_canny( ),  param_dilate( ), param_threshold( ), param_template( ), param_alpha_shape( ), output_geometry_characteristics(true),output_convex_polygon(true){setOutputGeometryFile(name); }; 
+
+//** Boucle de execution du programe en utilisant le la user interface de openCv */
+bool erLaserPrototypageAnalysis::defineParametersUI( std::string firstImage) 
+{
+  std::cout <<"--------------------------------------------------\n\n";
+  std::cout <<"\tMagic treatment for metal transfert\ntBy Edward Romero\n\tMay 2010\n\tLMGC/UM2/UM5508\n\tANR-TEMMSA\n\n";
+  std::cout <<"-------------------------------------------------\n\n";
+  
+  /*Declaration de variables a utiliser par les fonctions */
+  INFOFILE = this->infoFile;
+  erImage ea, eb, ec, ed, ee;
+  CvRect rect;
+  erSmootP psmo1, psmo2;
+  erCannyP pcan;
+  erThresP pthr;
+  erTemplP ptem;
+  erDilatP pdil;
+  std::list< CvPoint> cvPts;
+  std::list< CgalPoint> cgalPts;
+  std::list< CgalSegmt> cgalSeg, bgraphSeg;
+  erAlphaP palp;
+  bool loaded;
+  
+  char* file_name = const_cast< char*>(firstImage.c_str());
+  
+  boost::tie( ea, loaded) = erLoadImage( file_name);
+  if(!loaded) return false;
+  
+  ed = erDef_ROIuser( &eb, &rect);
+  rectOI = rect;
+
+  erCvCannyUser( &ed, &pcan);
+  param_canny = pcan;
+  
+  erCvDilateUser( &ed, &pdil);
+  param_dilate = pdil;
+  
+  erCvSmoothUser( &ed, &psmo1);
+  param_smooth1 = psmo1;
+
+  erCvSmoothUser( &ed, &psmo2);
+  param_smooth2 = psmo2;
+
+  ee = erCvTemplateUser( &ed, &ptem);
+  param_template = ptem;
+  
+  erCvThresholdUser( &ee, &pthr);
+  param_threshold = pthr;
+  
+  erCvCannyUser( &ee, &pcan);
+  param_canny = pcan;
+  
+  IsEqualTo is_equal_255(255);
+  char* nom   = const_cast<char*>(name.c_str());
+  
+  erExtractCvPoints( cvPts, &ee, is_equal_255, rect);
+  convertCvToCgalpoints( cvPts, cgalPts);
+  
+  alpha_edges( cgalPts, cgalSeg, &palp);
+  
+  largest_closed_segment( cgalSeg, bgraphSeg);
+
+  erPrintCgalPoint( bgraphSeg, file_name, nom);
+  
+  return true;
+};
+
+//void erWeldPoolAnalysis::defineParameters( CvRect rect, erSmootP smooth1, erSmootP smooth2, erEqualP equal, erCannyP canny, erAdThrP adthr, erTemplP templ, erAlphaP alphas, erFindcP findc)
+void erLaserPrototypageAnalysis::defineParameters( CvRect rect, erSmootP smooth1, erSmootP smooth2, erCannyP canny, erDilatP dilate, erThresP thres, erTemplP templ, erAlphaP alphas)
+{
+  rectOI = rect;
+  param_smooth1 = smooth1;
+  param_smooth2 = smooth2;
+  param_dilate = dilate;
+  param_canny = canny;
+  param_threshold = thres;
+  param_template = templ;
+  //param_find_contours = findc;
+  param_alpha_shape = alphas;
+};
+
+
+void erLaserPrototypageAnalysis::setOutputGeometryFile(std::string file) //** Le fichier existant est ecrase!!
+{
+  output_geometry_file = dir_analysis+"/"+file+"_wep"+".geo";
+  std::ofstream out(output_geometry_file.c_str());
+  out << "Nom_du_fichier\t\tCentroid_x\tCentroid_y\tAire\tAxe_Princ_x\tAxe_Princ_y\tFit(0-1)\n";
+
+};
+
+bool erLaserPrototypageAnalysis::doIt(std::string fich)
+{ 
+  bool loaded;
+  char* file_name         = const_cast< char*>( fich.c_str());
+  std::string output_name = (dir_analysis+"/"+name+"_wep");
+  char* nom = const_cast< char*>( output_name.c_str());
+  erImage ea, eb, ec, ed, ee;
+  std::list< CvPoint>   cvPts;
+  std::list< CgalPoint> cgalPts;
+  std::list< CgalSegmt> cgalSeg, bgraphSeg;
+  
+  boost::tie(ea, loaded) = erLoadImage( file_name);
+  if( !loaded) return false;
+
+  ec = erConvertToBlackAndWhite( &ea);
+  //erSaveImage( &eb, file_name, nom);
+
+  ed = erDef_ROI( &ec, &rectOI);
+  
+  erCvCanny( &ed, &param_canny);
+ 
+  erCvDilate( &ed, &param_dilate);
+
+  erCvSmooth( &ed, &param_smooth1);
+
+  erCvSmooth( &ed, &param_smooth2);
+
+  ee = erCvTemplate( &ed, &param_template);
+
+  erCvThreshold( &ee, &param_threshold);
+
+  erCvCanny( &ee, &param_canny);
+  erShowImage( "result canny 2", &ee);
+  //erSaveImage2Analysis( &ee, file_name, fich, "can");
+
+  IsEqualTo is_equal_255(255);
+  erExtractCvPoints( cvPts, &ee, is_equal_255, rectOI);
+ 
+  convertCvToCgalpoints( cvPts, cgalPts);
+
+  alpha_edges( cgalPts, cgalSeg, &param_alpha_shape);
+
+  largest_closed_segment( cgalSeg, bgraphSeg);
+
+  erPrintCgalPoint( bgraphSeg, file_name, nom);
+  if(output_convex_polygon)
+  {
+      std::list<CgalPoint> polygon = erGeometryExtractConvexPolygon(bgraphSeg.begin(),bgraphSeg.end());
+      std::string output_nam = (dir_analysis+"/"+name+"_wep_poly");
+      char* name = const_cast< char*>( output_nam.c_str());
+      erPrintCgalPoint(polygon,file_name,name);
+    };
+  if(output_geometry_characteristics && bgraphSeg.size() > 6)
+    {
+      std::list<CgalTrian> triangs=erGeometryExtractTriangles(bgraphSeg.begin(),bgraphSeg.end());
+      double area   = getArea(triangs.begin(),triangs.end());
+      CgalLine  line;
+      CgalPoint pt;
+      CgalFTrai fit = linear_least_squares_fitting_2(triangs.begin(),triangs.end(),line,pt,CGAL::Dimension_tag<2>());	
+      std::ofstream ot(output_geometry_file.c_str(),std::ios_base::app);
+      CgalVect vect=line.to_vector();
+      ot << std::setprecision(10) << fich << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
+    };
+  return true;
+ 
+};
+
+/* On sauve garde les parammettres utilisé dans un ficher de backup */
+void erLaserPrototypageAnalysis::saveParameters( std::string file)
+{
+  std::string output_file = dir_analysis+"/"+file;
+  std::ofstream out( output_file.c_str());
+  out << "* Begin er LaserPrototypage Analysis" << std::endl;
+  out << this->rectOI;
+  //out << this->param_white_blob;
+  out << this->param_canny;
+  //out << this->param_dilate;
+  out << this->param_smooth1;
+  out << this->param_smooth2;
+  //out << this->param_template;
+  //out << this->param_threshold;
+  out << this->param_canny;
+  //out << this->param_alpha_shape;
+  out << "* End er WeldPool Analysis" << std::endl;
+};

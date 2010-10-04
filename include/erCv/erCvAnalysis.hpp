@@ -139,4 +139,44 @@ struct erWeldPoolAnalysis:public erAnalysis
 };
 /**\}*/
 
+
+
+
+
+
+
+/** \brief Class pour des analysis des laser Prototypage
+
+    Cette classe encapsule les methodes pour obtenir le 
+    contour ferme du bain fusion observe par reflexion 
+    speculaire. 
+*/
+
+struct erLaserPrototypageAnalysis:public erAnalysis
+{
+  erLaserPrototypageAnalysis();
+  erLaserPrototypageAnalysis( std::string name, std::string infofile = "info");
+  bool defineParametersUI( std::string image); /** < Definitions des parametres interactive */
+  void defineParameters( CvRect, erSmootP, erSmootP, erCannyP, erDilatP, erThresP, erTemplP, erAlphaP); /* < Passages Parametres en dur */
+  bool doIt( std::string); /** < Analyse sur le ficher */
+  void saveParameters( std::string);
+  void loadParameters( std::string);
+  void setOutputGeometryFile(std::string);         /** < Methode pour reinitialiser le nom du fichier de geometrie */
+
+  CvRect   rectOI;
+  erSmootP param_smooth1, param_smooth2;
+  erDilatP param_dilate;
+  erCannyP param_canny;
+  erThresP param_threshold;
+  erTemplP param_template;
+  erAlphaP param_alpha_shape;
+  bool           output_geometry_characteristics;  /** <  Desactiviation des sorties geometriques  Initialiser a true*/
+  std::string    output_geometry_file;             /** <  Nom du fichier de sortie pour la geometrie */
+  bool           output_convex_polygon;           /** < Si on veut extraire le domaine convexe initialiser a true au depart */
+};
+/**\}*/
+
+
+
+
 #endif

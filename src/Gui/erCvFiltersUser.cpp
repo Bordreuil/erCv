@@ -99,8 +99,8 @@ void erCvCannyUser( IplImage* simg, erCannyP* parm, bool with_trackbar)
       //parm->trh2 = cvGetTrackbarPos( "threshold2", "Canny_trackbar");
       cvDestroyWindow( "Canny_trackbar");
       std::cout << " T'es content (Oui 0/Non 1)? ";
-      //std::cin >> ok;
-      ok = 0;
+      std::cin >> ok;
+      //ok = 0;
       std::cout << std::endl;
     };
   //simg = cvCloneImage( img);
@@ -150,8 +150,8 @@ void erCvSmoothUser( IplImage* simg, erSmootP* parm)
       while(1){if(cvWaitKey(10) == 27) break;};
       cvDestroyWindow( "Smooth");
       std::cout << " T'es content (Oui 0/Non 1)? ";
-      //std::cin >> ok;
-      ok = 0;
+      std::cin >> ok;
+      //ok = 0;
       std::cout << std::endl;
     };
   parm->size = size;
@@ -233,14 +233,14 @@ void erCvThresholdUser( IplImage* simg, erThresP* parm, bool with_trackbar)
       if(!with_trackbar)
 	{
 	  std::cout << "Put the value of Threshold fonction (to 8-bit image = 255): ";
-	  //std::cin >> threshold[0];
-	  threshold[0] = 230;
+	  std::cin >> threshold[0];
+	  //  threshold[0] = 230;
 	  std::cout << std::endl;
 	  if( threstype == 1 or threstype == 2)
 	    {
 	      std::cout << "Put the value of Second Threshold fonction (to 8-bit image = 255): ";
-	      //std::cin >> threshold[1];
-	      threshold[1] = 255;
+	      std::cin >> threshold[1];
+	      //threshold[1] = 255;
 	      std::cout << std::endl;
 	    }
 	}
