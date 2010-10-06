@@ -6,6 +6,7 @@
 #include <erCv/erCvToCgal.hpp>
 
 #include <erCv/geometry/erGeometricalCharacteristics.hpp>
+#include <erCv/geometry/erCgalPolygon2.hpp>
 #include <erCv/Gui/erCvUserInteraction.hpp>
 #include <erCv/Gui/erCvFiltersUser.hpp>
 #include <erCv/Gui/erCvSegmentationUser.hpp>
@@ -451,6 +452,7 @@ bool erWeldPoolAnalysis::doIt(std::string fich)
   if( _with_calibration)
     {
       ec = _calibration.transform_image(eb);
+      erSaveImage(&ec,file_name,nom);
     }
   else
     {
@@ -485,17 +487,24 @@ bool erWeldPoolAnalysis::doIt(std::string fich)
   largest_closed_segment( cgalSeg, bgraphSeg);
 
   erPrintCgalPoint( bgraphSeg, file_name, nom);
+  double area;
   if(output_convex_polygon)
   {
       std::list<CgalPoint> polygon = erGeometryExtractConvexPolygon(bgraphSeg.begin(),bgraphSeg.end());
+
       std::string output_nam = (dir_analysis+"/"+name+"_wep_poly");
       char* name = const_cast< char*>( output_nam.c_str());
       erPrintCgalPoint(polygon,file_name,name);
+      Polygon_2 poly(polygon.begin(),polygon.end());
+      area = poly.area();
     };
   if(output_geometry_characteristics && bgraphSeg.size() > 6)
     {
       std::list<CgalTrian> triangs=erGeometryExtractTriangles(bgraphSeg.begin(),bgraphSeg.end());
-      double area   = getArea(triangs.begin(),triangs.end());
+      if(!not output_convex_polygon)
+	{
+	 area   = getArea(triangs.begin(),triangs.end());
+	};
       CgalLine  line;
       CgalPoint pt;
       CgalFTrai fit = linear_least_squares_fitting_2(triangs.begin(),triangs.end(),line,pt,CGAL::Dimension_tag<2>());	
@@ -660,7 +669,7 @@ bool erLaserPrototypageAnalysis::doIt(std::string fich)
   erCvThreshold( &ee, &param_threshold);
 
   erCvCanny( &ee, &param_canny);
-  erShowImage( "result canny 2", &ee);
+  //erShowImage( "result canny 2", &ee);
   //erSaveImage2Analysis( &ee, file_name, fich, "can");
 
   IsEqualTo is_equal_255(255);

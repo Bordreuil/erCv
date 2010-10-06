@@ -27,7 +27,7 @@ int main( int hola, char** file_name)
   erSmootP p1(BLUR,5), p2(MEDIAN,5);
   erCannyP cann(500,500);
   erDilatP dil(1); 
-  erThresP thr(_THRESH_BINARY,200,255); //** <
+  erThresP thr(THRESH_BINARY_,200,255); //** <
   CvRect rec_tem;
   rec_tem.x = 9; rec_tem.y = 208; rec_tem.width = 8; rec_tem.height = 8;
   //rec_tem.x = 14; rec_tem.y = 20; rec_tem.width = 5; rec_tem.height = 5;
@@ -56,7 +56,7 @@ int main( int hola, char** file_name)
   wpa.doIt( "example_full_bain_2.bmp");
   wpa.doIt( "example_full_bain_3.bmp");
   erSmootP p12(BLUR,7), p22(MEDIAN,7);
-  erThresP thr2(_THRESH_BINARY,215,255); 
+  erThresP thr2(THRESH_BINARY_,215,255); 
   wpa.defineParameters( rect, whi, p12, p22, cann, dil, thr2, templ, alp);
   wpa.doIt( "example_full_bain_4.bmp");
 //>>>>>>> .r124

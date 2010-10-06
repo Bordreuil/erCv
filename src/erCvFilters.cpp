@@ -64,9 +64,9 @@ void erCvThreshold( IplImage* simg, erThresP* parm)
   threshold[0] = parm->trh1;
   threshold[1] = parm->trh2;
   threstype =  parm->type;
-  std::cout << "thrsh_0: " << threshold[0] << std::endl;
-  std::cout << "thrsh_1: " << threshold[1] << std::endl;
-  std::cout << "thrstyp: " << threstype << std::endl;
+  //std::cout << "thrsh_0: " << threshold[0] << std::endl;
+  //std::cout << "thrsh_1: " << threshold[1] << std::endl;
+  //std::cout << "thrstyp: " << threstype << std::endl;
   if( threstype == 1) cvThreshold( simg, simg, (float)threshold[0], (float)threshold[1], CV_THRESH_BINARY);
   if( threstype == 2) cvThreshold( simg, simg, (float)threshold[0], (float)threshold[1], CV_THRESH_BINARY_INV);
   if( threstype == 3) cvThreshold( simg, simg, (float)threshold[0], (float)threshold[0], CV_THRESH_TRUNC);

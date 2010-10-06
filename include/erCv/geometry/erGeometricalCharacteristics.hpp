@@ -48,10 +48,10 @@ std::list<CgalPoint> erGeometryExtractConvexPolygon(InputSegmentIterator debut,I
       CDT::Vertex_handle vp = fc->vertex(fc->cw(id_inf));
       result.push_back(vp->point());
     };
-  fc++;
-   int id_inf=fc->index(v_inf);
-    CDT::Vertex_handle vp = fc->vertex(fc->cw(id_inf));
-    result.push_back(vp->point());
+  // fc++;
+  // int id_inf=fc->index(v_inf);
+  //  CDT::Vertex_handle vp = fc->vertex(fc->cw(id_inf));
+  //  result.push_back(vp->point());
   return result;
 
 };

@@ -65,11 +65,11 @@ std::ostream& operator << (std::ostream&,const erCannyP);
    
 */
 //enum Thres{}
-enum ThresholdType{ _THRESH_BINARY=1,     /** < 1:   */
-		    _THRESH_BINARY_INV=2, /** < 2:   */
-		    _THRESH_TRUNC=3,      /** < 3:   */
-		    _THRESH_TOZERO=4,     /** < 4:   */
-		    _THRESH_TOZERO_INV=5  /** < 5:   */
+enum ThresholdType{ THRESH_BINARY_=1,     /** < 1:   */
+		    THRESH_BINARY_INV_=2, /** < 2:   */
+		    THRESH_TRUNC_=3,      /** < 3:   */
+		    THRESH_TOZERO_=4,     /** < 4:   */
+		    THRESH_TOZERO_INV_=5  /** < 5:   */
 };
 extern char* thresholdtype[ ];
 // ATTENTION : Finir les commentaires

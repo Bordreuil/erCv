@@ -404,7 +404,7 @@ void erWhiteBlobCorrection( IplImage* simg, erWhitBP* parm)
 	    }
 	}
     }
-  std::cout << "manchas.size_initial: " << manchas.size() << std::endl;
+  //std::cout << "manchas.size_initial: " << manchas.size() << std::endl;
   
   
   

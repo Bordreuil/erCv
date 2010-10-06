@@ -26,7 +26,14 @@ void export_erCvFiltersParams()
         .value("BILATERAL", BILATERAL)
         .export_values()
         ;
-
+    bp::enum_< ThresholdType>("ThresholdType")
+        .value("THRESH_BINARY_", THRESH_BINARY_)
+        .value("THRESH_BINARY_INV_", THRESH_BINARY_INV_)
+        .value("THRESH_TRUNC_", THRESH_TRUNC_)
+        .value("THRESH_TOZERO_", THRESH_TOZERO_)
+        .value("THRESH_TOZERO_INV_", THRESH_TOZERO_INV_)
+        .export_values()
+        ;
     bp::class_< erAdThrP >( "erAdThrP", bp::init< AdaptiveThresholdType, AdaptiveMethodType, int, int, int >(( bp::arg("arg0"), bp::arg("arg1"), bp::arg("arg2"), bp::arg("arg3"), bp::arg("arg4") )) )    
         .def( bp::init< >() )    
         .def_readwrite( "adpt", &erAdThrP::adpt )    
@@ -40,9 +47,16 @@ void export_erCvFiltersParams()
         .def_readwrite( "trh1", &erCannyP::trh1 )    
         .def_readwrite( "trh2", &erCannyP::trh2 );
 
-    bp::class_< erDilatP >( "erDilatP" )    
-        .def_readwrite( "iter", &erDilatP::iter );
-
+    //bp::class_< erDilatP >( "erDilatP" )    
+    //    .def_readwrite( "iter", &erDilatP::iter );
+   { //::erDilatP
+        typedef bp::class_< erDilatP > erDilatP_exposer_t;
+        erDilatP_exposer_t erDilatP_exposer = erDilatP_exposer_t( "erDilatP", bp::init< int >(( bp::arg("arg0") )) );
+        bp::scope erDilatP_scope( erDilatP_exposer );
+        bp::implicitly_convertible< int, erDilatP >();
+        erDilatP_exposer.def( bp::init< >() );
+        erDilatP_exposer.def_readwrite( "iter", &erDilatP::iter );
+    }
     bp::class_< erErodeP >( "erErodeP" )    
         .def_readwrite( "iter", &erErodeP::iter );
 
@@ -55,10 +69,13 @@ void export_erCvFiltersParams()
         .def_readwrite( "trhX", &erSobelP::trhX )    
         .def_readwrite( "trhY", &erSobelP::trhY );
 
-    bp::class_< erThresP >( "erThresP" )    
+    bp::class_< erThresP >( "erThresP", bp::init< ThresholdType, int, int >
+			    (( bp::arg("arg0"), bp::arg("arg1"), bp::arg("arg2") )) )    
+        .def( bp::init< >() )    
         .def_readwrite( "trh1", &erThresP::trh1 )    
         .def_readwrite( "trh2", &erThresP::trh2 )    
         .def_readwrite( "type", &erThresP::type );
+  
 
     // bp::scope().attr("nbSmoothType") = nbSmoothType;
 };
