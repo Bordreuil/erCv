@@ -894,20 +894,17 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
 	  linea = 0;
 	  vector_blob = iter_map_line->second;
 	  vector_blob_size = vector_blob.size();
-	  //std::cout << "size mancha: " << iter_map_line->second.size() << std::endl;
+	  std::cout << "size mancha: " << iter_map_line->second.size() << " mancha #" << mancha << std::endl;
 	  for( l = 0; l < vector_blob_size; l++) 
-	    //for( iter_vector_line = (iter_map_line->second).begin(); iter_vector_line != (iter_map_line->second).end(); iter_vector_line++)
 	    {
 	      linea++;
-	      //std::cout << "hola_chao.0" << std::endl;
 	      if( vector_blob[l].min > bord_blob && vector_blob[l].max < simg->width - bord_blob)
 		{
-	    	  //std::cout << "hola_chao.1" << std::endl;
 		  pos_x = vector_blob[l].row;
 		  pos_y_L = vector_blob[l].min - bord_blob;
 		  //std::cout << "pos_x: " << pos_x << "  pos_y_L: " << pos_y_L << "  mancha: " << mancha << " linea: " << linea <<  std::endl;  
 		  //std::cout << "img_width: " << simg->width << " " << "img_height: " << simg->height << std::endl;
-		  //valor =  simg->imageData[pos_x*(simg->width) + pos_y_L];
+		  valor =  simg->imageData[pos_x*(simg->width) + pos_y_L];
 		  //std::cout << "valor: " << (int)valor << std::endl;
 		  
 		  // if( mancha == 26 && linea == 18)
@@ -931,7 +928,7 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
 		  //valor =  simg->imageData[ pos_x*( simg->width) + pos_y_L];
 		  //val_L.val[0] = valor; 
 		  val_L = cvGet2D( simg, pos_x, pos_y_L);
-		  //std::cout << "val_L.val[0]: " << (int)val_L.val[0] << " valor: " << (int)valor << " black_thres: " << (int)black_thres << std::endl;
+		  std::cout << "val_L.val[0]: " << (int)val_L.val[0] << " valor: " << (int)valor << " black_thres: " << (int)black_thres << std::endl;
 		  //std::cout << " " << std::endl;
 		  if( val_L.val[0] >= black_thres)
 		    {
@@ -962,7 +959,7 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
 		{
 		  count++;
 		  valide_map = false;
-		  id_refused[count]  = iter_map_line->first;
+		  id_refused[count] = iter_map_line->first;
 		  std::cout << "ATTENTION: Bord_blob value thickest that distance beetwen image border and blob border" << std::endl;
 		}
 	      //std::cout << "hola_chao.4: " << std::endl;

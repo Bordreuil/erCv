@@ -22,7 +22,7 @@ int main( int hola, char** file_name)
 { // Zone d interet dans l image retournee
   CvRect rect;
   rect.x = 143; rect.y = 29; rect.width = 270; rect.height = 173;
-  erSmootP p1(BLUR,5), p2(MEDIAN,5);
+  erSmootP p1(BLUR,7), p2(MEDIAN,7);
   erCannyP cann(500,500);
   erDilatP dil(1); 
   erThresP thr( THRESH_BINARY_, 82, 255); //** <
@@ -37,30 +37,30 @@ int main( int hola, char** file_name)
   CvRect rect2;
   rect2.x = 168; rect2.y = 11; rect2.width = 222; rect2.height = 133;
   CvRect rec_tem2;
-  rec_tem2.x = 144; rec_tem2.y = 89; rec_tem2.width = 5; rec_tem2.height = 5;
+  rec_tem2.x = 144; rec_tem2.y = 89; rec_tem2.width = 3; rec_tem2.height = 3;
   erTemplP templ2(SQDIFF_NORMED, rec_tem2, true); 
-  erThresP thr2( THRESH_BINARY_, 88, 255); //** <
+  erThresP thr2( THRESH_BINARY_, 11, 255); //** <
   lpa.defineParameters( rect2, p1, p2, cann, dil, thr2, templ2, alp);
   lpa.doIt( "example_laser_prototypage_2.jpg");
 
   rect.x = 354; rect.y = 191; rect.width = 340; rect.height = 178;
-  rec_tem.x = 208; rec_tem.y = 127; rec_tem.width = 5; rec_tem.height = 5;
+  rec_tem.x = 200; rec_tem.y = 111; rec_tem.width = 3; rec_tem.height = 3;
   erTemplP templ3(SQDIFF_NORMED, rec_tem, true); 
-  erThresP thr3( THRESH_BINARY_, 234, 255); //** <
+  erThresP thr3( THRESH_BINARY_, 125, 255); //** <
   lpa.defineParameters( rect, p1, p2, cann, dil, thr3, templ3, alp);
   lpa.doIt( "example_laser_prototypage_3.jpg");
 
   rect.x = 89; rect.y = 591; rect.width = 342; rect.height = 222;
-  rec_tem.x = 253; rec_tem.y = 150; rec_tem.width = 5; rec_tem.height = 5;
+  rec_tem.x = 235; rec_tem.y = 125; rec_tem.width = 3; rec_tem.height = 3;
   erTemplP templ4(SQDIFF_NORMED, rec_tem, true); 
-  erThresP thr4( THRESH_BINARY_, 146, 255); //** <
+  erThresP thr4( THRESH_BINARY_, 87, 255); //** <
   lpa.defineParameters( rect, p1, p2, cann, dil, thr4, templ4, alp);
   lpa.doIt( "example_laser_prototypage_4.jpg");
 
   rect.x = 382; rect.y = 336; rect.width = 299; rect.height = 219;
-  rec_tem.x = 234; rec_tem.y = 169; rec_tem.width = 5; rec_tem.height = 5;
+  rec_tem.x = 229; rec_tem.y = 167; rec_tem.width = 3; rec_tem.height = 3;
   erTemplP templ5(SQDIFF_NORMED, rec_tem, true); 
-  erThresP thr5( THRESH_BINARY_, 160, 255); //** <
+  erThresP thr5( THRESH_BINARY_, 80, 255); //** <
   lpa.defineParameters( rect, p1, p2, cann, dil, thr5, templ5, alp);
   lpa.doIt( "example_laser_prototypage_5.jpg");
 
