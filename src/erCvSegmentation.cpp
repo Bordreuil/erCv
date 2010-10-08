@@ -235,8 +235,8 @@ void erWhiteBlobCorrection( IplImage* simg, erWhitBP* parm)
   unsigned char byte, byte_right, byte_left, col_avg_up = 0, col_avg_down = 0;
   unsigned char white_thres, black_thres;
   unsigned int id_refused[simg->width];
-  bool valide_map;
-  int int_white, int_black;  
+  bool valide_map, blob_nul;
+  int int_white, int_black, vector_blob_size, k;  
   int blobCounter = 0, bord_blob = 5, size_blob = 100, col_avg = 0, count = 0, l;
   std::string name = INFOFILE;
   name+= ".txt";
@@ -245,8 +245,8 @@ void erWhiteBlobCorrection( IplImage* simg, erWhitBP* parm)
   std::map<unsigned int, int> color;
   std::map<unsigned int, std::vector<lineBlob> > manchas;
   std::map<unsigned int, std::vector<lineBlob> >::iterator iter_map_line;
+  std::vector<lineBlob> vector_blob;
   std::vector<lineBlob>::iterator iter_vector_line, iter_vector_line_up, iter_vector_line_down;
-  std::vector<lineBlob>::reverse_iterator riter_vector_line_down;
   //img = cvCloneImage(simg);
   std::vector< std::vector<lineBlob> > imgData(simg->width);
   //int ok = 1;
@@ -288,36 +288,7 @@ void erWhiteBlobCorrection( IplImage* simg, erWhitBP* parm)
     }
   
   
-  //     for(int row = 0; row < simg->height; ++row)
-  // 	{
-  // 	  for(int column = 0; column < simg->width; ++column)
-  // 	    {
-  // 	      byte =  (unsigned char) simg->imageData[ ( row * simg->width) + column];
-  // 	      //if(byte > white_thres && column > bord_blob)
-  // 	      //{
-  // 	      //  byte_left = (unsigned char) simg->imageData[ ( row * simg->width) + ( column - bord_blob)];
-  // 	      //  if( byte_left < black_thres)
-  // 	      //    {		
-  // 	      int start = column;
-  // 	      do
-  // 		{
-  // 		  column++;
-  // 		  byte = (unsigned char) simg->imageData[ ( row * simg->width) + column];
-  // 		  //if( column >= ( simg->width - bord_blob)) break;
-  // 		}
-  // 	      while( byte > white_thres);
-  // 	      //byte_right = (unsigned char) simg->imageData[ ( row * simg->width) + (column + bord_blob)];
-  // 	      //if(  byte_right < black_thres)
-  // 	      //	{
-  // 	      int stop = column-1;
-  // 	      lineBlob lineBlobData = {start, stop, blobCounter, row, false};
-  // 	      imgData[row].push_back(lineBlobData);
-  // 	      blobCounter++;
-  // 	      //	    }
-  // 	      //}
-  // 	      //   }
-  // 	    }
-  // 	}
+  
   
   /* Check lineBlobs for a touching lineblob on the next row */
   // Aqui se asocian los ima
@@ -411,35 +382,38 @@ void erWhiteBlobCorrection( IplImage* simg, erWhitBP* parm)
   /*Discriminateur des taches par les bordes gauche et droites*/
   int pos_x, pos_y_L, pos_y_R;
   CvScalar val_L, val_R;
+  unsigned char valor;
   count = 0;
+  int mancha = 0, linea = 0;
+  blob_nul = false;
   valide_map = true;
-  //std::cout << "hola0" << std::endl;
   for(iter_map_line = manchas.begin(); iter_map_line != manchas.end(); iter_map_line++)
     {
-      //std::cout << "hola1" << std::endl;
-      for( iter_vector_line = (iter_map_line->second).begin(); iter_vector_line != (iter_map_line->second).end(); iter_vector_line++)
+      mancha++;
+      linea = 0;
+      vector_blob = iter_map_line->second;
+      vector_blob_size = vector_blob.size();
+      for( l = 0; l < vector_blob_size; l++) 
 	{
-	  if( iter_vector_line->min > bord_blob && iter_vector_line->max < simg->width - bord_blob)
+	  linea++;
+	  if( vector_blob[l].min > bord_blob && vector_blob[l].max < simg->width - bord_blob)
 	    {
-	      //std::cout << "hola2" << std::endl;
-	      pos_x = iter_vector_line->row;
-	      pos_y_L = iter_vector_line->min - bord_blob;
+	      pos_x = vector_blob[l].row;
+	      pos_y_L = vector_blob[l].min - bord_blob;
+	      pos_y_R = vector_blob[l].max + bord_blob;
+	      valor =  simg->imageData[pos_x*(simg->width) + pos_y_L];
 	      val_L = cvGet2D( simg, pos_x, pos_y_L);
-	      //std::cout << "val_L.val[0]: " << (int)val_L.val[0] << "  black_thres: " << (int)black_thres << std::endl;
+	      val_R = cvGet2D( simg, pos_x, pos_y_R);
 	      if( val_L.val[0] >= black_thres)
 		{
-		  //std::cout << "hola_chao" << std::endl;
 		  count++;
 		  valide_map = false;
 		  id_refused[count] = iter_map_line->first;
 		}
 	      else
 		{
-		  pos_y_R = iter_vector_line->max + bord_blob;
-		  val_R = cvGet2D( simg, pos_x, pos_y_R);
 		  if( val_R.val[0] >= black_thres)
 		    {
-		      //std::cout << "hola_chao" << std::endl;
 		      count++;
 		      valide_map = false;
 		      id_refused[count] = iter_map_line->first;
@@ -450,90 +424,88 @@ void erWhiteBlobCorrection( IplImage* simg, erWhitBP* parm)
 	    {
 	      count++;
 	      valide_map = false;
+	      id_refused[count] = iter_map_line->first;
 	      std::cout << "ATTENTION: Bord_blob value thickest that distance beetwen image border and blob border" << std::endl;
 	    }
+	  if( !valide_map) 
+	    {
+	      blob_nul = true;
+	      break;
+	    }
 	}
+      valide_map = true;
     }
-  if( !valide_map)
+  if( blob_nul)
     {
       for( l = 0 ; l < count + 1; l++)
 	{ 
 	  manchas.erase(id_refused[l]);
 	}
-    }
-  //std::cout << "map size_left_right: " << manchas.size() << std::endl;      
+    } 
+  if( manchas.size() == 0) return; 
+  
+  
   
   
   /* Discriminateur des taches par les bordes superieur et inferieur */
   count = 0;
-  valide_map = true;
+  blob_nul = false;
   for(iter_map_line = manchas.begin(); iter_map_line != manchas.end(); iter_map_line++)
     {
-      iter_vector_line_up = (iter_map_line->second).begin();
-      riter_vector_line_down = (iter_map_line->second).rbegin();
-      int fila_up = iter_vector_line_up->row;
-      int fila_down = riter_vector_line_down->row;
+      valide_map = true;
+      vector_blob = iter_map_line->second;
+      vector_blob_size = vector_blob.size();
+      int fila_up = vector_blob[0].row;
+      int fila_down = vector_blob[vector_blob_size - 1].row;
       if( fila_up > bord_blob && fila_down < simg->height - bord_blob)
 	{
-	  bool valide = true;
 	  int y;
-	  for( y = (iter_vector_line_up->min); y < (iter_vector_line_up->max) + 1; y++)
+	  for( y = vector_blob[0].min; y < vector_blob[0].max + 1; y++)
 	    {
 	      CvScalar a;
 	      a = cvGet2D( simg, fila_up - bord_blob, y);
-	      if( a.val[0] < black_thres) 
-		{
-		  col_avg_up = col_avg_up + a.val[0];
-		}
-	      else
+	      if( a.val[0] >= black_thres) 
 		{
 		  count++;
+		  blob_nul = true;
 		  valide_map = false;
-		  valide = false;
 		  id_refused[count] = iter_map_line->first;
+		  break;
 		}
 	    }
-	  if( valide)
+	  if( valide_map)
 	    {
 	      int yy;
-	      for( yy = (riter_vector_line_down->min); yy < (riter_vector_line_down->max) + 1; yy++)
+	      for( yy = (vector_blob[vector_blob_size - 1].min); yy < (vector_blob[vector_blob_size -1].max) + 1; yy++)
 		{
 		  CvScalar a;
 		  a = cvGet2D( simg, fila_down + bord_blob, yy);
-		  if( a.val[0] < black_thres) 
-		    {
-		      col_avg_down = col_avg_down + a.val[0];
-		    }
-		  else
+		  if( a.val[0] >= black_thres) 
 		    {
 		      count++;
-		      valide_map = false;
-		      valide = false;
+		      blob_nul = true;
 		      id_refused[count] = iter_map_line->first;
+		      break;
 		    } 
 		}
-	    }
-	  if( valide)
-	    {
-	      col_avg =  ( (int)col_avg_up/2*( iter_vector_line_up->max - iter_vector_line_up->min)) + ( (int)col_avg_down/2*( riter_vector_line_down->max - riter_vector_line_down->min));
-	      color[iter_map_line->first] =  col_avg;
 	    }
 	}
       else
 	{
 	  count++;
-	  valide_map = false;
+	  blob_nul = true;
+	  id_refused[count] = iter_map_line->first;
 	  std::cout << "ATTENTION: Bord_blob value thickest that distance beetwen image border and blob border" << std::endl;
 	}
     }
-  if( !valide_map)
+  if( blob_nul)
     {
       for( l = 0 ; l < count + 1; l++)
 	{ 
 	  manchas.erase(id_refused[l]);
 	}
     }
-  //std::cout << "map size_up_down: " << manchas.size() << std::endl;
+  if( manchas.size() == 0) return;   
   
   
   
@@ -544,30 +516,25 @@ void erWhiteBlobCorrection( IplImage* simg, erWhitBP* parm)
   int bx, by, cxy, p_up, p_down, p_left, p_right;
   for(iter_map_line = manchas.begin(); iter_map_line != manchas.end(); iter_map_line++)
     {
-      int line_size = (iter_map_line->second).size();
-      //iter_vector_line_up = (iter_map_line->second)(line_size);
-      iter_vector_line_up = (iter_map_line->second).begin();
-      iter_vector_line_down = (iter_map_line->second).end();
-      riter_vector_line_down = (iter_map_line->second).rbegin();
-      for( iter_vector_line = iter_vector_line_up; iter_vector_line != iter_vector_line_down; iter_vector_line++)
+      vector_blob = iter_map_line->second;
+      vector_blob_size = vector_blob.size();
+      for( l = 0; l < vector_blob_size; l++)
 	{
-	  x = iter_vector_line->row;
-	  if( x == iter_vector_line_up->row )
+	  x = vector_blob[l].row;
+	  if( x == vector_blob[0].row )
 	    {
-	      for( yy = (iter_vector_line->min) - bord_blob; yy < (iter_vector_line->max) + bord_blob + 1; yy++)
+	      for( yy = (vector_blob[0].min) - bord_blob; yy < (vector_blob[0].max) + bord_blob + 1; yy++)
 		{
 		  bord_w = cvGet2D( simg, x - bord_blob, yy);
 		  for( xx = x - bord_blob; xx < x; xx++)
 		    {
-		      //std::cout << "holas" << std::endl;
-		      //bord_w.val[0] = 255;
 		      cvSet2D( img, xx, yy, bord_w);
 		    }
 		} 
 	    }
-	  if( x == riter_vector_line_down->row)
+	  if( x == vector_blob[vector_blob_size - 1].row)
 	    {
-	      for( yy = (iter_vector_line->min) + bord_blob; yy < (iter_vector_line->max) + bord_blob + 1; yy++)
+	      for( yy = (vector_blob[vector_blob_size - 1].min) + bord_blob; yy < (vector_blob[vector_blob_size - 1].max) + bord_blob + 1; yy++)
 		{
 		  bord_w = cvGet2D( simg, x + bord_blob, yy);
 		  for( xx = x + 1; xx < x + bord_blob + 1; xx++)
@@ -576,40 +543,17 @@ void erWhiteBlobCorrection( IplImage* simg, erWhitBP* parm)
 		    }
 		} 
 	    }
-	  for( y = (iter_vector_line->min) - bord_blob; y < (iter_vector_line->max) + bord_blob + 1; y++)
+	  for( y = ( vector_blob[l].min) - bord_blob; y < ( vector_blob[l].max) + bord_blob + 1; y++)
 	    {
-	      //for( x = (iter_vector_line_up->row) - bord_blob; x < (riter_vector_line_down->row) + bord_blob + 1; x++) 
-	      //  { 
-	      //CvScalar a_up, a_down, a_left, a_right , d;
-	      //int bx, by, cxy;
-	      
-	      a_up = cvGet2D( simg, (iter_vector_line_up->row) - bord_blob, y);
-	      a_down = cvGet2D( simg, (riter_vector_line_down->row) + bord_blob, y);
-	      a_left = cvGet2D( simg, x, (iter_vector_line->min) - bord_blob);
-	      a_right = cvGet2D( simg, x, (iter_vector_line->max) + bord_blob);
-	      //     if(  (iter_vector_line_up->row  != p_up) || (riter_vector_line_down->row != p_down) || (iter_vector_line->min != p_left) || (iter_vector_line->max != p_right))
-	      // 			{
-	      // 			  std::cout <<  "iter_map_line->second.begin()->row: " << iter_vector_line_up->row << std::endl;
-	      // 			  std::cout <<  "iter_map_line->second.end()->row: " << riter_vector_line_down->row << std::endl;
-	      // 			  std::cout <<  "iter_vector_line->min: " << iter_vector_line->min << std::endl;
-	      // 			  std::cout <<  "iter_vector_line->max: " << iter_vector_line->max << std::endl;
-	      // 			  std::cout << " " << std::endl;
-	      // 			}
+	      a_up = cvGet2D( simg, (vector_blob[0].row) - bord_blob, y);
+	      a_down = cvGet2D( simg, (vector_blob[vector_blob_size - 1].row) + bord_blob, y);
+	      a_left = cvGet2D( simg, x, (vector_blob[l].min) - bord_blob);
+	      a_right = cvGet2D( simg, x, (vector_blob[l].max) + bord_blob);
 	      bx = (a_up.val[0] + a_down.val[0])/2;
 	      by = (a_left.val[0] + a_right.val[0])/2;
 	      cxy = (by + bx)/2;
 	      d.val[0] = (unsigned char) cxy;
 	      cvSet2D( img, x, y, d);
-	      // 		  if( (x == (iter_vector_line_up->row) - bord_blob || x == (riter_vector_line_down->row) + bord_blob ) || ( y == (iter_vector_line->min) - bord_blob || y == (iter_vector_line->max) + bord_blob))
-	      // 		    { 
-	      // 		      d.val[0] = 100;
-	      // 		      cvSet2D( img, x, y, d);
-	      // 		    }
-	      // 		      p_up = iter_vector_line_up->row ;
-	      // 		      p_down = riter_vector_line_down->row;
-	      // 		      p_left = iter_vector_line->min;
-	      // 		      p_right= iter_vector_line->max;
-	      //	}
 	    }
 	}
     }
