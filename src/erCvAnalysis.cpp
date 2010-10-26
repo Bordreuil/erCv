@@ -682,6 +682,7 @@ bool erLaserPrototypageAnalysis::doIt(std::string fich)
   largest_closed_segment( cgalSeg, bgraphSeg);
 
   erPrintCgalPoint( bgraphSeg, file_name, nom);
+ 
   if(output_convex_polygon)
   {
       std::list<CgalPoint> polygon = erGeometryExtractConvexPolygon(bgraphSeg.begin(),bgraphSeg.end());
@@ -689,6 +690,7 @@ bool erLaserPrototypageAnalysis::doIt(std::string fich)
       char* name = const_cast< char*>( output_nam.c_str());
       erPrintCgalPoint(polygon,file_name,name);
     };
+
   if(output_geometry_characteristics && bgraphSeg.size() > 6)
     {
       std::list<CgalTrian> triangs=erGeometryExtractTriangles(bgraphSeg.begin(),bgraphSeg.end());

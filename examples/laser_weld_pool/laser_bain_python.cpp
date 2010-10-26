@@ -25,7 +25,7 @@ int main( int hola, char** file_name)
   erSmootP p1(BLUR,7), p2(MEDIAN,7);
   erCannyP cann(500,500);
   erDilatP dil(1); 
-  erThresP thr( THRESH_BINARY_, 103, 255); //** <
+  erThresP thr( THRESH_BINARY_, 141, 255); //** <
   CvRect rec_tem;
   rec_tem.x = 182; rec_tem.y = 95; rec_tem.width = 3; rec_tem.height = 4;
   erTemplP templ(SQDIFF_NORMED, rec_tem, true); 
@@ -60,8 +60,11 @@ int main( int hola, char** file_name)
   rect.x = 388; rect.y = 365; rect.width = 278; rect.height = 182;
   rec_tem.x = 221; rec_tem.y = 144; rec_tem.width = 7; rec_tem.height = 5;
   erTemplP templ5(SQDIFF_NORMED, rec_tem, true); 
-  erThresP thr5( THRESH_BINARY_, 142, 255); //** <
-  lpa.defineParameters( rect, p1, p2, cann, dil, thr5, templ5, alp);
+  erThresP thr5( THRESH_BINARY_, 81, 255); //** <
+  erAlphaP alp2(2);
+  erCannyP cann2(500,500);
+  erSmootP p12(BLUR,5);
+  lpa.defineParameters( rect, p12, p2, cann2, dil, thr5, templ5, alp2);
   lpa.doIt( "example_laser_prototypage_5.jpg");
 
   
