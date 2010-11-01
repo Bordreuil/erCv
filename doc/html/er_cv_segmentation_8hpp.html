@@ -27,6 +27,7 @@
 <code>#include &quot;<a class="el" href="er_cv_segmentation_params_8hpp-source.html">erCvSegmentationParams.hpp</a>&quot;</code><br>
 <code>#include &quot;<a class="el" href="er_cv_filters_8hpp-source.html">erCvFilters.hpp</a>&quot;</code><br>
 <code>#include &quot;cv.h&quot;</code><br>
+<code>#include &lt;string&gt;</code><br>
 
 <p>
 <a href="er_cv_segmentation_8hpp-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
@@ -37,6 +38,10 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="er_cv_segmentation_8hpp.html#cfd582b31b6685996a6c6c34af672ed2">erCvEqualizeHist</a> (IplImage *, <a class="el" href="structer_equal_p.html">erEqualP</a> *)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="er_cv_segmentation_8hpp.html#d267f1c3cd5e77d91b97be722b97933a">erCvPyramid</a> (IplImage *, <a class="el" href="structer_pyram_p.html">erPyramP</a> *)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="er_cv_segmentation_8hpp.html#0899232dbb70d7f82467ff5ff0678440">erWhiteBlobCorrection</a> (IplImage *, <a class="el" href="structer_whit_b_p.html">erWhitBP</a> *)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="er_cv_segmentation_8hpp.html#483d2befd01ab151482b3a0b5d181e10">erWhiteBlobDelete</a> (std::string, <a class="el" href="structer_whit_b_p.html">erWhitBP</a>)</td></tr>
 
 </table>
 <hr><h2>Function Documentation</h2>
@@ -127,8 +132,66 @@ Permet d effectuer un filtrage de l image en reagroupant les pixels dans cluster
 
 </div>
 </div><p>
+<a class="anchor" name="0899232dbb70d7f82467ff5ff0678440"></a><!-- doxytag: member="erCvSegmentation.hpp::erWhiteBlobCorrection" ref="0899232dbb70d7f82467ff5ff0678440" args="(IplImage *, erWhitBP *)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void erWhiteBlobCorrection           </td>
+          <td>(</td>
+          <td class="paramtype">IplImage *&nbsp;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structer_whit_b_p.html">erWhitBP</a> *&nbsp;</td>
+          <td class="paramname"></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Tue Aug 10 08:29:01 2010 for 'erCv' by&nbsp;
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="483d2befd01ab151482b3a0b5d181e10"></a><!-- doxytag: member="erCvSegmentation.hpp::erWhiteBlobDelete" ref="483d2befd01ab151482b3a0b5d181e10" args="(std::string, erWhitBP)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void erWhiteBlobDelete           </td>
+          <td>(</td>
+          <td class="paramtype">std::string&nbsp;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structer_whit_b_p.html">erWhitBP</a>&nbsp;</td>
+          <td class="paramname"></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
+</div>
+<hr size="1"><address style="text-align: right;"><small>Generated on Mon Nov 1 22:40:53 2010 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>

@@ -1,34 +1,3 @@
-/** \mainpage
-    Le projet erCv est un module developpe au cours du projet ANR Jeunes Chercheurs
-    TEMMSA 2007 effectue au sein du Laboratoire de Mecanique et Genie Civil/UMR5508 de l' Universite de Montpellier 2. Le module developpe par Edward Romero edward.romero@lmgc.univ-montp2.fr
-    est essentiellement un couplage entre plusieurs bibliotheques OpenSource:
-    - OpenCv : permet de realiser le traitement d image (segmentation, seuillage,calibration,..)
-    -  CGAL 3.4 : permet de quantifier tous les aspects geometriques
-    .
-    
-    L'installation necessite un compilateur C++.
-    L'installation d erCv necessite le logiciel OpenSource CMake http://www.cmake.org
-    Une extension du module est prevu en python et necessite la bibliotheque Boost.python
-    http://www.boost.org 
-
-    Les fichiers interfaces (.hpp) sont accessibles dans un programme en specifiant le repertoire include ou include/erCv suivant l utilisation qu'on veut en faire.
-
-    \section Install Installation
-    CGAL utilise boost. 
-
-    Il est conseiller de creer un repertoire build-nom_du_compilo, puis de se placer dans ce repertoire,
-    ensuite on tape la ligne de commande : cmake -DCMAKE_CXX_COMPILER=nom_compilo ..
-
-    Cela permet d avoir une installation propre et un acces simple au source sans rien surcharge
-    
-    \section test Tests
-    Une serie de tests est en developpement par Edward pour voir si tout tourne correctement apres
-    l installation.
-    Dans le repertoire ou vous l'avez installer, rentrer dans le repertoire tests et taper
-    la ligne de commande ctest -I 
-
-    
- */
 
 /** @file erCvBase.hpp 
   \brief Fichier contenant l encapsulation par une classe de la structure 
@@ -212,10 +181,6 @@ void erCvConvert32to8( IplImage*, IplImage*);
  */
 //char* erEcrireNomFicher( char**, std::string);
 char* erEcrireNomFichier( char*, char*, std::string);
-
-
-
-
 
 
 /*@}*/

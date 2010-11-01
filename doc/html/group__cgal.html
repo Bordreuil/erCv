@@ -42,9 +42,11 @@ CGAL::Exact_predicates_inexact_constructions_kernel&nbsp;</td><td class="memItem
 <tr><td class="memItemLeft" nowrap align="right" valign="top">typedef <a class="el" href="group__cgal.html#g8c493b4407f1eab1fc792fe406d0db86">CGAL::Polygon_2</a>&lt; <a class="el" href="group__cgal.html#g891e241aa245ae63618f03737efba309">K</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cgal.html#g8c493b4407f1eab1fc792fe406d0db86">Polygon_2</a></td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">definition du polygone de cgal  <a href="#g8c493b4407f1eab1fc792fe406d0db86"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">typedef Polygon_2::Vertex_iterator&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cgal.html#gd3c3a8946c1945f4a74ccbeea0b3b1a4">Polygon_vertex_iterator</a></td></tr>
+
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memTemplParams" nowrap colspan="2">template&lt;class Container &gt; </td></tr>
-<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cgal.html#g715a751a7e7990bc46732611efb916ff">polygon_creation_user</a> (Container unkown)</td></tr>
+<tr><td class="memTemplParams" nowrap colspan="2">template&lt;class Container , class Container2 &gt; </td></tr>
+<tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cgal.html#ge50d6cbecd395d5b7d39f804e7e8edda">polygon_creation_user</a> (Container cgalSegments, Container2 &amp;cgalPoints)</td></tr>
 
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename Container &gt; </td></tr>
 <tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__cgal.html#g4bdf387e52ce9711bf3ba8d5bea76e3f">erAlignementSegmentContour</a> (Container &amp;seg)</td></tr>
@@ -187,6 +189,21 @@ definition du polygone de cgal
 
 </div>
 </div><p>
+<a class="anchor" name="gd3c3a8946c1945f4a74ccbeea0b3b1a4"></a><!-- doxytag: member="erCgalPolygon2.hpp::Polygon_vertex_iterator" ref="gd3c3a8946c1945f4a74ccbeea0b3b1a4" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef Polygon_2::Vertex_iterator <a class="el" href="group__cgal.html#gd3c3a8946c1945f4a74ccbeea0b3b1a4">Polygon_vertex_iterator</a>          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+</div>
+</div><p>
 <hr><h2>Function Documentation</h2>
 <a class="anchor" name="g4bdf387e52ce9711bf3ba8d5bea76e3f"></a><!-- doxytag: member="erCgalPolygon2.hpp::erAlignementSegmentContour" ref="g4bdf387e52ce9711bf3ba8d5bea76e3f" args="(Container &amp;seg)" -->
 <div class="memitem">
@@ -306,19 +323,28 @@ template&lt;typename Iterator &gt; </div>
 
 </div>
 </div><p>
-<a class="anchor" name="g715a751a7e7990bc46732611efb916ff"></a><!-- doxytag: member="erCgalPolygon2.hpp::polygon_creation_user" ref="g715a751a7e7990bc46732611efb916ff" args="(Container unkown)" -->
+<a class="anchor" name="ge50d6cbecd395d5b7d39f804e7e8edda"></a><!-- doxytag: member="erCgalPolygon2.hpp::polygon_creation_user" ref="ge50d6cbecd395d5b7d39f804e7e8edda" args="(Container cgalSegments, Container2 &amp;cgalPoints)" -->
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Container &gt; </div>
+template&lt;class Container , class Container2 &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void polygon_creation_user           </td>
           <td>(</td>
           <td class="paramtype">Container&nbsp;</td>
-          <td class="paramname"> <em>unkown</em>          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td><code> [inline]</code></td>
+          <td class="paramname"> <em>cgalSegments</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Container2 &amp;&nbsp;</td>
+          <td class="paramname"> <em>cgalPoints</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td><code> [inline]</code></td>
         </tr>
       </table>
 </div>
@@ -329,7 +355,7 @@ template&lt;class Container &gt; </div>
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Tue Aug 10 08:29:02 2010 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Mon Nov 1 22:40:53 2010 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>
