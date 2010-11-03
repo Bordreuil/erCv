@@ -29,14 +29,14 @@ struct blob
 
 
 
-// void erCvDifferencing( IplImage* simg, IplImage* ximg)
-// {
-//   IplImage *imge;
-//   imge = cvCreateImage( cvGetSize(ximg), ximg->depth, ximg->nChannels);
-//   cvAbsDiff( ximg, simg, imge);
-//   //simg =  cvCloneImage( imge);
-//   cvThreshold( imge, simg, 15, 255, CV_THRESH_BINARY);
-// }
+void erCvDifferencing( IplImage* simg, IplImage* ximg)
+{
+  IplImage *imge;
+  imge = cvCreateImage( cvGetSize(ximg), ximg->depth, ximg->nChannels);
+  cvAbsDiff( ximg, simg, imge);
+  //simg =  cvCloneImage( imge);
+  cvThreshold( imge, simg, 15, 255, CV_THRESH_BINARY);
+}
 
 
 

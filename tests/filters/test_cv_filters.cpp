@@ -32,7 +32,7 @@ int main(int HOLA, char** image_name)
   erCvThreshold( &bw, &pthr);
 
   erCvCanny( &bw, &pcan);
-  erCvSobel( &bw, &psob);
+  //erCvSobel( &bw, &psob);
   erSaveImage( &bw, name, exit);
   
   return(0);

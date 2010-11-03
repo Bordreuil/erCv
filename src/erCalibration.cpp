@@ -12,7 +12,7 @@
 erCalibration::erCalibration(){};
 
 
-erCalibration::erCalibration(char* name_image_patron,char* name_image_mesure, int board_w, int board_h, char* file_dimention)
+erCalibration::erCalibration( char* name_image_patron, char* name_image_mesure, int board_w, int board_h, char* file_dimention)
 { 
   _board_w              = board_w;
   _board_h              = board_h;
@@ -44,15 +44,15 @@ erCalibration::erCalibration(char* name_image_patron,char* name_image_mesure, in
 	
 	{
 	  CvPoint2D32f corners_patron[4],corners_mesure[4];
-	  for(int i=0; i<4; i++)
+	  for(int i=0; i < 4; i++)
 	    {
 	      corners_patron[i] = _corners_patron[i];
 	      corners_mesure[i] = _corners_mesure[i];
 	    }
 	  cvGetPerspectiveTransform( corners_mesure, corners_patron, _warp_matrix);
-	  //double cuadro_dim_x, cuadro_dim_y;
-	  //boost::tie( cuadro_dim_x, cuadro_dim_y) = real_dimensions( file_dimention);
-	  //boost::tie( _mm_per_pixel_x, _mm_per_pixel_y) = compute_pixel_to_mm( corners_patron, cuadro_dim_x, cuadro_dim_y);
+	  double cuadro_dim_x, cuadro_dim_y;
+	  boost::tie( cuadro_dim_x, cuadro_dim_y) = real_dimensions( file_dimention);
+	  boost::tie( _mm_per_pixel_x, _mm_per_pixel_y) = compute_pixel_to_mm( corners_patron, cuadro_dim_x, cuadro_dim_y);
 	};
     }
   else
@@ -60,6 +60,11 @@ erCalibration::erCalibration(char* name_image_patron,char* name_image_mesure, in
       std::cout << "...La calibration ne peut pas etre instancie\n";
     };
 };
+
+
+
+
+
 
 
 erCalibration::~erCalibration(){}; 
@@ -110,7 +115,6 @@ bool erCalibration::find_corners( IplImage *im, CornerContainer& corners_contain
       //erShowImage("corners", im);
       corners_container.insert(corners_container.end(),corners,corners+_num_coins);      
     }
-  //erShowImage("corners", im);
   return identified;
 };
 
@@ -165,6 +169,9 @@ erFactorRealDimension erCalibration::real_dimensions( char* file_dim)
   else
     {
       std::cout << "Lecture de ficher pour le dimension du 'cuadro' imposible" << std::endl;
+      std::cout << "Facteur de conversion par defaul 1" << std::endl;
+      dim_x = 1;
+      dim_y = 1;
       return std::make_pair( dim_x, dim_y);
     }
 };

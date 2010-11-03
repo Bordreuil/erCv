@@ -56,6 +56,7 @@ void erExtractCvPoints( Container &pts, IplImage *im, Criteria crit, CvRect rect
 
 /**
    Permet d extraire une ligne continue a partir d une image precedemment filtre
+   L'utilisateur doit marquer le debut de la curve ou ligne qu'il souhaite extraire
    \param IplImage* : une image 
    \param erCerc    : cercle pour le debut de la recherche
    \param char **   : ensemble des variables venant de l exterieur file_name[2] doit correspondre
@@ -292,7 +293,16 @@ void erExtractCurveMacroDropUser( Container &pts, IplImage* simag, CvRect rect, 
 
 
 
+/**
+   Permet d extraire une ligne continue a partir d une image precedemment filtre
+   \param IplImage* : une image 
+   \param erCerc    : cercle pour le debut de la recherche
+   \param char **   : ensemble des variables venant de l exterieur file_name[2] doit correspondre
+                      au fichier a traiter
+   \param Container (template) : container des points a extraire
+   \param CvRect    : Rectangle pour extraire remettre les points dans les coordoonees de l image
 
+ */
 template< typename Container>
 void erExtractCurveMacroDrop( Container &pts, IplImage* simag, CvRect recROI, erCerc* cerc, char* file_name )
 {
@@ -517,7 +527,13 @@ void erExtractCurveMacroDrop( Container &pts, IplImage* simag, CvRect recROI, er
 
 
 
-
+/**
+   Permmet de convertir les dimensions et cordonnes des curves de pixels sur l image a valeurs reels en MKS 
+   \param std::pair< double, double> : facteur de convercion pour l axe X et pour l axe Y
+   \param Container                  : vecteur ou liste avec les coordones des points en pixels a convertir en MKS
+   \param char*                      : nom de l image en traitement
+   \param char*                      : nom de l image de sortie
+*/
 template< typename Container>
 void erConvertPixelToMks( std::pair< double, double> factor, Container &pts, char* file_name, char* exit_name)
 {
@@ -559,7 +575,13 @@ void erConvertPixelToMks( std::pair< double, double> factor, Container &pts, cha
 
 
 
-
+/**
+   Focntion permettant d ecrir les segments du type CgalSegment du contenair pts dans un ficher
+   L extention par defaul du ficher est .txt
+   \param Container  : vecteur ou liste des segments du type CgalSegment
+   \param char*      : nom de l image en cours de traitement
+   \param char*      : nom que portera le ficher
+*/
 template< typename Container>
 void erPrintCgalPoint( Container & pts, char* file_name, char* exit_name)
 {
@@ -591,7 +613,14 @@ void erPrintCgalPoint( Container & pts, char* file_name, char* exit_name)
 
 
 
+/**
+   Fonction permettant d ecrir les points du type CvPoint du contenair pts dans un ficher
+   L extention par defaul du ficher est .txt
+   \param Container : vecteur ou liste des points du type CvPoint
+   \param char*     : nom de l image en cours de traitement
+   \param char*     : nom qui portera le ficher
 
+ */
 template< typename Container>
 void erPrintCvPoint( Container & pts, char* file_name, char* exit_name)
 {

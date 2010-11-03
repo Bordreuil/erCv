@@ -170,39 +170,39 @@ void erCvSmoothUser( IplImage* simg, erSmootP* parm)
 
 
 
-void erCvSobelUser( IplImage* simg,erSobelP* parm)
-{
-  IplImage* img;
-  int threshold[2], maxt[2], itrak[2];
+// void erCvSobelUser( IplImage* simg,erSobelP* parm)
+// {
+//   IplImage* img;
+//   int threshold[2], maxt[2], itrak[2];
 
-  threshold[0] = 1;
-  threshold[1] = 1;
-  img = cvCloneImage( simg);
+//   threshold[0] = 1;
+//   threshold[1] = 1;
+//   img = cvCloneImage( simg);
  
-  std::cout << "Put the order to derivates axes X and Y to Sobel operator: ";
-  std::cin >> maxt[0] >> maxt[1];
-  std::cout << std::endl;
+//   std::cout << "Put the order to derivates axes X and Y to Sobel operator: ";
+//   std::cin >> maxt[0] >> maxt[1];
+//   std::cout << std::endl;
   
-  cvNamedWindow( "Sobel_trackbar", 0);
-  itrak[0] = cvCreateTrackbar( "derivate_order_x", "Sobel_trackbar", &threshold[0], maxt[0], NULL);
-  itrak[1] = cvCreateTrackbar( "derivate_order_y", "Sobel_trackbar", &threshold[1], maxt[1], NULL);
-  while( 1)
-    {       
-      cvSobel( simg, img, threshold[0], threshold[1], 5);
-      cvShowImage( "Sobel_trackbar", img);
-      if( cvWaitKey( 10) == 27) break;
-    }
-  parm->trhX = cvGetTrackbarPos( "derivate_order_x", "Sobel_trackbar");
-  parm->trhY = cvGetTrackbarPos( "derivate_order_y", "Sobel_trackbar");
-  cvDestroyWindow( "Sobel_trackbar");
+//   cvNamedWindow( "Sobel_trackbar", 0);
+//   itrak[0] = cvCreateTrackbar( "derivate_order_x", "Sobel_trackbar", &threshold[0], maxt[0], NULL);
+//   itrak[1] = cvCreateTrackbar( "derivate_order_y", "Sobel_trackbar", &threshold[1], maxt[1], NULL);
+//   while( 1)
+//     {       
+//       cvSobel( simg, img, threshold[0], threshold[1], 5);
+//       cvShowImage( "Sobel_trackbar", img);
+//       if( cvWaitKey( 10) == 27) break;
+//     }
+//   parm->trhX = cvGetTrackbarPos( "derivate_order_x", "Sobel_trackbar");
+//   parm->trhY = cvGetTrackbarPos( "derivate_order_y", "Sobel_trackbar");
+//   cvDestroyWindow( "Sobel_trackbar");
   
-  std::ofstream file( nameInfoFile(INFOFILE), std::ios_base::app );
-  file << "***********Filter fonction SOBEL***************\n";
-  file << "Order derivate X:------ " << parm->trhX << std::endl;
-  file << "Order derivate Y:------ " << parm->trhY << std::endl;
-  file << std::endl;
-  *simg = *img;
-}
+//   std::ofstream file( nameInfoFile(INFOFILE), std::ios_base::app );
+//   file << "***********Filter fonction SOBEL***************\n";
+//   file << "Order derivate X:------ " << parm->trhX << std::endl;
+//   file << "Order derivate Y:------ " << parm->trhY << std::endl;
+//   file << std::endl;
+//   *simg = *img;
+// }
 
 
 

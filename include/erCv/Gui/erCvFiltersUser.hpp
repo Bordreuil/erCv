@@ -14,10 +14,6 @@ void erCvCannyUser( IplImage*, erCannyP*, bool with_trackbar = false);
 
 
 
-/** \brief Permet de deriver l intensite de l image independament sur les axes X et Y (paramettres definies par l usager)
-*/
-void erCvSobelUser( IplImage*, erSobelP*);
-
 
 
 /** \brief Permet d effectuer une lissage sur l image (peramettres definies par l usager)

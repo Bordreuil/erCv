@@ -10,17 +10,8 @@
 
 
 
-/** \addtogroup filters
-/*@{*/
 /** \brief 
-    Permet d effectuer un lissage et un filtrage sur l image 
-*/
-erImage erSmoothAndCanny( IplImage*, int A=1 , int B=2);
-
-
-
-/** \brief 
-    Permet d effectuer un filtrage par bordes en binaire sur l image 
+    Permet de reperer les bordes ou zones de gradients qui repondent au filtre impusionelle de Canny. Le resultat affiche une image en binaire 
 */
 void erCvCanny( IplImage*, erCannyP*);
 
@@ -28,17 +19,12 @@ void erCvCanny( IplImage*, erCannyP*);
 
 
 /** 
-    \brief Permet d effectuer une lissage sur l image 
+    \brief 
+    Permet d effectuer une lissage sur l image ou smooth
 */
 void erCvSmooth( IplImage*, erSmootP*);
 
 
-
-
-/** \brief
-    Permet d effectuer une lissage sur l image (parametres definies par l utilisateur)
-*/
-void erCvSobel( IplImage*, erSobelP*);
 
 
 

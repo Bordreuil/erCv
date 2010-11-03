@@ -129,21 +129,21 @@ struct blob
 
 
 
-void erCvDifferencingUser( IplImage* simg, erDiffeP* parm)
-{
-  int type;
-  std::cout << "Type de threshold: simple = 1 / adaptive = 0" << std::endl;
-  std::cin >> type;
-  parm->type = type;
+// void erCvDifferencingUser( IplImage* simg, erDiffeP* parm)
+// {
+//   int type;
+//   std::cout << "Type de threshold: simple = 1 / adaptive = 0" << std::endl;
+//   std::cin >> type;
+//   parm->type = type;
 
-  IplImage *imge = cvCreateImage( cvGetSize(simg), simg->depth, simg->nChannels);
-  cvAbsDiff( parm->image, simg, imge);
-  //simg =  cvCloneImage( imge);
-  //erCvThresholdUser( imge, simg, 15, 255, CV_THRESH_BINARY);
-  if(type==1) erCvThresholdUser( imge, parm->threshold);
-  if(type==0) erCvAdaptiveThresholdUser( imge, parm->adapthold);
-  simg = imge;
-}
+//   IplImage *imge = cvCreateImage( cvGetSize(simg), simg->depth, simg->nChannels);
+//   cvAbsDiff( parm->image, simg, imge);
+//   //simg =  cvCloneImage( imge);
+//   //erCvThresholdUser( imge, simg, 15, 255, CV_THRESH_BINARY);
+//   if(type==1) erCvThresholdUser( imge, parm->threshold);
+//   if(type==0) erCvAdaptiveThresholdUser( imge, parm->adapthold);
+//   simg = imge;
+// }
 
 
 
@@ -653,69 +653,69 @@ void erCvFindContours( IplImage* simg, erFindcP* parm, bool with_trackbar)
 
 
 
-void erCvWatershed( IplImage* img, erWaterP* parm)
-{
-  IplImage *simg, *simg1, *image;
-  //erWaterP *prue, *parm; 
+// void erCvWatershed( IplImage* img, erWaterP* parm)
+// {
+//   IplImage *simg, *simg1, *image;
+//   //erWaterP *prue, *parm; 
   
-  simg = cvCreateImage( cvGetSize(img), IPL_DEPTH_32S, 1);
+//   simg = cvCreateImage( cvGetSize(img), IPL_DEPTH_32S, 1);
 
-  parm->image = cvCreateImage( cvGetSize( img), img->depth, img->nChannels);
-  //std::cout << "hola-0" << std::endl;  
-  //simg1 = cvCreateImage( cvGetSize( img), img->depth, img->nChannels);
-  //std::cout << "hola-1" << std::endl; 
-  cvCopy( img, parm->image);
-  //simg1 = img;
-  //erShowImage( "simg1", parm->image);
-  //prue->image = cvCreateImage( cvGetSize(img), img->depth, img->nChannels);  
+//   parm->image = cvCreateImage( cvGetSize( img), img->depth, img->nChannels);
+//   //std::cout << "hola-0" << std::endl;  
+//   //simg1 = cvCreateImage( cvGetSize( img), img->depth, img->nChannels);
+//   //std::cout << "hola-1" << std::endl; 
+//   cvCopy( img, parm->image);
+//   //simg1 = img;
+//   //erShowImage( "simg1", parm->image);
+//   //prue->image = cvCreateImage( cvGetSize(img), img->depth, img->nChannels);  
 
-  std::cout << "width: " << parm->image->width << "  height: " << parm->image->height <<  "  depth: " << parm->image->depth << "  chanel: " << parm-image->nChannels << std::endl; 
-  std::cout << "width: " << simg->width << "  height: " << simg->height <<  "  depth: " << simg->depth << "  chanel: " << simg->nChannels << std::endl; 
-  //cvCopy( img, simg);
+//   std::cout << "width: " << parm->image->width << "  height: " << parm->image->height <<  "  depth: " << parm->image->depth << "  chanel: " << parm-image->nChannels << std::endl; 
+//   std::cout << "width: " << simg->width << "  height: " << simg->height <<  "  depth: " << simg->depth << "  chanel: " << simg->nChannels << std::endl; 
+//   //cvCopy( img, simg);
  
-  parm->drawing = false;
-  parm->rectan = cvRect( 0,0,0,0);
-  cvNamedWindow( "Marquez la zone", 0);
-  cvSetMouseCallback( "Marquez la zone", on_mouse_rect2,  (void*)parm );
-  while( 1)
-    {
-      cvShowImage( "Marquez la zone", parm->image);
-      if( cvWaitKey( 700) == 27) break;
-    }
-  // std::cout << "depth (pru): " << prue->image->depth << std::endl;
-  // std::cout << "depth (sim): " << simg->depth << std::endl;  
-  // std::cout << "chanl (pru): " << pru->image->nChannels << std::endl;
-  // std::cout << "chanl (sim): " << simg->nChannels << std::endl;
+//   parm->drawing = false;
+//   parm->rectan = cvRect( 0,0,0,0);
+//   cvNamedWindow( "Marquez la zone", 0);
+//   cvSetMouseCallback( "Marquez la zone", on_mouse_rect2,  (void*)parm );
+//   while( 1)
+//     {
+//       cvShowImage( "Marquez la zone", parm->image);
+//       if( cvWaitKey( 700) == 27) break;
+//     }
+//   // std::cout << "depth (pru): " << prue->image->depth << std::endl;
+//   // std::cout << "depth (sim): " << simg->depth << std::endl;  
+//   // std::cout << "chanl (pru): " << pru->image->nChannels << std::endl;
+//   // std::cout << "chanl (sim): " << simg->nChannels << std::endl;
   
-  IplImage* wshed = cvCloneImage( parm->image);
-  IplImage* img_gray = cvCloneImage( parm->image);
-  cvCvtColor( parm->image, img_gray, CV_GRAY2BGR);
-  cvWatershed( parm->image, simg ); 
-  std::cout << "watershed" << std::endl;
-  int i,j, comp_count = 0;
-  CvMat* color_tab;
-  color_tab = cvCreateMat( 1, comp_count, CV_8UC3);
-  for( i = 0; i < simg->height; i++ )
-    for( j = 0; j < simg->width; j++ )
-      {
-	int idx = CV_IMAGE_ELEM( simg, int, i, j );
-	uchar* dst = &CV_IMAGE_ELEM( wshed, uchar, i, j*3 );
-	if( idx == -1 )
-	  dst[0] = dst[1] = dst[2] = (uchar)255;
-	else if( idx <= 0 || idx > comp_count )
-	  dst[0] = dst[1] = dst[2] = (uchar)0; // should not get here
-	else
-	  {
-	    uchar* ptr = color_tab->data.ptr + (idx-1)*3;
-	    dst[0] = ptr[0]; dst[1] = ptr[1]; dst[2] = ptr[2];
-	  }
-      }
+//   IplImage* wshed = cvCloneImage( parm->image);
+//   IplImage* img_gray = cvCloneImage( parm->image);
+//   cvCvtColor( parm->image, img_gray, CV_GRAY2BGR);
+//   cvWatershed( parm->image, simg ); 
+//   std::cout << "watershed" << std::endl;
+//   int i,j, comp_count = 0;
+//   CvMat* color_tab;
+//   color_tab = cvCreateMat( 1, comp_count, CV_8UC3);
+//   for( i = 0; i < simg->height; i++ )
+//     for( j = 0; j < simg->width; j++ )
+//       {
+// 	int idx = CV_IMAGE_ELEM( simg, int, i, j );
+// 	uchar* dst = &CV_IMAGE_ELEM( wshed, uchar, i, j*3 );
+// 	if( idx == -1 )
+// 	  dst[0] = dst[1] = dst[2] = (uchar)255;
+// 	else if( idx <= 0 || idx > comp_count )
+// 	  dst[0] = dst[1] = dst[2] = (uchar)0; // should not get here
+// 	else
+// 	  {
+// 	    uchar* ptr = color_tab->data.ptr + (idx-1)*3;
+// 	    dst[0] = ptr[0]; dst[1] = ptr[1]; dst[2] = ptr[2];
+// 	  }
+//       }
   
-  cvAddWeighted( wshed, 0.5, img_gray, 0.5, 0, wshed );
-  //cvShowImage( "watershed transform", wshed );
+//   cvAddWeighted( wshed, 0.5, img_gray, 0.5, 0, wshed );
+//   //cvShowImage( "watershed transform", wshed );
   
-  erShowImage( "WaterShet", wshed); 
-}
+//   erShowImage( "WaterShet", wshed); 
+// }
 
 
 void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
@@ -1084,7 +1084,10 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
       // 		}
       // 	    }
       // 	}
+
       erShow2Image( "Blob corrrection", img, "image_temoin", simg);
+      //while(1){if(cvWaitKey(10) == 27) break;
+      //cvDestroyWindow( "Blob correction");
       std::cout << " T'es content (Oui 0/Non 1)? ";
       std::cin >> ok;
       //ok = 0;

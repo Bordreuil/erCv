@@ -48,6 +48,7 @@ void erAnalysis::create()
 };
 
 
+//ATTENTION erCalibration doit inclure un ficher avec les facteurs de conversion
 void erAnalysis::defineCalibration(std::string source,std::string target)
 {  char* source_c =  const_cast<char*>(source.c_str());
    char*  target_c =   const_cast<char*>(target.c_str());
@@ -64,7 +65,7 @@ erMacroDropAnalysis::erMacroDropAnalysis() { };
 erMacroDropAnalysis::erMacroDropAnalysis( std::string name, std::string infofile):
   erAnalysis( name, infofile), rectOI( ), cercToStart( ), param_smooth1( ), param_smooth2( ),
   param_canny( ), param_adaptive_threshold( ), param_equalizer_histogram( )
-{};
+{ };
 
 bool erMacroDropAnalysis::defineParametersUI( std::string firstImage)
 {
@@ -445,7 +446,7 @@ bool erWeldPoolAnalysis::doIt(std::string fich)
   if( !loaded) return false;
 
   eb = erConvertToBlackAndWhite( &ea);
-  //erSaveImage( &eb, file_name, nom);
+  erSaveImage( &eb, file_name, nom);
  
   erWhiteBlobCorrection( &eb, &param_white_blob);
   
@@ -487,6 +488,7 @@ bool erWeldPoolAnalysis::doIt(std::string fich)
   largest_closed_segment( cgalSeg, bgraphSeg);
 
   erPrintCgalPoint( bgraphSeg, file_name, nom);
+
   double area;
   if(output_convex_polygon)
   {
@@ -546,7 +548,7 @@ erLaserPrototypageAnalysis::erLaserPrototypageAnalysis(){};
 
 //** Constructeur avec des paramettres determines ailleurs */
 erLaserPrototypageAnalysis::erLaserPrototypageAnalysis( std::string name, std::string infofile): 
-  erAnalysis( name, infofile), rectOI( ), param_smooth1( ), param_smooth2( ), param_canny( ),  param_dilate( ), param_threshold( ), param_template( ), param_alpha_shape( ), output_geometry_characteristics(true),output_convex_polygon(true){setOutputGeometryFile(name); }; 
+  erAnalysis( name, infofile), rectOI( ), param_smooth1( ), param_smooth2( ), param_canny( ),  param_dilate( ), param_threshold( ), param_adaptive_threshold( ), param_template( ), param_alpha_shape( ), output_geometry_characteristics(true),output_convex_polygon(true){setOutputGeometryFile(name); }; 
 
 //** Boucle de execution du programe en utilisant le la user interface de openCv */
 bool erLaserPrototypageAnalysis::defineParametersUI( std::string firstImage) 
@@ -615,6 +617,17 @@ bool erLaserPrototypageAnalysis::defineParametersUI( std::string firstImage)
 };
 
 //void erWeldPoolAnalysis::defineParameters( CvRect rect, erSmootP smooth1, erSmootP smooth2, erEqualP equal, erCannyP canny, erAdThrP adthr, erTemplP templ, erAlphaP alphas, erFindcP findc)
+void erLaserPrototypageAnalysis::defineParameters_diffuse( CvRect rect, erSmootP smooth, erCannyP canny, erAdThrP adthr, erAlphaP alphas)
+{
+  rectOI = rect;
+  param_smooth1 = smooth;
+  param_canny = canny;
+  param_adaptive_threshold = adthr;
+  param_alpha_shape = alphas;
+};
+
+
+//void erWeldPoolAnalysis::defineParameters( CvRect rect, erSmootP smooth1, erSmootP smooth2, erEqualP equal, erCannyP canny, erAdThrP adthr, erTemplP templ, erAlphaP alphas, erFindcP findc)
 void erLaserPrototypageAnalysis::defineParameters( CvRect rect, erSmootP smooth1, erSmootP smooth2, erCannyP canny, erDilatP dilate, erThresP thres, erTemplP templ, erAlphaP alphas)
 {
   rectOI = rect;
@@ -629,13 +642,76 @@ void erLaserPrototypageAnalysis::defineParameters( CvRect rect, erSmootP smooth1
 };
 
 
+
 void erLaserPrototypageAnalysis::setOutputGeometryFile(std::string file) //** Le fichier existant est ecrase!!
 {
   output_geometry_file = dir_analysis+"/"+file+"_wep"+".geo";
   std::ofstream out(output_geometry_file.c_str());
   out << "Nom_du_fichier\t\tCentroid_x\tCentroid_y\tAire\tAxe_Princ_x\tAxe_Princ_y\tFit(0-1)\n";
-
 };
+
+
+bool erLaserPrototypageAnalysis::doIt_diffuse(std::string fich)
+{ 
+  bool loaded;
+  char* file_name         = const_cast< char*>( fich.c_str());
+  std::string output_name = (dir_analysis+"/"+name+"_wep");
+  char* nom = const_cast< char*>( output_name.c_str());
+  erImage ea, eb, ec, ed, ee;
+  std::list< CvPoint>   cvPts;
+  std::list< CgalPoint> cgalPts;
+  std::list< CgalSegmt> cgalSeg, bgraphSeg;
+  
+  boost::tie(ea, loaded) = erLoadImage( file_name);
+  if( !loaded) return false;
+
+  ec = erConvertToBlackAndWhite( &ea);
+  erSaveImage( &ec, file_name, nom);
+
+  ed = erDef_ROI( &ec, &rectOI);
+
+  erCvAdaptiveThreshold( &ec, &param_adaptive_threshold);
+
+  erCvSmooth( &ed, &param_smooth1);
+
+  erCvCanny( &ed, &param_canny);
+
+  //erShowImage( "result canny 2", &ee);
+  //erSaveImage2Analysis( &ee, file_name, fich, "can");
+
+  IsEqualTo is_equal_255(255);
+  erExtractCvPoints( cvPts, &ee, is_equal_255, rectOI);
+ 
+  convertCvToCgalpoints( cvPts, cgalPts);
+
+  alpha_edges( cgalPts, cgalSeg, &param_alpha_shape);
+
+  largest_closed_segment( cgalSeg, bgraphSeg);
+
+  erPrintCgalPoint( bgraphSeg, file_name, nom);
+  if(output_convex_polygon)
+  {
+      std::list<CgalPoint> polygon = erGeometryExtractConvexPolygon(bgraphSeg.begin(),bgraphSeg.end());
+      std::string output_nam = (dir_analysis+"/"+name+"_wep_poly");
+      char* name = const_cast< char*>( output_nam.c_str());
+      erPrintCgalPoint(polygon,file_name,name);
+    };
+  if(output_geometry_characteristics && bgraphSeg.size() > 6)
+    {
+      std::list<CgalTrian> triangs=erGeometryExtractTriangles(bgraphSeg.begin(),bgraphSeg.end());
+      double area   = getArea(triangs.begin(),triangs.end());
+      CgalLine  line;
+      CgalPoint pt;
+      CgalFTrai fit = linear_least_squares_fitting_2(triangs.begin(),triangs.end(),line,pt,CGAL::Dimension_tag<2>());	
+      std::ofstream ot(output_geometry_file.c_str(),std::ios_base::app);
+      CgalVect vect=line.to_vector();
+      ot << std::setprecision(10) << fich << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
+    };
+  return true;
+};
+
+
+
 
 bool erLaserPrototypageAnalysis::doIt(std::string fich)
 { 
@@ -652,7 +728,7 @@ bool erLaserPrototypageAnalysis::doIt(std::string fich)
   if( !loaded) return false;
 
   ec = erConvertToBlackAndWhite( &ea);
-  //erSaveImage( &eb, file_name, nom);
+  erSaveImage( &ec, file_name, nom);
 
   ed = erDef_ROI( &ec, &rectOI);
   
@@ -703,7 +779,6 @@ bool erLaserPrototypageAnalysis::doIt(std::string fich)
       ot << std::setprecision(10) << fich << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
     };
   return true;
- 
 };
 
 /* On sauve garde les parammettres utilisé dans un ficher de backup */

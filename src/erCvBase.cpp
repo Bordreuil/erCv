@@ -140,7 +140,7 @@ std::pair<erImage,bool> erLoadImageSeries( char* file_name, uint inc)
 
 /* Read, name files manipulations, and convert to one channel the pictures in the loop */
 /************** ATTENTION cet MODULE est une manipulation pour utiliser "doIt" de erCvAnalysis dans "erCvWeldPoolAnalysis::doIt" ******************/ 
-std::string erLoadImageSeriesManipulationWeldPool( std::string name, uint inc)
+std::string erLoadImageSeriesAnalysis( std::string name, uint inc)
 {
   //std::string name( file_name); 
   size_t ext_pos = name.find_last_of( '_' );

@@ -9,6 +9,9 @@ erCannyP::erCannyP(int t1,int t2):trh1(t1),trh2(t2){};
 erDilatP::erDilatP():iter(1){};
 erDilatP::erDilatP( int it):iter(it){};
 
+erErodeP::erErodeP():iter(1){};
+erErodeP::erErodeP( int itr):iter(itr){};
+
 erThresP::erThresP():type(THRESH_BINARY_),trh1(150),trh2(255){};
 erThresP::erThresP( ThresholdType tt, int th1, int th2):type(tt), trh1(th1), trh2(th2){};
 

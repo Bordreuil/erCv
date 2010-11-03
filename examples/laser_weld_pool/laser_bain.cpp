@@ -58,7 +58,7 @@ int main(int HOLA, char** file_name)
   erEqualP pequ;
   erAlphaP palp;
   erFindcP pfin;
-  erWaterP pwat;
+  //erWaterP pwat;
   erWhitBP pwhi;
   bool loaded;
 
@@ -85,21 +85,22 @@ int main(int HOLA, char** file_name)
   ed = erDef_ROIuser( &eb, &rect, true);
   erSaveImage2( &eb, name, exit, "roi"); 
   //erCvEqualizeHistUser( &ed, &pequ);
-  erCvCannyUser( &ed, &pcan);
+  erCvAdaptiveThresholdUser( &ed, &padt, true);
+  //erCvCannyUser( &ed, &pcan, true);
   //erCvSmoothUser( &ed, &psmo);
   //erCvPyramidUser( &ec, &pyra, true);
-  erCvDilateUser( &ed, &pdil);
+  //erCvDilateUser( &ed, &pdil);
   //erCvEqualizeHistUser( &ed, &pequ);
   erCvSmoothUser( &ed, &psmo1);
   //ee = erCvTemplateUser( &ed, &ptem, true);
   //erSaveImage2( &ec, file_name, "tem");
   //erCvEqualizeHistUser( &ee, &pequ);
   //ef = erCvTemplateUser( &ee, &ptem, true);
-  erCvSmoothUser( &ed, &psmo1);
-  ee = erCvTemplateUser( &ed, &ptem, true);
-  //ee = ed;
+  //erCvSmoothUser( &ed, &psmo1);
+  //ee = erCvTemplateUser( &ed, &ptem, true);
+  ee = ed;
   //ee = erCvCallBackPatchProjectUser( &ed, &pcal, true);
-  erCvThresholdUser( &ee, &pthr, true);
+  //erCvThresholdUser( &ee, &pthr, true);
   //erSaveImage2( &ec, file_name, "thr");
   
   erCvCannyUser( &ee, &pcan);

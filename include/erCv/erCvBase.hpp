@@ -30,25 +30,26 @@ const char* nameGoodImagesFile(std::string);
 
 typedef unsigned  uint;
 
-class erImage : public IplImage
 /** 
     Encapsulation de la structure IplImage d openCv
     erImage derive de la classe IplImage, on peut utiliser l ensemble des fonctions
     d opencv directement avec un pointeur sur cette classe.
  */
+class erImage : public IplImage
 {
 public:
-  /** 
-      Constructeur destructeur
-  **/
+  /** \brief Constructeur par defaul  */
   erImage();
+  /** \brief Constructeur a partir du nom de l'image */
   erImage(char* );
+  /** \brief Constructeur a partir du pointeur de l image */
   erImage(IplImage* );
+  /** \brief Constructeur a partir de l image */
   erImage(IplImage);
- 
+  /** \brief Destructeur */ 
   //~erImage();
-  CvRect  rectan;
-  bool    drawing;
+  CvRect  rectan; /** < Rectangle: CvRect,  demarquant une zone d interet dans l image */
+  bool    drawing; /** < Si drawing = false =>  , si drawing = true => */
 private:
   /**
      Methodes d acces
@@ -56,13 +57,23 @@ private:
 };
 
 
+
+/** 
+    Structure contenant le point de debut d une curve definie par le cercle du type CvCerc
+ */
 struct erCerc
-{ erCerc();
+{ 
+  /** \brief Constructeur par defaul */
+  erCerc();
+  /** \brief Constructeur avec les paramettres du cercle */
   erCerc(int,int,int);
-  CvPoint centro;
-  int radio;
+  CvPoint centro; /** < Coordones du centrer du cercle (x,y) */
+  int radio; /** < Radio du cercle */
 };
 
+
+/** 
+ */
 struct erCercleImg
 {
   IplImage* image;
@@ -71,10 +82,18 @@ struct erCercleImg
   bool drawing;
 };
 
+
+/**
+   Structure contenant la zone d interet definie par un rectangle du type CvRect
+*/
 struct erRect:public CvRect
 {
+  /** \brief Constructeur avec les paramettres du rectangle */
   erRect(int,int,int,int);
 };
+
+
+
 // Quelques fonctions pour gerer l impression
 /** \brief Impression d objet dans un flux*/
 std::ostream& operator << ( std::ostream&, const erCerc&);
@@ -85,7 +104,9 @@ std::ostream& operator << ( std::ostream&, const CvRect&);
 
 // Quelques fonctions utiles d' OpenCv
 /** \brief Fonction permettant de visualiser une Image a l aide
- d openCv
+    d openCv
+    \param char*      : nom de l ecran ou apparaitra l image
+    \param IplImage*  : Pointer vers l image
  */
 void erShowImage(char* ,IplImage*);
 
@@ -93,8 +114,15 @@ void erShowImage(char* ,IplImage*);
 
 
 // Quelques fonctions utiles d' OpenCv
-/** \brief Fonction permettant de visualiser une Image a l aide
- d openCv
+
+/** \brief Fonction permettant de visualiser deux Images a l aide
+    d openCv
+
+
+    \param char*      : nom de l ecran ou apparaitra l image 1
+    \param IplImage*  : Pointer vers l image 1
+    \param char*      : nom de l ecran ou apparaitra l image 2
+    \param IplImage*  : Pointer vers l image 2
  */
 void erShow2Image(char* ,IplImage*, char*, IplImage*);
 
@@ -102,7 +130,8 @@ void erShow2Image(char* ,IplImage*, char*, IplImage*);
 
 
 /** \brief Fonction permettant de charge une  Image a l aide
- d openCv
+    d openCv
+    \param char* : nom de l image
  */
 std::pair<erImage,bool> erLoadImage( char*);
 //std::pair<erImage,bool> erLoadImage( char**);
@@ -110,20 +139,29 @@ std::pair<erImage,bool> erLoadImage( char*);
 
 
 /** \brief Fonction permettant de charger une serie d Image a l aide
- d openCv ayant comme extentions une succesion ordonne et continue de intieres
+    d openCv ayant comme extentions une succesion ordonne et continue de intieres
+    \param char*    : nom de l image
+    \param unit     : Intiere donnant le pass dans la succesion 
  */
 std::pair<erImage,bool> erLoadImageSeries( char*, uint inc=1);
 
 
-/** \brief Fonction permettant de charger une serie d Image a l aide
- d openCv ayant comme extentions une succesion ordonne et continue de intieres
- ATTENTION CET MODULE EST UNE MANIPULATION POUR TRAVAILLER DANS erCvAnalysis avec la fonction erCvAnalysisWeldPool::doIt */
-std::string erLoadImageSeriesManipulationWeldPool( std::string, uint inc=1);
+/** \brief Fonction permettant de chercher une serie d Images a l aide
+ d openCv ayant comme extention une succesion ordonne et continue de intieres
+ La function reenvoi le nom de l image a charger. Cette image est donne par la succesion
+ ATTENTION CET MODULE EST a utiliser sur erCvAnalysis  
+    \param std::string    : nom de l image
+    \param unit           : Intiere donnant le pass dans la succesion 
+*/
+std::string erLoadImageSeriesAnalysis( std::string, uint inc=1);
 
 
 
 /** \brief Fonction permettant de sauvegarder une image a l aide
- d openCv
+    d openCv
+    \param IplImage*     : pointer vers l image
+    \param char*         : nom de l image charge
+    \param char*         : nom du ficher ou l image sera sauvegarde
  */
 void erSaveImage( IplImage*, char*, char*);
 
@@ -132,36 +170,49 @@ void erSaveImage( IplImage*, char*, char*);
 
 
 /** \brief Fonction permettant de sauvegarder une image a l aide
- d openCv
- */
+    d openCv avec une nom-sufixe choisi par l utilisateur
+    \param IplImage*     : pointer vers l image
+    \param char*         : nom de l image charge
+    \param char*         : nom du ficher ou l image sera sauvegarde
+    \param char*         : extension sur le nom du ficher (example: nom_extension.png)
+*/
 void erSaveImage2( IplImage*,char*, char*, char*);
 
 
 
 /** \brief Fonction permettant de sauvegarder une image a l aide
- d openCv
+    d openCv a utiliser sur le module erCvAnalysis
+    \param char*         : nom de l image charge
+    \param std::string   : nom du ficher ou l image sera sauvegarde
+    \param char*         : extension sur le nom du ficher (example: nom_extension.png)
  */
 void erSaveImage2Analysis( IplImage*,char*, std::string, char*);
 
 
 
-
+/**
+   Focntion permettant de copier une image du type erImage dans une autre image de la meme clase erImage
+   \param erImage  : struc de l image a copier
+*/
 erImage erCopyImage(erImage);
 
 
 
 
 
-/** Fonction permettant de convertir une image en noir et blanc 
+/** 
+    Fonction permettant de convertir une image couleur (3 channal) en image des niveaux de gris (1 channal)
+    \param IplImage*   : pointer vers l image a convertir
 */
-//erImage    erConvertToBlackAndWhite( IplImage*);
 IplImage*  erConvertToBlackAndWhite( IplImage*);
 
 
 
 
 
-/** Fonction permettant d ecrire un ficher de sauvegarde des paramettres utilises pour chaque fonction
+/** 
+    Fonction permettant d ecrire un ficher de sauvegarde des paramettres utilises pour chaque fonction
+    \param char* : nom du ficher
  */
 void erWriteRecordFile( char*);
 
@@ -170,6 +221,8 @@ void erWriteRecordFile( char*);
 
 
 /** Fonction permettant d convertir une image 32bit en 8bit
+    \param IplImage*  : pointer vers l image en 32bit
+    \param IplImage*  : pointer vers l image en 8 bit
  */
 void erCvConvert32to8( IplImage*, IplImage*);
 
@@ -177,9 +230,12 @@ void erCvConvert32to8( IplImage*, IplImage*);
 
 
 
-/** Fonction permettant d ecrir le nom d un ficher de sortie avec l extension correspondante
- */
-//char* erEcrireNomFicher( char**, std::string);
+/** 
+    Fonction permettant d ecrir le nom d un ficher de sortie avec l extension correspondante
+    \param char*       : nom du ficher de l image en tratement
+    \param char*       : nom de base du ficher de l image de sorti
+    \param std::string : nom de l extension 
+*/
 char* erEcrireNomFichier( char*, char*, std::string);
 
 

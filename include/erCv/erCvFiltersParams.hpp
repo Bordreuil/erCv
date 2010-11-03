@@ -10,27 +10,23 @@
 
 
 /**
-   \brief Structure contenant les parametre utiles pour 
-   un lissage
-
-   Ajouter explication Edward!!!
-
-
+   \brief 
+   Structure contenant les paramettres pour le lissage ou smooth
  */
 extern const int nbSmoothType;
 extern char* smoothtype[]; 
-enum SmoothType {BLUR_NO_SCALE, /** < 0 :   */
-		 BLUR,          /** < 1 :   */
-		 GAUSSIAN,      /** < 2 :   */
-		 MEDIAN,        /** < 3 :   */
-		 BILATERAL      /** < 4 :   */
+enum SmoothType {BLUR_NO_SCALE, /** < 0 : Lissage d'average d'intensite de gris  */
+		 BLUR,          /** < 1 : Lissage d'avergage d'intensite de gris moyenne  */
+		 GAUSSIAN,      /** < 2 : Lissage des pixles utilisant une adoucissement gaussiene pour leur intensites de gris  */
+		 MEDIAN,        /** < 3 : Lissage utilissant la valeur median des intensites de gris sur les zones  */
+		 BILATERAL      /** < 4 : Lissage utilissant un filtre bilateral  */
 };
 struct erSmootP
 { 
-  erSmootP();
-  erSmootP(SmoothType,int);
-  int        size; /** < Beside size (in pixels) of smoothness region */
-  SmoothType type; /** < Type of the smooth to be aplied */
+  erSmootP( ); /** < Constructeur par defaut */
+  erSmootP( SmoothType, int); /** < Constructeur du smooth: d'abord le type de smooth et apres la taille des zones d'application du smooth */
+  int        size; /** < Le lissage sera applique par zones de taille: size x size */
+  SmoothType type; /** < Le type de lissage que sera applique au groupes de pixles dans chaque zone */
 };
 std::ostream& operator << (std::ostream&, const erSmootP);
 
@@ -38,6 +34,7 @@ std::ostream& operator << (std::ostream&, const erSmootP);
 
 /**
    \brief 
+   Filttre 
  */
 struct erSobelP
 { 
@@ -49,6 +46,7 @@ struct erSobelP
 
 /**
    \brief
+   Paramettres utilisé pour le filtre de Canny, pour regler le seuil de detection de contours
  */
 struct erCannyP
 { erCannyP(int,int);
@@ -62,24 +60,22 @@ std::ostream& operator << (std::ostream&,const erCannyP);
 
 /**
    \brief
-   
+   Paramettres utilises effecteur seuillage sur l'image 
 */
-//enum Thres{}
-enum ThresholdType{ THRESH_BINARY_=1,     /** < 1:   */
-		    THRESH_BINARY_INV_=2, /** < 2:   */
-		    THRESH_TRUNC_=3,      /** < 3:   */
-		    THRESH_TOZERO_=4,     /** < 4:   */
-		    THRESH_TOZERO_INV_=5  /** < 5:   */
+enum ThresholdType{ THRESH_BINARY_=1,     /** < 1: Seuillage binaire  */
+		    THRESH_BINARY_INV_=2, /** < 2: Seuilage binaire inverse  */
+		    THRESH_TRUNC_=3,      /** < 3: Seuillage truncate  */
+		    THRESH_TOZERO_=4,     /** < 4: Seuillage vers zero  */
+		    THRESH_TOZERO_INV_=5  /** < 5: Seuillage vers le zero inverse  */
 };
 extern char* thresholdtype[ ];
-// ATTENTION : Finir les commentaires
 struct erThresP
 {
-  erThresP(ThresholdType,int,int);
-  erThresP();
-  int trh1; /** < Threshold principal value in Threshold fonction */
-  int trh2; /** < Threshold secondary value in Threshold fonction */
-  ThresholdType type; /** < Type of Threshold to be applied */
+  erThresP(); /** < Constructeur par defaul */
+  erThresP(ThresholdType,int,int); /** < Constructeur avec les paramettres */
+  int trh1; /** < Niveau de gris dans l'image binaire resultant */
+  int trh2; /** < Valeur du seuil dans l'image */
+  ThresholdType type; /** < Type de seuillage a appliquer */
 };
 //std::ostream& operator << (std::ostream&,const erThresP);
 
@@ -87,50 +83,51 @@ struct erThresP
 
 /**
    \brief
-
+   Paramettres utilises pour le seuillage adapte par zones d'une image en different niveaux de gris 
 */
 //enum Adapt{};
-enum AdaptiveThresholdType{THRESH_BINARY=1,     /** < 1:    */
-			   THRESH_BINARY_INV=2  /** < 2:   */
+enum AdaptiveThresholdType{THRESH_BINARY=1,     /** < 1: Seuillage du type blanche et noir  */
+			   THRESH_BINARY_INV=2  /** < 2: Seuillage du type noir et blache  */
 };
-enum AdaptiveMethodType{AM_MEAN=1,              /** < 1:   */
-			AM_GAUSSIAN=2           /** < 2:   */
+enum AdaptiveMethodType{AM_MEAN=1,              /** < 1:  Calcul la moyenne des niveau de gris entre les pixels compris dans les zones */
+			AM_GAUSSIAN=2           /** < 2:  Etablie la moyenne gaussiene des niveaux de gris entre les pixels compris dans les zones */
 };
-extern char* adaptivethresholdtype[];
-extern char* adaptivemethodtype[];
-// ATTENTION : Finir les commentaires
+extern char* adaptivethresholdtype[]; /** < Type de seuillage a appliquer (Binaire ou binaire inversé) */
+extern char* adaptivemethodtype[]; /** < Methode a appliquer pour ressembler le niveux de gris des pixels par zone (gaussien ou moyennage) */
 struct erAdThrP
 { 
-  erAdThrP(AdaptiveThresholdType,AdaptiveMethodType,int,int,int);
-  erAdThrP();
-  int trhP;  //** <                           */
-  int neig;  //** <                           */
-  int trh0;  //** <                           */
-  AdaptiveThresholdType type;  //** <                           */
-  AdaptiveMethodType    adpt;  //** <                           */
+  erAdThrP(); /** < Constructeur par defaul */
+  erAdThrP( AdaptiveThresholdType, AdaptiveMethodType, int, int, int);
+  int trhP;  /** < Valeur constant qui modifie le valeur moyenne dans l'image (il peut agmenter ou diminuer le contraste par zones */
+  int neig;  /** < Taille en pixles des zones ou est applique le seuillage (plus grand est la zone, plus ca resamblera a une methode de seuillage classique) */
+  int trh0;  /** < Niveau de gris a partir du quel l'image est segmenté soit en blanch ou en noir */
+  AdaptiveThresholdType type;  /** < Type de seuillage a appliquer (Binaire ou binaire inversé) */
+  AdaptiveMethodType    adpt;  /** < Methode a appliquer pour ressembler le niveux de gris des pixels par zone (gaussien ou moyennage) */
 };
 std::ostream& operator << (std::ostream&,const erAdThrP);
 
 
 /**
    \brief
-
+   Paramettre pour la fonction Dilate
  */
 struct erDilatP
 {
-  erDilatP( int);
-  erDilatP();
-  int iter; /** < Iteration number to be applied dilate fonction */
+  erDilatP(); /** < Constructeur par defaul */
+  erDilatP( int); /** < Constructeur avec le paramettre */
+  int iter; /** < Numero d'iterations a appliquer sur l'image pour reduire les zones blaches (pixels) */
 };
 
 
 /**
    \brief
-
+   Paramettre pour la fonction Erode
  */
 struct erErodeP
 {
-  int iter; /** < Iteration number to be applied erode fonction */
+  erErodeP( ); /** < Constructeur par defaul */
+  erErodeP( int); /** < Constructeur avec le paramettre */
+  int iter; /** < Numero d'iteration pour augmenter les zones (pixels) blanches dans l'image */
 };
 
 

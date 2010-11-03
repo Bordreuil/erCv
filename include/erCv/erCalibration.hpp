@@ -39,15 +39,21 @@ public:
   // Quelques definitions de type utile par la suite
   typedef std::vector<CvPoint2D32f>   CornerContainer;
   typedef CornerContainer::iterator   CornerIterator;
-  // Constructeurs Destructeurs
+  /** \brief Constructeur par defaul */
   erCalibration();
   /** \brief Permet de trouver la matrice de passage de l 
       image patron a image mesure 
       les entiers correspondent a la taille de l echiquier
       Aujourd'hui(mai 2009), uniquement (3,3)
+      \param char*         : nom de l image patron
+      \param char*         : nom de l image a traiter
+      \param int           : nombre des carres de l echequier a prendre en compte (largeur)
+      \param int           : nombre des carres de l echequier a prendre en compte (hauteur)
+      \param char*         : nom du ficher avec les facteurs de conversion
   */
-  //erCalibration( char*, char*, int, int);
   erCalibration( char*,char*, int, int, char* file_dimention = "cuadro_size.dat");
+
+  /** \brief Destructeur */
   ~erCalibration(); 
   
   // Methodes d acces
@@ -59,7 +65,7 @@ public:
   erImage transform_image( erImage);
   /** \brief Permet d acceder au facteur de conversion */
   std::pair<double,double> mm_per_pixels();
-  
+ 
 private:
   // Fonctions internes utilises par cette class
   bool  find_corners( IplImage*, CornerContainer&);

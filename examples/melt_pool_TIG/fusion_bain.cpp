@@ -58,7 +58,7 @@ int main(int HOLA, char** file_name)
   erEqualP pequ;
   erAlphaP palp;
   erFindcP pfin;
-  erWaterP pwat;
+  //erWaterP pwat;
   erWhitBP pwhi;
   bool loaded;
 

@@ -1,4 +1,3 @@
-
 /** @file erCvCgal.hpp 
   \brief Fichier contenant les transfert des structures ou objet d OpenCv
   vers CGAL

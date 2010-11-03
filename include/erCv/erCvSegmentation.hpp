@@ -6,67 +6,45 @@
 #include "cv.h"
 #include<string>
 
-// struct erDiffeP
-// {
-//   erAdThrP *adapthold;
-//   erThresP *threshold;
-//   IplImage *image;
-//   int type;
-// };
-
-
-// struct erTemplP
-// {
-//   CvRect rectan;
-//   int type;
-//   bool drawing;
-//   IplImage *image;
-// };
-
-// struct erCallBP
-// {
-//   CvRect rectan;
-//   int type;
-//   int typeH;
-//   bool drawing;
-//   IplImage *image;
-// };
-
-
-// struct erEqualP
-// {
-//   int applic;
-// };
-
-
-// /**
-//    \brief
-
-//  */
-// struct erPyramP
-// {
-//   int trh1; /** < Threshold value to link in pyramid fonction */
-//   int trh2; /** < Threshold value to clustering in pyramid fonction */
-//   int levl; /** < Number of level to pyramid be applied */
-// };
+/** \defgroup segmentation erCvSegmentation */
+/** \brief interface d'algorithmes de segmentation openCV dans erCv */
 
 
 
+/** \addtogroup segmentation
+    /*@{*/
+
+/** \brief
+    Permmet de substraire une image A sur autre B d equal type et dimension (A-B=C)
+*/
+void erCvDifferencing( IplImage*, IplImage*);
+
+
+/** \brief
+    Permet de segmenter une image a partir d un echantillon ou zone template dans l image (voir erCvTemplateUser)
+*/
 IplImage* erCvTemplate( IplImage*, erTemplP*);
 
+
+/** \brief
+    Permet d'incrementer le contraste dans l image, en effectuant une normalizacion de l histograme
+*/
 void erCvEqualizeHist( IplImage*, erEqualP*);
 
 
-/** \bried
+/** \brief
     Permet d effectuer un filtrage de l image en reagroupant les pixels dans clusters 
     d interet et en effectuant des liaisons entre eux
  */
 void erCvPyramid( IplImage*, erPyramP*);
 
 
-
+/** \brief
+    Permet de couvir les zones blanches (au desous du seuil) entoure par une zone noir (au dessu du seuil)
+*/
 void erWhiteBlobCorrection( IplImage*, erWhitBP*);
 
-void erWhiteBlobDelete(std::string,erWhitBP);
+
+//void erWhiteBlobDelete(std::string,erWhitBP);
 
 #endif

@@ -31,13 +31,17 @@ int main( int hola, char** file_name)
   std::cout <<"-----------------------------------------------\n\n";
   uint ninc,ndelta,every,Nimax;
   std::cout << "Increment de photo:";
-  std::cin  >> ninc;
+  //std::cin  >> ninc;
+  ninc = 1;
   std::cout << "Toutes les n photos:";
-  std::cin >>   every;
+  //std::cin >>   every;
+  every = 1;
   std::cout << " increment de:";
-  std::cin >> ndelta;
+  //std::cin >> ndelta;
+  ndelta = 1;
   std::cout << "Nombre max de photos:";
-  std::cin >> Nimax;
+  //std::cin >> Nimax;
+  Nimax = 1;
   
   /* Declaration de variables a utiliser par les fonctions */
   char* exit = file_name[1];
@@ -74,10 +78,10 @@ int main( int hola, char** file_name)
   //ca.transform_image( bw);
 
   /* Definision de la zone d'interet ou on souhaite travvailler */
-  ec = erDef_ROIuser( &eb, &rect, true);
+  ec = erDef_ROIuser( &eb, &rect);
 
 
-  erCvEqualizeHistUser( &ec, &pequ);
+  //erCvEqualizeHistUser( &ec, &pequ);
 
   /* Debut du trataiment de l'image par methodes de filtrage optiques */
   /* Pour reduire la granulosite issue du bruit dans les pixels et la non homogenite de l'eclairage sur l'image;*/
@@ -127,33 +131,33 @@ int main( int hola, char** file_name)
     /* Boucle de lecteure des images  */
   clock_t tbeg = clock();
   uint nIm(0);
-  while(true)
-    { 
-      erImage eab, ebb, ecb;
-      std::list< CvPoint> cvPtsb;
-      //std::cout << "HOLA_1" << std::endl;
-      boost::tie( eab, loaded) = erLoadImageSeries( name, inc.inc());
-      if(!loaded) break;
-      ebb = erConvertToBlackAndWhite( &eab);        
-      //eo = ca.transform_image( bw);
-      ecb = erDef_ROI( &ebb, &rect);  
-      erCvEqualizeHist( &ecb, &pequ);  
-      erCvSmooth( &ecb, &psmo);
-      erCvAdaptiveThreshold( &ecb, &padt);
-      erCvSmooth( &ecb, &psmo1);
-      erCvCanny( &ecb, &pcan);
-      //        erSaveImage( &eab, file_name);
-      IsEqualTo is_equal_255( 255);
-      //        std::vector<CvPoint> cvPts; 
-      //std::cout << "HOLA_2" << std::endl;
-      erExtractCvPoints( cvPtsb, &ecb, is_equal_255, rect);
-      erExtractCurveMacroDrop( cvPtsb, &ecb, rect,  &cerc, name);
-      erPrintCvPoint( cvPtsb, name, exit); 
+//   while(true)
+//     { 
+//       erImage eab, ebb, ecb;
+//       std::list< CvPoint> cvPtsb;
+//       //std::cout << "HOLA_1" << std::endl;
+//       boost::tie( eab, loaded) = erLoadImageSeries( name, inc.inc());
+//       if(!loaded) break;
+//       ebb = erConvertToBlackAndWhite( &eab);        
+//       //eo = ca.transform_image( bw);
+//       ecb = erDef_ROI( &ebb, &rect);  
+//       erCvEqualizeHist( &ecb, &pequ);  
+//       erCvSmooth( &ecb, &psmo);
+//       erCvAdaptiveThreshold( &ecb, &padt);
+//       erCvSmooth( &ecb, &psmo1);
+//       erCvCanny( &ecb, &pcan);
+//       //        erSaveImage( &eab, file_name);
+//       IsEqualTo is_equal_255( 255);
+//       //        std::vector<CvPoint> cvPts; 
+//       //std::cout << "HOLA_2" << std::endl;
+//       erExtractCvPoints( cvPtsb, &ecb, is_equal_255, rect);
+//       erExtractCurveMacroDrop( cvPtsb, &ecb, rect,  &cerc, name);
+//       erPrintCvPoint( cvPtsb, name, exit); 
       
-      nIm++;
-      std::cout << "Image number :" << nIm << " passed: " << name << "\n";
-      if (nIm>Nimax) break;
-    }
+//       nIm++;
+//       std::cout << "Image number :" << nIm << " passed: " << name << "\n";
+//       if (nIm>Nimax) break;
+//     }
   //     clock_t tfin = clock();
   //     std::cout << "Temps en ms pour " << nIm << " images :" << (tfin-tbeg)  << std::endl;
   return(0);

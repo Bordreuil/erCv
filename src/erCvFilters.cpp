@@ -4,45 +4,39 @@
 
 
 
-erImage erSmoothAndCanny( IplImage* pic1, int A, int B)
-{
-  /* Test picture is gray: only one channel */
-  if(pic1->nChannels != 1)
-    {
-      std::cout << "Picture must be have only one channel" << std::endl;
-      return erImage();
-    }
-  else
-    { 
-      cvSmooth( &pic1, pic1, CV_BLUR, 5, 5, 0, 0);
-      cvCanny( pic1, pic1, (float)A*10., (float)B*10., 5); 
-      return erImage(pic1);
-    }
-};
+// erImage erSmoothAndCanny( IplImage* pic1, int A, int B)
+// {
+//   /* Test picture is gray: only one channel */
+//   if(pic1->nChannels != 1)
+//     {
+//       std::cout << "Picture must be have only one channel" << std::endl;
+//       return erImage();
+//     }
+//   else
+//     { 
+//       cvSmooth( &pic1, pic1, CV_BLUR, 5, 5, 0, 0);
+//       cvCanny( pic1, pic1, (float)A*10., (float)B*10., 5); 
+//       return erImage(pic1);
+//     }
+// };
 
 
 
 
 void erCvSmooth( IplImage* simg, erSmootP* parm)
 {
-  // int size= parm->size;
-  //SmoothType smooth = parm->type;
-  //std::cout << "size: " << size << std::endl;
-  //std::cout << "smoothtype: " << smoothtype[smooth] << std::endl;
-  //std::cout << parm;
-  //cvSmooth( simg, simg, smooth, size , 0, 0, 0);
   cvSmooth( simg, simg, parm->type, parm->size, 0, 0, 0);
  }
 
 
 
-void erCvSobel( IplImage* simg, erSobelP* parm)
-{
-  int threshold[2];
-  threshold[0] = parm->trhX;
-  threshold[1] = parm->trhY; 
-  cvSobel( simg, simg, threshold[0], threshold[1], 5);
-}
+// void erCvSobel( IplImage* simg, erSobelP* parm)
+// {
+//   int threshold[2];
+//   threshold[0] = parm->trhX;
+//   threshold[1] = parm->trhY; 
+//   cvSobel( simg, simg, threshold[0], threshold[1], 5);
+// }
 
 
 

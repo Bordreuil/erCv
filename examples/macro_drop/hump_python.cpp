@@ -24,7 +24,7 @@ int main( int hola, char** file_name)
   erEqualP equ(0);
   erSmootP p1(BLUR,7),p2(MEDIAN,5);
   erCannyP cann(355,355);
-  erAdThrP adp(THRESH_BINARY,AM_MEAN,49,119,255); //** < 
+  erAdThrP adp(THRESH_BINARY,AM_MEAN,49,119,255); //** < */
   erMacroDropAnalysis mda("peo_5");
   mda.defineParameters(rect,cerc,p1,p2,cann,adp,equ);
   std::string img_base="../pictures/macro_drop/hump_";
