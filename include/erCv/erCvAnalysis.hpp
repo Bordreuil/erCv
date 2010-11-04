@@ -386,7 +386,7 @@ struct erWeldPoolAnalysis:public erAnalysis
 						      Si on veut extraire le domaine convexe initialiser a true au depart 
 						   */
 };
-/**\}*/
+
 
 
 

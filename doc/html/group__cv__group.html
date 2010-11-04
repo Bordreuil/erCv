@@ -48,25 +48,25 @@
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de visualiser une Image a l aide d openCv.  <a href="#gd5e49d6b0df6148100f848dec333db5e"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g189092cbecfc5f0b550fd4392374b2e5">erShow2Image</a> (char *, IplImage *, char *, IplImage *)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de visualiser une Image a l aide d openCv.  <a href="#g189092cbecfc5f0b550fd4392374b2e5"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de visualiser deux Images a l aide d openCv.  <a href="#g189092cbecfc5f0b550fd4392374b2e5"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">std::pair&lt; <a class="el" href="classer_image.html">erImage</a>, bool &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#ge0be11733993eab4d6e5f4c4222a82ea">erLoadImage</a> (char *)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de charge une Image a l aide d openCv.  <a href="#ge0be11733993eab4d6e5f4c4222a82ea"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">std::pair&lt; <a class="el" href="classer_image.html">erImage</a>, bool &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#gbd24204cf182e26da1b76fab35bc5004">erLoadImageSeries</a> (char *, <a class="el" href="group__cv__group.html#g4d3943ddea65db7163a58e6c7e8df95a">uint</a> inc=1)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de charger une serie d Image a l aide d openCv ayant comme extentions une succesion ordonne et continue de intieres.  <a href="#gbd24204cf182e26da1b76fab35bc5004"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">std::string&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g8e4b8071148cd1620785aaa123f05330">erLoadImageSeriesManipulationWeldPool</a> (std::string, <a class="el" href="group__cv__group.html#g4d3943ddea65db7163a58e6c7e8df95a">uint</a> inc=1)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">std::string&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#gd4b31ee15f00cb03fb4b9281347c7719">erLoadImageSeriesAnalysis</a> (std::string, <a class="el" href="group__cv__group.html#g4d3943ddea65db7163a58e6c7e8df95a">uint</a> inc=1)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de charger une serie d Image a l aide d openCv ayant comme extentions une succesion ordonne et continue de intieres ATTENTION CET MODULE EST UNE MANIPULATION POUR TRAVAILLER DANS erCvAnalysis avec la fonction erCvAnalysisWeldPool::doIt.  <a href="#g8e4b8071148cd1620785aaa123f05330"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de chercher une serie d Images a l aide d openCv ayant comme extention une succesion ordonne et continue de intieres La function reenvoi le nom de l image a charger. Cette image est donne par la succesion ATTENTION CET MODULE EST a utiliser sur erCvAnalysis.  <a href="#gd4b31ee15f00cb03fb4b9281347c7719"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#ga00df399b6b51b54d4b86426bb1d4569">erSaveImage</a> (IplImage *, char *, char *)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de sauvegarder une image a l aide d openCv.  <a href="#ga00df399b6b51b54d4b86426bb1d4569"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#gfbf23ed27820537a1676ec8a02076f9e">erSaveImage2</a> (IplImage *, char *, char *, char *)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de sauvegarder une image a l aide d openCv.  <a href="#gfbf23ed27820537a1676ec8a02076f9e"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de sauvegarder une image a l aide d openCv avec une nom-sufixe choisi par l utilisateur.  <a href="#gfbf23ed27820537a1676ec8a02076f9e"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g68ae7e0828342307af885ec17ab25076">erSaveImage2Analysis</a> (IplImage *, char *, std::string, char *)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de sauvegarder une image a l aide d openCv.  <a href="#g68ae7e0828342307af885ec17ab25076"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Fonction permettant de sauvegarder une image a l aide d openCv a utiliser sur le module erCvAnalysis.  <a href="#g68ae7e0828342307af885ec17ab25076"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classer_image.html">erImage</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#g360a7c44d73ffa1735a59e3f8501e2ec">erCopyImage</a> (<a class="el" href="classer_image.html">erImage</a>)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">IplImage *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cv__group.html#gcb0147ebad78c2fea365ea9f2d6e7baa">erConvertToBlackAndWhite</a> (IplImage *)</td></tr>
@@ -172,6 +172,14 @@ template&lt;typename Container &gt; </div>
 <div class="memdoc">
 
 <p>
+Permmet de convertir les dimensions et cordonnes des curves de pixels sur l image a valeurs reels en MKS <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>std::pair&lt;</em>&nbsp;</td><td>double, double&gt; : facteur de convercion pour l axe X et pour l axe Y </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>Container</em>&nbsp;</td><td>: vecteur ou liste avec les coordones des points en pixels a convertir en MKS </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>char*</em>&nbsp;</td><td>: nom de l image en traitement </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>char*</em>&nbsp;</td><td>: nom de l image de sortie </td></tr>
+  </table>
+</dl>
 
 </div>
 </div><p>
@@ -192,7 +200,12 @@ template&lt;typename Container &gt; </div>
 <div class="memdoc">
 
 <p>
-Fonction permettant de convertir une image en noir et blanc 
+Fonction permettant de convertir une image couleur (3 channal) en image des niveaux de gris (1 channal) <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>IplImage*</em>&nbsp;</td><td>: pointer vers l image a convertir </td></tr>
+  </table>
+</dl>
+
 </div>
 </div><p>
 <a class="anchor" name="g360a7c44d73ffa1735a59e3f8501e2ec"></a><!-- doxytag: member="erCvBase.hpp::erCopyImage" ref="g360a7c44d73ffa1735a59e3f8501e2ec" args="(erImage)" -->
@@ -212,6 +225,11 @@ Fonction permettant de convertir une image en noir et blanc
 <div class="memdoc">
 
 <p>
+Focntion permettant de copier une image du type <a class="el" href="classer_image.html">erImage</a> dans une autre image de la meme clase <a class="el" href="classer_image.html">erImage</a> <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em><a class="el" href="classer_image.html">erImage</a></em>&nbsp;</td><td>: struc de l image a copier </td></tr>
+  </table>
+</dl>
 
 </div>
 </div><p>
@@ -241,7 +259,13 @@ Fonction permettant de convertir une image en noir et blanc
 <div class="memdoc">
 
 <p>
-Fonction permettant d convertir une image 32bit en 8bit 
+Fonction permettant d convertir une image 32bit en 8bit <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>IplImage*</em>&nbsp;</td><td>: pointer vers l image en 32bit </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>IplImage*</em>&nbsp;</td><td>: pointer vers l image en 8 bit </td></tr>
+  </table>
+</dl>
+
 </div>
 </div><p>
 <a class="anchor" name="gdd388b1a396d4158f7e460569a968dd6"></a><!-- doxytag: member="erCvBase.hpp::erEcrireNomFichier" ref="gdd388b1a396d4158f7e460569a968dd6" args="(char *, char *, std::string)" -->
@@ -276,7 +300,14 @@ Fonction permettant d convertir une image 32bit en 8bit
 <div class="memdoc">
 
 <p>
-Fonction permettant d ecrir le nom d un ficher de sortie avec l extension correspondante 
+Fonction permettant d ecrir le nom d un ficher de sortie avec l extension correspondante <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>char*</em>&nbsp;</td><td>: nom du ficher de l image en tratement </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>char*</em>&nbsp;</td><td>: nom de base du ficher de l image de sorti </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>std::string</em>&nbsp;</td><td>: nom de l extension </td></tr>
+  </table>
+</dl>
+
 </div>
 </div><p>
 <a class="anchor" name="gc8b881450dbd189e84c0ada939d33e15"></a><!-- doxytag: member="erCvExtract.hpp::erExtractCurveMacroDrop" ref="gc8b881450dbd189e84c0ada939d33e15" args="(Container &amp;pts, IplImage *simag, CvRect recROI, erCerc *cerc, char *file_name)" -->
@@ -325,6 +356,15 @@ template&lt;typename Container &gt; </div>
 <div class="memdoc">
 
 <p>
+Permet d extraire une ligne continue a partir d une image precedemment filtre <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>IplImage*</em>&nbsp;</td><td>: une image </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em><a class="el" href="structer_cerc.html">erCerc</a></em>&nbsp;</td><td>: cercle pour le debut de la recherche </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>char</em>&nbsp;</td><td>** : ensemble des variables venant de l exterieur file_name[2] doit correspondre au fichier a traiter </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>Container</em>&nbsp;</td><td>(template) : container des points a extraire </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em><a class="el" href="struct_cv_rect.html">CvRect</a></em>&nbsp;</td><td>: Rectangle pour extraire remettre les points dans les coordoonees de l image </td></tr>
+  </table>
+</dl>
 
 </div>
 </div><p>
@@ -374,7 +414,7 @@ template&lt;typename Container &gt; </div>
 <div class="memdoc">
 
 <p>
-Permet d extraire une ligne continue a partir d une image precedemment filtre <dl compact><dt><b>Parameters:</b></dt><dd>
+Permet d extraire une ligne continue a partir d une image precedemment filtre L'utilisateur doit marquer le debut de la curve ou ligne qu'il souhaite extraire <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>IplImage*</em>&nbsp;</td><td>: une image </td></tr>
     <tr><td valign="top"></td><td valign="top"><em><a class="el" href="structer_cerc.html">erCerc</a></em>&nbsp;</td><td>: cercle pour le debut de la recherche </td></tr>
@@ -500,6 +540,11 @@ template&lt;typename Iterator &gt; </div>
 <p>
 Fonction permettant de charge une Image a l aide d openCv. 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>char*</em>&nbsp;</td><td>: nom de l image </td></tr>
+  </table>
+</dl>
 
 </div>
 </div><p>
@@ -531,15 +576,21 @@ Fonction permettant de charge une Image a l aide d openCv.
 <p>
 Fonction permettant de charger une serie d Image a l aide d openCv ayant comme extentions une succesion ordonne et continue de intieres. 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>char*</em>&nbsp;</td><td>: nom de l image </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>unit</em>&nbsp;</td><td>: Intiere donnant le pass dans la succesion </td></tr>
+  </table>
+</dl>
 
 </div>
 </div><p>
-<a class="anchor" name="g8e4b8071148cd1620785aaa123f05330"></a><!-- doxytag: member="erCvBase.hpp::erLoadImageSeriesManipulationWeldPool" ref="g8e4b8071148cd1620785aaa123f05330" args="(std::string, uint inc=1)" -->
+<a class="anchor" name="gd4b31ee15f00cb03fb4b9281347c7719"></a><!-- doxytag: member="erCvBase.hpp::erLoadImageSeriesAnalysis" ref="gd4b31ee15f00cb03fb4b9281347c7719" args="(std::string, uint inc=1)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::string erLoadImageSeriesManipulationWeldPool           </td>
+          <td class="memname">std::string erLoadImageSeriesAnalysis           </td>
           <td>(</td>
           <td class="paramtype">std::string&nbsp;</td>
           <td class="paramname">, </td>
@@ -560,8 +611,14 @@ Fonction permettant de charger une serie d Image a l aide d openCv ayant comme e
 <div class="memdoc">
 
 <p>
-Fonction permettant de charger une serie d Image a l aide d openCv ayant comme extentions une succesion ordonne et continue de intieres ATTENTION CET MODULE EST UNE MANIPULATION POUR TRAVAILLER DANS erCvAnalysis avec la fonction erCvAnalysisWeldPool::doIt. 
+Fonction permettant de chercher une serie d Images a l aide d openCv ayant comme extention une succesion ordonne et continue de intieres La function reenvoi le nom de l image a charger. Cette image est donne par la succesion ATTENTION CET MODULE EST a utiliser sur erCvAnalysis. 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>std::string</em>&nbsp;</td><td>: nom de l image </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>unit</em>&nbsp;</td><td>: Intiere donnant le pass dans la succesion </td></tr>
+  </table>
+</dl>
 
 </div>
 </div><p>
@@ -599,6 +656,13 @@ template&lt;typename Container &gt; </div>
 <div class="memdoc">
 
 <p>
+Focntion permettant d ecrir les segments du type CgalSegment du contenair pts dans un ficher L extention par defaul du ficher est .txt <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>Container</em>&nbsp;</td><td>: vecteur ou liste des segments du type CgalSegment </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>char*</em>&nbsp;</td><td>: nom de l image en cours de traitement </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>char*</em>&nbsp;</td><td>: nom que portera le ficher </td></tr>
+  </table>
+</dl>
 
 </div>
 </div><p>
@@ -636,6 +700,13 @@ template&lt;typename Container &gt; </div>
 <div class="memdoc">
 
 <p>
+Fonction permettant d ecrir les points du type <a class="el" href="struct_cv_point.html">CvPoint</a> du contenair pts dans un ficher L extention par defaul du ficher est .txt <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>Container</em>&nbsp;</td><td>: vecteur ou liste des points du type <a class="el" href="struct_cv_point.html">CvPoint</a> </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>char*</em>&nbsp;</td><td>: nom de l image en cours de traitement </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>char*</em>&nbsp;</td><td>: nom qui portera le ficher </td></tr>
+  </table>
+</dl>
 
 </div>
 </div><p>
@@ -673,6 +744,13 @@ template&lt;typename Container &gt; </div>
 <p>
 Fonction permettant de sauvegarder une image a l aide d openCv. 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>IplImage*</em>&nbsp;</td><td>: pointer vers l image </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>char*</em>&nbsp;</td><td>: nom de l image charge </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>char*</em>&nbsp;</td><td>: nom du ficher ou l image sera sauvegarde </td></tr>
+  </table>
+</dl>
 
 </div>
 </div><p>
@@ -714,8 +792,16 @@ Fonction permettant de sauvegarder une image a l aide d openCv.
 <div class="memdoc">
 
 <p>
-Fonction permettant de sauvegarder une image a l aide d openCv. 
+Fonction permettant de sauvegarder une image a l aide d openCv avec une nom-sufixe choisi par l utilisateur. 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>IplImage*</em>&nbsp;</td><td>: pointer vers l image </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>char*</em>&nbsp;</td><td>: nom de l image charge </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>char*</em>&nbsp;</td><td>: nom du ficher ou l image sera sauvegarde </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>char*</em>&nbsp;</td><td>: extension sur le nom du ficher (example: nom_extension.png) </td></tr>
+  </table>
+</dl>
 
 </div>
 </div><p>
@@ -757,8 +843,15 @@ Fonction permettant de sauvegarder une image a l aide d openCv.
 <div class="memdoc">
 
 <p>
-Fonction permettant de sauvegarder une image a l aide d openCv. 
+Fonction permettant de sauvegarder une image a l aide d openCv a utiliser sur le module erCvAnalysis. 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>char*</em>&nbsp;</td><td>: nom de l image charge </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>std::string</em>&nbsp;</td><td>: nom du ficher ou l image sera sauvegarde </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>char*</em>&nbsp;</td><td>: extension sur le nom du ficher (example: nom_extension.png) </td></tr>
+  </table>
+</dl>
 
 </div>
 </div><p>
@@ -800,8 +893,16 @@ Fonction permettant de sauvegarder une image a l aide d openCv.
 <div class="memdoc">
 
 <p>
-Fonction permettant de visualiser une Image a l aide d openCv. 
+Fonction permettant de visualiser deux Images a l aide d openCv. 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>char*</em>&nbsp;</td><td>: nom de l ecran ou apparaitra l image 1 </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>IplImage*</em>&nbsp;</td><td>: Pointer vers l image 1 </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>char*</em>&nbsp;</td><td>: nom de l ecran ou apparaitra l image 2 </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>IplImage*</em>&nbsp;</td><td>: Pointer vers l image 2 </td></tr>
+  </table>
+</dl>
 
 </div>
 </div><p>
@@ -833,6 +934,12 @@ Fonction permettant de visualiser une Image a l aide d openCv.
 <p>
 Fonction permettant de visualiser une Image a l aide d openCv. 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>char*</em>&nbsp;</td><td>: nom de l ecran ou apparaitra l image </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>IplImage*</em>&nbsp;</td><td>: Pointer vers l image </td></tr>
+  </table>
+</dl>
 
 </div>
 </div><p>
@@ -853,7 +960,12 @@ Fonction permettant de visualiser une Image a l aide d openCv.
 <div class="memdoc">
 
 <p>
-Fonction permettant d ecrire un ficher de sauvegarde des paramettres utilises pour chaque fonction 
+Fonction permettant d ecrire un ficher de sauvegarde des paramettres utilises pour chaque fonction <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>char*</em>&nbsp;</td><td>: nom du ficher </td></tr>
+  </table>
+</dl>
+
 </div>
 </div><p>
 <a class="anchor" name="g35a3254f4f9e7dbfb6d6abb9a44e5813"></a><!-- doxytag: member="erCvBase.hpp::operator&lt;&lt;" ref="g35a3254f4f9e7dbfb6d6abb9a44e5813" args="(std::ostream &amp;, const CvRect &amp;)" -->
@@ -946,7 +1058,7 @@ Impression d objet dans un flux.
 </div>
 </div><p>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Mon Nov 1 22:40:53 2010 for 'erCv' by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Thu Nov 4 12:24:04 2010 for 'erCv' by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.7.1 </small></address>
 </body>
