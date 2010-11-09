@@ -25,7 +25,7 @@ int main( int hola, char** file_name)
   erAdThrP adt( THRESH_BINARY, AM_MEAN, 42, 130, 255); 
   erSmootP p1(MEDIAN,9);
   erCannyP cann(500,500);
-  erAlphaP alp(1);
+  erAlphaP alp(3);
   erLaserPrototypageAnalysis lpa("laser_prototypage");
   lpa.defineParameters_diffuse( rect, p1, cann, adt, alp);
   lpa.doIt_diffuse( "example_laser_prototypage_1.jpg");
