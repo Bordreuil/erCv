@@ -665,22 +665,22 @@ bool erLaserPrototypageAnalysis::doIt_diffuse(std::string fich)
   boost::tie(ea, loaded) = erLoadImage( file_name);
   if( !loaded) return false;
 
-  ec = erConvertToBlackAndWhite( &ea);
-  erSaveImage( &ec, file_name, nom);
+  eb = erConvertToBlackAndWhite( &ea);
+  erSaveImage( &eb, file_name, nom);
 
-  ed = erDef_ROI( &ec, &rectOI);
+  ec = erDef_ROI( &eb, &rectOI);
 
   erCvAdaptiveThreshold( &ec, &param_adaptive_threshold);
 
-  erCvSmooth( &ed, &param_smooth1);
+  erCvSmooth( &ec, &param_smooth1);
 
-  erCvCanny( &ed, &param_canny);
+  erCvCanny( &ec, &param_canny);
 
-  //erShowImage( "result canny 2", &ee);
+  erShowImage( "result canny", &ec);
   //erSaveImage2Analysis( &ee, file_name, fich, "can");
 
   IsEqualTo is_equal_255(255);
-  erExtractCvPoints( cvPts, &ee, is_equal_255, rectOI);
+  erExtractCvPoints( cvPts, &ec, is_equal_255, rectOI);
  
   convertCvToCgalpoints( cvPts, cgalPts);
 

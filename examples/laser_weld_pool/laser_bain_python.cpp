@@ -20,39 +20,27 @@ Canny            : 355, 355 */
 
 int main( int hola, char** file_name)
 { // Zone d interet dans l image retournee
-  std::cout << "HOLA" << std::endl;
   CvRect rect;
-  rect.x = 161; rect.y = 72; rect.width = 259; rect.height = 131;
-  erAdThrP adt( THRESH_BINARY, AM_MEAN, 38, 130, 255); 
+  rect.x = 154; rect.y = 61; rect.width = 273; rect.height = 159;
+  erAdThrP adt( THRESH_BINARY, AM_MEAN, 42, 130, 255); 
   erSmootP p1(MEDIAN,9);
   erCannyP cann(500,500);
-  //<<<<<<< .mine
-  //=======
-  //erDilatP dil(1); 
-  //erThresP thr( THRESH_BINARY_, 141, 255); //** <
-  //CvRect rec_tem;
-  //rec_tem.x = 182; rec_tem.y = 95; rec_tem.width = 3; rec_tem.height = 4;
-  //erTemplP templ(SQDIFF_NORMED, rec_tem, true); 
-  //>>>>>>> .r130
   erAlphaP alp(1);
   erLaserPrototypageAnalysis lpa("laser_prototypage");
   lpa.defineParameters_diffuse( rect, p1, cann, adt, alp);
   lpa.doIt_diffuse( "example_laser_prototypage_1.jpg");
-
-  //CvRect rect2;
-  //rect2.x = 167; rect2.y = 27; rect2.width = 197; rect2.height = 105;
-  //CvRect rec_tem2;
-  //rec_tem2.x = 144; rec_tem2.y = 66; rec_tem2.width = 3; rec_tem2.height = 3;
-  //erTemplP templ2(SQDIFF_NORMED, rec_tem2, true); 
-  //erThresP thr2( THRESH_BINARY_, 19, 255); //** <
-  lpa.defineParameters_diffuse( rect, p1, cann, adt, alp);
+  
+  CvRect rect2;
+  rect2.x = 177; rect2.y = 23; rect2.width = 194; rect2.height = 112;
+  erAdThrP adt2( THRESH_BINARY, AM_MEAN, 19, 74, 255); 
+  lpa.defineParameters_diffuse( rect2, p1, cann, adt2, alp);
   lpa.doIt_diffuse( "example_laser_prototypage_2.jpg");
 
-  //rect.x = 377; rect.y = 215; rect.width = 281; rect.height = 144;
-  //rec_tem.x = 184; rec_tem.y = 109; rec_tem.width = 5; rec_tem.height = 6;
-  //erTemplP templ3(SQDIFF_NORMED, rec_tem, true); 
-  //erThresP thr3( THRESH_BINARY_, 141, 255); //** <
-  lpa.defineParameters_diffuse( rect, p1, cann, adt, alp);
+  CvRect rect3;
+  rect3.x = 347; rect3.y = 197; rect3.width = 348; rect3.height = 172;
+  erAdThrP adt3( THRESH_BINARY, AM_MEAN, 0, 63, 255); 
+  erAlphaP alp3(25);
+  lpa.defineParameters_diffuse( rect3, p1, cann, adt3, alp3);
   lpa.doIt_diffuse( "example_laser_prototypage_3.jpg");
 
   CvRect rec_tem;

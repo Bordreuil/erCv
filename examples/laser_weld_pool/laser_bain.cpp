@@ -104,7 +104,7 @@ int main(int HOLA, char** file_name)
   //erSaveImage2( &ec, file_name, "thr");
   
   erCvCannyUser( &ee, &pcan);
-  //erSaveImage2( &ee, name, exit, "can");
+  erSaveImage2( &ee, name, exit, "can");
  
   //erCvFindContours( &ee, &pfin, true);
   //_________________________________________________________________________________________________
