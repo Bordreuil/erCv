@@ -15,6 +15,9 @@ TARGET_LINK_LIBRARIES(melt_pool_tig erCv ${OPENCV_LIBS})
 ADD_EXECUTABLE(fusion_bain_python fusion_bain_python.cpp)
 TARGET_LINK_LIBRARIES(fusion_bain_python erCv ${OPENCV_LIBS})
 
+ADD_EXECUTABLE(fusion_bain_move_python fusion_bain_move_python.cpp)
+TARGET_LINK_LIBRARIES(fusion_bain_move_python erCv ${OPENCV_LIBS})
+
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/fusion_bain_python.py
 			${CMAKE_CURRENT_BINARY_DIR}/fusion_bain_python.py
 			COPYONLY)

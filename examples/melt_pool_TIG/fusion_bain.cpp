@@ -84,7 +84,7 @@ int main(int HOLA, char** file_name)
   /* Definision de la zone d'interet ou on souhaite travailler */
   ed = erDef_ROIuser( &ec, &rect, true);
   erSaveImage2( &ec, name, exit, "roi"); 
-  //erCvEqualizeHistUser( &ed, &pequ);
+  erCvEqualizeHistUser( &ed, &pequ);
   erCvCannyUser( &ed, &pcan);
   //erCvSmoothUser( &ed, &psmo);
   //erCvPyramidUser( &ec, &pyra, true);

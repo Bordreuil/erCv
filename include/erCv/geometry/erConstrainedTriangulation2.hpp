@@ -46,8 +46,7 @@ typedef K::Iso_rectangle_2 Iso_rectangle_2;
 typedef CGAL::Triangulation_vertex_base_2<K>  Vertex_base;
 typedef CGAL::Constrained_triangulation_face_base_2<K> Face_base;
 
-template <class Gt,
-          class Fb >
+template <class Gt,class Fb >
 class Enriched_face_base_2 : public Fb {
 public:
   typedef Gt Geom_traits;
