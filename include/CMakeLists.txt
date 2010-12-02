@@ -4,5 +4,4 @@ install(DIRECTORY erCv DESTINATION include
 		       REGEX "/[^/]*toBind.hpp$" EXCLUDE
 		       REGEX "/[^/]*.s$" EXCLUDE
 		       REGEX ".svn" EXCLUDE
-		       EXPORT erCv-targets
   )
