@@ -1,10 +1,11 @@
 /*
-  Test pour une fonction de calibration
+  Test pour un objet de calibration de calibration
 
 
 
 
   18/08/2009 : cb
+  02/12/2010 : maj cb
  */
 
 
@@ -13,32 +14,15 @@
 //std::string INFOFILE;
 
 int main( int hola, char** file_name)
-{ /* Chargement et visualisation de l image */
-  erImage im ;
-  bool loaded;
-  char* exit = file_name[1];
-  char* name = file_name[2];
-  boost::tie(im,loaded)= erLoadImage( name);
-  //INFOFILE = file_name[1];
-  erShowImage("toto",&im);
-
+{ 
   /* Defintion de la calibration et visualisation des images 
      patrons et mesures 
   */
-  erCalibration ca( "cuadro4.jpg", "etalon_512.bmp", 3, 3);
+  erCalibration ca( "calibration_source.jpg", "calibration_target.bmp", 3, 3);
   erImage pat = ca.get_patron();
-  std::cout << "HOLA2" << std::endl;
-  erShowImage("patron", &pat);
+  //erShowImage("patron", &pat);
   erImage mes = ca.get_mesure();
-  erShowImage("mesure",&mes);
+  //erShowImage("mesure",&mes);
   
-
-  /* Creation de l image et modification a l aide de la transformation 
-     de la calibration */
-//   erImage ir;
-//   erImage ir=ca.transform_image(im);
-//   cvNamedWindow("Turn");
-//   cvShowImage("Turn",&ir);
-//   cvWaitKey();
   return(0);
 }

@@ -7,3 +7,5 @@ ADD_EXECUTABLE(test_calibration test_calibration.cpp)
 TARGET_LINK_LIBRARIES(test_calibration erCv ${OPENCV_LIBS})
 ADD_TEST(testCalibration test_calibration)
 
+FILE(COPY calibration_source.jpg DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+FILE(COPY calibration_target.bmp DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

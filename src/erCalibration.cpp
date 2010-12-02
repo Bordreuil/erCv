@@ -203,7 +203,7 @@ erFactorRealDimension erCalibration::real_dimensions( char* file_dim)
   else
     {
       std::cout << "Lecture de ficher pour le dimension du 'cuadro' imposible" << std::endl;
-      std::cout << "Facteur de conversion par defaul 1" << std::endl;
+      std::cout << "Facteur de conversion par defaut 1" << std::endl;
       dim_x = 1;
       dim_y = 1;
       return std::make_pair( dim_x, dim_y);

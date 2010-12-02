@@ -3,4 +3,5 @@ get_filename_component(_prefix "${_dir}/../../" ABSOLUTE)
 
 include("${_prefix}/lib/erCv/erCv-targets.cmake")
 
-set(erCv_INCLUDE_DIRS "${_prefix}/include/erCv")
+set(erCv_INCLUDE_DIRS "${_prefix}/include/")
+set(erCv_LIBRRARY   "${_prefix}/libs")

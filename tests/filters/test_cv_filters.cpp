@@ -8,8 +8,8 @@ int main(int HOLA, char** image_name)
 {
   bool loaded;
   /* Chargement et visualisation de l image de base */
-  char* exit = image_name[1];
-  char* name = image_name[2];
+  char* exit = "resultTestFilter.bmp";
+  char* name = "imageTestFilter.bmp";
   erImage todo, er, bw, tm;
   erTemplP ptem;
   erSmootP psmo;
