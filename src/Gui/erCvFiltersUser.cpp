@@ -441,8 +441,8 @@ void erCvDilateUser( IplImage* simg, erDilatP* parm, bool with_trackbar)
   iteration = 1;
   img = cvCloneImage( simg);
   std::cout << "Put max iteration numbers of dilate its applies: ";
-  //std::cin >> maxt;
-  maxt = 20;
+  std::cin >> maxt;
+  //maxt = 20;
   //std::cout << std::endl;
   int ok=1;
   while(ok)
@@ -451,8 +451,8 @@ void erCvDilateUser( IplImage* simg, erDilatP* parm, bool with_trackbar)
       if( !with_trackbar)
 	{
 	  std::cout << "Put the number of dilate iterations (int < 20): ";
-	  //std::cin >> iteration;
-	  iteration = 1;
+	  std::cin >> iteration;
+	  //iteration = 1;
 	  std::cout << std::endl;
 	}
       else

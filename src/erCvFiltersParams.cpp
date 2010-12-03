@@ -50,7 +50,7 @@ erThresP::erThresP():type(THRESH_BINARY_),trh1(150),trh2(255){};
 erThresP::erThresP( ThresholdType tt, int th1, int th2):type(tt), trh1(th1), trh2(th2){};
 
 erAdThrP::erAdThrP():type(THRESH_BINARY),adpt(AM_MEAN),trhP(10),neig(7),trh0(51){};
-erAdThrP::erAdThrP(AdaptiveThresholdType tt,AdaptiveMethodType mt ,int thrp,int neig,int thr0):
+erAdThrP::erAdThrP( AdaptiveThresholdType tt, AdaptiveMethodType mt, int thrp, int neig, int thr0):
   type(tt),adpt(mt),trhP(thrp),neig(neig),trh0(thr0){};
 
 

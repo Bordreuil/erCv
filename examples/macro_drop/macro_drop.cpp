@@ -72,13 +72,14 @@ int main( int hola, char** file_name)
   boost::tie( ea, loaded) = erLoadImage( name);
   if(!loaded) return 0;
   erSaveImage( &ea, name, exit);
-  eb = erConvertToBlackAndWhite( &ea); /* Conversion en 8 bit single channel */
-
+  ec = erConvertToBlackAndWhite( &ea); /* Conversion en 8 bit single channel */
+  erSaveImage2( &ec, name, exit, "con");
+  //erShowImage( "con", &ec);
   /* Conversion de l'image du RGB->GRIS */
   //ca.transform_image( bw);
 
   /* Definision de la zone d'interet ou on souhaite travvailler */
-  ec = erDef_ROIuser( &eb, &rect);
+  //ec = erDef_ROIuser( &eb, &rect, true);
 
 
   //erCvEqualizeHistUser( &ec, &pequ);
@@ -88,22 +89,25 @@ int main( int hola, char** file_name)
   /* l'image est lisse avec un filtre Smooth du type BLUR (moyennage standart)*/
   //std::cout << "Before Smooth User\n";
   erCvSmoothUser( &ec, &psmo);
-  
+  erSaveImage2( &ec, name, exit, "sm1");
+  //erShowImage( "sm1", &ec);
   /* Dans les zones affectes par la procedure d'ombroscopie, des inegalites dans l'intensite de niveaux de gris sont observes. */
   /* Pour faire resortir les bordes principaux (par contraste) entres les zones zommbres et eclaires, */
   /* un methode de filtrage par seuil, adapte par zone, est utilise */
   erCvAdaptiveThresholdUser( &ec, &padt, true);
+  erSaveImage2( &ec, name, exit, "ada");
   //erCvThresholdUser( &ec, &pthr, true);
 
   /* Le Sueillage par zones fait aussi resortir les bordes a l'interior des zones zombres */ 
   /* (ou affectes par la procedure d'ombroscopie). Neanmoins ses deffauts resten minoritaires dans cette region, */ 
   /* ainsi,  un filtre smooth du type MEDIAN, permet de les reduires considerablement*/
   erCvSmoothUser( &ec, &psmo1);
+  erSaveImage2( &ec, name, exit, "sm2");
   //erCvThresholdUser( &ec, &pthr1, true); 
   /* Une fois etablie les bordes pricipaux dans l'image, un filtre derivatif permet de marquer les contours dans l'image.*/ 
   /* Le filtre choisi est le filtre a repose impulsionelle de Canny*/
   erCvCannyUser( &ec, &pcan);
-
+  erSaveImage2( &ec, name, exit, "can");
   /* L'image final post-traitement est saufgarde dans un ficher qui a pour nom: */
   /* le nom definie par l'usager + le No Serial de l'image traite */
   //erSaveImage( &ec, name, exit);  
@@ -129,8 +133,8 @@ int main( int hola, char** file_name)
   erPrintCvPoint( cvPts, name, exit); 
   
     /* Boucle de lecteure des images  */
-  clock_t tbeg = clock();
-  uint nIm(0);
+  //  clock_t tbeg = clock();
+  //  uint nIm(0);
 //   while(true)
 //     { 
 //       erImage eab, ebb, ecb;
