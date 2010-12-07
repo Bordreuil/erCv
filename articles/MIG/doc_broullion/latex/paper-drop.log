@@ -1,0 +1,388 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.5.24)  7 DEC 2010 17:59
+entering extended mode
+ \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**paper-drop.tex
+(./paper-drop.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, german-x-2009-06-19, ngerman-x-2009-06-19, ancientgreek, ibycus, ar
+abic, basque, bulgarian, catalan, pinyin, coptic, croatian, czech, danish, dutc
+h, esperanto, estonian, farsi, finnish, french, galician, german, ngerman, mono
+greek, greek, hungarian, icelandic, indonesian, interlingua, irish, italian, ku
+rmanji, latin, latvian, lithuanian, mongolian, mongolian2a, bokmal, nynorsk, po
+lish, portuguese, romanian, russian, sanskrit, serbian, slovak, slovenian, span
+ish, swedish, turkish, ukenglish, ukrainian, uppersorbian, welsh, loaded.
+(./iopart.cls
+Document Class: iopart 1996/06/10 v0.0 IOP Journals LaTeX article class
+(./iopart12.clo
+File: iopart12.clo 1997/01/15 v1.0 LaTeX2e file (size option)
+)
+\c@jnl=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\indentedwidth=\skip43
+\mathindent=\dimen102
+\c@eqnval=\count87
+) (./paper-drop.aux)
+\openout1 = `paper-drop.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 57.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 57.
+ [1
+
+{/usr/local/texlive/2009/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+
+LaTeX Warning: Citation `LIN' on page 2 undefined on input line 81.
+
+
+LaTeX Warning: Citation `WU1' on page 2 undefined on input line 81.
+
+
+LaTeX Warning: Citation `CHAPUIS' on page 2 undefined on input line 83.
+
+
+LaTeX Warning: Citation `WANG' on page 2 undefined on input line 84.
+
+
+LaTeX Warning: Citation `CHO' on page 2 undefined on input line 85.
+
+
+LaTeX Warning: Citation `WANG' on page 2 undefined on input line 86.
+
+
+LaTeX Warning: Citation `BAE' on page 2 undefined on input line 89.
+
+
+LaTeX Warning: Citation `LIN' on page 2 undefined on input line 89.
+
+
+LaTeX Warning: Citation `GUANGJUN' on page 2 undefined on input line 90.
+
+
+LaTeX Warning: Citation `BAE' on page 2 undefined on input line 91.
+
+
+LaTeX Warning: Citation `BALSAMO' on page 2 undefined on input line 91.
+
+
+LaTeX Warning: Citation `LIN' on page 2 undefined on input line 91.
+
+
+LaTeX Warning: Citation `WANG' on page 2 undefined on input line 92.
+
+
+LaTeX Warning: Citation `NORDBRUCH' on page 2 undefined on input line 93.
+
+
+LaTeX Warning: Citation `WU2' on page 2 undefined on input line 94.
+
+
+LaTeX Warning: Citation `WANG' on page 2 undefined on input line 95.
+
+
+LaTeX Warning: Citation `WU2' on page 2 undefined on input line 95.
+
+
+LaTeX Warning: Citation `SEED' on page 2 undefined on input line 95.
+
+
+LaTeX Warning: Citation `NORDBRUCH' on page 2 undefined on input line 95.
+
+
+LaTeX Warning: Citation `WANG' on page 2 undefined on input line 96.
+
+
+LaTeX Warning: Citation `CHO' on page 2 undefined on input line 108.
+
+
+LaTeX Warning: Citation `CHO' on page 2 undefined on input line 110.
+
+
+Overfull \hbox (20.7587pt too wide) has occurred while \output is active
+\OT1/cmr/m/it/12 Macro drop and droplet profile detection during PGMAW process 
+by image processing library \OT1/cmr/m/n/12 2
+ []
+
+[2]
+
+LaTeX Warning: Citation `BALSAMO' on page 3 undefined on input line 116.
+
+
+LaTeX Warning: Citation `WANG' on page 3 undefined on input line 119.
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 119.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 119.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 119.
+
+LaTeX Warning: Citation `WANG' on page 3 undefined on input line 120.
+
+
+LaTeX Warning: Citation `BALSAMO' on page 3 undefined on input line 122.
+
+
+LaTeX Warning: Citation `COCQUEREZ' on page 3 undefined on input line 147.
+
+
+LaTeX Warning: Reference `photo-explication-filter' on page 3 undefined on inpu
+t line 148.
+
+
+Overfull \hbox (20.7587pt too wide) has occurred while \output is active
+\OT1/cmr/m/it/12 Macro drop and droplet profile detection during PGMAW process 
+by image processing library \OT1/cmr/m/n/12 3
+ []
+
+[3]
+
+LaTeX Warning: Reference `photo-explication-snake' on page 4 undefined on input
+ line 156.
+
+
+LaTeX Warning: Citation `COCQUEREZ' on page 4 undefined on input line 173.
+
+
+LaTeX Warning: Reference `photo-explication-segmentation' on page 4 undefined o
+n input line 174.
+
+./paper-drop.tex:180: Undefined control sequence.
+l.180 \subfigure
+                [Weld pool image in static GTAW process]{\label{photo-explic...
+
+? 
+./paper-drop.tex:180: Undefined control sequence.
+l.180 ...photo-explication-patron}\includegraphics
+                                                  [width=3.5cm,height=3.5cm]...
+
+? 
+./paper-drop.tex:181: Undefined control sequence.
+l.181 \subfigure
+                [Canny filter treatment]{\label{photo-explication-filters}\i...
+
+? 
+./paper-drop.tex:181: Undefined control sequence.
+l.181 ...hoto-explication-filters}\includegraphics
+                                                  [width=3.5cm,height=3.5cm]...
+
+? 
+./paper-drop.tex:182: Undefined control sequence.
+<recently read> \subfigure 
+                           
+l.182 \subfigure
+                [Snake treatment]{\label{photo-explication-snake}\includegra...
+
+? 
+./paper-drop.tex:182: Undefined control sequence.
+l.182 ...{photo-explication-snake}\includegraphics
+                                                  [width=3.5cm,height=3.5cm]...
+
+? 
+./paper-drop.tex:183: Undefined control sequence.
+l.183 \subfigure
+                [Segmentation image by 2 cluster sample comparison]{\label{p...
+
+? 
+./paper-drop.tex:183: Undefined control sequence.
+l.183 ...explication-segmentation}\includegraphics
+                                                  [width=3.5cm,height=3.5cm]...
+
+? 
+
+LaTeX Warning: Reference `schema-erCv' on page 4 undefined on input line 197.
+
+
+Overfull \hbox (20.7587pt too wide) has occurred while \output is active
+\OT1/cmr/m/it/12 Macro drop and droplet profile detection during PGMAW process 
+by image processing library \OT1/cmr/m/n/12 4
+ []
+
+[4]
+./paper-drop.tex:217: Undefined control sequence.
+l.217 \includegraphics
+                      [width=7cm,height=4cm]{schema-erCv.png}
+? 
+
+./paper-drop.tex:222: LaTeX Error: \begin{document} ended by \end{itemize}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.222 \end{itemize}
+                   
+? 
+./paper-drop.tex:222: Extra \endgroup.
+<recently read> \endgroup 
+                          
+l.222 \end{itemize}
+                   
+? 
+Missing character: There is no Õ in font cmr12!
+
+Overfull \hbox (20.7587pt too wide) has occurred while \output is active
+\OT1/cmr/m/it/12 Macro drop and droplet profile detection during PGMAW process 
+by image processing library \OT1/cmr/m/n/12 5
+ []
+
+[5]
+
+LaTeX Warning: Citation `CHAPUIS' on page 6 undefined on input line 236.
+
+
+LaTeX Warning: Reference `schema-platform' on page 6 undefined on input line 23
+9.
+
+./paper-drop.tex:245: Undefined control sequence.
+l.245 \includegraphics
+                      [width=7cm,height=4cm]{schema-platform.png}
+? 
+
+LaTeX Warning: Reference `schema-montage-experimental-GMAW' on page 6 undefined
+ on input line 261.
+
+./paper-drop.tex:265: Undefined control sequence.
+l.265 \includegraphics
+                      [width=7cm,height=4cm]{schema-montage-experimental-GMA...
+
+? 
+
+LaTeX Warning: Reference `table-parameters-static' on page 6 undefined on input
+ line 281.
+
+
+LaTeX Warning: Reference `table-parameters-change' on page 6 undefined on input
+ line 282.
+
+
+Overfull \hbox (20.7587pt too wide) has occurred while \output is active
+\OT1/cmr/m/it/12 Macro drop and droplet profile detection during PGMAW process 
+by image processing library \OT1/cmr/m/n/12 6
+ []
+
+[6]
+
+./paper-drop.tex:309: LaTeX Error: \begin{table} on input line 298 ended by \en
+d{center}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.309 \end{center}
+                  
+? 
+./paper-drop.tex:309: Missing } inserted.
+<inserted text> 
+                }
+l.309 \end{center}
+                  
+? 
+./paper-drop.tex:310: Too many }'s.
+\@endfloatbox ...pagefalse \outer@nobreak \egroup 
+                                                  \color@endbox 
+l.310 \end{table}
+                 
+? 
+
+./paper-drop.tex:310: LaTeX Error: \begin{document} ended by \end{table}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.310 \end{table}
+                 
+? 
+./paper-drop.tex:310: Extra \endgroup.
+<recently read> \endgroup 
+                          
+l.310 \end{table}
+                 
+? 
+./paper-drop.tex:329: Undefined control sequence.
+l.329 \includegraphics
+                      [width=7cm,height=4cm]{schema-erCv.png}
+? 
+
+./paper-drop.tex:435: LaTeX Error: \begin{indented} on input line 435 ended by 
+\end{center}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.435                  $i\in\{1,n}
+                                  $, a segment is build between the respecti...
+
+? 
+./paper-drop.tex:435: Extra }, or forgotten \endgroup.
+\@endfloatbox ...pagefalse \outer@nobreak \egroup 
+                                                  \color@endbox 
+l.435                  $i\in\{1,n}
+                                  $, a segment is build between the respecti...
+
+? 
+
+./paper-drop.tex:435: LaTeX Error: \begin{center} on input line 328 ended by \e
+nd{figure}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.435                  $i\in\{1,n}
+                                  $, a segment is build between the respecti...
+
+? x
+ 
+Here is how much of TeX's memory you used:
+ 474 strings out of 493848
+ 3979 string characters out of 3149207
+ 75590 words of memory out of 3000000
+ 3824 multiletter control sequences out of 15000+200000
+ 8412 words of font info for 30 fonts, out of 3000000 for 9000
+ 714 hyphenation exceptions out of 8191
+ 22i,8n,19p,226b,362s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><
+/usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></
+usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></u
+sr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></us
+r/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr
+/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/l
+ocal/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/loc
+al/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local
+/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/te
+xlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/tex
+live/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texl
+ive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on paper-drop.pdf (6 pages, 167993 bytes).
+PDF statistics:
+ 69 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+
