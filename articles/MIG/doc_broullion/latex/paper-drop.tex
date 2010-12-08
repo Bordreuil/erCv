@@ -77,48 +77,101 @@ the appropriate format for the journal concerned.
 \maketitle
 
 \section{Introduction}
-A better comprehension of welding objects behavior presents a PGMAW process as macro drop and metal transfer drop (droplet) could help to improve numerical simulations
- and enhance welding quality in manufacturing process \cite{LIN}, \cite{WU1}. An example to this are the problems linked to productivity. To some process, 
- increase productivity mean increase weld speed, however some welding defects related to bad shape, as the hump formations, limit the maximum weld 
- speed \cite{CHAPUIS} and therefore the productivity. In a PGMAW process the weld quality is strongly relates with the metal transfer process stability 
- (the droplet deposition), then control of metal transfer process implies control of weld quality \cite{WANG}. In both example cases a macro drop kinetic
-  study and a droplet dynamic analysis could help to better understand some GMAW related phenomena as humping formation \cite{CHO}, droplet 
-  fluctuations \cite{WANG} or guarantee the welding quality. In both case, the kinetic and the dynamic analysis, required the monitoring \cite{} and the 
-  geometrical analysis of macro drop and droplets in order to extract qualitative information of these welding objects.There have been many studies on visual sensing techniques for observing weld pool image \cite{BAE} and metal transfer process during welding \cite{LIN}.Optical sensors like high speed CCD cameras and lighting systems have been widely use in GMAW process to realize image acquisition \cite{GUANGJUN},
-   control process \cite{BAE}, parametric studies \cite{BALSAMO} and droplet dynamics analysis\cite{LIN}. Then image processing plays a critical role in 
-   extracting useful information from visual scenes \cite{WANG}. Nevertheless the strong interference from the arc lightning required more than standard 
-   image treatment to analyses the raw images of the welding process \cite{NORDBRUCH}. Previous work has shown that is possible to perform geometrical 
-   analysis in weld pools or droplets \cite{WU2}. Parameters such as macro drop or droplets surface, volumes or height has been measure using different and 
-   specifics processing images algorithms \cite{WANG}, \cite{WU2}, \cite{SEED}, \cite{NORDBRUCH}. However, to date, effectively automatic images processing
-    of metal transfer has not been developed, possibly due to the level difficulty involved for welding researchers \cite{WANG}.To perform geometrical analysis in macro drop and droplet; a multipurpose C++ based library (erCv) was developed by the Weld/Assembly group of 
-    LMGC laboratory. These library results from selected functions join from highly reliable open source libraries to images treatment, geometrical 
-    analysis, graph theory applications and image visualization.In a first step, and despite the different static and dynamic weld conditions, as well as different current regime. A reliable 2D profiles and geometrical
-     parameters from macro drop and droplets, has been obtained using the mentioned library. Using this, a dimension and dimensionless analysis has 
-     been performing. The intention is to help to simplified futures numerical models of humping phenomena and quality process.
+A better comprehension of welding objects behavior presents in a PGMAW process
+ as macro drop and metal transfer drop (droplet) could help to improve numerical simulations
+ and enhance welding quality in manufacturing process \cite{LIN}, \cite{WU1}.
+% An example to this are the problems linked to productivity. To some process,
+ For example, the
+ increase of productivity means often increase of weld speed,
+ however some welding defects related to bad shape, as the hump formations, limit the maximum weld 
+ speed \cite{CHAPUIS,Mendez} and therefore the productivity. 
+ In a PGMAW process, the weld quality is strongly relates with the metal transfer  stability 
+ (the droplet deposition). The control of metal transfer process %implies control of
+ will improve weld quality \cite{WANG}. In both example cases a macro drop kinetic
+  study and a droplet dynamic analysis during static PGMAW process could help to better
+ understand some GMAW related phenomena as humping formation \cite{CHO}, droplet 
+  fluctuations \cite{WANG} that guarantee the welding quality. 
+ In both case, the kinetic and the dynamic analysis, required the monitoring \cite{} and the 
+  geometrical analysis of macro drop and droplets in order to extract 
+  qualitative information of these welding objects. 
+  There have been many studies on visual sensing techniques for observing weld pool 
+  image \cite{BAE} and metal transfer process during welding \cite{LIN}. Optical sensors like high speed 
+ cameras and lighting systems have been widely use in GMAW process to realize 
+ image acquisition \cite{GUANGJUN},
+   control process \cite{BAE}, parametric studies \cite{BALSAMO} and droplet dynamics analysis\cite{LIN}.
+   Image processing plays a critical role in 
+   extracting useful information from visual scenes \cite{WANG}.
+ Nevertheless the strong interference from the arc lightning required more than standard 
+   image treatment to analyses the raw images of the welding process \cite{NORDBRUCH}. 
+Previous work has shown that is possible to perform geometrical 
+   analysis in weld pools or droplets \cite{WU2}.
+   Parameters such as macro drop or droplets surface, volumes 
+or height has been measure using different and 
+   specifics processing images algorithms \cite{WANG}, \cite{WU2}, \cite{SEED},
+ \cite{NORDBRUCH}. However, to date, effectively automatic images processing
+    of metal transfer has not been developed, possibly due to the  difficulty involved 
+for welding researchers \cite{WANG}. 
+
+To perform geometrical analysis in macro drope and droplet; a multipurpose C++ based library (erCv) was developed at the lab. These library results from selected functions  from highly reliable 
+open source libraries to images treatment, geometrical 
+    analysis, graph theory applications and image visualization.
+In a first step, and despite the different static and dynamic weld conditions, 
+as well as different current regime. A reliable 2D profiles and geometrical
+     parameters from macro drop and droplets, has been obtained using the mentioned library.
+ Using this, a dimension and dimensionless analysis will 
+     be done. The intention is to help to simplified futures numerical models of humping phenomena and quality process.
+     
+     The paper is organized as follows. First, the purpose of the library is explained, then 
+     the experimental setup to study macro drop analysis is detailed. The library and the algorithms
+     developed are explained and some results are shown on the macro drop and droplet study.
 
 
 \section{Problems description}
 Bradstreet was the first researcher to experimentally study the bead hump formation \cite{CHO}. 
 Humping was defined as the series of undulations of the weld bead. Further studies as computer 
 simulation made by CHO et al. \cite{CHO} shown a relation between the droplet momentum deposition
- and the hump size. Same relations has been found between metal transfer process and welding quality \cite{}Then the shape and size kinetic analysis of macro drop and droplets could help to better understand 
- and enhance the PGMAW process. To monitoring the shape and size of these welding objects, to a 
- first step, a 2D approach would be sufficient. Therefore a shadowgraphy technique, or back lighting,
+ and the hump size. Same relations has been found between metal transfer
+ process and welding quality \cite{}. Then the shape and size kinetic 
+analysis of macro drop and droplets could help to better understand 
+ and enhance the PGMAW process. To monitor the shape and size of these welding 
+objects a 2D approach would be sufficient. Therefore a shadowgraphy technique, or back lighting,
   is the natural choice to record the droplets and macro drops profiles \cite{BALSAMO}, furthermore is 
-  one of the only way to access these quantities. Due to the arc light interference and the relatively high 
+  one of the only way to access these quantities. Due to the arc light 
+interference and the relatively high 
   speed of wire feed process, a high speed camera and an effective image processing algorithms are 
-  required \cite{WANG}. The typically frame rate acquisition to metal transfer drop kinetic analysis is $3000$ 
-  per second \cite{WANG}. Therefore the algorithms have to be able to extract the geometrical information (area, size and others)
-   from the macro drop and droplets, from a huge amount of data. In addition, the voltage and current signals are directly related 
-   with the droplet formation at the wire \cite{BALSAMO}. Good synchronizations methods have to be applied between shadowgraphies 
-   frames and electrical signals.
+  required \cite{WANG}. The typically frame rate acquisition to metal 
+transfer drop kinetic analysis is $3000$ 
+  per second \cite{WANG}. Therefore the algorithms have to be able 
+to extract the geometrical information (area, size and others)
+    from a huge amount of data. 
+In addition, the voltage and current signals are directly related 
+   with the droplet formation at the wire \cite{BALSAMO}. Good 
+synchronizations methods have to be applied between shadowgraphies 
+   frames and electrical signals \cite{chapuis}.
 
 
 
 \section{Image processing background} 
-Some definitions and brief description of generals principles used in image processing are required to better understand how is work the algorithms utilized by the erCv library.\subsection{Some definitions}\label{some_definitions}A numerical grey image can be describe as 3D surface discretized by a grid mesh in the X,Y plane. Each mesh represents a pixel and the relief surface at Z axis, the grey level.  A strong relief change or high gradient greyness values at the image are perceive by human eyes as light changes, and can be interpreted as objects edges. Sometimes, a regular relief patrons or regular greyness variation can be distinguish. The human eyes can perceive these patrons as texture 
-and interpret the space between different textures zones as edges.There exist a large spectrum of algorithms to image treatment, in particular to edges detect. Most of them can be classified by the way that his operate above the image pixels and grey level.\subsection{Filters}\label{filters}The filters are algorithms that operate as mathematical functions $f$ above the $X$, $Y$ or both axis of the image ($Z = f(X,Y)$,  
-$f(X)$ or $f(Y)$)  modifying his greyness value or $Z$ component. Different kind of filters can be mentioned as median, Gaussian, impulse, adaptive and others. The impulse filters such Canny are 
+Some definitions and brief description of generals principles used in
+ image processing are required to better understand how is work the 
+algorithms utilized by the erCv library.
+
+\subsection{Some definitions}\label{some_definitions}
+A numerical grey image can be describe as 3D surface discretized by a grid mesh
+ in the X,Y plane. Each mesh represents a pixel and the relief surface at Z axis,
+ the grey level. 
+A strong relief change or high gradient greyness values at
+ the image are perceive by human eyes as light changes, and can be interpreted
+ as objects edges. 
+
+Sometimes, a regular relief patrons or regular greyness
+ variation can be distinguish. The human eyes can perceive these patrons as texture 
+and interpret the space between different textures zones as edges.
+There exist a large spectrum of algorithms to image treatment, in particular to edges detect. Most of them can be classified by the way that his operate above the image pixels and grey level.
+
+\subsection{Filters}\label{filters}
+The filters are algorithms that operate as mathematical functions $f$ above the $X$, $Y$ or both axis of the image ($Z = f(X,Y)$,  
+$f(X)$ or $f(Y)$)  modifying his greyness value or $Z$ component. Different kind of filters can be mentioned as median, Gaussian, impulse, adaptive and others. The impulse filters such Canny are 
 widely use to edge detection \cite{COCQUEREZ}. These filter have an impulse response to most important greyness gradient in the 
 image; this allows the filter a better edges localisation (see figure \ref{photo-explication-filter}). For this reason, Canny filter is widely 
 use at erCv library to detect the welding elements edges. However, it is sensible to noise or secondary greyness gradients in the image
