@@ -72,14 +72,14 @@ int main( int hola, char** file_name)
   boost::tie( ea, loaded) = erLoadImage( name);
   if(!loaded) return 0;
   erSaveImage( &ea, name, exit);
-  ec = erConvertToBlackAndWhite( &ea); /* Conversion en 8 bit single channel */
-  erSaveImage2( &ec, name, exit, "con");
+  eb = erConvertToBlackAndWhite( &ea); /* Conversion en 8 bit single channel */
+  erSaveImage2( &eb, name, exit, "con");
   //erShowImage( "con", &ec);
   /* Conversion de l'image du RGB->GRIS */
   //ca.transform_image( bw);
 
   /* Definision de la zone d'interet ou on souhaite travvailler */
-  //ec = erDef_ROIuser( &eb, &rect, true);
+  ec = erDef_ROIuser( &eb, &rect, true);
 
 
   //erCvEqualizeHistUser( &ec, &pequ);
@@ -95,7 +95,7 @@ int main( int hola, char** file_name)
   /* Pour faire resortir les bordes principaux (par contraste) entres les zones zommbres et eclaires, */
   /* un methode de filtrage par seuil, adapte par zone, est utilise */
   erCvAdaptiveThresholdUser( &ec, &padt, true);
-  erSaveImage2( &ec, name, exit, "ada");
+  //erSaveImage2( &ec, name, exit, "ada");
   //erCvThresholdUser( &ec, &pthr, true);
 
   /* Le Sueillage par zones fait aussi resortir les bordes a l'interior des zones zombres */ 

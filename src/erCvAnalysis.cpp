@@ -171,6 +171,7 @@ bool erMacroDropAnalysis::doIt(std::string fich)
        std::list<CvPoint> cvPts;       
        boost::tie( ea, loaded) = erLoadImage( file_name);
        if( !loaded) return false;
+       erSaveImage( &ea, file_name, nom);
        eb = erConvertToBlackAndWhite( &ea);        
        ec = erDef_ROI( &eb, &rectOI); 
        erCvEqualizeHist( &ec, &param_equalizer_histogram);
@@ -178,7 +179,7 @@ bool erMacroDropAnalysis::doIt(std::string fich)
        erCvAdaptiveThreshold( &ec, &param_adaptive_threshold);
        erCvSmooth( &ec, &param_smooth2);
        erCvCanny( &ec, &param_canny);
-       erSaveImage( &ec, file_name, nom);
+       //erSaveImage( &ec, file_name, nom);
        IsEqualTo is_equal_255( 255); 
        erExtractCvPoints( cvPts, &ec, is_equal_255, rectOI);
        erExtractCurveMacroDrop( cvPts, &ec, rectOI, &cercToStart, file_name);
@@ -229,6 +230,7 @@ bool erMetalTransfertAnalysis::defineParametersUI( std::string firstImage)
   erSmootP psmo, psmo1;
   erCannyP pcan;
   erAdThrP padt;
+
   std::list< CvPoint> cvPts;
   std::list< CgalPoint> cgalPts;
   std::list< CgalSegmt> cgalSeg, bgraphSeg;
@@ -283,7 +285,7 @@ void erMetalTransfertAnalysis::setOutputGeometryFile(std::string file) //** Le f
 
 };
 
-bool  erMetalTransfertAnalysis::doIt( std::string fich)
+bool erMetalTransfertAnalysis::doIt( std::string fich)
 {
   bool loaded;
   char* file_name         = const_cast< char*>( fich.c_str());
@@ -293,18 +295,35 @@ bool  erMetalTransfertAnalysis::doIt( std::string fich)
   std::list< CvPoint>   cvPts;
   std::list< CgalPoint> cgalPts;
   std::list< CgalSegmt> cgalSeg, bgraphSeg;
+  //____________
+  erEqualP pequ;
+  //____________
 
   boost::tie(ea, loaded) = erLoadImage( file_name);
   if( !loaded) return false;
+  erSaveImage( &ea, file_name, nom);
   eb = erConvertToBlackAndWhite( &ea);
+  //erSaveImage2( &eb, file_name, nom, "baw");
+
   ec = erDef_ROI( &eb, &rectOI);
+  //ec = eb;
+
   erCvSmooth( &ec, &param_smooth1);
+  //erSaveImage2( &ec, file_name, nom, "sm1");
+
+//   pequ.applic = 0;
+//   erCvEqualizeHist( &ec, &pequ);
+//   erSaveImage2( &ec, file_name, nom, "equ");
+
   erCvAdaptiveThreshold( &ec, &param_adaptive_threshold);
+  //erSaveImage2( &ec, file_name, nom, "adp");
 
   erCvSmooth( &ec, &param_smooth2);
-  erCvCanny( &ec, &param_canny);
+  //erSaveImage2( &ec, file_name, nom, "sm2");
 
-  erSaveImage( &ec, file_name, nom);
+  erCvCanny( &ec, &param_canny);
+  //erSaveImage2( &ec, file_name, nom, "can");
+ 
 
   IsEqualTo is_equal_255( 255);
   erExtractCvPoints( cvPts, &ec, is_equal_255, rectOI);
@@ -312,7 +331,8 @@ bool  erMetalTransfertAnalysis::doIt( std::string fich)
   convertCvToCgalpoints( cvPts, cgalPts);
 
   alpha_edges( cgalPts, cgalSeg, &param_alpha_shape);
-  std::list< CgalSegmt>::iterator dede=cgalSeg.begin();
+  //std::list< CgalSegmt>::iterator dede=cgalSeg.begin();
+  //erPrintCgalPoint( cgalSeg, file_name, nom);
     
   largest_closed_segment( cgalSeg, bgraphSeg);
   erPrintCgalPoint( bgraphSeg, file_name, nom);
@@ -710,7 +730,7 @@ bool erLaserPrototypageAnalysis::doIt_diffuse(std::string fich)
 
   erCvCanny( &ec, &param_canny);
 
-  erShowImage( "result canny", &ec);
+  //erShowImage( "result canny", &ec);
   //erSaveImage2Analysis( &ee, file_name, fich, "can");
 
   IsEqualTo is_equal_255(255);
