@@ -33,7 +33,7 @@ int main( int hola, char** file_name)
   //rec_tem.x = 14; rec_tem.y = 20; rec_tem.width = 5; rec_tem.height = 5;
   erTemplP templ(SQDIFF_NORMED, rec_tem, true); 
   erAlphaP alp(1);
-  erWeldPoolAnalysis wpa("full_bain_1");
+  erWeldPoolAnalysis wpa("bain_move");
 
   wpa.defineCalibration("calibration_source.jpg","calibration_target.bmp");
   wpa.defineParameters( rect, whi, p1, p2, cann, dil, thr, templ, alp);

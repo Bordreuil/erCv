@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.5.24)  11 DEC 2010 14:18
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.5.24)  27 DEC 2010 19:44
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -113,73 +113,10 @@ LaTeX Font Info:    ... okay on input line 49.
 
 {/usr/local/texlive/2009/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 
-LaTeX Warning: Citation `LIN' on page 2 undefined on input line 78.
+LaTeX Warning: Citation `Mendez' on page 2 undefined on input line 84.
 
 
-LaTeX Warning: Citation `WU1' on page 2 undefined on input line 78.
-
-
-LaTeX Warning: Citation `CHAPUIS' on page 2 undefined on input line 83.
-
-
-LaTeX Warning: Citation `Mendez' on page 2 undefined on input line 83.
-
-
-LaTeX Warning: Citation `WANG' on page 2 undefined on input line 86.
-
-
-LaTeX Warning: Citation `CHO' on page 2 undefined on input line 88.
-
-
-LaTeX Warning: Citation `WANG' on page 2 undefined on input line 89.
-
-
-LaTeX Warning: Citation `BAE' on page 2 undefined on input line 94.
-
-
-LaTeX Warning: Citation `LIN' on page 2 undefined on input line 94.
-
-
-LaTeX Warning: Citation `GUANGJUN' on page 2 undefined on input line 96.
-
-
-LaTeX Warning: Citation `BAE' on page 2 undefined on input line 97.
-
-
-LaTeX Warning: Citation `BALSAMO' on page 2 undefined on input line 97.
-
-
-LaTeX Warning: Citation `LIN' on page 2 undefined on input line 97.
-
-
-LaTeX Warning: Citation `WANG' on page 2 undefined on input line 99.
-
-
-LaTeX Warning: Citation `NORDBRUCH' on page 2 undefined on input line 101.
-
-
-LaTeX Warning: Citation `WU2' on page 2 undefined on input line 103.
-
-
-LaTeX Warning: Citation `WANG' on page 2 undefined on input line 106.
-
-
-LaTeX Warning: Citation `WU2' on page 2 undefined on input line 106.
-
-
-LaTeX Warning: Citation `SEED' on page 2 undefined on input line 106.
-
-
-LaTeX Warning: Citation `NORDBRUCH' on page 2 undefined on input line 107.
-
-
-LaTeX Warning: Citation `WANG' on page 2 undefined on input line 109.
-
-
-LaTeX Warning: Citation `CHO' on page 2 undefined on input line 128.
-
-
-LaTeX Warning: Citation `CHO' on page 2 undefined on input line 130.
+LaTeX Warning: Citation `SEED' on page 2 undefined on input line 107.
 
 
 Overfull \hbox (20.7587pt too wide) has occurred while \output is active
@@ -188,26 +125,15 @@ by image processing library \OT1/cmr/m/n/12 2
  []
 
 [2]
-
-LaTeX Warning: Citation `BALSAMO' on page 3 undefined on input line 136.
-
-
-LaTeX Warning: Citation `WANG' on page 3 undefined on input line 139.
-
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 139.
+(Font)              <12> on input line 140.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 139.
+(Font)              <8> on input line 140.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 139.
-
-LaTeX Warning: Citation `WANG' on page 3 undefined on input line 140.
+(Font)              <6> on input line 140.
 
 
-LaTeX Warning: Citation `BALSAMO' on page 3 undefined on input line 142.
-
-
-LaTeX Warning: Citation `COCQUEREZ' on page 3 undefined on input line 171.
+LaTeX Warning: Citation `COCQUEREZ' on page 3 undefined on input line 172.
 
 
 Overfull \hbox (20.7587pt too wide) has occurred while \output is active
@@ -217,7 +143,7 @@ by image processing library \OT1/cmr/m/n/12 3
 
 [3]
 
-LaTeX Warning: Citation `COCQUEREZ' on page 4 undefined on input line 197.
+LaTeX Warning: Citation `COCQUEREZ' on page 4 undefined on input line 199.
 
 <photo-explication-patron.png, id=18, 256.96pt x 256.96pt>
 File: photo-explication-patron.png Graphic file (type png)
@@ -235,7 +161,7 @@ File: photo-explication-snake.png Graphic file (type png)
 File: photo-explication-segmentation.png Graphic file (type png)
 
 <use photo-explication-segmentation.png>
-Underfull \hbox (badness 1275) in paragraph at lines 207--207
+Underfull \hbox (badness 1275) in paragraph at lines 209--209
 []\OT1/cmss/m/n/10 (d) \OT1/cmr/m/n/10 Seg-men-ta-tion im-
  []
 
@@ -261,11 +187,7 @@ File: schema-erCv.png Graphic file (type png)
 
 <use schema-erCv.png>
 Missing character: There is no Õ in font cmr12!
-
-
-LaTeX Warning: Citation `CHAPUIS' on page 6 undefined on input line 259.
-
-<schema-platform.png, id=35, 1057.35025pt x 709.24976pt>
+ <schema-platform.png, id=35, 1057.35025pt x 709.24976pt>
 File: schema-platform.png Graphic file (type png)
 
 <use schema-platform.png>
@@ -289,34 +211,26 @@ by image processing library \OT1/cmr/m/n/12 7
 File: schema-macro-drop-droplet-parameters.png Graphic file (type png)
 
 <use schema-macro-drop-droplet-parameters.png>
+
+LaTeX Warning: Reference `image-acquisition-setup' on page 8 undefined on input
+ line 385.
+
+
 Overfull \hbox (20.7587pt too wide) has occurred while \output is active
 \OT1/cmr/m/it/12 Macro drop and droplet profile detection during PGMAW process 
 by image processing library \OT1/cmr/m/n/12 8
  []
 
-[8 <./schema-macro-drop-droplet-parameters.png>]
+[8]
 
-LaTeX Warning: Reference `image-acquisition-setup' on page 9 undefined on input
- line 383.
-
-
-LaTeX Warning: Citation `WANG' on page 9 undefined on input line 393.
-
-
-LaTeX Warning: Citation `COCQUEREZ' on page 9 undefined on input line 394.
+LaTeX Warning: Citation `COCQUEREZ' on page 9 undefined on input line 396.
 
 
 LaTeX Warning: Reference `photo-macro-drop-original' on page 9 undefined on inp
-ut line 395.
+ut line 397.
 
 
-LaTeX Warning: Citation `NORDBRUCH' on page 9 undefined on input line 399.
-
-
-LaTeX Warning: Citation `SABER' on page 9 undefined on input line 408.
-
-
-LaTeX Warning: Citation `OPENCV' on page 9 undefined on input line 410.
+LaTeX Warning: Citation `OPENCV' on page 9 undefined on input line 412.
 
 
 Overfull \hbox (20.7587pt too wide) has occurred while \output is active
@@ -324,11 +238,12 @@ Overfull \hbox (20.7587pt too wide) has occurred while \output is active
 by image processing library \OT1/cmr/m/n/12 9
  []
 
-[9] <photo-macro-drop-original.png, id=56, 11.65057pt x 11.65057pt>
+[9 <./schema-macro-drop-droplet-parameters.png>]
+<photo-macro-drop-original.png, id=56, 11.65057pt x 11.65057pt>
 File: photo-macro-drop-original.png Graphic file (type png)
 
 <use photo-macro-drop-original.png>
-Underfull \hbox (badness 3098) in paragraph at lines 426--426
+Underfull \hbox (badness 3098) in paragraph at lines 428--428
 []\OT1/cmss/m/n/10 (a) \OT1/cmr/m/n/10 Macro drop raw
  []
 
@@ -356,19 +271,25 @@ File: photo-macro-drop-canny.png Graphic file (type png)
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 Missing character: There is no Õ in font cmr12!
-<photo-results-macro-drop-t1.png, id=62, 578.16pt x 433.62pt>
+
+Overfull \hbox (26.63364pt too wide) has occurred while \output is active
+\OT1/cmr/m/it/12 Macro drop and droplet profile detection during PGMAW process 
+by image processing library \OT1/cmr/m/n/12 10
+ []
+
+[10] <photo-results-macro-drop-t1.png, id=65, 578.16pt x 433.62pt>
 File: photo-results-macro-drop-t1.png Graphic file (type png)
 
 <use photo-results-macro-drop-t1.png>
-<photo-results-macro-drop-t2.png, id=63, 578.16pt x 433.62pt>
+<photo-results-macro-drop-t2.png, id=66, 578.16pt x 433.62pt>
 File: photo-results-macro-drop-t2.png Graphic file (type png)
 
 <use photo-results-macro-drop-t2.png>
-<photo-results-macro-drop-t3.png, id=64, 578.16pt x 433.62pt>
+<photo-results-macro-drop-t3.png, id=67, 578.16pt x 433.62pt>
 File: photo-results-macro-drop-t3.png Graphic file (type png)
 
 <use photo-results-macro-drop-t3.png>
-<photo-results-macro-drop-t4.png, id=65, 578.16pt x 433.62pt>
+<photo-results-macro-drop-t4.png, id=68, 578.16pt x 433.62pt>
 File: photo-results-macro-drop-t4.png Graphic file (type png)
 
 <use photo-results-macro-drop-t4.png>
@@ -376,21 +297,14 @@ File: photo-results-macro-drop-t4.png Graphic file (type png)
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Overfull \hbox (26.63364pt too wide) has occurred while \output is active
-\OT1/cmr/m/it/12 Macro drop and droplet profile detection during PGMAW process 
-by image processing library \OT1/cmr/m/n/12 10
- []
-
-[10]
-
-LaTeX Warning: Citation `CGAL' on page 11 undefined on input line 469.
+LaTeX Warning: Citation `CGAL' on page 11 undefined on input line 471.
 
 
-LaTeX Warning: Citation `GEOMETRICAL' on page 11 undefined on input line 471.
+LaTeX Warning: Citation `GEOMETRICAL' on page 11 undefined on input line 473.
 
 Missing character: There is no Õ in font cmr12!
 
-LaTeX Warning: Citation `CGAL-library' on page 11 undefined on input line 476.
+LaTeX Warning: Citation `CGAL-library' on page 11 undefined on input line 478.
 
 
 Overfull \hbox (26.63364pt too wide) has occurred while \output is active
@@ -430,9 +344,6 @@ File: photo-results-droplet-t4.png Graphic file (type png)
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-LaTeX Warning: Citation `CHAPUIS' on page 12 undefined on input line 511.
-
-
 Overfull \hbox (26.63364pt too wide) has occurred while \output is active
 \OT1/cmr/m/it/12 Macro drop and droplet profile detection during PGMAW process 
 by image processing library \OT1/cmr/m/n/12 12
@@ -441,18 +352,20 @@ by image processing library \OT1/cmr/m/n/12 12
 [12 <./photo-results-macro-drop-t1.png> <./photo-results-macro-drop-t2.png> <./
 photo-results-macro-drop-t3.png> <./photo-results-macro-drop-t4.png> <./photo-d
 roplet-canny.png (PNG copy)> <./photo-droplet-alpha-shape.png>]
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 525.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 525.
-
+(./paper-drop.bbl
 Overfull \hbox (26.63364pt too wide) has occurred while \output is active
 \OT1/cmr/m/it/12 Macro drop and droplet profile detection during PGMAW process 
 by image processing library \OT1/cmr/m/n/12 13
  []
 
 [13 <./photo-results-droplet-t1.png> <./photo-results-droplet-t2.png> <./photo-
-results-droplet-t3.png> <./photo-results-droplet-t4.png>] (./paper-drop.aux)
+results-droplet-t3.png> <./photo-results-droplet-t4.png>])
+Overfull \hbox (26.63364pt too wide) has occurred while \output is active
+\OT1/cmr/m/it/12 Macro drop and droplet profile detection during PGMAW process 
+by image processing library \OT1/cmr/m/n/12 14
+ []
+
+[14] (./paper-drop.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -461,11 +374,11 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 1502 strings out of 493848
- 20686 string characters out of 3149207
- 75122 words of memory out of 3000000
- 4792 multiletter control sequences out of 15000+200000
- 9412 words of font info for 33 fonts, out of 3000000 for 9000
+ 1498 strings out of 493848
+ 20654 string characters out of 3149207
+ 74147 words of memory out of 3000000
+ 4786 multiletter control sequences out of 15000+200000
+ 9063 words of font info for 32 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  25i,8n,24p,238b,368s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
@@ -480,11 +393,10 @@ cal/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local
 texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/t
 exlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/te
 xlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/tex
-live/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmti7.pfb></usr/local/texli
-ve/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on paper-drop.pdf (13 pages, 5372086 bytes).
+live/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on paper-drop.pdf (14 pages, 5371136 bytes).
 PDF statistics:
- 141 PDF objects out of 1000 (max. 8388607)
+ 140 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  121 words of extra memory for PDF output out of 10000 (max. 10000000)
 

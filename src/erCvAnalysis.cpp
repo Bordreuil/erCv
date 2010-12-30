@@ -41,6 +41,7 @@
 
 #include <erCv/geometry/erGeometricalCharacteristics.hpp>
 #include <erCv/geometry/erCgalPolygon2.hpp>
+#include <erCv/geometry/erCgalConvexPolygone.hpp>
 #include <erCv/Gui/erCvUserInteraction.hpp>
 #include <erCv/Gui/erCvFiltersUser.hpp>
 #include <erCv/Gui/erCvSegmentationUser.hpp>
@@ -493,7 +494,7 @@ bool erWeldPoolAnalysis::doIt(std::string fich)
   char* nom = const_cast< char*>( output_name.c_str());
   erImage ea, eb, ec, ed, ee;
   std::list< CvPoint>   cvPts;
-  std::list< CgalPoint> cgalPts;
+  std::list< CgalPoint> cgalPts, cgalPts2;
   std::list< CgalSegmt> cgalSeg, bgraphSeg;
   
   boost::tie(ea, loaded) = erLoadImage( file_name);
@@ -543,31 +544,36 @@ bool erWeldPoolAnalysis::doIt(std::string fich)
 
   erPrintCgalPoint( bgraphSeg, file_name, nom);
 
-  double area;
-  if(output_convex_polygon)
-  {
-      std::list<CgalPoint> polygon = erGeometryExtractConvexPolygon(bgraphSeg.begin(),bgraphSeg.end());
+  convex_hull( bgraphSeg, cgalPts2);
 
-      std::string output_nam = (dir_analysis+"/"+name+"_wep_poly");
-      char* name = const_cast< char*>( output_nam.c_str());
-      erPrintCgalPoint(polygon,file_name,name);
-      Polygon_2 poly(polygon.begin(),polygon.end());
-      area = poly.area();
-    };
-  if(output_geometry_characteristics && bgraphSeg.size() > 6)
-    {
-      std::list<CgalTrian> triangs=erGeometryExtractTriangles(bgraphSeg.begin(),bgraphSeg.end());
-      if(!not output_convex_polygon)
-	{
-	 area   = getArea(triangs.begin(),triangs.end());
-	};
-      CgalLine  line;
-      CgalPoint pt;
-      CgalFTrai fit = linear_least_squares_fitting_2(triangs.begin(),triangs.end(),line,pt,CGAL::Dimension_tag<2>());	
-      std::ofstream ot(output_geometry_file.c_str(),std::ios_base::app);
-      CgalVect vect=line.to_vector();
-      ot << std::setprecision(10) << fich << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
-    };
+  erPrintCgalPoint( cgalPts2, file_name, nom);
+
+ //  double area;
+
+//   if(output_convex_polygon)
+//   {
+//     std::list<CgalPoint> polygon = erGeometryExtractConvexPolygon(bgraphSeg.begin(),bgraphSeg.end());
+
+//       std::string output_nam = (dir_analysis+"/"+name+"_wep_poly");
+//       char* name = const_cast< char*>( output_nam.c_str());
+//       erPrintCgalPoint(polygon,file_name,name);
+//       Polygon_2 poly(polygon.begin(),polygon.end());
+//       area = poly.area();
+//     };
+//   if(output_geometry_characteristics && bgraphSeg.size() > 6)
+//     {
+//       std::list<CgalTrian> triangs=erGeometryExtractTriangles(bgraphSeg.begin(),bgraphSeg.end());
+//       if(!not output_convex_polygon)
+// 	{
+// 	 area   = getArea(triangs.begin(),triangs.end());
+// 	};
+//       CgalLine  line;
+//       CgalPoint pt;
+//       CgalFTrai fit = linear_least_squares_fitting_2(triangs.begin(),triangs.end(),line,pt,CGAL::Dimension_tag<2>());	
+//       std::ofstream ot(output_geometry_file.c_str(),std::ios_base::app);
+//       CgalVect vect=line.to_vector();
+//       ot << std::setprecision(10) << fich << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
+//     };
   return true;
  
 };

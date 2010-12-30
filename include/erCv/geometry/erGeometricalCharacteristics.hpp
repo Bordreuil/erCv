@@ -67,7 +67,7 @@ std::list<CgalPoint> erGeometryExtractConvexPolygon(InputSegmentIterator debut,I
 {
   CDT cdt ;
   std::list<CgalPoint> result;
-  for( InputSegmentIterator icg=debut;icg!=fin;icg++)
+  for( InputSegmentIterator icg = debut; icg != fin; icg++)
     {
       cdt.insert_constraint(icg->source(),icg->target());
     };
