@@ -74,17 +74,16 @@ CC048, Place Eug\`ene Bataillon, Universit\'e Montpellier 2,
 
 \section{Introduction}
 
-A better observation of behavior of the weld pool or the metal droplet in a PGMAW process
- could help to  welding quality in manufacturing process \cite{LIN}, \cite{WU1}.
- In a PGMAW process, the weld quality is strongly relates with the metal transfer  stability 
- (the droplet deposition). The monitoring of metal transfer process
- will indicate the good wire feed \cite{WANG}. 
-The macro drop kinetic monitoring during static PGMAW process could help to better
-understand some GMAW related phenomena  \cite{CHO} as free surface 
-fluctuations \cite{WANG}. 
-In both case, the kinetic and the dynamic analysis, required the monitoring \cite{} and the 
-geometrical analysis of macro drop and droplets in order to extract 
-qualitative information.
+A better observation of behavior of the weld pool or the metal droplet in a Pulsed Gas Metal Arx Welding (PGMAW)
+ process could help to enhance welding quality in manufacturing process \cite{LIN}, \cite{WU1}.
+ In a PGMAW process, the weld quality is strongly related with the metal transfer  stability 
+ (droplet deposition). The monitoring of metal transfer process
+ will indicate the good deposition process \cite{WANG}. 
+The macro drop kinetic measurement during static PGMAW process could improve the
+understanding of some GMAW related phenomenon  \cite{CHO} as free surface 
+fluctuations \cite{WANG}. The measurement of the geometry of the free surface 
+of macrodrop or droplets is an important information for the understanding and
+the validation of the simulation.
 
 The monitoring of the shape and size of these welding objects uring
 static PGMAW  is 
@@ -110,14 +109,14 @@ image treatment to analyses the raw images of the welding process \cite{NORDBRUC
 Previous work has shown that is possible to perform geometrical 
 analysis in weld pools or droplets \cite{WU1}.
 Parameters such as macro drop or droplets surface, volumes 
-or height has been measure using different and 
+or height has been measured using different and 
 specific processing images algorithms \cite{WANG}, \cite{WU1}, \cite{SEED},
-\cite{NORDBRUCH}. However, to date, effectively automatic images processing
+\cite{NORDBRUCH}. However, to date, effective automatic image processing
 of metal transfer has not been developed, possibly due to the  difficulty involved 
 for welding researchers \cite{WANG}. 
 
-To perform geometrical analysis in macro drope and droplet;
- a multipurpose C++ based library (erCv) was developed at the lab. 
+To perform geometrical analysis in macrodrop and droplet,
+ a multipurpose C++  library (erCv) was developed at the lab. 
 These library results from selected functions  from highly reliable 
 open source libraries to images treatment, geometrical 
 analysis, graph theory applications and image visualization.
@@ -125,12 +124,12 @@ In a first step, and despite the different static and dynamic weld conditions,
 as well as different current regime. A reliable 2D profiles and geometrical
 parameters from macro drop and droplets, has been obtained using the mentioned library.
  Using this, a dimension and dimensionless analysis will 
-be done. The intention is to help to simplified futures numerical models of humping phenomena and quality process.
+be done. The intention is to help to simplify future numerical models and enhance monitoring by direct observation.
      
-The paper is organized as follows. First, the purpose of the library is explained, then 
-the experimental setup that will allow to appreciate the performance of the algorithm,
- to study macro drop analysis is detailed. The library and the algorithms
-developed are explained and some results are shown on the macro drop and droplet study.
+The paper is organized as follows. First, the experimental setup that will allow to appreciate the performance of the algorithm,
+ to study macro drop analysis is detailed in order to appreciate the difficulies of profile detection
+during welding process. Then 
+ The library and the algorithms are explained and some results are shown on the macro drop and droplet study.
 
 
 \section{Experimental Setup}
@@ -154,12 +153,12 @@ In this article only details on image acquisition setup and treatment will be ou
 \label{ image_acquisition_setup}
 
 The PGMAW static process is recorded by Shadowgraphy optical method. 
-An halogen lamp is use to light the weld process. To guarantee an homogeneous
+An halogen lamp is used to light the weld process. To guarantee an homogeneous
 illumination of the welding process, a light diffuser is placed
 in the optical path closer to the halogen lamp. 
-Finally the shadows of welding elements are projected to the other side 
-of the welding place. A Phantom V5.0 high speed camera is placed and aligned 
-at the other of  the optical path (see figure \ref{schema-montage-experimental-GMAW}). 
+Finally the shadows of welding elements are projected to the other side where
+ a Phantom V5.0 high speed camera is placed and aligned in
+ the optical path (see figure \ref{schema-montage-experimental-GMAW}). 
 
 \begin{figure}
 \begin{center}
@@ -170,9 +169,9 @@ at the other of  the optical path (see figure \ref{schema-montage-experimental-G
 \end{figure}
 
 To enhance the image contrast of the weld elements inside the electric discharge,
-the intensity rate between arc light and halogen lamp have to be reduce. In order to this
-a $650\ \pm 10\ nm$ band pass filter is place in front the camera lens. 650nm
-is around emitting wavelength for the gases. Nevertheless, the raw images remain highly 
+the intensity rate between arc light and halogen lamp have to be reduced. In order to this
+a $650\ \pm 10\ nm$ band pass filter is placed in front the camera lens. 650nm
+is around a no emitting wavelength from the arc. Nevertheless, the raw images remain highly 
 noisy by the arc light. 
 
 
@@ -183,7 +182,7 @@ Stationary spots weld are made using the GMAW process with the Oerlikon CitoWave
 The target is a steel disk of $10\ mm$ of thickness and 80mm radius.
 The fill wire is ER70S steel welding of 1mm diameter.
 The  wire feed speed is set to $6\ m/min$. The frequency droplets is set to $113\ Hz$. 
-Two kind of  shielding gas were used \ref{tab::gases}. 
+Two kind of  shielding gases were used \ref{tab::gases}. 
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|c|c|}
@@ -221,7 +220,7 @@ measure macro drop radius and apparent liquid-solid contact angle histories.
 %The images and electrical signals are synchronize, thanks to the
 %automatically approach made in the multi physics platform.
 
-Measurements are made using the erCv library.
+%Measurements are made using the erCv library.
       
       
       
@@ -231,9 +230,9 @@ Measurements are made using the erCv library.
 \subsubsection{ Macro Drop}
 \label{ macro_drop}
 
-The purpose is to study the evolution of weld pool object in
-a GMAW process or macro drop. Therefore it is necessary to study the shape and spreading
-of the macro drop according depositing droplets of feed wire. 
+%The purpose is to study the evolution of weld pool object in
+%a GMAW process or macro drop. Therefore it is necessary to study the shape and spreading
+%of the macro drop according depositing droplets of feed wire. 
 
 At figure \ref{schema-macro-drop-droplet-parameters} appears the geometrical 
 elements to be study at the macro drop: the macro drop radius at the base $R_{m}$, 
@@ -243,6 +242,8 @@ $\Theta_{m(al)}$, $\Theta_{m(ar)}$ (apparent) and $\Theta_{m(rl)}$, $\Theta_{m(r
 With the indices $l$ and $r$ refer to left and
 right angles. The indices: $m$ refer to macro drop, $g$ refer to gaz, $l$ refer
 to liquid, $s$ refer to solid$/$substrate and $a$ refer to the droplet.
+The angles and the base are the two main quantities to be measured. but the overall shape of
+the macrodrop is an important information for computation.
 
 \begin{figure}
 \begin{center}
@@ -265,11 +266,11 @@ speed $U_{a}$ (see figure \ref{schema-macro-drop-droplet-parameters}).
 
 \section{Image processing} 
 
-Some definitions and brief description of generals principles used in
- image processing are required to better understand  the 
-algorithms and the design of the library.
-
-\subsection{Some definitions}\label{some_definitions}
+Some definitions and brief description of general principles used in
+ image processing are required to measure the profiles. Then, the design of the library is briefly detailed
+to succeed to detect the profile in the noisy environment.
+\subsection{Image treatment basics}
+\subsubsection{Some definitions}\label{some_definitions}
 A numerical grey image can be describe as 3D surface discretized by a grid mesh
  in the X,Y plane. Each mesh represents a pixel and the relief surface at Z axis,
  the grey level. 
@@ -283,7 +284,7 @@ and interpret the space between different textures zones as edges.
 There exist a large spectrum of algorithms to image treatment, in particular to edges detect.
  Most of them can be classified by the way that his operate above the image pixels and grey level.
 
-\subsection{Filters}\label{filters}
+\subsubsection{Filters}\label{filters}
 
 The filters are algorithms that operate as mathematical functions $f$ above the 
 $X$, $Y$ or both axis of the image ($Z = f(X,Y)$,  
@@ -299,7 +300,7 @@ used in the library to detect the welding elements edges.
 However, it is sensible to noise or secondary greyness gradients in the image
  and, in consequence, it have some difficulties to define closer surface.
 
-\subsection{Snake and level set}
+\subsubsection{Snake and level set}
 \label{snake-and-level-set}
  
 Curve propagation is a popular technique in image analysis for object extraction,
@@ -311,7 +312,7 @@ However at each stage of curve evolution, each curve point potential has
 computing time, and therefore are not yet apply to real time detection
  or relatively speed automatic image processing. For this reason snake algorithms are not used in the library.
 
-\subsection{Segmentation}
+\subsubsection{Segmentation}
 \label{segmentation}
 
 Let $B$ an image and let $R_{i}$ a region of $B$ such:
@@ -356,21 +357,21 @@ welding objects such: Macro drop, droplets and weld pool.
 erCv is a modular library assembled in a oriented object C++ language. Then erCv is a scalable 
 and portable library able to perform real time
  contour detection. erCv is implemented in  C++ with some bindings in python,
- making it relatively convivial to use.
-erCv is compose by four processing modules based in C,  C++ and python language (see figure \ref{schema-erCv}). These modules are: 
+ making it relatively convivial to use for non-programmers.
+erCv is composed by four processing modules: 
 \begin{description}
 \item[Image Treatment:] Due to weld process conditions such arc lightening, 
  heat and electrodes positions; the raw image registered by CCD 
  camera are not calibrated and present light inhomogeneities and 
  noise. In order to obtain the real shape and size of weld elements, this module 
- include calibrations algorithms. To detect the welding objects contours it is 
+ includes calibration algorithms. To detect the welding objects contours it is 
  necessary to improve the weld element image. This module has the 
  pre-processing treatments to noise reduction and image enhancement.
  Then to start the edges detection process, this module includes processing
  algorithms as segmentations by samples comparators, watershed transformation,
  filters edge detectors and histogram based methods.  
 \item[Geometrical Treatment and Analysis:] This module convert edges pixels points into connected 
-   segments to end the edge detection
+   segments to conclude the edge detection
   process, completing and in some cases extrapolating the weld
   elements edge. It is also responsible to compute the geometrical 
   data of welding elements such weld pool surface and metal transfer drop volumes. 
@@ -390,13 +391,14 @@ erCv is compose by four processing modules based in C,  C++ and python language 
 
 \begin{figure}
 \begin{center}
-\includegraphics[width=7cm,height=4cm]{images/schema-erCv.png}
+\includegraphics[width=10cm]{images/schema-erCv.png}
 \caption{{\small Flow diagram of erCv library composition}}
 \label{schema-erCv}
 \end{center}
 \end{figure}
 
-
+The originality of the library comes from the agregation and complementarity of the different numerical tools.
+The main difficulty is to find algorithms with good parameters all along the process.
 
 \subsection{ The Analyze methods}
 \label{ the-analyze-methods}
@@ -408,7 +410,7 @@ supposed to be a section of the welding process image, orthogonal to the optical
 Therefore, to a first approach, not image projection 
 correction is necessary. Only to calibrate the image dimension 
 (at pixels) to the real objects dimension (at millimeters), a conversion scale is 
-made with the known width of the welding wire $conv = 1\ mm/ 20\ pixels$ . 
+made. In our experiment, the known width of the welding wire leads to $conv = 1\ mm/ 20\ pixels$ . 
   
   
 \subsubsection{ Image Treatment}
@@ -423,7 +425,7 @@ the rest of the image in other \cite{COCQUEREZ}. Thanks to the optical method ac
 light and shadow zones (see figures \ref{photo-macro-drop-original});
  where the shadows zones are the projection of the macro drop and droplet.
 
-However objects within the arc may differ only by few intensity light level
+However objects within the image under the arc may differ only by few intensity light level
 from the background. In these images areas a contrast enhancement is necessary. 
 Objects outside the arc, as the some regions of the macro drop profile,
  are clearly visible against the background. In these regions a contrast enhancement 
@@ -436,7 +438,7 @@ reduce the grey level noise, a first smooth classical filter
 (Blur) is applied over the image. The filter replace
 the grey values of squares of $7\times 7$ 
 pixels by they average value (see figure \ref{photo-macro-drop-smoothblur}). 
-In consequence, the homogeneity quality is improve into the light and 
+In consequence, the homogeneity quality is improved into the light and 
 shadows regions, despite the edge contrast reduction induce between these regions. 
 
 Then, a regions adaptive threshold can be used to enhance the difference
@@ -448,7 +450,7 @@ to threshold application is $23\times 23\ pixels$. The threshold criteria
 choose is binary: $greyL_{thres}(x,y) = max_{value}$ if $greyL_{origin}(x,y) >  threshold(x,y)$
 or $greyL_{thres}(x,y) = 0$ otherwise, $\forall (x,y)$ inside the region
 to threshold \cite{OPENCV}. Where $threshold(x,y)$ is the threshold parameter,
- $max_value$ is the grey level value choose to identify the pixels above
+ $max(value)$ is the grey level value choose to identify the pixels above
 threshold parameter, $greyL_{origin}(x,y)$ is the grey level value of pixel
  before threshold and $greyL_{thres}(x,y)$ is the pixel grey level after threshold.
 $threshold(x,y)$ is obtain by subtraction between the average grey level of region
@@ -527,12 +529,13 @@ the surface of the droplet. Note at figure \ref{photo-droplet-canny} that the bi
                 
                 
 Give $S$ the set of points in the space image. The segments could 
-be building between wherever two points of $S$. However, to fulfill
+be built between wherever two points of $S$. However, to fulfill
  the cords with segments, only the points placed together could define
  a segment. To choose the correct points of $S$ a Delaunay triangulation
- is made over $S$ \cite{CGAL}. Each point of $S$ is a vertices 
+ is made over $S$ \cite{CGAL}. Each point of $S$ is a vertice 
 of a triangle and then each potential segment is a side of a triangle. 
-The Delaunay triangulations guarantee a unique solution with minimal internal angles for each triangle, which means  minimal length sides to the triangles \cite{GEOMETRICAL}.
+The Delaunay triangulations guarantee a unique solution with minimal
+ internal angles for each triangle, which means  minimal length sides to the triangles \cite{GEOMETRICAL}.
  Give $\beta$ the cord surrounding the external hull of the Delaunay
  triangulation of $S$. An alpha shape algorithm uses a $\alpha \in N$ parameter,
  or square radius of a test circle, to travel from outside $\beta$ to inside
@@ -540,17 +543,18 @@ The Delaunay triangulations guarantee a unique solution with minimal internal an
 $n$ the number of triangles sides of triangulation
 and $l_{i}$ with $i\in\{1,n\}$ the length of each side, if $\sqrt{\alpha} > l_{i}$ 
 with $i \in\{1,n\}$, a segment is build between the respective vertices or
- points. At the end of the process, a segments set know as $\alpha$-shape has been created.  Note if $\sqrt{\alpha} > l_{i} \forall i$, the circle can’t be go inside $\beta$, then $\alpha$-shape
+ points. At the end of the process, a  set of segments knows as $\alpha$-shape has been created.
+  Note if $\sqrt{\alpha} > l_{i} \forall i$, the circle can’t be go inside $\beta$, then $\alpha$-shape
  is $\beta$ \cite{CGAL}. If $\sqrt{\alpha} < l_{i} \forall i$ the circle go through
- every side in the triangulation,  then no segment are created and $\alpha$-shape
+ every side in the triangulation,  then no segment is created and $\alpha$-shape
  became $S$. The points that compound the droplet section are all contact neighbors. Then $\alpha = 1$
  is sufficient to create a segment set around the droplet
  (see figure \ref{photo-droplet-alpha-shape}). 
                                   
 \begin{figure}[h!]
 \begin{center}    
-\subfigure[t = ]{\label{photo-droplet-canny}\includegraphics[width=3.5cm,height=3.5cm]{photo-droplet-canny.png}}
-\subfigure[t = ]{\label{photo-droplet-alpha-shape}\includegraphics[width=3.5cm,height=3.5cm]{photo-droplet-alpha-shape.png}}\\
+\subfigure[t = ]{\label{photo-droplet-canny}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-droplet-canny.png}}
+\subfigure[t = ]{\label{photo-droplet-alpha-shape}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-droplet-alpha-shape.png}}\\
 \end{center}
 \caption{{\small Images series of macro drop profiles}}
 \label{photo-results-droplet}
@@ -579,19 +583,25 @@ at figure \ref{schema-macro-drop-droplet-parameters}. To compute the wetting
 angle measures, linear regressions or least squares (parabolic, ellipse, circle) 
 are taken from the processed macro drop extracted profiles.
 A loop algorithm applies this method to all frames at the experience to compute the wetting 
-angles. Same procedure is use to estimate the macro drop radius and volume \cite{CHAPUIS}.
+angles. Same procedure is used to estimate the macro drop radius and volume \cite{CHAPUIS}.
+
+The metal transfert droplet is approximate and close with a combination of $\alpha$-shape and
+graph algorithm. Once the set of segments are extracted a triangulation is created. The triangles 
+are then used to compute the surface and the position of the centroid. It is assumed that there is a kind
+of axisymmetry  and an homogeneous density in the droplet. With the triangles, the principal axis could also be 
+computed.
 
 
 
 \section{ Results}
 In this part some results, performance and reliability of the library for a set of experiment
-are shown. The basic experiment is a static Pulsed Gas Tungsten Arc Welding.
+are shown. The basic experiment is a static PGMAW.
 A macrodrop is feed by droplets that are assumed to flight vertically and
-then  feed the macro drop generated. The macrodrop grows with a geometry that depends on the effects of gravity,
+then feed the macrodrop. The macrodrop grows with a geometry that depends on the effects of gravity,
 surface tension, heat transfert,...
 
-To improve weld quality in pulsed GMAW, the dynamic of the droplet is investigated.
-The analysis focus on the regularity of the transfert and some statistics are shown.
+To improve weld pool stability in pulsed GMAW, the growth of the droplet is investigated.
+To improve weld quality, the transfert during some pulses are analyzed.
 
 The algoritms are tested on a i7 processor from Intel with 1.87Ghz.
 
@@ -600,33 +610,34 @@ The algoritms are tested on a i7 processor from Intel with 1.87Ghz.
 The investigation of the macro drop growth for the two shielding gas needs the study of two quantities:
 
 \begin{itemize}
-\item The angle between the substrate and the liquid
 \item The speed of growth of the macro drop radius
+\item The angle between the substrate and the liquid
 \end{itemize}
 
-The first item give information on the capillarity mechanism involved in the macrodrop and
-the second is an indicator of the ease of growth of the macrodrop due to
-heat transfert and tension surface.
+The first is an indicator of the ease of growth of the macrodrop due to
+heat transfert and tension surface and the second  item gives information
+ on the capillarity mechanism involved in the macrodrop
 
 
 The shielding gas has a great effect between the liquid and the gas interface. Gas could diffuse in the
 first layer of the liquid and greatly modify the physical properties. The tension surface is the main physical
 property that will be modified. A difference of tension surface will modify the shape of the interface by modifying
-its equilibrium. It has to be kept in mind that modification of shielding composition will also modify
-the plasma energetical and momentum distribution that could also  influence the shape of the interface.
+its equilibrium.
+% It has to be kept in mind that modification of shielding composition will also modify
+% the plasma energetical and momentum distribution that could also  influence the shape of the interface.
 
  To study the influence of the gases on the shape of the gas liquid interface, images must be selected in cold
-regime of the plasma in the period. It is better to select images at the end of the period when the macrodrop is
+regime of the plasma in the pulse. It is better to select images at the end of the period when the macrodrop is
 stabilized. Once the images are selected, the algorithm described in section \ref{image_treatment} is used.
-The treatment of each image last around 5ms.
+The treatment of each image lasts around 5ms.
 \subsubsection{Basis and angle evolution} 
 Some profile detection are shown on figure \ref{fig::photo-results-macro-drop} on the macrodrop.
 The shape is shown on figure \ref{fig::photo-results-macro-drop}.
 
-Angle and Radius could be measured with the contour. The workpiece surface is detected on the contour so 
-that the macrodrop could be isolated. The developped algorithm manage to detect profile under the arc.
-The algorithm to extract the macrodrop profile is  a thershold relative to the base material or workpiece.
-The result is shown on figure \ref{fig:profile_extract}. Then, calculation of evolution on the profile can pe performed
+ The developped algorithm manage to detect profile under the arc.
+ To isolate only 
+macrodrop profile, a thershold relative to the base material is used to extract the macrodrop profile.
+The result is shown on figure \ref{fig:profile_extract}. Then, basis and angle of the profile can be computed
 all along  the process.
 \begin{figure}[h!]
 \centering    
@@ -648,7 +659,8 @@ The figure \ref{fig::basis} shows the growth of the macrodrop with the two diffe
 The evolution is almost the same in value. The 8 per cent CO2 gaz seems to be a little bit 
 more noisy than the pure Argon one. 
 
-Another important geometrical entity is angle. To approximate it, a simple linear regression is
+Another important geometrical entity is the angle of the macrodrop surface on the substrate.
+ To approximate it, a simple linear regression is
 performed for the first and last points of the profile. The result are shown on figure \ref{fig::angles}
 for the left angle and the two gases.
 \begin{figure}[h!]
@@ -659,7 +671,7 @@ for the left angle and the two gases.
 \end{figure}
 
 The evolution curves are noisy. Videos investigation show that the macrodrop oscillates during welding. 
-Macrodrop oscillations induced left wetting angle oscillations. Depending of the main oscillations during
+Macrodrop oscillations induced  wetting angle oscillations. Depending of the main oscillations during
 a period, the local angle oscillation is more or less important. For pure Argon
 gas, the equilibrium angle (60 degrees) rapidly reached and stays constant all along the welding.
 For the 8 per cent $CO_2$ gas, the angle increase until reaching a constant value of 60 degrees.
@@ -667,22 +679,28 @@ For the 8 per cent $CO_2$ gas, the angle increase until reaching a constant valu
 \subsubsection{Discussion}
 The noise in the measure for the basis could be attributed
 to oscillations of the macrodrop coupled to the threshold for the detection of the macrodrop.
+
 The interface between the gas and liquid is extremely strained. During a pulse, the surface is perturbated by the
 increase of pressure in the arc due to increase of current and by the impingement of the droplet inside the
-weld pool. These phenomenon near the triple joint are transient. The growth of the macrodrop is a balance mainly between
-the energy balance, the mechanical equilibrium (DuprÈ's law and membrane equilibrium). 
-The energy balance is coupled to fluid flow in the weld pool. 
+weld pool. These perturbations create oscillations of the macrodrop and on the free surface.
+ These phenomenon induce also oscillations near the triple joint.
+
+ The growth of the macrodrop is a balance mainly between
+the energy balance (thermo convection) and the mechanical equilibrium (Dupr\'e's law and membrane equilibrium). 
 The shape of the macrodrop is an important information for
-the mechanical equilibrium of the interface and to have information of mechanical acting on it.
+the local and global equilibrium of the interface. 
 For example, the macrodrop made with  pure Argon grows by step denoting an interesting instability 
 of the interface. 
 
 The modification of gas influences surface tension but also modifies the energy transfert from the plasma
 to the workpiece. Even with same welding parameters, 
 the difference of gas will modify the current lines distribution but also the arc length.
-Nevertheless, the evolution of the basis for the two gases are almost the same (figure \ref{fig::macrodrop}) as well
-almost the same overall shape (figure \ref{fig::comp_gazs}). This means that at first order the two evolution
+Nevertheless, the evolution of the basis and the  shape 
+(figure \ref{fig::comp_gazs}) for the two gases are almost the same (figure \ref{fig::macrodrop}).
+ This means that at first order the two evolutions
 are governed with the same mechanism (mass balance) and then the difference is due to heat transfert and surface tension.
+Pure Argon shielding lead to a higher desequilibrium at the interface leading to a higher surface tension. Then the angle
+at the triple joint (liquid-gas-substrate) is higher modifying then the behaviour of the overall interface.
 
 \begin{figure}[h!]
 \centering    
@@ -700,7 +718,7 @@ Droplet flight investigation is of interest for weld quality and the metal depos
 The determination of the motion and the impact point is then a good indicator of the quality of the
 process. The droplet flight is only investigated for the 8 per cent $CO_2$ for a pulse of 113 Hertz.
 The treatment of each image takes between 5 to 45ms with geometrical algorithm (triangulation) and output
-(surface computation and position of the center of mass).
+(surface computation and position of the center of mass), within the python interpreter.
 
 \subsubsection{Trajectories and droplet velocities}
 During one pulse, the droplet are detected. The shape are shown on figure \ref{fig::droplets}.
@@ -713,7 +731,7 @@ During one pulse, the droplet are detected. The shape are shown on figure \ref{f
 \end{figure}
 
 The shape of the droplet changes during the free flight denoting oscillations of the droplet.
-Once the points of the contour of the droplet, the center of mass could be found as well as the principal axis.
+Once the points of the contour of the droplet are detected, the center of mass are extracted  as well as the principal axis.
 The center of mass is drawn during several pulses on figure \ref{fig::center_mass}.
 
 \begin{figure}[h!]
@@ -722,7 +740,7 @@ The center of mass is drawn during several pulses on figure \ref{fig::center_mas
 \caption{Locations of the center of mass of the droplet for four different pulses}
 \label{fig::center_mass}
 \end{figure}
-The motions of the center of mass are almost linear and repetitive for the different times.
+The motions of the center of mass are almost linear and repetitive for the different transferts.
 The trajectories show that the motion is aligned more or less with the vertical axis.
 The position relative to the vertical axis can then be drawn for the four free 
 flight of droplets (figure \ref{fig::velocities}).
@@ -736,18 +754,20 @@ flight of droplets (figure \ref{fig::velocities}).
 \end{figure}
 
 The position of the center of mass of the droplet relative to the vertical axis shows that the 
-droplet has a constant speed. The speed is estimated between 150mm/s to 200mm/s depending on the pulse.
+droplet has a constant speed. The speed is estimated between 150mm/s to 200mm/s depending on the pulse
+and the free flight of the droplet last 6ms.
 
 \subsubsection{Discussions}
-The oscillations of the droplet gives informations on the competition between surface tension and gravity.
+The oscillations of the droplet gives informations on the competition between surface tension and gravity
+\cite{White}.
 For the welding conditions of the experiment, the trajectories of the different pulse indicates 
 that the forces acting on the droplet are in equilibrium
 or are negligible in respect to the size of the droplet.
-% Ajouter qq chose
+
 Despite the two dimensional analysis, the result gives important informations for 
-simulation of metal transfert process.
-
-
+simulation of metal transfert process. If  the droplet is assumed to be a sphere
+ the kinetic energy of the droplet just before impact could be estimated. For our case,
+The radius of the droplet is estimated at 0.56mm and the kinetic energy is around 6e-8J.
 
 Even if the four trajectories are similar, some discrepancies could be outlined. The short time 
 for the analysis let nice perspectives for the algorithm for the monitoring of the transfert.
