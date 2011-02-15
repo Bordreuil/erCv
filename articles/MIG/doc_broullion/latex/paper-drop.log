@@ -1,55 +1,62 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2010.12.15)  1 JAN 2011 13:59
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.5.24)  1 FEB 2011 14:50
 entering extended mode
- restricted \write18 enabled.
+ \write18 enabled.
+ file:line:error style messages enabled.
  %&-line parsing enabled.
 **paper-drop.tex
 (./paper-drop.tex
 LaTeX2e <2009/09/24>
 Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
-yphenation, loaded.
-(./iopart.cls
-Document Class: iopart 1996/06/10 v0.0 IOP Journals LaTeX article class
-(./iopart12.clo
-File: iopart12.clo 1997/01/15 v1.0 LaTeX2e file (size option)
-)
-\c@jnl=\count79
-\c@section=\count80
-\c@subsection=\count81
-\c@subsubsection=\count82
-\c@paragraph=\count83
-\c@subparagraph=\count84
-\c@figure=\count85
-\c@table=\count86
-\abovecaptionskip=\skip41
-\belowcaptionskip=\skip42
-\indentedwidth=\skip43
-\mathindent=\dimen102
-\c@eqnval=\count87
-) (/usr/share/texmf-texlive/tex/latex/graphics/graphicx.sty
-Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+yphenation, german-x-2009-06-19, ngerman-x-2009-06-19, ancientgreek, ibycus, ar
+abic, basque, bulgarian, catalan, pinyin, coptic, croatian, czech, danish, dutc
+h, esperanto, estonian, farsi, finnish, french, galician, german, ngerman, mono
+greek, greek, hungarian, icelandic, indonesian, interlingua, irish, italian, ku
+rmanji, latin, latvian, lithuanian, mongolian, mongolian2a, bokmal, nynorsk, po
+lish, portuguese, romanian, russian, sanskrit, serbian, slovak, slovenian, span
+ish, swedish, turkish, ukenglish, ukrainian, uppersorbian, welsh, loaded.
 
-(/usr/share/texmf-texlive/tex/latex/graphics/keyval.sty
-Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
-\KV@toks@=\toks14
-)
-(/usr/share/texmf-texlive/tex/latex/graphics/graphics.sty
+! LaTeX Error: File `iopart.cls' not found.
+
+Type X to quit or <RETURN> to proceed,
+or enter new name. (Default extension: cls)
+
+Enter file name: 
+./paper-drop.tex:43: Emergency stop.
+<read *> 
+         
+l.43 \usepackage
+                {graphicx}^^M
+End of file on the terminal!
+
+ 
+Here is how much of TeX's memory you used:
+ 10 strings out of 493848
+ 191 string characters out of 3149207
+ 48936 words of memory out of 3000000
+ 3384 multiletter control sequences out of 15000+200000
+ 3640 words of font info for 14 fonts, out of 3000000 for 9000
+ 714 hyphenation exceptions out of 8191
+ 10i,0n,7p,89b,8s stack positions out of 5000i,500n,10000p,200000b,50000s
+./paper-drop.tex:43:  ==> Fatal error occurred, no output PDF file produced!
+/local/texlive/2009/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
 
-(/usr/share/texmf-texlive/tex/latex/graphics/trig.sty
+(/usr/local/texlive/2009/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 )
-(/etc/texmf/tex/latex/config/graphics.cfg
+(/usr/local/texlive/2009/texmf-dist/tex/latex/latexconfig/graphics.cfg
 File: graphics.cfg 2009/08/28 v1.8 graphics configuration of TeX Live
 )
-Package graphics Info: Driver file: dvips.def on input line 91.
+Package graphics Info: Driver file: pdftex.def on input line 91.
 
-(/usr/share/texmf-texlive/tex/latex/graphics/dvips.def
-File: dvips.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+(/usr/local/texlive/2009/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2009/08/25 v0.04m Graphics/color for pdfTeX
+\Gread@gobject=\count88
 ))
 \Gin@req@height=\dimen103
 \Gin@req@width=\dimen104
 )
-(/usr/share/texmf-texlive/tex/latex/subfigure/subfigure.sty
+(/usr/local/texlive/2009/texmf-dist/tex/latex/subfigure/subfigure.sty
 Package: subfigure 2002/03/15 v2.1.5 subfigure package
 \subfigtopskip=\skip44
 \subfigcapskip=\skip45
@@ -57,22 +64,19 @@ Package: subfigure 2002/03/15 v2.1.5 subfigure package
 \subfigbottomskip=\skip46
 \subfigcapmargin=\dimen106
 \subfiglabelskip=\skip47
-\c@subfigure=\count88
-\c@lofdepth=\count89
-\c@subtable=\count90
-\c@lotdepth=\count91
+\c@subfigure=\count89
+\c@lofdepth=\count90
+\c@subtable=\count91
+\c@lotdepth=\count92
 
 ****************************************
 * Local config file subfigure.cfg used *
 ****************************************
-(/usr/share/texmf-texlive/tex/latex/subfigure/subfigure.cfg)
+(/usr/local/texlive/2009/texmf-dist/tex/latex/subfigure/subfigure.cfg)
 \subfig@top=\skip48
 \subfig@bottom=\skip49
-) (./paper-drop.aux
-
-LaTeX Warning: Label `photo-results-droplet' multiply defined.
-
 )
+(./paper-drop.aux)
 \openout1 = `paper-drop.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 49.
@@ -87,739 +91,19 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 49.
 LaTeX Font Info:    ... okay on input line 49.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 49.
 LaTeX Font Info:    ... okay on input line 49.
+
+(/usr/local/texlive/2009/texmf-dist/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count93
+\scratchdimen=\dimen107
+\scratchbox=\box26
+\nofMPsegments=\count94
+\nofMParguments=\count95
+\everyMPshowfont=\toks15
+\MPscratchCnt=\count96
+\MPscratchDim=\dimen108
+\MPnumerator=\count97
+\everyMPtoPDFconversion=\toks16
+)
 Missing character: There is no é in font cmr10!
-Missing character: There is no é in font cmr10!
-Missing character: There is no è in font cmr10!
-Missing character: There is no é in font cmr10!
- [1
-
-]
-
-LaTeX Warning: Citation `Mendez' on page 2 undefined on input line 84.
-
-
-LaTeX Warning: Citation `SEED' on page 2 undefined on input line 107.
-
-[2]
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 144.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 144.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 144.
-
-
-LaTeX Warning: Citation `COCQUEREZ' on page 3 undefined on input line 182.
-
-[3]
-
-LaTeX Warning: Citation `COCQUEREZ' on page 4 undefined on input line 217.
-
-
-LaTeX Warning: File `photo-explication-patron.png' not found on input line 228.
-
-
-
-! LaTeX Error: File `photo-explication-patron.png' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.228 ...ght=3.5cm]{photo-explication-patron.png}}
-                                                  
-? 
-
-! LaTeX Error: Cannot determine size of graphic in photo-explication-patron.png
- (no BoundingBox).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.228 ...ght=3.5cm]{photo-explication-patron.png}}
-                                                  
-? 
-File: photo-explication-patron.png Graphic file (type eps)
-<photo-explication-patron.png>
-
-LaTeX Warning: File `photo-explication-filter.png' not found on input line 229.
-
-
-
-! LaTeX Error: File `photo-explication-filter.png' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.229 ...ght=3.5cm]{photo-explication-filter.png}}
-                                                  \\
-? 
-
-! LaTeX Error: Cannot determine size of graphic in photo-explication-filter.png
- (no BoundingBox).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.229 ...ght=3.5cm]{photo-explication-filter.png}}
-                                                  \\
-? 
-File: photo-explication-filter.png Graphic file (type eps)
-<photo-explication-filter.png>
-
-LaTeX Warning: File `photo-explication-snake.png' not found on input line 230.
-
-
-! LaTeX Error: File `photo-explication-snake.png' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.230 ...ight=3.5cm]{photo-explication-snake.png}}
-                                                  
-? 
-
-! LaTeX Error: Cannot determine size of graphic in photo-explication-snake.png 
-(no BoundingBox).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.230 ...ight=3.5cm]{photo-explication-snake.png}}
-                                                  
-? 
-File: photo-explication-snake.png Graphic file (type eps)
-<photo-explication-snake.png>
-
-LaTeX Warning: File `photo-explication-segmentation.png' not found on input lin
-e 231.
-
-
-! LaTeX Error: File `photo-explication-segmentation.png' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.231 ...5cm]{photo-explication-segmentation.png}}
-                                                  
-? 
-
-! LaTeX Error: Cannot determine size of graphic in photo-explication-segmentati
-on.png (no BoundingBox).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.231 ...5cm]{photo-explication-segmentation.png}}
-                                                  
-? 
-File: photo-explication-segmentation.png Graphic file (type eps)
-<photo-explication-segmentation.png>
-Underfull \hbox (badness 1275) in paragraph at lines 231--231
-[]\OT1/cmss/m/n/10 (d) \OT1/cmr/m/n/10 Seg-men-ta-tion im-
- []
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[4]
-
-LaTeX Warning: Citation `CGAL' on page 5 undefined on input line 266.
-
-[5]
-
-LaTeX Warning: File `schema-erCv.png' not found on input line 282.
-
-
-! LaTeX Error: File `schema-erCv.png' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.282 ...cs[width=7cm,height=4cm]{schema-erCv.png}
-                                                  
-? 
-
-! LaTeX Error: Cannot determine size of graphic in schema-erCv.png (no Bounding
-Box).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.282 ...cs[width=7cm,height=4cm]{schema-erCv.png}
-                                                  
-? 
-File: schema-erCv.png Graphic file (type eps)
-<schema-erCv.png>
-
-LaTeX Warning: File `schema-montage-experimental-GMAW.png' not found on input l
-ine 340.
-
-
-! LaTeX Error: File `schema-montage-experimental-GMAW.png' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.340 ...cm]{schema-montage-experimental-GMAW.png}
-                                                  
-? 
-
-! LaTeX Error: Cannot determine size of graphic in schema-montage-experimental-
-GMAW.png (no BoundingBox).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.340 ...cm]{schema-montage-experimental-GMAW.png}
-                                                  
-? 
-File: schema-montage-experimental-GMAW.png Graphic file (type eps)
-<schema-montage-experimental-GMAW.png> [6] [7]
-
-LaTeX Warning: File `schema-macro-drop-droplet-parameters.png' not found on inp
-ut line 425.
-
-
-! LaTeX Error: File `schema-macro-drop-droplet-parameters.png' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.425 ...schema-macro-drop-droplet-parameters.png}
-                                                  
-? 
-
-! LaTeX Error: Cannot determine size of graphic in schema-macro-drop-droplet-pa
-rameters.png (no BoundingBox).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.425 ...schema-macro-drop-droplet-parameters.png}
-                                                  
-? 
-File: schema-macro-drop-droplet-parameters.png Graphic file (type eps)
-<schema-macro-drop-droplet-parameters.png>
-
-LaTeX Warning: Reference `image-acquisition-setup' on page 8 undefined on input
- line 446.
-
-
-LaTeX Warning: Citation `COCQUEREZ' on page 8 undefined on input line 462.
-
-
-LaTeX Warning: Reference `photo-macro-drop-original' on page 8 undefined on inp
-ut line 464.
-
-[8]
-
-LaTeX Warning: Citation `OPENCV' on page 9 undefined on input line 491.
-
-
-LaTeX Warning: File `photo-macro-drop-original.png' not found on input line 517
-.
-
-
-! LaTeX Error: File `photo-macro-drop-original.png' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.517 ...ht=3.5cm]{photo-macro-drop-original.png}}
-                                                  
-? 
-
-! LaTeX Error: Cannot determine size of graphic in photo-macro-drop-original.pn
-g (no BoundingBox).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.517 ...ht=3.5cm]{photo-macro-drop-original.png}}
-                                                  
-? 
-File: photo-macro-drop-original.png Graphic file (type eps)
-<photo-macro-drop-original.png>
-Underfull \hbox (badness 3088) in paragraph at lines 517--517
-[]\OT1/cmss/m/n/10 (a) \OT1/cmr/m/n/10 Macro drop raw
- []
-
-
-LaTeX Warning: File `photo-macro-drop-grey.png' not found on input line 518.
-
-
-! LaTeX Error: File `photo-macro-drop-grey.png' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.518 ...height=3.5cm]{photo-macro-drop-grey.png}}
-                                                  \\
-? 
-
-! LaTeX Error: Cannot determine size of graphic in photo-macro-drop-grey.png (n
-o BoundingBox).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.518 ...height=3.5cm]{photo-macro-drop-grey.png}}
-                                                  \\
-? 
-File: photo-macro-drop-grey.png Graphic file (type eps)
-<photo-macro-drop-grey.png>
-
-LaTeX Warning: File `photo-macro-drop-smoothblur.png' not found on input line 5
-19.
-
-
-! LaTeX Error: File `photo-macro-drop-smoothblur.png' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.519 ...=3.5cm]{photo-macro-drop-smoothblur.png}}
-                                                  
-? 
-
-! LaTeX Error: Cannot determine size of graphic in photo-macro-drop-smoothblur.
-png (no BoundingBox).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.519 ...=3.5cm]{photo-macro-drop-smoothblur.png}}
-                                                  
-? 
-File: photo-macro-drop-smoothblur.png Graphic file (type eps)
-<photo-macro-drop-smoothblur.png>
-
-LaTeX Warning: File `photo-macro-drop-adaptivethreshold.png' not found on input
- line 520.
-
-
-! LaTeX Error: File `photo-macro-drop-adaptivethreshold.png' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.520 ...{photo-macro-drop-adaptivethreshold.png}}
-                                                  \\
-? 
-
-! LaTeX Error: Cannot determine size of graphic in photo-macro-drop-adaptivethr
-eshold.png (no BoundingBox).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.520 ...{photo-macro-drop-adaptivethreshold.png}}
-                                                  \\
-? 
-File: photo-macro-drop-adaptivethreshold.png Graphic file (type eps)
-<photo-macro-drop-adaptivethreshold.png>
-
-LaTeX Warning: File `photo-macro-drop-smoothmedian.png' not found on input line
- 521.
-
-
-! LaTeX Error: File `photo-macro-drop-smoothmedian.png' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.521 ....5cm]{photo-macro-drop-smoothmedian.png}}
-                                                  
-? 
-
-! LaTeX Error: Cannot determine size of graphic in photo-macro-drop-smoothmedia
-n.png (no BoundingBox).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.521 ....5cm]{photo-macro-drop-smoothmedian.png}}
-                                                  
-? 
-File: photo-macro-drop-smoothmedian.png Graphic file (type eps)
-<photo-macro-drop-smoothmedian.png>
-
-LaTeX Warning: File `photo-macro-drop-canny.png' not found on input line 522.
-
-
-! LaTeX Error: File `photo-macro-drop-canny.png' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.522 ...eight=3.5cm]{photo-macro-drop-canny.png}}
-                                                  \\
-? 
-
-! LaTeX Error: Cannot determine size of graphic in photo-macro-drop-canny.png (
-no BoundingBox).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.522 ...eight=3.5cm]{photo-macro-drop-canny.png}}
-                                                  \\
-? 
-File: photo-macro-drop-canny.png Graphic file (type eps)
-<photo-macro-drop-canny.png>
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[9]
-Missing character: There is no Õ in font cmr12!
- [10]
-
-LaTeX Warning: File `photo-results-macro-drop-t1.png' not found on input line 5
-44.
-
-
-! LaTeX Error: File `photo-results-macro-drop-t1.png' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.544 ...=3.5cm]{photo-results-macro-drop-t1.png}}
-                                                  
-? 
-
-! LaTeX Error: Cannot determine size of graphic in photo-results-macro-drop-t1.
-png (no BoundingBox).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.544 ...=3.5cm]{photo-results-macro-drop-t1.png}}
-                                                  
-? 
-File: photo-results-macro-drop-t1.png Graphic file (type eps)
-<photo-results-macro-drop-t1.png>
-
-LaTeX Warning: File `photo-results-macro-drop-t2.png' not found on input line 5
-45.
-
-
-! LaTeX Error: File `photo-results-macro-drop-t2.png' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.545 ...=3.5cm]{photo-results-macro-drop-t2.png}}
-                                                  \\
-? 
-
-! LaTeX Error: Cannot determine size of graphic in photo-results-macro-drop-t2.
-png (no BoundingBox).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.545 ...=3.5cm]{photo-results-macro-drop-t2.png}}
-                                                  \\
-? 
-File: photo-results-macro-drop-t2.png Graphic file (type eps)
-<photo-results-macro-drop-t2.png>
-
-LaTeX Warning: File `photo-results-macro-drop-t3.png' not found on input line 5
-46.
-
-
-! LaTeX Error: File `photo-results-macro-drop-t3.png' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.546 ...=3.5cm]{photo-results-macro-drop-t3.png}}
-                                                  
-? 
-
-! LaTeX Error: Cannot determine size of graphic in photo-results-macro-drop-t3.
-png (no BoundingBox).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.546 ...=3.5cm]{photo-results-macro-drop-t3.png}}
-                                                  
-? 
-File: photo-results-macro-drop-t3.png Graphic file (type eps)
-<photo-results-macro-drop-t3.png>
-
-LaTeX Warning: File `photo-results-macro-drop-t4.png' not found on input line 5
-47.
-
-
-! LaTeX Error: File `photo-results-macro-drop-t4.png' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.547 ...=3.5cm]{photo-results-macro-drop-t4.png}}
-                                                  \\
-? 
-
-! LaTeX Error: Cannot determine size of graphic in photo-results-macro-drop-t4.
-png (no BoundingBox).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.547 ...=3.5cm]{photo-results-macro-drop-t4.png}}
-                                                  \\
-? 
-File: photo-results-macro-drop-t4.png Graphic file (type eps)
-<photo-results-macro-drop-t4.png>
-
-LaTeX Warning: Citation `CGAL' on page 11 undefined on input line 560.
-
-
-LaTeX Warning: Citation `GEOMETRICAL' on page 11 undefined on input line 562.
-
-Missing character: There is no Õ in font cmr12!
-
-LaTeX Warning: Citation `CGAL-library' on page 11 undefined on input line 567.
-
-
-LaTeX Warning: File `photo-droplet-canny.png' not found on input line 574.
-
-
-! LaTeX Error: File `photo-droplet-canny.png' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.574 ...m,height=3.5cm]{photo-droplet-canny.png}}
-                                                  
-? 
-
-! LaTeX Error: Cannot determine size of graphic in photo-droplet-canny.png (no 
-BoundingBox).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.574 ...m,height=3.5cm]{photo-droplet-canny.png}}
-                                                  
-? 
-File: photo-droplet-canny.png Graphic file (type eps)
-<photo-droplet-canny.png>
-
-LaTeX Warning: File `photo-droplet-alpha-shape.png' not found on input line 575
-.
-
-
-! LaTeX Error: File `photo-droplet-alpha-shape.png' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.575 ...ht=3.5cm]{photo-droplet-alpha-shape.png}}
-                                                  \\
-? 
-
-! LaTeX Error: Cannot determine size of graphic in photo-droplet-alpha-shape.pn
-g (no BoundingBox).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.575 ...ht=3.5cm]{photo-droplet-alpha-shape.png}}
-                                                  \\
-? 
-File: photo-droplet-alpha-shape.png Graphic file (type eps)
-<photo-droplet-alpha-shape.png>
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[11]
-
-LaTeX Warning: File `photo-results-droplet-t1.png' not found on input line 586.
-
-
-
-! LaTeX Error: File `photo-results-droplet-t1.png' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.586 ...ght=3.5cm]{photo-results-droplet-t1.png}}
-                                                  
-? 
-
-! LaTeX Error: Cannot determine size of graphic in photo-results-droplet-t1.png
- (no BoundingBox).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.586 ...ght=3.5cm]{photo-results-droplet-t1.png}}
-                                                  
-? 
-File: photo-results-droplet-t1.png Graphic file (type eps)
-<photo-results-droplet-t1.png>
-
-LaTeX Warning: File `photo-results-droplet-t2.png' not found on input line 587.
-
-
-
-! LaTeX Error: File `photo-results-droplet-t2.png' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.587 ...ght=3.5cm]{photo-results-droplet-t2.png}}
-                                                  \\
-? 
-
-! LaTeX Error: Cannot determine size of graphic in photo-results-droplet-t2.png
- (no BoundingBox).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.587 ...ght=3.5cm]{photo-results-droplet-t2.png}}
-                                                  \\
-? 
-File: photo-results-droplet-t2.png Graphic file (type eps)
-<photo-results-droplet-t2.png>
-
-LaTeX Warning: File `photo-results-droplet-t3.png' not found on input line 588.
-
-
-
-! LaTeX Error: File `photo-results-droplet-t3.png' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.588 ...ght=3.5cm]{photo-results-droplet-t3.png}}
-                                                  
-? 
-
-! LaTeX Error: Cannot determine size of graphic in photo-results-droplet-t3.png
- (no BoundingBox).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.588 ...ght=3.5cm]{photo-results-droplet-t3.png}}
-                                                  
-? 
-File: photo-results-droplet-t3.png Graphic file (type eps)
-<photo-results-droplet-t3.png>
-
-LaTeX Warning: File `photo-results-droplet-t4.png' not found on input line 589.
-
-
-
-! LaTeX Error: File `photo-results-droplet-t4.png' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.589 ...ght=3.5cm]{photo-results-droplet-t4.png}}
-                                                  \\
-? 
-
-! LaTeX Error: Cannot determine size of graphic in photo-results-droplet-t4.png
- (no BoundingBox).
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.589 ...ght=3.5cm]{photo-results-droplet-t4.png}}
-                                                  \\
-? 
-File: photo-results-droplet-t4.png Graphic file (type eps)
-<photo-results-droplet-t4.png>
-No file paper-drop.bbl.
-
-! LaTeX Error: Lonely \item--perhaps a missing list environment.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.622 \bibitem{CGAL}
-                     http://www.cgal.org
-? 
-! Undefined control sequence.
-<argument> \@listctr 
-                     
-l.622 \bibitem{CGAL}
-                     http://www.cgal.org
-? 
-! You can't use `\relax' after \the.
-<recently read> \c@ 
-                    
-l.622 \bibitem{CGAL}
-                     http://www.cgal.org
-? 
-[12] [13] (./paper-drop.aux)
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: There were multiply-defined labels.
-
- ) 
-Here is how much of TeX's memory you used:
- 1058 strings out of 495062
- 12924 string characters out of 1182643
- 65695 words of memory out of 3000000
- 4257 multiletter control sequences out of 15000+50000
- 8717 words of font info for 31 fonts, out of 3000000 for 9000
- 28 hyphenation exceptions out of 8191
- 25i,8n,24p,235b,376s stack positions out of 5000i,500n,10000p,200000b,50000s
-
-Output written on paper-drop.dvi (13 pages, 36492 bytes).
+Missing 
