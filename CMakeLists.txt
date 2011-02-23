@@ -15,10 +15,7 @@ FIND_PACKAGE(OpenCV REQUIRED)
 FIND_PACKAGE(CGAL REQUIRED)
 FIND_PACKAGE(Boost COMPONENTS graph python filesystem system)
 
-# A COMMENTER Pour Julien
-#OPTION(BUILD_PYTHON_MODULE  "Build python module for erCv" 1)
-# A DECOMMENTER Pour Julien
-#SET(BUILD_PYTHON_MODULE 0)
+
 if(NOT ${BUILD_PYTHON_MODULE})
        MESSAGE(STATUS "Python Module of erCv will not be built")
 endif(NOT ${BUILD_PYTHON_MODULE})
@@ -32,8 +29,7 @@ if ( CGAL_FOUND )
 endif()
   
 SET(ERCV_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
-#SET(ERCV_LIBRARY_DIR ${CMAKE_SOURCE_DIR}/src)
-SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/libs)
+SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/erCv)
 
 ADD_SUBDIRECTORY(src)
 ADD_SUBDIRECTORY(tests)
@@ -47,7 +43,7 @@ install(EXPORT erCv-targets DESTINATION lib/erCv)
 
 include(InstallRequiredSystemLibraries)
 
-set(CPACK_PACKAGE_NAME "erCV")
+set(CPACK_PACKAGE_NAME   "erCV")
 set(CPACK_PACKAGE_VENDOR "LMGC/UM2/UM5508")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "erCv is an software dedicated to contour analysis
 for images acquired during welding process")

@@ -1,7 +1,7 @@
-get_filename_component(_dir "${CMAKE_CURRENT_LIST_FILE" PATH)
+get_filename_component(_dir "${CMAKE_CURRENT_LIST_FILE}" PATH)
 get_filename_component(_prefix "${_dir}/../../" ABSOLUTE)
 
 include("${_prefix}/lib/erCv/erCv-targets.cmake")
 
 set(erCv_INCLUDE_DIRS "${_prefix}/include/")
-set(erCv_LIBRRARY   "${_prefix}/libs")
+set(erCv_LIBRRARY   "${_prefix}/lib/erCv")

@@ -105,7 +105,7 @@ erMacroDropAnalysis::erMacroDropAnalysis( std::string name, std::string infofile
 bool erMacroDropAnalysis::defineParametersUI( std::string firstImage)
 {
   std::cout <<"-----------------------------------------------\n\n";
-  std::cout <<"\tMagic treatment for metal transfer\n\tBy Edward Romero\n\tNovember 2009\n\tLMGC/UM2/UM5508\n\tANR-TEMMSA\n\n";
+  std::cout <<"\tMagic treatment for macroDrop\n\tBy Edward Romero\n\tNovember 2009\n\tLMGC/UM2/UM5508\n\tANR-TEMMSA\n\n";
   std::cout <<"-----------------------------------------------\n\n";
   
   /* Declaration de variables a utiliser par les fonctions */
@@ -175,16 +175,18 @@ bool erMacroDropAnalysis::doIt(std::string fich)
        erSaveImage( &ea, file_name, nom);
        eb = erConvertToBlackAndWhite( &ea);        
        ec = erDef_ROI( &eb, &rectOI); 
+       //erShowImage("essai",&eb);
        erCvEqualizeHist( &ec, &param_equalizer_histogram);
        erCvSmooth( &ec, &param_smooth1);
        erCvAdaptiveThreshold( &ec, &param_adaptive_threshold);
        erCvSmooth( &ec, &param_smooth2);
        erCvCanny( &ec, &param_canny);
-       //erSaveImage( &ec, file_name, nom);
+       erSaveImage( &ec, file_name, nom);
        IsEqualTo is_equal_255( 255); 
        erExtractCvPoints( cvPts, &ec, is_equal_255, rectOI);
        erExtractCurveMacroDrop( cvPts, &ec, rectOI, &cercToStart, file_name);
        erPrintCvPoint( cvPts, file_name, nom); 
+       
        return true;
 };
 

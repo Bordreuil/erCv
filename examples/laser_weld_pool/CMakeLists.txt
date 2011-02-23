@@ -30,3 +30,6 @@ CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/example_laser_prototypage_4.jpg
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/example_laser_prototypage_5.jpg
 			${CMAKE_CURRENT_BINARY_DIR}/example_laser_prototypage_5.jpg
 			COPYONLY)
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/visu.py
+			${CMAKE_CURRENT_BINARY_DIR}/visu.py
+			COPYONLY)

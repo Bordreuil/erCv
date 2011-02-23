@@ -352,9 +352,9 @@ void erExtractCurveMacroDrop( Container &pts, IplImage* simag, CvRect recROI, er
     }
   pts.clear();
   
-  std::pair< CvPoint, int> cercle( cerc->centro, cerc->radio);
-  CvPoint p_cercleDepart, p_polyvalent;
-  std::vector< int> ptsDmin, ptsY0;
+  std::pair< CvPoint, int>    cercle( cerc->centro, cerc->radio);
+  CvPoint                     p_cercleDepart, p_polyvalent;
+  std::vector< int>           ptsDmin, ptsY0;
   std::vector< int>::iterator iterDmin;
   bool Dmin = false;
   int a = 0, b = 0, c = 0;
@@ -362,8 +362,10 @@ void erExtractCurveMacroDrop( Container &pts, IplImage* simag, CvRect recROI, er
   for( iterV_cercleDepart = iterMap->second.begin(); iterV_cercleDepart != iterMap->second.end(); iterV_cercleDepart++)
     {
       a = abs( iterV_cercleDepart->y - cercle.first.y);
+
       if( a <= cercle.second)
 	{
+	 
 	  if( a < b || Dmin==false)
 	    {
 	      c = iterV_cercleDepart->y;
@@ -385,6 +387,7 @@ void erExtractCurveMacroDrop( Container &pts, IplImage* simag, CvRect recROI, er
       std::ofstream file( nameGoodImagesFile( INFOFILE), std::ios_base::app );
       file << file_name << std::endl; // A proscrire
       file << std::endl;
+      std::cout << "On ne trouve pas de point de depart" << std::endl;
       pts.clear();
       return; 
     }
@@ -408,6 +411,7 @@ void erExtractCurveMacroDrop( Container &pts, IplImage* simag, CvRect recROI, er
 	  file << file_name << std::endl;
 	  file << std::endl;
 	  pts.clear();
+	  std::cout << "On sort parceque les points sorte de la zone" << std::endl;
 	  return;
 	}
       iterV_polyvalent = erFindCvPoint( iterMap->second.begin(), iterMap->second.end(), cvPoint( iterMap->first, cpt.y));
@@ -461,6 +465,7 @@ void erExtractCurveMacroDrop( Container &pts, IplImage* simag, CvRect recROI, er
 			      file << file_name << std::endl;
 			      file << std::endl;
 			      pts.clear();
+			      std::cout << "On sort parcequ'on revient au debut" << std::endl;
 			      return;
 			    }
 			  iterMap--;
@@ -636,7 +641,7 @@ void erPrintCgalPoint( Container & pts, char* file_name, char* exit_name)
     }
   else 
     {
-      std::cout << "Unable to open file";
+      std::cout << "Unable to open file:" << new_name << std::endl;
     }
 };
 

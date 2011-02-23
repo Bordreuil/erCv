@@ -1,8 +1,10 @@
 #
-# UseCGAL.cmake can be included in a project to set the needed compiler and linker
+# UseCGAL.cmake can be included in a project to set the needed 
+# compiler and linker
 # settings to use CGAL in a program.
 #
-# The variables used here are defined in the CGALConfig.cmake generated when CGAL was installed.
+# The variables used here are defined in the 
+# CGALConfig.cmake generated when CGAL was installed.
 #
 #
 
