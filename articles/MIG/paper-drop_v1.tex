@@ -153,14 +153,14 @@ Then The library and the mixed algorithms are explained and some results are sho
 
 
 A specific data acquisition setup was done at the lab in order to
-synchronize all kind of signals and images versus time and space \cite{ChapuisThesis}.
+synchronize all kind of signals and images versus time and space \cite{CHAPUIS2}.
 The experimental setup is composed of a welding generator, a XY table, a data acquisition
-system and a high speed camera as shown on figure \ref{schema-montage-experimental-GMAW}.
+system and a high speed camera as shown on figure \ref{fig::schema-montage-experimental-GMAW}.
 In this article only details on image acquisition setup and treatment will be outlined.
 
 The Gas Metal Arc Welding (GMAW) is set in pulsed mode in order that one droplet 
-is detached by pulsed from the wire. As an indicator, the peak current is measured at 300A and the wire speed
-is around 6m/min. The wire has 1mm diameter.
+is detached by pulsed from the wire. As an indicator, the peak current is measured at $300\ A$ and the wire speed
+is around $6\ m/min$. The wire has $1\ mm$ diameter.
 
 
 \subsection{ Image acquisition setup}
@@ -172,19 +172,19 @@ illumination of the welding process, a light diffuser is placed
 in the optical path closer to the halogen lamp. 
 Finally the shadows of welding elements are projected to the other side where
  a Phantom V5.0 high speed camera is placed and aligned in
- the optical path (see figure \ref{schema-montage-experimental-GMAW}). 
+ the optical path (see figure \ref{fig::schema-montage-experimental-GMAW}). 
 
 \begin{figure}
 \begin{center}
-\includegraphics[width=7cm,height=4cm]{images/setup.png}
+\includegraphics[width=7cm,height=4cm]{images/schema-montage-experimental-GMAW.png}
 \caption{{\small Experimental setup to detect macro drop and droplet edges in GMAW process}}
-\label{schema-montage-experimental-GMAW}
+\label{fig::schema-montage-experimental-GMAW}
 \end{center}
 \end{figure}
 
 To enhance the image contrast of the weld elements inside the electric discharge,
 the intensity rate between arc light and halogen lamp have to be reduced. In order to this
-a $650\ \pm 10\ nm$ band pass filter is placed in front the camera lens. 650nm
+a $650\ \pm 10\ nm$ band pass filter is placed in front the camera lens. $650\ nm$
 is around a no emitting wavelength from the arc. Nevertheless, the raw images remain highly 
 noisy by the arc light. 
 
@@ -246,7 +246,7 @@ measure macro drop radius and apparent liquid-solid contact angle histories.
 %a GMAW process or macro drop. Therefore it is necessary to study the shape and spreading
 %of the macro drop according depositing droplets of feed wire. 
 
-At figure \ref{schema-macro-drop-droplet-parameters} appears the geometrical 
+At figure \ref{fig::schema-macro-drop-droplet-parameters} appears the geometrical 
 elements to be study at the macro drop: the macro drop radius at the base $R_{m}$, 
 the macro drop center height $h_{m}$, the macro drop volume $V_{m}$, the
 penetration below the surface level $p$ and the wetting angles:
@@ -261,7 +261,7 @@ interesting for the investigation of fluid dynamic inside the weld pool.
 \begin{center}
 \includegraphics[width=7cm,height=4cm]{images/schema-macro-drop-droplet-parameters.png}
 \caption{{\small Profile schematics of welding objects in a GMAW process}}
-\label{schema-macro-drop-droplet-parameters}
+\label{fig::schema-macro-drop-droplet-parameters}
 \end{center}
 \end{figure}
     
@@ -272,11 +272,12 @@ For the droplet or metal transfer drop, the geometrical parameters to identify a
  the measured radius $R_{a}$. 
 Finally in order to better understand the droplet dynamic, 
 the physical elements to identify are: the fall time $t_{a}$ and the average 
-speed $U_{a}$ (see figure \ref{schema-macro-drop-droplet-parameters}).
+speed $U_{a}$ (see figure \ref{fig::schema-macro-drop-droplet-parameters}).
 
 
 
 \section{Image processing} 
+\label{ image_processing}
 
 Some definitions and brief description of general principles used in
  image processing are required to measure the profiles. Then, the design of the library 
@@ -285,7 +286,9 @@ is briefly detailed  to detect the profile in the noisy environment.
 
 
 \subsection{Image treatment basics}
-\subsubsection{Some definitions}\label{some_definitions}
+\subsubsection{Some definitions}
+\label{some_definitions}
+
 A numerical grey image can be described as 3D surface discretized by a grid mesh
  in the X,Y plane. Each mesh represents a pixel and the relief surface at Z axis,
  the grey level. 
@@ -299,7 +302,8 @@ and interpret the space between different textures zones as edges.
 There exist a large spectrum of algorithms to image treatment, in particular for edges detection.
  Most of them can be classified by the way  is operated above the image pixels and grey level.
 
-\subsubsection{Filters}\label{filters}
+\subsubsection{Filters}
+\label{filters}
 
 The filters are algorithms that operate as mathematical functions $f$ above the 
 $X$, $Y$ or both axis of the image ($Z = f(X,Y)$,  
@@ -309,18 +313,18 @@ Different kind of filters can be mentioned as median, Gaussian, impulse,
 widely use to edge detection \cite{COCQUEREZ}. These filters have an
  impulse response to most important greyness gradient in the 
 image; this allows the filter a better edges localisation
- (see figure \ref{photo-explication-filter}). 
+ (see figure \ref{fig::photo-explication-filter}). 
 For this reason, Canny filter is widely 
 used in the library to detect the welding elements edges. 
 However, it is sensible to noise or secondary greyness gradients in the image
  and, in consequence, it have some difficulties to define closed surface.
 
 \subsubsection{Snake and level set}
-\label{snake-and-level-set}
+\label{snake_and_level_set}
  
 Curve propagation is a popular technique in image analysis for object extraction,
  object tracking, edge detection and others (see figure 
-\ref{photo-explication-snake}). The central idea behind such an approach
+\ref{fig::photo-explication-snake}). The central idea behind such an approach
  is to evolve a curve towards the lowest potential of a cost function. 
 However at each stage of curve evolution, each curve point potential has
  to be computed. A lot of point (better curve resolution) take a lot 
@@ -334,8 +338,8 @@ Let $B$ an image and let $R_{i}$ a region of $B$ such:
 
 \begin{eqnarray}
 B = \bigcup_{i}R_{i}\ \forall i \in \{0, \mbox{numbers of regions in B}\} \\
-\mbox{with} R_{i} \neq \emptyset \\
-\mbox{and}  R_{i}\bigcap R_{j} = \emptyset  \forall i, j\ \mbox{with}\ i \neq j\ 
+\mbox{with}\ R_{i} \neq \emptyset \\
+\mbox{and}\  R_{i}\bigcap R_{j} = \emptyset\ \forall i, j\ \mbox{with}\ i \neq j\ 
 \label{equation-segmentation}
 \end{eqnarray}
 
@@ -345,25 +349,25 @@ common properties (intensity, texture,...) \cite{COCQUEREZ}.
  The partition is generated by operations or comparisons methods between 
 regions. Generally, this treatment offers a good detection edges if
  the elements and surrounding area have different textures (see figure
- \ref{photo-explication-segmentation}). 
+ \ref{fig::photo-explication-segmentation}). 
 Note that different regions can belong to the same partition,
  therefore the surface is not always connected and,
  in consequence, the edges of the interest regions are not always closed.
 
 \begin{figure}[h!]
 \begin{center}    
-\subfigure[Weld pool image in static GTAW process]{\label{photo-explication-patron}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-explication-patron.png}}
-\subfigure[Canny filter treatment]{\label{photo-explication-filter}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-explication-filter.png}}\\
-\subfigure[Snake treatment]{\label{photo-explication-snake}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-explication-snake.png}}
-\subfigure[Segmentation image by 2 cluster sample comparison]{\label{photo-explication-segmentation}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-explication-segmentation.png}}
+\subfigure[Weld pool image in static GTAW process]{\label{fig::photo-explication-patron}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-explication-patron.png}}
+\subfigure[Canny filter treatment]{\label{fig::photo-explication-filter}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-explication-filter.png}}\\
+\subfigure[Snake treatment]{\label{fig::photo-explication-snake}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-explication-snake.png}}
+\subfigure[Segmentation image by 2 cluster sample comparison]{\label{fig::photo-explication-segmentation}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-explication-segmentation.png}}
 \end{center}
 \caption{{\small Samples of different methods technique for image processing}}
-\label{photo-explication}
+\label{fig::photo-explication}
 \end{figure}
 
 
 \subsection{Image treatment library}
-\label{image-treatment-library-ercv}
+\label{image_treatment_library}
 
 A multipurpose image processing library was developed 
 and currently use at the laboratory, in order to analyze welding process objects.
@@ -414,7 +418,7 @@ the library is composed by four processing modules:
 \begin{center}
 \includegraphics[width=10cm]{images/schema-erCv.png}
 \caption{{\small Flow diagram of erCv library composition}}
-\label{schema-erCv}
+\label{fig::schema-erCv}
 \end{center}
 \end{figure}
 
@@ -423,11 +427,13 @@ and complementarity of the different numerical tools.
 The main difficulty is to find algorithms with good parameters all along the process.
 
 \subsection{ The Analyzing methods}
-\label{ the-analyze-methods}
+\label{ the_analyze_methods}
 Image treatment and implemented algorithms are dependent of the optical setup and recording of images.
 Nevertheless even if shadowgraphy technic is modified, the algorithm to detect and measure profile during
 welding will still be valid by modifying some parameters.
+
 \subsubsection{ Image Calibration}
+\label{ image_calibration}
 
 As was shown in section \ref{image_acquisition_setup}, the camera recording a 
 shadow projection of the welding process. The projection is 
@@ -439,7 +445,7 @@ made. In our experiment, the known width of the welding wire leads to $conv = 1\
   
   
 \subsubsection{ Image Treatment}
-\label{ image_treatment}
+\label{image_treatment}
 
 The idea is to extract the macro drop and droplet shapes 
 from the raw images and therefore to extract the geometrical information.
@@ -447,7 +453,7 @@ from the raw images and therefore to extract the geometrical information.
 That means to separate in two fields (color) the image. The macro drop and droplet in one color and
 the rest of the image in other \cite{COCQUEREZ}. Thanks to the optical method acquisition
  (shadowgraphy) the images are already segmented between
-light and shadow zones (see figures \ref{photo-macro-drop-patron});
+light and shadow zones (see figures \ref{fig::photo-macro-drop-patron});
  where the shadow zones are the projection of the macro drop and droplet.
 
 However objects within the image under the arc may differ only by few intensity light level
@@ -458,11 +464,11 @@ can lead the image quality and thus an incorrect segmentation \cite{NORDBRUCH}.
  Therefore the contrast enhancements, or threshold, have to be adapted per regions in the image.  
 
 To simplify the contrast enhancement, the images are converted from RGB image color 
-to grey levels image (see figure \ref{photo-macro-drop-grey}). To 
+to grey levels image (see figure \ref{fig::photo-macro-drop-grey}). To 
 reduce the grey level noise, a first smooth classical filter 
 (Blur) is applied over the image. The filter replace
 the grey values of squares of $7\times 7$ 
-pixels by they average value (see figure \ref{photo-macro-drop-smoothblur}). 
+pixels by they average value (see figure \ref{fig::photo-macro-drop-smoothblur}). 
 In consequence, the homogeneity quality is improved into the light and 
 shadows regions, despite the edge contrast reduction induce between these regions. 
 
@@ -482,33 +488,33 @@ $threshold(x,y)$ is obtain by subtraction between the average grey level of regi
  pixels neighborhood and a constant parameter $C_{threshold}$.  
 Small edge defects can still be found, due to the previous smooth filter and some arc 
 light interference regions, which are bigger than regions size to
-threshold (see figure \ref{photo-macro-drop-adaptivethreshold}).  
+threshold (see figure \ref{fig::photo-macro-drop-adaptivethreshold}).  
 
 A second filter type median is necessary to improve the previous threshold treatment. 
 This filter compute the grayness median value over $7\times 7\ pixels$
 region. The image, which is already binary type due to adaptive threshold processing,
  is enhancing in his mixed black white regions depending of 
  median value. In consequence contour quality between light and shadows
- regions at the binary image are improved (see figure \ref{photo-macro-drop-smoothmedian}).
+ regions at the binary image are improved (see figure \ref{fig::photo-macro-drop-smoothmedian}).
 
 Finally an impulse response filter to grey level gradient (Canny) is applied to extract 
 the principal edges at image. In a binary image, all edges are principal,
-therefore canny detect all edge at the image (see figure \ref{photo-macro-drop-canny}).
+therefore canny detect all edge at the image (see figure \ref{fig::photo-macro-drop-canny}).
 Nevertheless to guarantee a full detection of droplet and 
  macro drop profile, the canny parameters are adjusted to maximum, 
 which means maximum edge detection sensibility. 
               
 \begin{figure}[h!]
 \begin{center}    
-\subfigure[Macro drop raw image]{\label{photo-macro-drop-patron}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-macro-drop-original.png}}
-\subfigure[Macro drop grayness image]{\label{photo-macro-drop-grey}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-macro-drop-grey.png}}\\
-\subfigure[First smooth filter]{\label{photo-macro-drop-smoothblur}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-macro-drop-smoothblur.png}}
-\subfigure[Adaptive threshold per regions]{\label{photo-macro-drop-adaptivethreshold}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-macro-drop-adaptivethreshold.png}}\\
-\subfigure[Median filter]{\label{photo-macro-drop-smoothmedian}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-macro-drop-smoothmedian.png}}
-\subfigure[Canny filter]{\label{photo-macro-drop-canny}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-macro-drop-canny.png}}\\
+\subfigure[Macro drop raw image]{\label{fig::photo-macro-drop-patron}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-macro-drop-original.png}}
+\subfigure[Macro drop grayness image]{\label{fig::photo-macro-drop-grey}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-macro-drop-grey.png}}\\
+\subfigure[First smooth filter]{\label{fig::photo-macro-drop-smoothblur}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-macro-drop-smoothblur.png}}
+\subfigure[Adaptive threshold per regions]{\label{fig::photo-macro-drop-adaptivethreshold}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-macro-drop-adaptivethreshold.png}}\\
+\subfigure[Median filter]{\label{fig::photo-macro-drop-smoothmedian}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-macro-drop-smoothmedian.png}}
+\subfigure[Canny filter]{\label{fig::photo-macro-drop-canny}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-macro-drop-canny.png}}\\
 \end{center}
 \caption{{\small Image treatment step by step of PGMAW process}}
-\label{photo-macro-drop}
+\label{fig::photo-macro-drop}
 \end{figure}
 
 
@@ -526,11 +532,11 @@ Despite performance achieved by the image treatment, Canny filter
 For the macro drop profile, a user interaction algorithm is responsible
  to extract the continuous cord (white pixels) corresponding
  to the profile into a list. Note  that the macro drop and 
-the substrate have the same continuous profile (see figure \ref{photo-macro-drop-canny}).
+the substrate have the same continuous profile (see figure \ref{fig::photo-macro-drop-canny}).
  The substrate shadow projection is always the same if the optical
  path doesn't change. Therefore the users have only to choose, the
  first image in the experience series, one extreme  of the cord 
-corresponding to substrate profile (see figures \ref{photo-results-macro-drop-t1}).
+corresponding to substrate profile (see figures \ref{fig::photo-results-macro-drop-t1}).
  Then the algorithm finds all new white pixels inside small neighbor around
  the pixels selected by the user. Each new white pixel  is added to the
  profile list. Starting at each new pixel, this process continues,
@@ -539,10 +545,10 @@ corresponding to substrate profile (see figures \ref{photo-results-macro-drop-t1
  
 \begin{figure}[h!]
 \begin{center}    
-\subfigure[t = ]{\label{photo-results-macro-drop-t1}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-results-macro-drop-t1.png}}
-\subfigure[t = ]{\label{photo-results-macro-drop-t2}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-results-macro-drop-t2.png}}\\
-\subfigure[t = ]{\label{photo-results-macro-drop-t3}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-results-macro-drop-t3.png}}
-\subfigure[t = ]{\label{photo-results-macro-drop-t4}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-results-macro-drop-t4.png}}\\
+\subfigure[t1 ]{\label{fig::photo-results-macro-drop-t1}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-results-macro-drop-t1.png}}
+\subfigure[t2 ]{\label{fig::photo-results-macro-drop-t2}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-results-macro-drop-t2.png}}\\
+\subfigure[t3 ]{\label{fig::photo-results-macro-drop-t3}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-results-macro-drop-t3.png}}
+\subfigure[t4 ]{\label{fig::photo-results-macro-drop-t4}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-results-macro-drop-t4.png}}\\
 \end{center}
 \caption{{\small Images series of macro drop profiles}}
 \label{fig::photo-results-macro-drop}
@@ -551,7 +557,7 @@ corresponding to substrate profile (see figures \ref{photo-results-macro-drop-t1
 \textbf{Droplets}
 
 To the droplet edge section, the white points cord defines 
-the surface of the droplet. Note at figure \ref{photo-droplet-canny} that the biggest closer
+the surface of the droplet. Note at figure \ref{fig::photo-droplet-canny} that the biggest closer
  cord correspond to the droplet section. The idea is to build segments around
  the cords, and take the longest closer segment. 
                 
@@ -564,7 +570,7 @@ be built between wherever two points of $S$. However, to fulfill
 of a triangle and then each potential segment is a edge of a triangle. 
 The Delaunay triangulations guarantee a unique solution with minimal
  internal angles for each triangle, which means  minimal
- length sides to the triangles \cite{GEOMETRICAL}.
+ length sides to the triangles \cite{BERG}.
  Give $\beta$ the cord surrounding the external hull of the Delaunay
  triangulation of $S$. An alpha shape algorithm uses a $\alpha \in N$ parameter,
  or square radius of a test circle, to travel from outside $\beta$ to inside
@@ -578,30 +584,30 @@ with $i \in\{1,n\}$, a segment is marked between the respective vertices or
  every side in the triangulation,  then no segment is created and $\alpha$-shape
  became $S$. The points that compound the droplet section are all contact neighbors. Then $\alpha = 1$
  is sufficient to create a segment set around the droplet
- (see figure \ref{photo-droplet-alpha-shape}). 
+ (see figure \ref{fig::photo-droplet-alpha-shape}). 
                                   
 \begin{figure}[h!]
 \begin{center}    
-\subfigure[t = ]{\label{photo-droplet-canny}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-droplet-canny.png}}
-\subfigure[t = ]{\label{photo-droplet-alpha-shape}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-droplet-alpha-shape.png}}\\
+\subfigure[t = ]{\label{fig::photo-droplet-canny}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-droplet-canny.png}}
+\subfigure[t = ]{\label{fig::photo-droplet-alpha-shape}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-droplet-alpha-shape.png}}\\
 \end{center}
 \caption{{\small Images series of macro drop profiles}}
-\label{photo-results-droplet}
+\label{fig::photo-results-droplet}
 \end{figure}
 
 A graph algorithm connects this segment and finds the longest closer segment.
  The longest closer segment corresponds to the metal transfer drop profile 
-(see figure \ref{photo-results-droplet}).
+(see figure \ref{fig::photo-results-droplet}).
 
 \begin{figure}[h!]
 \begin{center}    
-\subfigure[t = ]{\label{photo-results-droplet-t1}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-results-droplet-t1.png}}
-\subfigure[t = ]{\label{photo-results-droplet-t2}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-results-droplet-t2.png}}\\
-\subfigure[t = ]{\label{photo-results-droplet-t3}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-results-droplet-t3.png}}
-\subfigure[t = ]{\label{photo-results-droplet-t4}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-results-droplet-t4.png}}\\
+\subfigure[t1 ]{\label{fig::photo-results-droplet-t1}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-results-droplet-t1.png}}
+\subfigure[t2 ]{\label{fig::photo-results-droplet-t2}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-results-droplet-t2.png}}\\
+\subfigure[t3 ]{\label{fig::photo-results-droplet-t3}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-results-droplet-t3.png}}
+\subfigure[t4 ]{\label{fig::photo-results-droplet-t4}\includegraphics[width=3.5cm,height=3.5cm]{images/photo-results-droplet-t4.png}}\\
 \end{center}
 \caption{{\small Images series of macro drop profiles}}
-\label{photo-results-droplet}
+\label{fig::photo-results-droplet}
 \end{figure}
 
 
@@ -609,15 +615,21 @@ A graph algorithm connects this segment and finds the longest closer segment.
 \label{geometrical_analize}
 Some of the geometrical analysis computation are directly in the
 library in order to allow low computation time cost.
+
 \subsubsection{Macrodrop}
+\label{macrodrop}
+
 After passing in the preceding, a chained list of points is obtained.
 Now it is possible to determine the geometrical parameters shown 
-at figure \ref{schema-macro-drop-droplet-parameters}. To compute the wetting 
+at figure \ref{fig::schema-macro-drop-droplet-parameters}. To compute the wetting 
 angle measure, linear regressions or least squares (parabolic, ellipse, circle) 
 are taken from the processed macro drop extracted profiles.
 A loop algorithm applies this method to all frames at the experience to compute the wetting 
 angles. Same procedure is used to estimate the macro drop radius and volume \cite{CHAPUIS}.
+
 \subsubsection{Droplets}
+\label{droplets}
+
 The metal transfert droplet is approximate and closed with a combination of $\alpha$-shape and
 graph algorithm as outlined in the preceding section.
 For the droplet, the external surface and the speed is searched.
@@ -630,6 +642,8 @@ computed.
 
 
 \section{ Results}
+\label{results}
+
 In this part some results, performance and reliability of the library for a set of experiments
 are shown. The basic experiment is a static PGMAW.
 A macrodrop is feed by droplets that are assumed to flight vertically and
@@ -643,6 +657,8 @@ The algoritms are tested on a i7 processor from Intel with 1.87Ghz RAM.
 
 
 \subsection{ Macro Drop growth investigation}
+\label{macro_drop_growth_investigation}
+
 The investigation of the macro drop growth for the two shielding gas needs the study of two quantities:
 
 \begin{itemize}
@@ -669,7 +685,8 @@ The treatment of each image lasts around 5ms. All the images was correctly treat
 of profile detection.
 
 \subsubsection{Basis and angle evolution} 
-Some profile detections are shown on figure \ref{fig::photo-results-macro-drop-t1,fig::photo-results-macro-drop-t4} on the macrodrop.
+\label{basis_and_angle_evolution}
+Some profile detections are shown on figure \ref{fig::photo-results-macro-drop} on the macrodrop.
  The developped algorithm manage to detect profile under the arc.
  To isolate only macrodrop profile, a thershold relative to the base material is used to extract the macrodrop profile.
 The result is shown on figure \ref{fig::profile_extract}. Then, basis and angle of the profile can be computed
@@ -714,7 +731,10 @@ a period, the local angle oscillation is more or less important. For pure Argon
 gas, the equilibrium angle (60 degrees) is rapidly reached and stays constant all along the welding.
 For the 8 per cent $CO_2$ gas, the angle increase until reaching a constant value of 60 degrees.
 
+
 \subsubsection{Discussions}
+\label{discussion}
+
 The noise in the measure for the basis could be attributed
 to oscillations of the macrodrop coupled to the threshold for the detection of the macrodrop.
 
@@ -754,7 +774,10 @@ This investigation demonstrates the interest of these kind of analysis for under
 involved in welding. It is also precise information for validation or comparison with numerical
 computation.
 
+
 \subsection{ Droplet flight}
+\label{ droplet_flight}
+
 Droplet flight investigation is of interest for weld quality and the metal deposition process.
 The determination of the motion and the impact point is then a good indicator of the quality of the
 process. The droplet flight is only investigated for the 8 per cent $CO_2$ for a pulse of 113 Hertz.
@@ -763,7 +786,11 @@ The treatment of each image takes between 5 to 45ms with geometrical algorithm (
 There is around  10 per cent bad image treatment  due to to some noise induced by welding. For these
 images, it was almost impossible to detect any profile.
 
+
+
 \subsubsection{Trajectories and droplet velocities}
+\label{trajectories_and_droplet_velocities}
+
 During one pulse, the droplet are detected. The shape are shown on figure \ref{fig::droplets}.
 
 \begin{figure}[h!]
@@ -801,7 +828,11 @@ The position of the center of mass of the droplet relative to the vertical axis 
 droplet has a constant speed. The speed is estimated between 350mm/s to 500mm/s depending on the pulse
 and the free flight of the droplet lasts around  3ms.
 
+
+
 \subsubsection{Discussions}
+\label{discussions}
+
 The oscillations of the droplet gives informations on the competition between surface tension and gravity
 \cite{White}.
 For the welding conditions of the experiment, the trajectories of the different pulse indicates 
@@ -817,7 +848,10 @@ Even if the four trajectories are similar, some discrepancies could be outlined.
 for the analysis let nice perspectives for the algorithm for the monitoring of the transfert.
 
 
+
 \section{ Conclusions}
+\label{conclusions}
+
 The aggregation of different libraries to identify profiles during noisy environment of welding process
 was successfully applied in static PGMAW. The different algorithms developped allows to detect PGMAW weld pool
 as well as metal transfert automatically. These could be very helpful the investigation of dynamic behaviour
