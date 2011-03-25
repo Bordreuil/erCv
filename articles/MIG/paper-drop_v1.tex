@@ -428,8 +428,8 @@ The main difficulty is to find algorithms with good parameters all along the pro
 
 
 
-\section{ The Analyzing methods}
-\label{ the_analyze_methods}
+\section{ Applying image processing}
+\label{ applying_image_processing}
 Image treatment and implemented algorithms are dependent of the optical setup and recording of images.
 Nevertheless even if shadowgraphy technic is modified, the algorithm to detect and measure profile during
 welding will still be valid by modifying some parameters.
@@ -521,10 +521,10 @@ which means maximum edge detection sensibility.
 \end{figure}
 
 
-\subsubsection{Edge extraction}
+\subsection{Edge extraction}
 \label{edge_extraction}
-\begin{description}
-\item[ Macrodrop]
+
+\subsubsection{Macrodrop}
 
 Despite performance achieved by the image treatment, Canny filter
  generates many edges, or cords, in the image. These cords are composed
@@ -557,14 +557,15 @@ corresponding to substrate profile (see figures \ref{fig::photo-results-macro-dr
 \caption{{\small Images series of macro drop profiles}}
 \label{fig::photo-results-macro-drop}
 \end{figure}
+
                
-\item[ Droplet]
+\subsubsection{Droplet}
+
 To the droplet edge section, the white points cord defines 
 the surface of the droplet. Note at figure \ref{fig::photo-droplet-canny} that the biggest closer
  cord correspond to the droplet section. The idea is to build segments around
  the cords, and take the longest closer segment. 
-                
-                
+                                
 Give $S$ the set of points in the space image. The segments could 
 be built between wherever two points of $S$. However, to fulfill
  the cords with segments, only the points placed together could define
@@ -613,7 +614,6 @@ A graph algorithm connects this segment and finds the longest closer segment.
 \label{fig::photo-results-droplet}
 \end{figure}
 
-\end{description}
 
 
 \subsection{Geometrical Analysis}
