@@ -276,8 +276,8 @@ speed $U_{a}$ (see figure \ref{fig::schema-macro-drop-droplet-parameters}).
 
 
 
-\section{Image processing} 
-\label{ image_processing}
+\section{Image processing tools} 
+\label{ image_processing_tools}
 
 Some definitions and brief description of general principles used in
  image processing are required to measure the profiles. Then, the design of the library 
@@ -369,7 +369,7 @@ Note that different regions can belong to the same partition,
 \subsection{Image treatment library}
 \label{image_treatment_library}
 
-A multipurpose image processing library was developed 
+A multipurpose image processing library has been developed 
 and currently use at the laboratory, in order to analyze welding process objects.
 erCv is able to perform edge detection and geometrical analysis in a different 
 welding objects such as Macro drop, droplets and weld pool.
@@ -426,13 +426,16 @@ The originality of the library comes from the agregation
 and complementarity of the different numerical tools.
 The main difficulty is to find algorithms with good parameters all along the process.
 
-\subsection{ The Analyzing methods}
+
+
+\section{ The Analyzing methods}
 \label{ the_analyze_methods}
 Image treatment and implemented algorithms are dependent of the optical setup and recording of images.
 Nevertheless even if shadowgraphy technic is modified, the algorithm to detect and measure profile during
 welding will still be valid by modifying some parameters.
 
-\subsubsection{ Image Calibration}
+
+\subsection{ Image Calibration}
 \label{ image_calibration}
 
 As was shown in section \ref{image_acquisition_setup}, the camera recording a 
@@ -444,7 +447,7 @@ correction is necessary. Only to calibrate the image dimension
 made. In our experiment, the known width of the welding wire leads to $conv = 1\ mm/ 20\ pixels$ . 
   
   
-\subsubsection{ Image Treatment}
+\subsection{ Image Treatment}
 \label{image_treatment}
 
 The idea is to extract the macro drop and droplet shapes 
@@ -478,12 +481,12 @@ to choose the correct size region where it will be applied. Small regions to thr
 will generate isolated patterns (groups of pixels). Big regions will generate
 a classical like threshold image \cite{SABER}. The region size dominium choose
 to threshold application is $23\times 23\ pixels$. The threshold criteria 
-choose is binary: $greyL_{thres}(x,y) = max_{value}$ if $greyL_{origin}(x,y) >  threshold(x,y)$
-or $greyL_{thres}(x,y) = 0$ otherwise, $\forall (x,y)$ inside the region
+choose is binary: $grey\_level\_threshold(x,y) = max\_value$ if $grey\_level\_origin(x,y) >  threshold(x,y)$
+or $grey\_level\_threshold(x,y) = 0$ otherwise, $\forall (x,y)$ inside the region
 to threshold \cite{OPENCV}. Where $threshold(x,y)$ is the threshold parameter,
- $max(value)$ is the grey level value choose to identify the pixels above
-threshold parameter, $greyL_{origin}(x,y)$ is the grey level value of pixel
- before threshold and $greyL_{thres}(x,y)$ is the pixel grey level after threshold.
+ $max\_value$ is the grey level value choose to identify the pixels above
+threshold parameter, $grey\_level\_origin(x,y)$ is the grey level value of pixel
+ before threshold and $grey\_level\_threshold(x,y)$ is the pixel grey level after threshold.
 $threshold(x,y)$ is obtain by subtraction between the average grey level of region
  pixels neighborhood and a constant parameter $C_{threshold}$.  
 Small edge defects can still be found, due to the previous smooth filter and some arc 
@@ -520,7 +523,8 @@ which means maximum edge detection sensibility.
 
 \subsubsection{Edge extraction}
 \label{edge_extraction}
-\textbf{Macrodrop}
+\begin{description}
+\item[ Macrodrop]
 
 Despite performance achieved by the image treatment, Canny filter
  generates many edges, or cords, in the image. These cords are composed
@@ -554,8 +558,7 @@ corresponding to substrate profile (see figures \ref{fig::photo-results-macro-dr
 \label{fig::photo-results-macro-drop}
 \end{figure}
                
-\textbf{Droplets}
-
+\item[ Droplet]
 To the droplet edge section, the white points cord defines 
 the surface of the droplet. Note at figure \ref{fig::photo-droplet-canny} that the biggest closer
  cord correspond to the droplet section. The idea is to build segments around
@@ -609,6 +612,8 @@ A graph algorithm connects this segment and finds the longest closer segment.
 \caption{{\small Images series of macro drop profiles}}
 \label{fig::photo-results-droplet}
 \end{figure}
+
+\end{description}
 
 
 \subsection{Geometrical Analysis}
