@@ -40,7 +40,7 @@ int main( int hola, char** file_name)
   
   //<<<<<<< .mine
   //   //wpa.doIt( "imageExemple_3.bmp");
-  std::string img_base="../pictures/melt_pool_TIG/tiro_6_bain/gtaw_for_edward_0587.bmp";
+  std::string img_base="../pictures/gtaw_for_edward_0587.bmp";
   for(int i = 1; i < 40;i++)
     {
       std::string filename = erLoadImageSeriesAnalysis( img_base, 10);
