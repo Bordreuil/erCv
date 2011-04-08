@@ -270,7 +270,7 @@ void erCvThresholdUser( IplImage* simg, erThresP* parm, bool with_trackbar)
 	  std::cin >> threshold[0];
 	  //  threshold[0] = 230;
 	  std::cout << std::endl;
-	  if( threstype == 1 or threstype == 2)
+	  if( threstype == 1 || threstype == 2)
 	    {
 	      std::cout << "Put the value of Second Threshold fonction (to 8-bit image = 255): ";
 	      std::cin >> threshold[1];
@@ -281,7 +281,7 @@ void erCvThresholdUser( IplImage* simg, erThresP* parm, bool with_trackbar)
       else
 	{
 	  itrak[0] = cvCreateTrackbar( "max_threshold", "Threshold_trackbar", &threshold[0], maxt, NULL);
-	  if( threstype == 1 or threstype == 2)
+	  if( threstype == 1 || threstype == 2)
 	    {
 	      itrak[1] = cvCreateTrackbar( "threshold", "Threshold_trackbar", &threshold[1], maxt, NULL);
 	    }
@@ -309,7 +309,7 @@ void erCvThresholdUser( IplImage* simg, erThresP* parm, bool with_trackbar)
   //parm->trh1 = cvGetTrackbarPos( "max_threshold", "Threshold_trackbar");
   //parm->trh2 = cvGetTrackbarPos( "threshold", "Threshold_trackbar");
   parm->trh1 = threshold[0];
-  if( threstype == 1 or threstype == 2)
+  if( threstype == 1 || threstype == 2)
     {
       parm->trh2 = threshold[1];
     }
@@ -319,7 +319,7 @@ void erCvThresholdUser( IplImage* simg, erThresP* parm, bool with_trackbar)
   file << "***********Filter fonction THRESHOLD***********\n";
   file << "Threshold :------------ " << parm->trh1 << std::endl;
   std::cout << "trh2: " << parm->trh1 << std::endl;
-  if( threstype == 1 or threstype == 2)
+  if( threstype == 1 || threstype == 2)
     {
       file << "SubThreshold:---------- " << parm->trh2 << std::endl;
       std::cout << "trh2: " << parm->trh2 << std::endl;
