@@ -21,7 +21,9 @@ TARGET_LINK_LIBRARIES(fusion_bain_move_python erCv ${OPENCV_LIBS})
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/fusion_bain_python.py
 			${CMAKE_CURRENT_BINARY_DIR}/fusion_bain_python.py
 			COPYONLY)
-
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/fusion_bain_move_python.py
+			${CMAKE_CURRENT_BINARY_DIR}/fusion_bain_move_python.py
+			COPYONLY)
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/imageExemple_1.bmp
 			${CMAKE_CURRENT_BINARY_DIR}/imageExemple_1.bmp
 			COPYONLY)

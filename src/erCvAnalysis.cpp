@@ -484,7 +484,7 @@ void erWeldPoolAnalysis::setOutputGeometryFile(std::string file) //** Le fichier
 {
   output_geometry_file = dir_analysis+"/"+file+"_wep"+".geo";
   std::ofstream out(output_geometry_file.c_str());
-  out << "Nom_du_fichier\t\tCentroid_x\tCentroid_y\tAire\tAxe_Princ_x\tAxe_Princ_y\tFit(0-1)\n";
+  out << "Nom_du_fichier\t\t\t\tCentroid_x\tCentroid_y\tAire\tAxe_Princ_x\tAxe_Princ_y\tFit(0-1)\n";
 
 };
 
@@ -532,7 +532,7 @@ bool erWeldPoolAnalysis::doIt(std::string fich)
   erCvThreshold( &ee, &param_threshold);
 
   erCvCanny( &ee, &param_canny);
-  erShowImage( "result canny 2", &ee);
+  //erShowImage( "result canny 2", &ee);
   //erSaveImage2Analysis( &ee, file_name, fich, "can");
 
   IsEqualTo is_equal_255(255);

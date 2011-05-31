@@ -46,7 +46,7 @@
 erCalibration::erCalibration(){};
 
 
-erCalibration::erCalibration( char* name_image_patron, char* name_image_mesure, int board_w, int board_h, char* file_dimention)
+erCalibration::erCalibration(const char* name_image_patron,const char* name_image_mesure, int board_w, int board_h, char* file_dimention)
 { 
   _board_w              = board_w;
   _board_h              = board_h;

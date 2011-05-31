@@ -34,7 +34,7 @@
 // knowledge of the CeCILL license and that you accept its terms.
 #include <erCv/utilities/erFileUtilities.hpp>
 
-bool erFileExists(char* name_file)
+bool erFileExists(const char* name_file)
 {   bool exist=true;
     FILE * file    = fopen(name_file,"r");
     if(file==NULL)

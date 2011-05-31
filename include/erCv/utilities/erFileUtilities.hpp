@@ -44,7 +44,7 @@
 /** \addtogroup utilities */
 /*@{*/
 /** \brief Permet de tester si un fichier dont le chemin est l argument existe */
-bool erFileExists( char*);
+bool erFileExists(const char*);
 /*@}*/
 
 #endif

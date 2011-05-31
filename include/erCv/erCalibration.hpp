@@ -85,7 +85,7 @@ public:
       \param int           : nombre des carres de l echequier a prendre en compte (hauteur)
       \param char*         : nom du ficher avec les facteurs de conversion
   */
-  erCalibration( char*,char*, int, int, char* file_dimention = "cuadro_size.dat");
+  erCalibration( const char*,const char*, int, int, char* file_dimention = "cuadro_size.dat");
 
   /** \brief Destructeur */
   ~erCalibration(); 
