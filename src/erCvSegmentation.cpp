@@ -37,7 +37,8 @@
 #include <erCv/erCvSegmentation.hpp>
 #include <iostream>
 #include <fstream>
-
+#include<map>
+#include<vector>
 struct coordinate
 {
   unsigned int x, y;

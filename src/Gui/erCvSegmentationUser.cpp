@@ -39,6 +39,8 @@
 #include <erCv/Gui/erCvSegmentationUser.hpp>
 #include <iostream>
 #include <fstream>
+#include<map>
+#include<vector>
 //#include "highgui.h"
 //#include <cstdio>
 
