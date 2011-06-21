@@ -502,15 +502,23 @@ bool erWeldPoolAnalysis::doIt(std::string fich)
   boost::tie(ea, loaded) = erLoadImage( file_name);
   if( !loaded) return false;
 
-  eb = erConvertToBlackAndWhite( &ea);
-  erSaveImage( &eb, file_name, nom);
- 
+
+  eb = erConvertToBlackAndWhite( &ea); 
+  char* nomc= const_cast< char*>( (output_name+"b&w").c_str());
+  erSaveImage( &eb, file_name, nomc);
+  erShowImage( "b&w", &eb);
+
   erWhiteBlobCorrection( &eb, &param_white_blob);
+  nomc = const_cast< char*>( (output_name+"blob").c_str());
+  erSaveImage(&eb,file_name,nomc);
+  erShowImage( "blob", &eb);  
   
+
   if( _with_calibration)
     {
       ec = _calibration.transform_image(eb);
-      erSaveImage(&ec,file_name,nom);
+      //erSaveImage(&ec,file_name, nom+'calib');
+      //erShowImage( "calib", &ec);
     }
   else
     {
@@ -520,35 +528,60 @@ bool erWeldPoolAnalysis::doIt(std::string fich)
   ed = erDef_ROI( &ec, &rectOI);
   
   erCvCanny( &ed, &param_canny);
- 
+  nomc= const_cast< char*>( (output_name+"canny").c_str());
+  erSaveImage( &ed, file_name, nomc);
+  erShowImage( "canny", &ed); 
+
   erCvDilate( &ed, &param_dilate);
+  nomc= const_cast< char*>( (output_name+"dilate").c_str());
+  erSaveImage( &ed, file_name, nomc);
+  erShowImage( "dilate", &ed);
 
   erCvSmooth( &ed, &param_smooth1);
+  nomc= const_cast< char*>( (output_name+"blur").c_str());
+  erSaveImage( &ed, file_name, nomc);
+  erShowImage( "blur", &ed);
 
   erCvSmooth( &ed, &param_smooth2);
+  nomc= const_cast< char*>( (output_name+"median").c_str());
+  erSaveImage( &ed, file_name, nomc);
+  erShowImage( "median", &ed);
 
   ee = erCvTemplate( &ed, &param_template);
+  nomc= const_cast< char*>( (output_name+"temp").c_str());
+  erSaveImage( &ee, file_name, nomc);
+  erShowImage( "temp", &ee);
 
   erCvThreshold( &ee, &param_threshold);
+  nomc= const_cast< char*>( (output_name+"thres").c_str());
+  erSaveImage( &ee, file_name, nomc);
+  erShowImage( "thres", &ee);
 
   erCvCanny( &ee, &param_canny);
+  nomc= const_cast< char*>( (output_name+"canny2").c_str());
+  erSaveImage( &ee, file_name, nomc);
+  erShowImage( "canny2", &ee);
   //erShowImage( "result canny 2", &ee);
   //erSaveImage2Analysis( &ee, file_name, fich, "can");
 
   IsEqualTo is_equal_255(255);
   erExtractCvPoints( cvPts, &ee, is_equal_255, rectOI);
- 
+
   convertCvToCgalpoints( cvPts, cgalPts);
+  nomc= const_cast< char*>( (output_name+"extract").c_str());
+  erPrintCgalPoint( cgalPts, file_name, nomc);
 
   alpha_edges( cgalPts, cgalSeg, &param_alpha_shape);
+  nomc= const_cast< char*>( (output_name+"alpha").c_str());
+  erPrintCgalPoint( cgalSeg, file_name, nomc);
 
   largest_closed_segment( cgalSeg, bgraphSeg);
-
-  erPrintCgalPoint( bgraphSeg, file_name, nom);
+  nomc= const_cast< char*>( (output_name+"closer").c_str());
+  erPrintCgalPoint( bgraphSeg, file_name, nomc);
 
   convex_hull( bgraphSeg, cgalPts2);
-
-  erPrintCgalPoint( cgalPts2, file_name, nom);
+  nomc= const_cast< char*>( (output_name+"convex").c_str());
+  erPrintCgalPoint( cgalPts2, file_name, nomc);
 
   double area;
 
