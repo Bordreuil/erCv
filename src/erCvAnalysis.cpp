@@ -32,6 +32,7 @@
 // 
 // The fact that you are presently reading this means that you have had
 // knowledge of the CeCILL license and that you accept its terms.
+
 #include <erCv/erCvAnalysis.hpp>
 #include <erCv/erCvFilters.hpp>
 #include <erCv/erCvSegmentation.hpp>
@@ -85,12 +86,20 @@ void erAnalysis::create()
 
 //ATTENTION erCalibration doit inclure un ficher avec les facteurs de conversion
 void erAnalysis::defineCalibration(std::string source,std::string target)
-{  char* source_c =  const_cast<char*>(source.c_str());
-   char*  target_c =   const_cast<char*>(target.c_str());
+{  char* source_c    =  const_cast<char*>(source.c_str());
+   char*  target_c   =   const_cast<char*>(target.c_str());
    _calibration      = erCalibration(source_c,target_c,3,3);
    _with_calibration = true;
 };
+void erAnalysis::setCurrentFileName(char* file)
+{
+  file_name = file;
+}
 
+char* erAnalysis::currentFileName()
+{
+  return file_name;
+}
 
 
 /* Analysis pour le macro drop */
@@ -166,13 +175,19 @@ void erMacroDropAnalysis::defineParameters( CvRect rect, erCerc cerc, erSmootP s
 bool erMacroDropAnalysis::doIt(std::string fich)
 {      bool loaded;
        char* file_name         = const_cast<char*>(fich.c_str());
-       std::string output_name = (dir_analysis+"/"+name+"_mcr");
-       char* nom               = const_cast<char*>(output_name.c_str());
-       erImage ea, eb, ec, ed; 
-       std::list<CvPoint> cvPts;       
+       setCurrentFileName(file_name);
+       erImage ea;
        boost::tie( ea, loaded) = erLoadImage( file_name);
        if( !loaded) return false;
-       erSaveImage( &ea, file_name, nom);
+       doItImage(ea);
+};
+bool erMacroDropAnalysis::doItImage(erImage& ea)
+{      
+       erImage  eb, ec, ed; 
+       std::list<CvPoint> cvPts;
+       std::string output_name = (dir_analysis+"/"+name+"_mcr");
+       char* nom               = const_cast<char*>(output_name.c_str());
+  
        eb = erConvertToBlackAndWhite( &ea);        
        ec = erDef_ROI( &eb, &rectOI); 
        //erShowImage("essai",&eb);
@@ -181,11 +196,11 @@ bool erMacroDropAnalysis::doIt(std::string fich)
        erCvAdaptiveThreshold( &ec, &param_adaptive_threshold);
        erCvSmooth( &ec, &param_smooth2);
        erCvCanny( &ec, &param_canny);
-       erSaveImage( &ec, file_name, nom);
+       erSaveImage( &ec, currentFileName(), nom);
        IsEqualTo is_equal_255( 255); 
        erExtractCvPoints( cvPts, &ec, is_equal_255, rectOI);
-       erExtractCurveMacroDrop( cvPts, &ec, rectOI, &cercToStart, file_name);
-       erPrintCvPoint( cvPts, file_name, nom); 
+       erExtractCurveMacroDrop( cvPts, &ec, rectOI, &cercToStart,currentFileName());
+       erPrintCvPoint( cvPts,currentFileName(), nom); 
        
        return true;
 };
@@ -245,26 +260,29 @@ bool erMetalTransfertAnalysis::defineParametersUI( std::string firstImage)
   boost::tie( ea, loaded) = erLoadImage( file_name);
   if(!loaded) return false;
   eb = erConvertToBlackAndWhite( &ea); /* Conversion en 8 bit single channel */
-  ec = erDef_ROIuser( &eb, &rect);
+  ec = erDef_ROIuser( &eb, &rect,true);
   rectOI = rect;
   erCvSmoothUser( &ec, &psmo);
   param_smooth1 = psmo;
-  erCvAdaptiveThresholdUser( &ec, &padt);
+  erCvAdaptiveThresholdUser( &ec, &padt,true);
   param_adaptive_threshold = padt;
   erCvSmoothUser( &ec, &psmo1);
   param_smooth2 = psmo1;
-  erCvCannyUser( &ec, &pcan);
+  erCvCannyUser( &ec, &pcan,true);
   param_canny = pcan;
 
   IsEqualTo is_equal_255( 255);
 
   erExtractCvPoints( cvPts, &ec, is_equal_255, rect); /* Extraction */
   convertCvToCgalpoints( cvPts, cgalPts);
+  
   alpha_edges_user( cgalPts, cgalSeg, &palp);
   param_alpha_shape = palp;
   largest_closed_segment( cgalSeg, bgraphSeg);
+
   char* nom = const_cast< char*>( name.c_str());
   erPrintCgalPoint( bgraphSeg, file_name, nom);
+
   return true; 
 };
 
@@ -272,12 +290,12 @@ bool erMetalTransfertAnalysis::defineParametersUI( std::string firstImage)
 
 void erMetalTransfertAnalysis::defineParameters( CvRect rect, erSmootP smooth1, erSmootP smooth2, erCannyP cann, erAdThrP adthr, erAlphaP alphas)
 {
-  rectOI = rect;
-  param_smooth1 = smooth1;
-  param_smooth2 = smooth2;
-  param_canny   = cann;
+                    rectOI = rect;
+             param_smooth1 = smooth1;
+             param_smooth2 = smooth2;
+               param_canny = cann;
   param_adaptive_threshold = adthr;
-  param_alpha_shape = alphas;
+         param_alpha_shape = alphas;
 };
 
 void erMetalTransfertAnalysis::setOutputGeometryFile(std::string file) //** Le fichier existant est ecrase!!
@@ -290,33 +308,32 @@ void erMetalTransfertAnalysis::setOutputGeometryFile(std::string file) //** Le f
 
 bool erMetalTransfertAnalysis::doIt( std::string fich)
 {
+  erImage ea;
   bool loaded;
   char* file_name         = const_cast< char*>( fich.c_str());
-  std::string output_name = (dir_analysis+"/"+name+"_mtl");
-  char* nom = const_cast< char*>( output_name.c_str());
-  erImage ea, eb, ec;
+  setCurrentFileName(file_name);
+ boost::tie(ea, loaded) = erLoadImage( file_name);
+  if( !loaded) return false;
+  doItImage(ea);
+};
+bool erMetalTransfertAnalysis::doItImage(erImage& ea)
+{
+  erImage eb, ec;
   std::list< CvPoint>   cvPts;
   std::list< CgalPoint> cgalPts;
   std::list< CgalSegmt> cgalSeg, bgraphSeg;
-  //____________
   erEqualP pequ;
-  //____________
 
-  boost::tie(ea, loaded) = erLoadImage( file_name);
-  if( !loaded) return false;
-  erSaveImage( &ea, file_name, nom);
+  std::string output_name = (dir_analysis+"/"+name+"_mtl");
+  char* nom = const_cast< char*>( output_name.c_str());
+  std::cout << currentFileName() << " " << nom << std::endl;
+  erSaveImage( &ea,currentFileName(), nom);
+ 
   eb = erConvertToBlackAndWhite( &ea);
-  //erSaveImage2( &eb, file_name, nom, "baw");
-
+ 
   ec = erDef_ROI( &eb, &rectOI);
-  //ec = eb;
-
+ ;
   erCvSmooth( &ec, &param_smooth1);
-  //erSaveImage2( &ec, file_name, nom, "sm1");
-
-//   pequ.applic = 0;
-//   erCvEqualizeHist( &ec, &pequ);
-//   erSaveImage2( &ec, file_name, nom, "equ");
 
   erCvAdaptiveThreshold( &ec, &param_adaptive_threshold);
   //erSaveImage2( &ec, file_name, nom, "adp");
@@ -325,8 +342,6 @@ bool erMetalTransfertAnalysis::doIt( std::string fich)
   //erSaveImage2( &ec, file_name, nom, "sm2");
 
   erCvCanny( &ec, &param_canny);
-  //erSaveImage2( &ec, file_name, nom, "can");
- 
 
   IsEqualTo is_equal_255( 255);
   erExtractCvPoints( cvPts, &ec, is_equal_255, rectOI);
@@ -338,7 +353,8 @@ bool erMetalTransfertAnalysis::doIt( std::string fich)
   //erPrintCgalPoint( cgalSeg, file_name, nom);
     
   largest_closed_segment( cgalSeg, bgraphSeg);
-  erPrintCgalPoint( bgraphSeg, file_name, nom);
+  std::cout << currentFileName() << std::endl;
+  erPrintCgalPoint( bgraphSeg,currentFileName(), nom);
 
   if(output_geometry_characteristics && bgraphSeg.size() > 6)
     {
@@ -349,7 +365,7 @@ bool erMetalTransfertAnalysis::doIt( std::string fich)
       CgalFTrai fit = linear_least_squares_fitting_2(triangs.begin(),triangs.end(),line,pt,CGAL::Dimension_tag<2>());	
       std::ofstream ot(output_geometry_file.c_str(),std::ios_base::app);
       CgalVect vect=line.to_vector();
-      ot << std::setprecision(10) << fich << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
+      ot << std::setprecision(10) << currentFileName() << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
     };
  
 
@@ -417,36 +433,50 @@ bool erWeldPoolAnalysis::defineParametersUI( std::string firstImage)
   if(!loaded) return false;
   
   eb = erConvertToBlackAndWhite( &ea);
-
-  erWhiteBlobCorrectionUser( &eb, &pwhi);
+  
+  //erWhiteBlobCorrectionUser( &eb, &pwhi);
+  //erWhiteBloborCorrection( &eb);
   param_white_blob = pwhi;
 
-  erCalibration ca( "cuadro5-rescale-511.jpg", "rec_droite_256_2.bmp", 3, 3);
-  ec = ca.transform_image(eb);
-  //erSaveImage2( &eb, name, exit, "tra");
+  if( _with_calibration)
+    {
+      ec = _calibration.transform_image(eb);
+      //erSaveImage(&ec,file_name, nom+'calib');
+      //erShowImage( "calib", &ec);
+    }
+  else
+    {
+      ec = eb;
+    };
   
-  ed = erDef_ROIuser( &ec, &rect);
+  
+  ed = erDef_ROIuser( &ec, &rect,true);
   rectOI = rect;
-
-  erCvCannyUser( &ed, &pcan);
-  param_canny = pcan;
-  
-  erCvDilateUser( &ed, &pdil);
-  param_dilate = pdil;
-  
   erCvSmoothUser( &ed, &psmo1);
   param_smooth1 = psmo1;
+ 
 
+  ed = erCvTemplateUser( &ed, &ptem,true);
+  param_template = ptem;
+
+
+  erCvCannyUser( &ed, &pcan,true);
+  param_canny = pcan;
+  
+  erCvDilateUser( &ed, &pdil,true);
+  param_dilate = pdil;
   erCvSmoothUser( &ed, &psmo2);
   param_smooth2 = psmo2;
+  /** erCvSmoothUser( &ed, &psmo1);
+      param_smooth1 = psmo1; */
 
-  ee = erCvTemplateUser( &ed, &ptem);
-  param_template = ptem;
+  //ee = erCvTemplateUser( &ed, &ptem,true);
+  //param_template = ptem;
   
-  erCvThresholdUser( &ee, &pthr);
+  erCvThresholdUser( &ed, &pthr,true);
   param_threshold = pthr;
   
-  erCvCannyUser( &ee, &pcan);
+  erCvCannyUser( &ee, &pcan,true);
   param_canny = pcan;
   
   IsEqualTo is_equal_255(255);
@@ -492,28 +522,37 @@ bool erWeldPoolAnalysis::doIt(std::string fich)
 { 
   bool loaded;
   char* file_name         = const_cast< char*>( fich.c_str());
-  std::string output_name = (dir_analysis+"/"+name+"_wep");
-  char* nom = const_cast< char*>( output_name.c_str());
-  erImage ea, eb, ec, ed, ee;
+  setCurrentFileName(file_name);
+  erImage ea;
+  
+  boost::tie(ea, loaded) = erLoadImage( file_name);
+  if( !loaded)return false;
+  doItImage(ea);
+};
+bool erWeldPoolAnalysis::doItImage(erImage& ea)
+{
+  erImage  eb, ec, ed, ee;
   std::list< CvPoint>   cvPts;
   std::list< CgalPoint> cgalPts, cgalPts2;
   std::list< CgalSegmt> cgalSeg, bgraphSeg;
-  
-  boost::tie(ea, loaded) = erLoadImage( file_name);
-  if( !loaded) return false;
-
-
+  std::string output_name = (dir_analysis+"/"+name+"_wep");
+  char* nom = const_cast< char*>( output_name.c_str());
   eb = erConvertToBlackAndWhite( &ea); 
   char* nomc= const_cast< char*>( (output_name+"b&w").c_str());
-  erSaveImage( &eb, file_name, nomc);
+  
+  erSaveImage( &eb,currentFileName(), nomc);
   erShowImage( "b&w", &eb);
 
   erWhiteBlobCorrection( &eb, &param_white_blob);
   nomc = const_cast< char*>( (output_name+"blob").c_str());
   erSaveImage(&eb,file_name,nomc);
   erShowImage( "blob", &eb);  
-  
-
+  /** Modif temp */
+  erCvSmooth( &eb, &param_smooth1);
+  nomc= const_cast< char*>( (output_name+"blur").c_str());
+  erSaveImage( &eb,currentFileName(), nomc);
+  erShowImage( "blur", &eb);
+  /** Jusque la */
   if( _with_calibration)
     {
       ec = _calibration.transform_image(eb);
@@ -529,37 +568,37 @@ bool erWeldPoolAnalysis::doIt(std::string fich)
   
   erCvCanny( &ed, &param_canny);
   nomc= const_cast< char*>( (output_name+"canny").c_str());
-  erSaveImage( &ed, file_name, nomc);
+  erSaveImage( &ed,currentFileName(), nomc);
   erShowImage( "canny", &ed); 
 
   erCvDilate( &ed, &param_dilate);
   nomc= const_cast< char*>( (output_name+"dilate").c_str());
-  erSaveImage( &ed, file_name, nomc);
+  erSaveImage( &ed,currentFileName(), nomc);
   erShowImage( "dilate", &ed);
-
+  /**
   erCvSmooth( &ed, &param_smooth1);
   nomc= const_cast< char*>( (output_name+"blur").c_str());
   erSaveImage( &ed, file_name, nomc);
   erShowImage( "blur", &ed);
-
+  */
   erCvSmooth( &ed, &param_smooth2);
   nomc= const_cast< char*>( (output_name+"median").c_str());
-  erSaveImage( &ed, file_name, nomc);
+  erSaveImage( &ed,currentFileName(), nomc);
   erShowImage( "median", &ed);
 
   ee = erCvTemplate( &ed, &param_template);
   nomc= const_cast< char*>( (output_name+"temp").c_str());
-  erSaveImage( &ee, file_name, nomc);
+  erSaveImage( &ee,currentFileName(), nomc);
   erShowImage( "temp", &ee);
 
   erCvThreshold( &ee, &param_threshold);
   nomc= const_cast< char*>( (output_name+"thres").c_str());
-  erSaveImage( &ee, file_name, nomc);
+  erSaveImage( &ee,currentFileName() , nomc);
   erShowImage( "thres", &ee);
 
   erCvCanny( &ee, &param_canny);
   nomc= const_cast< char*>( (output_name+"canny2").c_str());
-  erSaveImage( &ee, file_name, nomc);
+  erSaveImage( &ee,currentFileName(), nomc);
   erShowImage( "canny2", &ee);
   //erShowImage( "result canny 2", &ee);
   //erSaveImage2Analysis( &ee, file_name, fich, "can");
@@ -569,19 +608,19 @@ bool erWeldPoolAnalysis::doIt(std::string fich)
 
   convertCvToCgalpoints( cvPts, cgalPts);
   nomc= const_cast< char*>( (output_name+"extract").c_str());
-  erPrintCgalPoint( cgalPts, file_name, nomc);
+  erPrintCgalPoint( cgalPts, currentFileName(), nomc);
 
   alpha_edges( cgalPts, cgalSeg, &param_alpha_shape);
   nomc= const_cast< char*>( (output_name+"alpha").c_str());
-  erPrintCgalPoint( cgalSeg, file_name, nomc);
+  erPrintCgalPoint( cgalSeg,currentFileName(), nomc);
 
   largest_closed_segment( cgalSeg, bgraphSeg);
   nomc= const_cast< char*>( (output_name+"closer").c_str());
-  erPrintCgalPoint( bgraphSeg, file_name, nomc);
+  erPrintCgalPoint( bgraphSeg,currentFileName(), nomc);
 
   convex_hull( bgraphSeg, cgalPts2);
   nomc= const_cast< char*>( (output_name+"convex").c_str());
-  erPrintCgalPoint( cgalPts2, file_name, nomc);
+  erPrintCgalPoint( cgalPts2,currentFileName(), nomc);
 
   double area;
 
@@ -591,7 +630,7 @@ bool erWeldPoolAnalysis::doIt(std::string fich)
 
       std::string output_nam = (dir_analysis+"/"+name+"_wep_poly");
       char* name = const_cast< char*>( output_nam.c_str());
-      erPrintCgalPoint(polygon,file_name,name);
+      erPrintCgalPoint(polygon,currentFileName(),name);
       Polygon_2 poly(polygon.begin(),polygon.end());
       area = poly.area();
     };
@@ -607,7 +646,7 @@ bool erWeldPoolAnalysis::doIt(std::string fich)
       CgalFTrai fit = linear_least_squares_fitting_2(triangs.begin(),triangs.end(),line,pt,CGAL::Dimension_tag<2>());	
       std::ofstream ot(output_geometry_file.c_str(),std::ios_base::app);
       CgalVect vect=line.to_vector();
-      ot << std::setprecision(10) << fich << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
+      ot << std::setprecision(10) << currentFileName() << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
     };
   return true;
  
@@ -800,7 +839,7 @@ bool erLaserPrototypageAnalysis::doIt_diffuse(std::string fich)
       CgalFTrai fit = linear_least_squares_fitting_2(triangs.begin(),triangs.end(),line,pt,CGAL::Dimension_tag<2>());	
       std::ofstream ot(output_geometry_file.c_str(),std::ios_base::app);
       CgalVect vect=line.to_vector();
-      ot << std::setprecision(10) << fich << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
+      ot << std::setprecision(10) << currentFileName() << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
     };
   return true;
 };
@@ -812,18 +851,24 @@ bool erLaserPrototypageAnalysis::doIt(std::string fich)
 { 
   bool loaded;
   char* file_name         = const_cast< char*>( fich.c_str());
+  setCurrentFileName(file_name);
+  erImage ea;
+  boost::tie(ea, loaded) = erLoadImage( file_name);
+  if( !loaded) return false;
+  doItImage(ea);
+};
+bool erLaserPrototypageAnalysis::doItImage(erImage& ea)
+{
+
   std::string output_name = (dir_analysis+"/"+name+"_wep");
   char* nom = const_cast< char*>( output_name.c_str());
-  erImage ea, eb, ec, ed, ee;
+  erImage eb, ec, ed, ee;
   std::list< CvPoint>   cvPts;
   std::list< CgalPoint> cgalPts;
   std::list< CgalSegmt> cgalSeg, bgraphSeg;
   
-  boost::tie(ea, loaded) = erLoadImage( file_name);
-  if( !loaded) return false;
-
   ec = erConvertToBlackAndWhite( &ea);
-  erSaveImage( &ec, file_name, nom);
+  erSaveImage( &ec,currentFileName(), nom);
 
   ed = erDef_ROI( &ec, &rectOI);
   
@@ -852,14 +897,14 @@ bool erLaserPrototypageAnalysis::doIt(std::string fich)
 
   largest_closed_segment( cgalSeg, bgraphSeg);
 
-  erPrintCgalPoint( bgraphSeg, file_name, nom);
+  erPrintCgalPoint( bgraphSeg,currentFileName(), nom);
  
   if(output_convex_polygon)
   {
       std::list<CgalPoint> polygon = erGeometryExtractConvexPolygon(bgraphSeg.begin(),bgraphSeg.end());
       std::string output_nam = (dir_analysis+"/"+name+"_wep_poly");
       char* name = const_cast< char*>( output_nam.c_str());
-      erPrintCgalPoint(polygon,file_name,name);
+      erPrintCgalPoint(polygon,currentFileName(),name);
     };
 
   if(output_geometry_characteristics && bgraphSeg.size() > 6)
@@ -871,7 +916,7 @@ bool erLaserPrototypageAnalysis::doIt(std::string fich)
       CgalFTrai fit = linear_least_squares_fitting_2(triangs.begin(),triangs.end(),line,pt,CGAL::Dimension_tag<2>());	
       std::ofstream ot(output_geometry_file.c_str(),std::ios_base::app);
       CgalVect vect=line.to_vector();
-      ot << std::setprecision(10) << fich << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
+      ot << std::setprecision(10) << currentFileName() << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
     };
   return true;
 };

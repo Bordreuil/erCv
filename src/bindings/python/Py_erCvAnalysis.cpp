@@ -1,5 +1,5 @@
 #include "boost/python.hpp"
-
+#include "pyublas/numpy.hpp"
 #include "erCv/erCvAnalysis.hpp"
 
 namespace bp = boost::python;
@@ -24,7 +24,10 @@ struct erAnalysis_wrapper : erAnalysis, bp::wrapper< erAnalysis > {
     bp::override func_doIt = this->get_override( "doIt" );
     return func_doIt( arg0 );
   }
-  
+  virtual bool doItImage(erImage& arg0 ){
+    bp::override func_doItImage = this->get_override( "doItImage" );
+    return func_doItImage( arg0 );
+  }
 };
 
 
@@ -100,12 +103,43 @@ struct erMetalTransfertAnalysis_wrapper : erMetalTransfertAnalysis, bp::wrapper<
     else
       return this->erMetalTransfertAnalysis::doIt( arg0 );
   }
-  
+  virtual bool doItImage( erImage& arg0 ) {
+    if( bp::override func_doItImage = this->get_override( "doItImage" ) )
+      return func_doItImage( arg0 );
+    else
+      return this->erMetalTransfertAnalysis::doItImage( arg0 );
+  }
   
   bool default_doIt( std::string arg0 ) {
     return erMetalTransfertAnalysis::doIt( arg0 );
   }
-  
+  bool doItNumPy(pyublas::numpy_array<unsigned short>& arr)
+  {
+    const npy_intp* dims = arr.dims();
+    
+    int ncol = dims[0];
+    int nlig = dims[1];
+    unsigned short* storage = arr.data();
+    setCurrentFileName("test_1.bmp");
+    
+    IplImage* im = cvCreateImage(cvSize(ncol,nlig),IPL_DEPTH_8U,3);
+    std::cout << im->width << " " << im->height << std::endl;
+    //CvScalar val;
+    for(int i=0;i<ncol;i++)
+      {
+	for(int j=0;j < nlig;j++)
+	  { 
+	    unsigned short va = storage[i*ncol+j]*256/65536;
+	    CvScalar val = cvScalarAll(va);
+	    cvSet2D(im,i,j,val);
+	  };
+      }; 
+
+    erImage eim(im);
+    doItImage(eim);
+
+    return true;
+  }
 };
 
 struct erWeldPoolAnalysis_wrapper : erWeldPoolAnalysis, bp::wrapper< erWeldPoolAnalysis > {
@@ -253,7 +287,11 @@ void export_erCvAnalysis(){
 	 "doIt"
 	 , (bool ( ::erMetalTransfertAnalysis::* )( std::string ) )(&::erMetalTransfertAnalysis::doIt)
 	 , (bool ( erMetalTransfertAnalysis_wrapper::* )( std::string ) )(&erMetalTransfertAnalysis_wrapper::default_doIt)
-	 , ( bp::arg("arg0") ) )    
+	 , ( bp::arg("arg0") ) )
+    .def(
+	 "doItNumPy"
+	 ,  (bool ( ::erMetalTransfertAnalysis_wrapper::* )( boost::python::numeric::array& ) )(&::erMetalTransfertAnalysis_wrapper::doItNumPy))
+  
     //.def( 
     //         "loadParameters"
     //         , (void ( ::erMetalTransfertAnalysis::* )( std::string ) )( &::erMetalTransfertAnalysis::loadParameters )

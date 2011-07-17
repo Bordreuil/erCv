@@ -48,7 +48,13 @@
 /** \defgroup erAnalysis Analysis  */
 /** \addtogroup erAnalysis */
 /**\{*/
-/** Classe de base pour l ensemble des analyse d erCv, c est une classe purement virtuelle
+/* \brief Ce module contient un ensemble de methode qui sont encapsulees dans des 
+   classes adapatees a chaque type de recherche d informations recherchees
+ */
+/*
+
+ \brief Classe de base pour l ensemble des analyse d erCv, c est une classe purement virtuelle
+
  */
 struct erAnalysis
 {
@@ -66,27 +72,27 @@ struct erAnalysis
      \param infoFile : nom du fichier ou sont ecrit le blabla
    */
   erAnalysis( std::string name, std::string infofile="info"); 
-
+  /**
+     Methode permettant de creer l'analyse dans les classes derivees
+   */
   void  create( ); 
 
   /** Creation de la matrix de calibration pour les images
    */
   void  defineCalibration( std::string, std::string);
+  char*  currentFileName();
+  void   setCurrentFileName(char*);
 
-  /** Application de l Analysis avec des parametres introduit dans le ficher de finition de l 'experiance.
-      Le cas doIt_diffuse correspond a un type particulier d Analysis pour les images de bain fusion effectues avec un procede laser
+  /* \brief Application de l Analysis avec des parametres introduit dans le ficher de finition de l 'experiance.
    */
-  //virtual bool doIt_diffuse( std::string)=0; 
-
-  /** Application de l Analysis avec des parametres introduit dans le ficher de finition de l 'experiance.
-   */
-  virtual bool doIt( std::string)=0; 
-
+  virtual bool doIt     ( std::string)=0; 
+  virtual bool doItImage(erImage&)   =0;
   std::string          infoFile;      /** < Fichier de sortie des infos */
   std::string          name;          /** < Nom a donner a l analyse */
   std::string          dir_analysis;  /** < Repertoire de la analyse en general name+_erCvAnalysis */  
   erCalibration        _calibration;
   bool                 _with_calibration;  // Pour savoir si on active la calibration
+  char* file_name;
 };
 
 
@@ -123,50 +129,79 @@ struct erMacroDropAnalysis:public erAnalysis
       \param erEqualP     : equalizateur d histogrames
    */
   void defineParameters( CvRect, erCerc, erSmootP, erSmootP, erCannyP, erAdThrP, erEqualP equal=erEqualP(1)); /** < Passages Parametres en dur */
+
   bool doIt( std::string);  /** < Analyse sur le fichier */
+  bool doItImage(erImage&);
   void saveParameters( std::string);
   void loadParameters( std::string);
-  CvRect         rectOI;                       /** < Rectangle qui demarque la zone d interet  */
-  erCerc         cercToStart;                  /** < Cercle qui demarque le debut de la curve que sousligne le profil de la macro goutte */
-  erEqualP       param_equalizer_histogram;    /** < 0 si l equalizateur est active: Augmente le contraste de l image ( image en niveau des gris)
-						   < 1 si l equalizateur n'est pas active: Contraste naturel de l image 
+  CvRect         rectOI;                       /*< Rectangle qui demarque la zone d interet  */
+  erCerc         cercToStart;                  /* < Cercle qui demarque le debut de la curve que sousligne le profil de la macro goutte */
+  erEqualP       param_equalizer_histogram;    /* < 0 si l equalizateur est active: Augmente le contraste de l image ( image en niveau des gris)
+						    1 si l equalizateur n'est pas active: Contraste naturel de l image 
 					       */
   erSmootP       param_smooth1, param_smooth2; /** 
-						   Premier lissage du type BLUR: Augmente ou diminue l homegenite de l image.
-						   Valeurs possibles numeros impairs: 1, 3, 5, ..., 2n+1 avec n Naturel.						   
-						   Pour    +> Uniformise les niveaux de gris a l interieur du la macro goutte
-						   Contre +> Rendre difficil la detection du bord entre la macro goutte et les zones dans l espace a faible contraste
-						   Pour    <- Plus facil la detection du contour de la macro goutte dans les zones a faible contraste
-						   Contre <- Reduit l unfirmite a l interieur de la macro goutte, donc plus difficil de determiner quelle est la macro goutte
+						   Premier lissage du type BLUR: Augmente ou diminue 
+						   l homegenite de l image. Valeurs possibles numeros
+						   impairs: 1, 3, 5, ..., 2n+1 avec n Naturel.						   
+						   Pour    +> Uniformise les niveaux de gris a l interieur
+						   du la macro goutte
+						   Contre +> Rendre difficil la detection du bord 
+						   entre la macro goutte et les zones dans l espace a faible contraste
+						   
+						   Pour    <- Plus facile la detection du contour 
+						   de la macro goutte dans les zones a faible contraste
+						   Contre <- Reduit l unfirmite a l interieur 
+						   de la macro goutte, donc plus difficile de
+						   determiner quelle est la macro goutte
 						   
 						   Deuxieme lissage du type MEDIAN 
-						   Valeurs possibles numeros impairs: 1, 3, 5, ..., 2n+1 avec n Naturel.
-						   Pour    +> Unifie les zones a egal niveau de gris, en reduisant les espace blanche entre les dites zones, si celle-ci sont minoritaires et rares
-						   Contre +> Peut ajouter des elements externes a la macro goutte et modifier sa forme et taille, notament vers les extremites de l image
-						   Pour    <- Ameliore la perception de la taille reel de la macro goutte
+						   Valeurs possibles numeros impairs: 1, 3, 5, ...,
+						   2n+1 avec n Naturel.
+						   Pour    +> Unifie les zones a egal niveau de gris, 
+						   en reduisant les espace blanche entre les dites zones, 
+						   si celle-ci sont minoritaires et rares
+						   
+						   Contre +> Peut ajouter des elements externes a 
+						   la macro goutte et modifier sa forme et taille, 
+						   notament vers les extremites de l image
+						   
+						   Pour    <- Ameliore la perception 
+						   de la taille reel de la macro goutte
 						   Contre <- Peut  modifier la forme de la macro goutte
 					       */
   erCannyP       param_canny;                  /** 
-						   Valeurs pour discriminer les bordes principaux selon le filtre de canny (Threshold I et II):
+						   Valeurs pour discriminer les bords 
+						   principaux selon le filtre de canny (Threshold I et II):
 						   Valeurs possibles [0, 500]						   
 						   Pour    +> Reduit le nombre de bords secondaire detectes par la filtre 
-						   Contre +> Reduit la posibilite d obtenir un contour continue sur le profil de la macro goutte ( si le bord n'est pas bien definie)
+						   Contre +> Reduit la posibilite d obtenir un 
+						   contour continue sur le profil de la macro goutte 
+						   ( si le bord n'est pas bien definie)
 						   Pour    <- Ameliore la posibilite d obtenier un contour continue
-						   Contre <- Augmente le nombre de bord secondaire qui aparetraint dans l image final
+						   Contre <- Augmente le nombre de bord secondaire 
+						   qui aparetraint dans l image final
 					       */
   erAdThrP       param_adaptive_threshold;     /** 
 						   Seuil adaptative par zones
 						   Valeurs possibles [0, 255]
 
 						   Seuil applique par zones:
-						   Pour    +> Ameliore la detection de la macro goutte dans le zones de faible contraste (aux extremes et somet de la goutte)
-						   Contre +> Peut mixer le profil de la macroi goutte avec les zones a forte contraste dans l espace interelectrode
-						   Pour    <- Empeche la confusion du profil de la macro goutte avec des elements externes dans l espace interelectrode
+						   Pour    +> Ameliore la detection de la macro 
+						   goutte dans le zones de faible contraste (aux 
+						   extremes et somet de la goutte)
+						   Contre +> Peut mixer le profil de la macroi goutte 
+						   avec les zones a forte contraste dans l espace interelectrode
+						   Pour    <- Empeche la confusion du profil de la 
+						   macro goutte avec des elements externes dans l espace interelectrode
 						   Contre <- 
 
 						   Zone d application du seuillage:
-						   Pour    +> Ameliore la densite de la macro goutte (reunis le zones non conexes de la macro goutte)
-						   Contre +> Reunis toutes le zones de l image dans une seule niveau de gris (seuil maximal de gris)
+						   Pour    +> Ameliore la densite de la macro goutte 
+						   (reunis le zones non conexes de la macro goutte)
+						   
+						   Contre +> Reunis toutes le zones de l image dans un seul
+						   niveau de gris (seuil maximal de gris)
+						   
 						   Pour    <- Permet de ajuster le mieu la taille reel de la macro goutte
 						   Contre <- Reunis toutes les zones de l image dans une seul niveau (blanche)
 					       */
@@ -212,7 +247,7 @@ struct erMetalTransfertAnalysis:public erAnalysis
       \param std::string : nom de l image
    */
   bool doIt( std::string);
-
+  bool doItImage(erImage&);
   /** Enregistrement des parametres
       \param std::string : nom de l image
   */
@@ -230,38 +265,55 @@ struct erMetalTransfertAnalysis:public erAnalysis
 							Premier lissage du type BLUR: Augmente ou diminue l homegenite de l image.
 							Valeurs possibles numeros impairs: 1, 3, 5, ..., 2n+1 avec n Naturel.						   
 							Pour    +> Uniformise les niveaux de gris a l interieur du la goutelette
-							Contre +> Rendre difficil la detection du bord entre la goutelette et les zones dans l espace a faible contraste
-							Pour    <- Plus facil la detection du contour de la goutelette dans les zones a faible contraste
-							Contre <- Reduit l unfirmite a l interieur de la goutelette, donc plus difficil de determiner quelle est la macro goutte
+							Contre +> Rendre difficil la detection du bord entre
+							la goutelette et les zones dans l espace a faible contraste
+							Pour    <- Plus facil la detection du contour de la goutelette
+							dans les zones a faible contraste
+							Contre <- Reduit l unfirmite a l interieur de la goutelette, 
+							donc plus difficil de determiner quelle est la macro goutte
 							
 							Deuxieme lissage du type MEDIAN 
 							Valeurs possibles numeros impairs: 1, 3, 5, ..., 2n+1 avec n Naturel.
-							Pour    +> Unifie les zones a egal niveau de gris, en reduisant les espace blanche entre les dites zones, si celle-ci sont minoritaires et rares
-							Contre +> Peut ajouter des elements externes a la goutelette et modifier sa forme et taille, notament vers les extremites de l image
+							Pour    +> Unifie les zones a egal niveau de gris,
+							en reduisant les espace blanche entre les dites zones,
+							si celle-ci sont minoritaires et rares
+							
+							Contre +> Peut ajouter des elements externes a la goutelette
+							et modifier sa forme et taille, notament vers les extremites de l image
 							Pour    <- Ameliore la perception de la taille reel de la macro goutte
 							Contre <- Peut  modifier la forme de la goutelette
 						   */
   erCannyP       param_canny;                      /**  
-							Valeurs pour discriminer les bordes principaux selon le filtre de canny (Threshold I et II):
+							Valeurs pour discriminer les bordes principaux 
+							selon le filtre de canny (Threshold I et II):
 							Valeurs possibles [0, 500]						   
-							Pour    +> Reduit le nombre de bords secondaire detectes par la filtre 
-							Contre +> Reduit la posibilite d obtenir un contour continue sur le profil de la goutelette ( si le bord n'est pas bien definie)
+							Pour    +> Reduit le nombre de bords secondaire
+							detectes par la filtre 
+							Contre +> Reduit la posibilite d obtenir un contour 
+							continue sur le profil de la goutelette ( si le bord n'est pas bien definie)
 							Pour    <- Ameliore la posibilite d obtenier un contour continue
-							Contre <- Augmente le nombre de bord secondaire qui aparetraint dans l image final
+							Contre <- Augmente le nombre de bord secondaire qui 
+							aparetraint dans l image final
 						   */
   erAdThrP       param_adaptive_threshold;         /**
 						      Seuil adaptative par zones
 						      Valeurs possibles [0, 255]
 						      
 						      Seuil applique par zones:
-						      Pour    +> Ameliore la detection de la gouttelette dans le zones de faible contraste (aux extremes et somet de la goutte)
-						      Contre +> Peut mixer le profil de la macroi goutte avec les zones a forte contraste dans l espace interelectrode
-						      Pour    <- Empeche la confusion du profil de la macro goutte avec des elements externes dans l espace interelectrode
+						      Pour    +> Ameliore la detection de la gouttelette dans
+						      le zones de faible contraste (aux extremes et somet de la goutte)
+						      Contre +> Peut mixer le profil de la macroi goutte avec les
+						      zones a forte contraste dans l espace interelectrode
+						      
+						      Pour    <- Empeche la confusion du profil de la macro
+						      goutte avec des elements externes dans l espace interelectrode
 						      Contre <- 
 						      
 						      Zone d application du seuillage:
-						      Pour    +> Ameliore la densite de la macro goutte (reunis le zones non conexes de la macro goutte)
-						      Contre +> Reunis toutes le zones de l image dans une seule niveau de gris (seuil maximal de gris)
+						      Pour    +> Ameliore la densite de la macro goutte
+						      (reunis le zones non conexes de la macro goutte)
+						      Contre +> Reunis toutes le zones de l image dans une seule 
+						      niveau de gris (seuil maximal de gris)
 						      Pour    <- Permet de ajuster le mieu la taille reel de la macro goutte
 						      Contre <- Reunis toutes les zones de l image dans une seul niveau (blanche)
 						   */
@@ -318,6 +370,7 @@ struct erWeldPoolAnalysis:public erAnalysis
    */
   void defineParameters( CvRect, erWhitBP, erSmootP, erSmootP, erCannyP, erDilatP, erThresP, erTemplP, erAlphaP); 
   bool doIt( std::string); /** < Analyse sur le ficher */
+  bool doItImage(erImage&);
   void saveParameters( std::string);
   void loadParameters( std::string);
   void setOutputGeometryFile(std::string);         /** < Methode pour reinitialiser le nom du fichier de geometrie */
@@ -326,62 +379,91 @@ struct erWeldPoolAnalysis:public erAnalysis
   erWhitBP param_white_blob;                       /**
 						      Recouvrement des taches blanches dans la zone d etude 
 						      
-						      Seuil Blanche:
+						      Seuil Blanc:
 						      Valeurs possibles [ 1, 255]
 						      Pour    +> Reduit la selection de zones non blanches a couvrir
-						      Contre +> Des taches blanches de niveau de gris inferieur au seuil ne seront pas recouvertes
-						      Pour    <- Reduit la posibilitte de ne pas recouvrir des taches a l interieur du bain de fusion
-						      Contre <- Augment la possibilite de couvrir sections du bord du bain de fusion
+						      Contre +> Des taches blanches de niveau de gris 
+						      inferieur au seuil ne seront pas recouvertes
+						      Pour    <- Reduit la posibilitte de ne pas recouvrir 
+						      des taches a l interieur du bain de fusion
+						      Contre <- Augment la possibilite de couvrir 
+						      sections du bord du bain de fusion
 						      
 						      Seuil Noir:
 						      Valeurs possibles [ 1, 255]
-						      Pour    +> Permet de detecter des taches blanches entoures que par de zones d un niveau de gris au desou du seuil choisit
-						      Contre +> Augmente la posibilite de couvrir zones dans le bord du bain de fusion
-						      Pour    <- Ameliore la possibilite de detecter de taches blanches a l interieur du bain de fusion (si le bain de fusion est uniforme)
-						      Contre <- Si le bord des taches blanches n'est sont pas uniformes, reduit la possibilite de detection des taches
+						      Pour    +> Permet de detecter des taches blanches 
+						      entoures que par de zones d un niveau de gris au desou du seuil choisit
+						      Contre +> Augmente la posibilite de couvrir zones
+						      dans le bord du bain de fusion
+						      Pour    <- Ameliore la possibilite de detecter de 
+						      taches blanches a l interieur du bain de fusion (si 
+						      le bain de fusion est uniforme)
+						      Contre <- Si le bord des taches blanches n'est sont
+						      pas uniformes, reduit la possibilite de detection des taches
 						      
 						      Bord exterieur:
 						      Valeur possibles [ 1, taille de l image]
-						      Pour    +> Permet de detecter des taches, qui ont un bord exterieur pas homogene (niveau de gris)
-						      Contre +> Si les taches sont proche de bord du bain fusion, reduit les posibilites de les detecter
-						      Pour    <- Permet de detecter des taches proche du bord du bain fusion 
-						      Contre <- Reduit la posibilite de detecteur de taches, car generalement leur entourage n'est pas homogene
+						      Pour    +> Permet de detecter des taches, qui ont 
+						      un bord exterieur pas homogene (niveau de gris)
+						      Contre +> Si les taches sont proche de bord du bain
+						      fusion, reduit les posibilites de les detecter
+						      Pour    <- Permet de detecter des taches proche du bord 
+						      du bain fusion 
+						      Contre <- Reduit la posibilite de detecteur de taches,
+						      car generalement leur entourage n'est pas homogene
 						      
 						      Taille de la tache
 						      Valeur possible [ 0, taille image x taille image]
 						      Pour    +> Seul les taches les plus importantes seront detectes
-						      Contre +> Des taches des taille moyenne , mais importantes peuvent n'est pas etre detectes
+						      Contre +> Des taches des taille moyenne , mais
+						      importantes peuvent n'est pas etre detectes
 						      Pour    <- Permet de detecter un plus grand nombre des taches
-						      Contre <- Des zones blaches issue de la texrture de l image peuvent etre confondues avec des taches 
+						      Contre <- Des zones blaches issue de la texrture 
+						      de l image peuvent etre confondues avec des taches 
 						   */
   erSmootP param_smooth1, param_smooth2;           /** 
-						       Premier lissage du type BLUR: Augmente ou diminue l homegenite de l image.
-						       Valeurs possibles numeros impairs: 1, 3, 5, ..., 2n+1 avec n Naturel.						   
-						       Pour    +> Uniformise les niveaux de gris a l interieur du bain de fusion et a l exterieur
-						       Contre +> Rendre difficil la detection du bord entre le bain de fusion et le metal solide
-						       Pour    <- Plus facil la detection du contour du bain fusion si la difference de texture avec l exterieur est apreciable
-						       Contre <- Reduit l unformite a l interieur du bain fusion et a l exterieur, donc plus difficil de determiner le contour
+						       Premier lissage du type BLUR: Augmente ou diminue 
+						       l homegenite de l image.
+						       Valeurs possibles numeros impairs: 1, 3, 5, ..., 
+						       2n+1 avec n Naturel.						   
+						       Pour    +> Uniformise les niveaux de gris a l
+						       interieur du bain de fusion et a l exterieur
+						       Contre +> Rendre difficil la detection du bord entre
+						       le bain de fusion et le metal solide
+						       Pour    <- Plus facil la detection du contour du
+						       bain fusion si la difference de texture avec l exterieur est apreciable
+						       Contre <- Reduit l unformite a l interieur du bain
+						       fusion et a l exterieur, donc plus difficil de determiner le contour
 						       
 						       Deuxieme lissage du type MEDIAN 
 						       Valeurs possibles numeros impairs: 1, 3, 5, ..., 2n+1 avec n Naturel.
-						       Pour    +> Unifie les zones a egal niveau de gris, en reduisant les espace blanche entre les dites zones, si celle-ci sont minoritaires et rares
-						       Contre +> Peut ajouter des elements externes au bain de fusion et modifie sa forme et taille.
-						       Pour    <- Ameliore la perception de la taille reel de la macro goutte
+						       Pour    +> Unifie les zones a egal niveau de gris,
+						       en reduisant les espace blanche entre les dites zones,
+						       si celle-ci sont minoritaires et rares
+						       Contre +> Peut ajouter des elements externes au bain
+						       de fusion et modifie sa forme et taille.
+						       Pour    <- Ameliore la perception de la taille reel
+						       de la macro goutte
 						       Contre <- Augmente la dificulte pour trouver un contour ferme						       
 						   */
   erDilatP param_dilate;                           /**
 						      Nombre d iterations:
 						      Valeurs possibles [ 1, 16]
-						      Pour     +> Augmente la densite des pixels blanche, aide a fermer les contours autour du bain fusion
+						      Pour     +> Augmente la densite des pixels blanche,
+						      aide a fermer les contours autour du bain fusion
 						      Contre  +> Peut deformer ou reduir la taille du bain fusion
 						      Pour     <- Augmente la posibilite de garder la forme reel du bain fusion
 						      Contre  <- Reduit la posibilite de fermer le contour du bain fusion
 						   */
   erCannyP param_canny;                            /** 
-						       Valeurs pour discriminer les bordes principaux selon le filtre de canny (Threshold I et II):
+						       Valeurs pour discriminer les bordes principaux selon
+						       le filtre de canny (Threshold I et II):
 						       Valeurs possibles [0, 500]						   
-						       Pour    +> Reduit le nombre de bords secondaire detectes par la filtre 
-						       Contre +> Reduit la posibilite d obtenir un contour continue sur le profil de la macro goutte ( si le bord n'est pas bien definie)
+						       Pour    +> Reduit le nombre de bords secondaire detectes
+						       par la filtre 
+						       Contre +> Reduit la posibilite d obtenir un contour
+						       continue sur le profil de la macro goutte ( si
+						       le bord n'est pas bien definie)
 						       Pour    <- Ameliore la posibilite d obtenier un contour continue
 						       Contre <- Augmente le nombre de bord secondaire qui aparetraint dans l image final
 						   */
@@ -390,22 +472,33 @@ struct erWeldPoolAnalysis:public erAnalysis
 						      Valeurs possibles [ 1, 255]
 
 						      Seuil maximal
-						      Pour     +> Augmente le contraste entre les zones au dessu du seuil et les zones en desous
+						      Pour     +> Augmente le contraste entre les zones 
+						      au dessu du seuil et les zones en desous
 						      Contre  +> 
 						      Pour     <-
-						      Contre  <- Reduit le contraste entre les zones au dessu du seuil et les zones en desous
+						      Contre  <- Reduit le contraste entre les zones au
+						      dessus du seuil et les zones en desous
 						      
 						      Seuil
 						      Pour     +> Permet de resortir le bain fusion du reste de l image
 						      Contre  +> Peut ajouter des elements externes au bain 
-						      Pour     <- Reduit la posibilite d'ajouter des elements externes du bain au bain
-						      Contre  <- Peut elever certain section de l image qui apartien au bain de fusion
+						      Pour     <- Reduit la posibilite d'ajouter des
+						      elements externes du bain au bain
+						      Contre  <- Peut elever certain section de l
+						      image qui apartien au bain de fusion
 						   */
   erTemplP param_template;                         /** 
 						       Paramettre pour segmenter l image a partir d un echantillon
-						       Plus grand est l echantillon moins definies seron les bordes dans l image segmente, plus reduit est l echantillon mieu sera la resolution de l image.
-						       L echantillon doit etre choisit dans une region de texture representative de la zone exterieur au bain fusion.
-						       Plus grand est l echantillion, plus facil est pour l algorithme pour trouver les zones que sont different, notamment le bain fusion. Plus reduit est l echantillion , plus dificil est pour l algorithme etablir la difference entre deux zones dans l image.
+						       Plus grand est l echantillon moins definies seront
+						       les bordes dans l image segmente, plus reduit est 
+						       l echantillon mieu sera la resolution de l image.
+						       L echantillon doit etre choisit dans une region de
+						       texture representative de la zone exterieur au bain fusion.
+						       Plus grand est l echantillion, plus facil est pour 
+						       l algorithme pour trouver les zones que sont different, 
+						       notamment le bain fusion. Plus reduit est l echantillion ,
+						       plus dificile est pour l algorithme etablir la difference
+						       entre deux zones dans l image.
 						   */
   erAlphaP param_alpha_shape;                      /**
 						      Paramettre pour la construction des alpha shape en CGAL 
@@ -478,7 +571,7 @@ struct erLaserPrototypageAnalysis:public erAnalysis
   /** Fonction application de l analyse
    */ 
   bool doIt( std::string);
-
+  bool doItImage(erImage&);
   /** Enregistrement des parametres
       \param std::string :  nom de l image */
   void saveParameters( std::string);

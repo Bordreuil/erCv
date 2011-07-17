@@ -11,7 +11,9 @@ extern void export_erGeometricalParams();
 extern void export_erCvSegmentation();
 
 BOOST_PYTHON_MODULE(PyerCv)
-{ export_erGeometricalParams();
+{ 
+  boost::python::numeric::array::set_module_and_type("numpy", "ndarray");
+  export_erGeometricalParams();
   export_erCvFiltersParams();
   export_erCvSegmentationParams();
   export_erCvSegmentation();

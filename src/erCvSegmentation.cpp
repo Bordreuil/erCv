@@ -32,13 +32,24 @@
 // 
 // The fact that you are presently reading this means that you have had
 // knowledge of the CeCILL license and that you accept its terms.
+
 #include <erCv/erCvBase.hpp>
 #include <erCv/erCvFilters.hpp>
 #include <erCv/erCvSegmentation.hpp>
 #include <iostream>
 #include <fstream>
-#include<map>
-#include<vector>
+#include <map>
+#include <vector>
+
+struct erCvPixel
+{
+  unsigned int x,y;
+  void * data;
+  bool was_visited;
+  erCvPixel(unsigned int x,unsigned int y):x(x),y(y),was_visited(false){};
+};
+
+
 struct coordinate
 {
   unsigned int x, y;
@@ -262,8 +273,53 @@ void erCvPyramid( IplImage* simg, erPyramP* parm )
   cvPyrSegmentation(simg, simg, stg, &comp, level, a[0], a[1]);
 }
 
+void erWhiteBloborCorrection(std::string fileIm)
+{   IplImage* simg = cvLoadImage(fileIm.c_str());
+    std::vector<erCvPixel> white_pixeld;
+    CvScalar black = CV_RGB(60,60,60);
+    int dpix      = 2;
+    int white_thr = 250;
+    for(int row = 0; row < simg->height; ++row)
+    {
+      
+      for(int column = 0; column < simg->width; ++column)
+	{ unsigned char toto(simg->imageData[(row*simg->width)+ column]);
+	  CvScalar val=cvGet2D( simg, row, column);
+	  if (val.val[0] > white_thr)
+	    for(int j=-dpix;j<dpix;j++)
+	      for(int i=-dpix;i<dpix;i++)
+		cvSet2D( simg, row+i, column+j,black );;
+	};
+      
 
+    };
+    cvSaveImage("test_b.bmp",simg);
+};
+void erWhiteBloborCorrection(IplImage * simg)
+{  
+    std::vector<erCvPixel> white_pixeld;
+    int blacki = 40;
+    CvScalar black = CV_RGB(blacki,blacki,blacki);
+    int dpix      = 2;
+    int white_thr = 250;
+    for(int row = 0; row < simg->height; ++row)
+    {
+      
+      for(int column = 1; column < simg->width-1; ++column)
+	{ unsigned char toto(simg->imageData[(row*simg->width)+ column]);
+	  CvScalar val=cvGet2D( simg, row, column);
+	  CvScalar val1=cvGet2D( simg, row, column+1);
+	  CvScalar val2=cvGet2D( simg, row, column-1);
+	  if (val.val[0] > white_thr && val1.val[0] > white_thr && val2.val[0] > white_thr )
+	    for(int j=-dpix;j<dpix;j++)
+	      for(int i=-dpix;i<dpix;i++)
+		cvSet2D( simg, row+i, column+j,black );;
+	};
+      
 
+    };
+    cvSaveImage("test_b.bmp",simg);
+};
 void erWhiteBlobCorrection( IplImage* simg, erWhitBP* parm)
 {
   IplImage* img;

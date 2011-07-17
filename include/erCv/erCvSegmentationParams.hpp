@@ -52,8 +52,7 @@
 */
 struct erDiffeP
 {
-  //erDiffeP();
-  //erDiffeP(erAdThrP,erThresP,std::string,int);
+
   erAdThrP *adapthold; 
   erThresP *threshold;
   IplImage *image;

@@ -33,56 +33,9 @@
 // The fact that you are presently reading this means that you have had
 // knowledge of the CeCILL license and that you accept its terms.
 
-#ifndef _ER_CV_SEGMENTATION_HPP_
-#define _ER_CV_SEGMENTATION_HPP_
-#include "erCvBase.hpp"
-#include "erCvSegmentationParams.hpp"
-#include "erCvFilters.hpp"
-#include "cv.h"
-#include<string>
+#ifndef _ERCV_CUSTOM_KEYS_
+#define _ERCV_CUSTOM_KEYS_
 
-/** \defgroup segmentation erCvSegmentation */
-/** \brief interface d'algorithmes de segmentation openCV dans erCv */
-
-
-
-/** \addtogroup segmentation
-    /*@{*/
-
-/** \brief
-    Permmet de substraire une image A sur autre B d equal type et dimension (A-B=C)
-*/
-void erCvDifferencing( IplImage*, IplImage*);
-
-
-/** \brief
-    Permet de segmenter une image a partir d un echantillon ou zone template dans l image (voir erCvTemplateUser)
-*/
-IplImage* erCvTemplate( IplImage*, erTemplP*);
-
-
-/** \brief
-    Permet d'incrementer le contraste dans l image, en effectuant une normalizacion de l histograme
-*/
-void erCvEqualizeHist( IplImage*, erEqualP*);
-
-
-/** \brief
-    Permet d effectuer un filtrage de l image en reagroupant les pixels dans clusters 
-    d interet et en effectuant des liaisons entre eux
- */
-void erCvPyramid( IplImage*, erPyramP*);
-
-
-/** \brief
-    Permet de couvrir les zones blanches (au desous du seuil) entoure par une zone noir (au dessus du seuil)
-*/
-void erWhiteBlobCorrection( IplImage*, erWhitBP*);
-/** \brief
-    Permet de couvrir les zones blanches (au desous du seuil) entoure par une zone noir (au dessu du seuil)
-*/
-void erWhiteBloborCorrection(std::string);
-void erWhiteBloborCorrection(IplImage*);
-//void erWhiteBlobDelete(std::string,erWhitBP);
+extern  const int EscapeKey ;
 
 #endif

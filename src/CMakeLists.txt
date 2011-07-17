@@ -17,7 +17,8 @@ LINK_LIBRARIES(${OpenCV_CV_LIBRARY}
 	       ${Boost_SYSTEM_LIBRARY}
 	       )
 
-ADD_LIBRARY(erCv erCvSegmentationParams
+ADD_LIBRARY(erCv params 
+                 erCvSegmentationParams
                  erCvSegmentation
                  erCalibration 
 		 erCvBase 
@@ -33,7 +34,6 @@ ADD_LIBRARY(erCv erCvSegmentationParams
 		 Gui/erCvUserInteraction
                  Gui/erCvSegmentationUser 
 		 geometricalParams
-		 params 
 		 )
 
 install(TARGETS erCv  DESTINATION lib 

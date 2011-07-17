@@ -47,6 +47,7 @@
    \brief 
    Structure contenant les paramettres pour le lissage ou smooth
  */
+
 extern const int nbSmoothType;
 extern char* smoothtype[]; 
 enum SmoothType {BLUR_NO_SCALE, /** < 0 : Lissage d'average d'intensite de gris  */
@@ -57,19 +58,22 @@ enum SmoothType {BLUR_NO_SCALE, /** < 0 : Lissage d'average d'intensite de gris 
 };
 struct erSmootP
 { 
-  erSmootP( ); /** < Constructeur par defaut */
-  erSmootP( SmoothType, int); /** < Constructeur du smooth: d'abord le type de smooth et apres la taille des zones d'application du smooth */
+  erSmootP( );     /** < Constructeur par defaut */
+  erSmootP( SmoothType, int); /** < Constructeur du smooth: d'abord le type de smooth 
+				  et apres la taille des zones d'application du smooth */
   int        size; /** < Le lissage sera applique par zones de taille: size x size */
   SmoothType type; /** < Le type de lissage que sera applique au groupes de pixles dans chaque zone */
 };
+
 std::ostream& operator << (std::ostream&, const erSmootP);
 
 
 
 /**
    \brief 
-   Filttre 
+   Filtre 
  */
+
 struct erSobelP
 { 
   int trhX; /** < Order X derivated in sobel fonction */
@@ -96,11 +100,11 @@ std::ostream& operator << (std::ostream&,const erCannyP);
    \brief
    Paramettres utilises effecteur seuillage sur l'image 
 */
-enum ThresholdType{ THRESH_BINARY_=1,     /** < 1: Seuillage binaire  */
-		    THRESH_BINARY_INV_=2, /** < 2: Seuilage binaire inverse  */
-		    THRESH_TRUNC_=3,      /** < 3: Seuillage truncate  */
-		    THRESH_TOZERO_=4,     /** < 4: Seuillage vers zero  */
-		    THRESH_TOZERO_INV_=5  /** < 5: Seuillage vers le zero inverse  */
+enum ThresholdType{ THRESH_BINARY_    = 1, /** < 1: Seuillage binaire  */
+		    THRESH_BINARY_INV_= 2, /** < 2: Seuilage binaire inverse  */
+		    THRESH_TRUNC_     = 3, /** < 3: Seuillage truncate  */
+		    THRESH_TOZERO_    = 4, /** < 4: Seuillage vers zero  */
+		    THRESH_TOZERO_INV_= 5  /** < 5: Seuillage vers le zero inverse  */
 };
 extern char* thresholdtype[ ];
 struct erThresP
@@ -133,7 +137,8 @@ struct erAdThrP
   erAdThrP(); /** < Constructeur par defaul */
   erAdThrP( AdaptiveThresholdType, AdaptiveMethodType, int, int, int);
   int trhP;  /** < Valeur constant qui modifie le valeur moyenne dans l'image (il peut agmenter ou diminuer le contraste par zones */
-  int neig;  /** < Taille en pixles des zones ou est applique le seuillage (plus grand est la zone, plus ca resamblera a une methode de seuillage classique) */
+  int neig;  /** < Taille en pixles des zones ou est applique le seuillage 
+		 (plus grand est la zone, plus ca resamblera a une methode de seuillage classique) */
   int trh0;  /** < Niveau de gris a partir du quel l'image est segmenté soit en blanch ou en noir */
   AdaptiveThresholdType type;  /** < Type de seuillage a appliquer (Binaire ou binaire inversé) */
   AdaptiveMethodType    adpt;  /** < Methode a appliquer pour ressembler le niveux de gris des pixels par zone (gaussien ou moyennage) */

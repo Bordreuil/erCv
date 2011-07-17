@@ -32,10 +32,12 @@
 // 
 // The fact that you are presently reading this means that you have had
 // knowledge of the CeCILL license and that you accept its terms.
+#include<erCv/Gui/customKeys.hpp>
 #include <erCv/Gui/erCvFiltersUser.hpp>
 //#include <erCv/erCv.hpp>
 #include <iostream>
 #include <fstream>
+
 
 
 void on_mouse_rect( int event, int x, int y, int flags, void* param)
@@ -126,7 +128,7 @@ void erCvCannyUser( IplImage* simg, erCannyP* parm, bool with_trackbar)
 	  cvCanny( simg, img, (float)threshold[0], (float)threshold[1], 5);
 	  //cvCanny( simg, img, (float)maxt[0], (float)maxt[1], 5);
 	  cvShowImage( "Canny_trackbar", img);
-	  if( cvWaitKey( 10) == 27) break;
+	  if( cvWaitKey( 10) == EscapeKey) break;
 	}
       //cvShowImage( "original", simg);
       //parm->trh1 = cvGetTrackbarPos( "threshold1", "Canny_trackbar");
@@ -181,7 +183,7 @@ void erCvSmoothUser( IplImage* simg, erSmootP* parm)
   
       cvNamedWindow( "Smooth", 0);
       cvShowImage( "Smooth", img);
-      while(1){if(cvWaitKey(10) == 27) break;};
+      while(1){if(cvWaitKey(10) == EscapeKey) break;};
       cvDestroyWindow( "Smooth");
       std::cout << " T'es content (Oui 0/Non 1)? ";
       std::cin >> ok;
@@ -295,7 +297,7 @@ void erCvThresholdUser( IplImage* simg, erThresP* parm, bool with_trackbar)
 	  if( threstype == 5) cvThreshold( simg, img, (float)threshold[0], (float)threshold[0], CV_THRESH_TOZERO_INV);
 	  cvShowImage( "Threshold_trackbar", img);
 	  cvShowImage( "original", simg);
-	  if( cvWaitKey( 10) == 27) break;
+	  if( cvWaitKey( 10) == EscapeKey) break;
 	} 
       cvDestroyWindow( "Threshold_trackbar");
       cvDestroyWindow( "original");
@@ -387,7 +389,7 @@ void erCvAdaptiveThresholdUser( IplImage* simg, erAdThrP* parm, bool with_trackb
 	    }
 	  cvShowImage( "Threshold_trackbar", img);
 	  cvShowImage( "original", simg);
-	  if( cvWaitKey( 10) == 27) break;
+	  if( cvWaitKey( 10) == EscapeKey) break;
 	}
       cvDestroyWindow( "Threshold_trackbar");
       std::cout << " T'es content (Oui 0/Non 1)? ";
@@ -463,7 +465,7 @@ void erCvDilateUser( IplImage* simg, erDilatP* parm, bool with_trackbar)
 	{
 	  cvDilate( simg, img, ele, iteration);
 	  cvShowImage( "Dilate_trackbar", img);
-	  if( cvWaitKey( 10) == 27) break;
+	  if( cvWaitKey( 10) == EscapeKey) break;
 	}
       parm->iter = cvGetTrackbarPos( "iteration number", "Dilate_trackbar");
       cvDestroyWindow( "Dilate_trackbar");
@@ -509,7 +511,7 @@ void erCvErodeUser( IplImage* simg, erErodeP* parm)
     {
       cvErode(simg, img, ele, iteration);
       cvShowImage( "Erode_trackbar", img);
-      if( cvWaitKey( 10) == 27) break;
+      if( cvWaitKey( 10) == EscapeKey) break;
     }
   parm->iter = cvGetTrackbarPos( "iteration number", "Erode_trackbar");
   cvDestroyWindow( "Erode_trackbar");

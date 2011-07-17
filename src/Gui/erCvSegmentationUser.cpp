@@ -37,12 +37,11 @@
 #include <erCv/erCvSegmentation.hpp>
 #include <erCv/Gui/erCvFiltersUser.hpp>
 #include <erCv/Gui/erCvSegmentationUser.hpp>
+#include <erCv/Gui/customKeys.hpp>
 #include <iostream>
 #include <fstream>
 #include<map>
 #include<vector>
-//#include "highgui.h"
-//#include <cstdio>
 
 void on_mouse_rect2( int event, int x, int y, int flags, void* param)
 {
@@ -190,7 +189,7 @@ IplImage* erCvTemplateUser( IplImage* img, erTemplP* parm, bool with_trackbar)
   int type;
   std::string name = INFOFILE;
   name+= ".txt";
-  const char* nomb = name.c_str();
+  const char* nomb =  const_cast< char*>(name.c_str());
   int ok =1; 
   while(ok)
     {  
@@ -235,7 +234,7 @@ IplImage* erCvTemplateUser( IplImage* img, erTemplP* parm, bool with_trackbar)
 					parm->rectan.y + parm->rectan.height), cvScalar( 0xff, 0x00, 0x00));
 		}
 	      cvShowImage( "Designer la zone patron ou template", parm->image);
-	      if( cvWaitKey( 700) ==27) break;
+	      if( cvWaitKey( 700) == EscapeKey) break;
 	    }
 	  cvDestroyWindow( "Designer la zone patron ou template");
 	}
@@ -323,7 +322,7 @@ IplImage* erCvCallBackPatchProjectUser( IplImage* img, erCallBP* parm, bool with
   int type, typeH;
   std::string name = INFOFILE;
   name+= ".txt";
-  const char* nomb = name.c_str();
+  const char* nomb =  const_cast< char*>(name.c_str());
   int ok =1; 
   while(ok)
     { 
@@ -345,7 +344,7 @@ IplImage* erCvCallBackPatchProjectUser( IplImage* img, erCallBP* parm, bool with
 				    parm->rectan.y + parm->rectan.height), cvScalar( 0xff, 0x00, 0x00));
 	    }
 	  cvShowImage( "Designer la zone patron ou template", parm->image);
-	  if( cvWaitKey( 100) ==27) break;
+	  if( cvWaitKey( 100) ==EscapeKey) break;
 	}
       cvDestroyWindow( "Designer la zone patron ou template");
       
@@ -451,7 +450,7 @@ void erCvEqualizeHistUser( IplImage* simg, erEqualP* param)
   int usar;
   std::string name = INFOFILE;
   name+= ".txt";
-  const char* nomb = name.c_str();
+  const char* nomb =  const_cast< char*>(name.c_str());
   int ok = 1; 
 
   
@@ -543,7 +542,7 @@ void erCvPyramidUser( IplImage* simg, erPyramP* parm, bool with_trackbar)
 	  cvPyrSegmentation(simg, img, stg, &comp, level, threshold[0], threshold[1]);
 	  cvShowImage( "Pyramid_trackbar", img);
 	  cvShowImage( "original", simg);
-	  if( cvWaitKey( 10) == 27) break;
+	  if( cvWaitKey( 10) == EscapeKey) break;
 	}
       cvDestroyWindow( "Threshold_trackbar");
       std::cout << " T'es content (Oui 0/Non 1)? ";
@@ -664,7 +663,7 @@ void erCvFindContours( IplImage* simg, erFindcP* parm, bool with_trackbar)
 	  cvShowImage( "Findc_trackbar", img );
 
 	  //cvReleaseImage( &cnt_img );
-	  if( cvWaitKey( 10) == 27) break;
+	  if( cvWaitKey( 10) == EscapeKey) break;
 	} 
       cvDestroyWindow( "Original");
       cvDestroyWindow( "Findc_trackbar");
@@ -776,27 +775,28 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
   //img = cvCloneImage(simg);
   std::vector< std::vector<lineBlob> > imgData(simg->width);
   int ok = 1;
+  int ok1;
   while( ok)
     {
       img = cvCreateImage( cvGetSize( simg), simg->depth, simg->nChannels);
       cvCopy( simg, img);
       std::cout << "Threshold upper value to blob detection: ";
-      //std::cin >> int_white;
-      int_white = 150;
+      std::cin >> int_white;
+      //int_white = 150;
       white_thres = (unsigned char) int_white;
       std::cout << std::endl;
       std::cout << "Threshold donwest value to blob detection: ";
-      //std::cin >> int_black;
-      int_black = 150;
+      std::cin >> int_black;
+      //int_black = 150;
       black_thres = (unsigned char) int_black;
       std::cout << std::endl;
       std::cout << "Taille en No de pixles de la tache: ";
-      //std::cin >> size_blob;
-      size_blob = 50;
+      std::cin >> size_blob;
+      //size_blob = 50;
       std::cout << std::endl;
       std::cout << "Extension en pixels du bord de la tache: ";
-      //std::cin >> bord_blob;
-      bord_blob = 5;    
+      std::cin >> bord_blob;
+      //bord_blob = 5;    
       std::cout << std::endl;
       
 
@@ -891,7 +891,7 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
 	  (*i).second.center.y = (*i).second.min.y + ((*i).second.max.y - (*i).second.min.y) / 2;
 	  
 	  int size = ((*i).second.max.x - (*i).second.min.x) * ((*i).second.max.y - (*i).second.min.y);
-	  
+	  std::cout << "-----" << i->first << " " << size << std::endl;
 	  // Print coordinates on image, if it is large enough
 	  if(size > size_blob)
 	    {
@@ -912,7 +912,7 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
 	    }
 	}
       std::cout << "manchas.size_initial: " << manchas.size() << std::endl;
-      if( manchas.size() == 0) return;
+      // cb 26/06/2011 if( manchas.size() == 0) return;
       
 
       
@@ -942,6 +942,7 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
 		  valor =  simg->imageData[pos_x*(simg->width) + pos_y_L];
 		  val_L = cvGet2D( simg, pos_x, pos_y_L);
 		  val_R = cvGet2D( simg, pos_x, pos_y_R);
+		  std::cout << val_L.val[0] << " " << int_black << std::endl;
 		  if( val_L.val[0] >= black_thres)
 		    {
 		      std::cout << "linea L: " << linea << std::endl;
@@ -983,7 +984,7 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
 	    }
 	}
       std::cout << "map size_left_right: " << manchas.size() << std::endl;   
-      if( manchas.size() == 0) return;   
+      // cb 27/06/2011 if( manchas.size() == 0) return;   
       
 
       
@@ -1045,7 +1046,7 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
 	      manchas.erase(id_refused[l]);
 	    }
 	}
-      if( manchas.size() == 0) return;      
+      //* cb 27/06/2011 if( manchas.size() == 0) return;      
       
       
       
@@ -1124,13 +1125,14 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
       erShow2Image( "Blob corrrection", img, "image_temoin", simg);
       //while(1){if(cvWaitKey(10) == 27) break;
       //cvDestroyWindow( "Blob correction");
+      
       std::cout << " T'es content (Oui 0/Non 1)? ";
-      std::cin >> ok;
-      //ok = 0;
+      std::cin >> ok1;
+      ok = ok1;
       std::cout << std::endl;
     }    
-  parm->trh_w = (int) white_thres;
-  parm->trh_b = (int) black_thres;
+  parm->trh_w  = (int) white_thres;
+  parm->trh_b  = (int) black_thres;
   parm->blob_b = size_blob;
   parm->size_b = bord_blob;
   *simg = *img;

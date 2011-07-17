@@ -34,11 +34,11 @@
 // knowledge of the CeCILL license and that you accept its terms.
 #include <erCv/erCvBase.hpp> 
 #include <erCv/Gui/erCvUserInteraction.hpp>
+#include <erCv/Gui/customKeys.hpp>
 #include <erCv/utilities/erFileUtilities.hpp>
 #include<fstream>
 static uint n_right_click_rect = 0;
 static uint n_right_click_circ = 0;
-
 void on_mouse_cerc( int event, int x, int y, int flags, void* param)
 {
 
@@ -278,7 +278,12 @@ IplImage* erDef_ROIuser( erImage* simag, CvRect* rect, bool with_trackbar)
 				    simag->rectan.y + simag->rectan.height), cvScalar( 0xff, 0x00, 0x00));
 	    }
 	  cvShowImage( "Draw_ROI", simag);
-	  if( cvWaitKey( 700) == 27) break;
+	 
+	  if( cvWaitKey(100) == EscapeKey) 
+	    {
+	      std::cout << "coucou on va sortirn";
+	      break;
+	    }
 	}
       cvDestroyWindow("Draw_ROI");
     }
@@ -363,7 +368,7 @@ std::pair< CvPoint, int> erCvDebutCurve( IplImage *simag)
 // 	  //		img->rectan.y + img->rectan.height), cvScalar( 0xff, 0x00, 0x00));
 // 	}
       cvShowImage( "Marquez le debut curve", cer_img.image);
-      if( cvWaitKey( 700) == 27) break;
+      if( cvWaitKey( 700) == EscapeKey) break;
     }
   cvDestroyWindow("Draw_ROI");
   return std::make_pair( cer_img.centeri, cer_img.radiusi);

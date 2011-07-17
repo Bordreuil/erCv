@@ -34,7 +34,7 @@
 // knowledge of the CeCILL license and that you accept its terms.
 #include<erCv/erCvFilters.hpp>
 #include<erCv/erCvSegmentation.hpp>
-
+#include<erCv/Gui/customKeys.hpp>
 const int nbSmoothType = 5;
 char* smoothtype [nbSmoothType]= {"Blur no scale","Blur","Gaussian","Median","Bilateral"};
 
@@ -44,3 +44,5 @@ char*  findcontoursmode[nbFindContoursMode]= {"Retr external","Retr list","Retr 
 
 const int nbFindContoursMeth = 4;
 char*  findcontoursmeth[nbFindContoursMeth]= {"Chain code","Chain approx none","Chain approx simple","Chain approx tc89 l1"};
+
+const int  EscapeKey        = 1048603;
