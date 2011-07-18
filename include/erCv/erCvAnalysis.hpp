@@ -48,19 +48,18 @@
 /** \defgroup erAnalysis Analysis  */
 /** \addtogroup erAnalysis */
 /**\{*/
-/* \brief Ce module contient un ensemble de methode qui sont encapsulees dans des 
-   classes adapatees a chaque type de recherche d informations recherchees
- */
+/* \brief This  module encapsulated different methods in order to perform analysis
+   on images during arc welding */
 /*
 
- \brief Classe de base pour l ensemble des analyse d erCv, c est une classe purement virtuelle
+ \brief Base class to others. Pure virtual.
 
  */
 struct erAnalysis
 {
   erAnalysis( );
   /**
-     Constructeur 
+     Constructor 
      \param name : Nom de l analyse, genere automatiquement un repertoire avec 
                    name+'_erCvAnalysis'
 		   Plusieurs analyses differents peuvent utiliser le meme nom.
@@ -69,7 +68,7 @@ struct erAnalysis
 		   - _mtl : pour metal transfert
 		   - _wep : pour weld pool
 
-     \param infoFile : nom du fichier ou sont ecrit le blabla
+     \param infoFile : file name where informations will be written
    */
   erAnalysis( std::string name, std::string infofile="info"); 
   /**

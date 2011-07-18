@@ -113,18 +113,18 @@ struct erMetalTransfertAnalysis_wrapper : erMetalTransfertAnalysis, bp::wrapper<
   bool default_doIt( std::string arg0 ) {
     return erMetalTransfertAnalysis::doIt( arg0 );
   }
-  bool doItNumPy(pyublas::numpy_array<unsigned short>& arr)
+  bool doItNumPy(pyublas::numpy_array<unsigned short>& arr,std::string file_name="test_1.bmp")
   {
     const npy_intp* dims = arr.dims();
     
     int ncol = dims[0];
     int nlig = dims[1];
     unsigned short* storage = arr.data();
-    setCurrentFileName("test_1.bmp");
+    char*  file_c   =   const_cast<char*>(file_name.c_str());
+    setCurrentFileName(file_c);
     
     IplImage* im = cvCreateImage(cvSize(ncol,nlig),IPL_DEPTH_8U,3);
-    std::cout << im->width << " " << im->height << std::endl;
-    //CvScalar val;
+
     for(int i=0;i<ncol;i++)
       {
 	for(int j=0;j < nlig;j++)
@@ -290,7 +290,7 @@ void export_erCvAnalysis(){
 	 , ( bp::arg("arg0") ) )
     .def(
 	 "doItNumPy"
-	 ,  (bool ( ::erMetalTransfertAnalysis_wrapper::* )( boost::python::numeric::array& ) )(&::erMetalTransfertAnalysis_wrapper::doItNumPy))
+	 ,  (bool ( ::erMetalTransfertAnalysis_wrapper::* )(boost::python::numeric::array& ,std::string ) )(&::erMetalTransfertAnalysis_wrapper::doItNumPy))
   
     //.def( 
     //         "loadParameters"

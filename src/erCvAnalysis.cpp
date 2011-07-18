@@ -326,13 +326,13 @@ bool erMetalTransfertAnalysis::doItImage(erImage& ea)
 
   std::string output_name = (dir_analysis+"/"+name+"_mtl");
   char* nom = const_cast< char*>( output_name.c_str());
-  std::cout << currentFileName() << " " << nom << std::endl;
+  
   erSaveImage( &ea,currentFileName(), nom);
  
   eb = erConvertToBlackAndWhite( &ea);
  
   ec = erDef_ROI( &eb, &rectOI);
- ;
+
   erCvSmooth( &ec, &param_smooth1);
 
   erCvAdaptiveThreshold( &ec, &param_adaptive_threshold);
@@ -353,7 +353,7 @@ bool erMetalTransfertAnalysis::doItImage(erImage& ea)
   //erPrintCgalPoint( cgalSeg, file_name, nom);
     
   largest_closed_segment( cgalSeg, bgraphSeg);
-  std::cout << currentFileName() << std::endl;
+  
   erPrintCgalPoint( bgraphSeg,currentFileName(), nom);
 
   if(output_geometry_characteristics && bgraphSeg.size() > 6)

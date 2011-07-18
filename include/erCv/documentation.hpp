@@ -44,7 +44,7 @@
 
     - OpenCv   : permet de realiser le traitement d image (segmentation, seuillage, calibration,..)
     - Boost    : boost::graph est utiliser pour detecter les contours les plus grands,... 
-    - CGAL 3.4 : permet de quantifier tous les aspects geometriques, et tous les aspects de voisinages.
+    - CGAL 3.8 : permet de quantifier tous les aspects geometriques, et tous les aspects de voisinages.
     
     L'installation necessite un compilateur C++.
     L'installation d erCv necessite le logiciel OpenSource CMake http://www.cmake.org
@@ -81,5 +81,6 @@
     Dans le repertoire ou vous l'avez installer, rentrer dans le repertoire tests et taper
     la ligne de commande ctest -I 
 
-    
+    \section refernce References
+    Des articles sur la mise en oeuvre des articles est en cours.
  */
