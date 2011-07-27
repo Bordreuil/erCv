@@ -136,7 +136,7 @@ struct erMetalTransfertAnalysis_wrapper : erMetalTransfertAnalysis, bp::wrapper<
       }; 
 
     erImage eim(im);
-    doItImage(eim);
+    erMetalTransfertAnalysis::doItImage(eim);
 
     return true;
   }

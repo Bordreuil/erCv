@@ -212,7 +212,6 @@ void erMacroDropAnalysis::saveParameters(std::string file)
   out << "* Begin er MacroDrop Analysis" << std::endl;
   out << this->rectOI;
   out << this->cercToStart;
-  //out << this->param_equalizer_histogram;
   out << this->param_smooth1;
   out << this->param_adaptive_threshold;
   out << this->param_smooth2;
@@ -220,8 +219,31 @@ void erMacroDropAnalysis::saveParameters(std::string file)
   out << "* End er MacroDrop Analysis" << std::endl;
 };
 
+erWireAnalysis::erWireAnalysis(std::string name, std::string infofile):erMacroDropAnalysis(name,infofile){};
 
-
+bool erWireAnalysis::doItImage(erImage& ea)
+{      
+       erImage  eb, ec, ed; 
+       std::list<CvPoint> cvPts;
+       std::string output_name = (dir_analysis+"/"+name+"_mcr");
+       char* nom               = const_cast<char*>(output_name.c_str());
+  
+       eb = erConvertToBlackAndWhite( &ea);        
+       ec = erDef_ROI( &eb, &rectOI); 
+       //erShowImage("essai",&eb);
+       erCvEqualizeHist( &ec, &param_equalizer_histogram);
+       erCvSmooth( &ec, &param_smooth1);
+       erCvAdaptiveThreshold( &ec, &param_adaptive_threshold);
+       erCvSmooth( &ec, &param_smooth2);
+       erCvCanny( &ec, &param_canny);
+       erSaveImage( &ec, currentFileName(), nom);
+       IsEqualTo is_equal_255( 255); 
+       erExtractCvPoints( cvPts, &ec, is_equal_255, rectOI);
+       erExtractCurveWire( cvPts, &ec, rectOI, &cercToStart,currentFileName());
+       erPrintCvPoint( cvPts,currentFileName(), nom); 
+       
+       return true;
+};
 
 
 
@@ -334,15 +356,14 @@ bool erMetalTransfertAnalysis::doItImage(erImage& ea)
   ec = erDef_ROI( &eb, &rectOI);
 
   erCvSmooth( &ec, &param_smooth1);
-
+ 
   erCvAdaptiveThreshold( &ec, &param_adaptive_threshold);
   //erSaveImage2( &ec, file_name, nom, "adp");
-
   erCvSmooth( &ec, &param_smooth2);
   //erSaveImage2( &ec, file_name, nom, "sm2");
 
   erCvCanny( &ec, &param_canny);
-
+ 
   IsEqualTo is_equal_255( 255);
   erExtractCvPoints( cvPts, &ec, is_equal_255, rectOI);
   

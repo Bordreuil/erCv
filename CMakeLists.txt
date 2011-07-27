@@ -36,8 +36,10 @@ ADD_SUBDIRECTORY(tests)
 ADD_SUBDIRECTORY(include)
 ADD_SUBDIRECTORY(examples)
 ADD_SUBDIRECTORY(config)
+ADD_SUBDIRECTORY(tools)
 
 MESSAGE(".....ErCv Message : Some python Tools are available in :'tools/python'")
+
 
 install(EXPORT erCv-targets DESTINATION lib/erCv)
 

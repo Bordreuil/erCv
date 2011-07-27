@@ -130,7 +130,7 @@ struct erMacroDropAnalysis:public erAnalysis
   void defineParameters( CvRect, erCerc, erSmootP, erSmootP, erCannyP, erAdThrP, erEqualP equal=erEqualP(1)); /** < Passages Parametres en dur */
 
   bool doIt( std::string);  /** < Analyse sur le fichier */
-  bool doItImage(erImage&);
+  virtual bool doItImage(erImage&);
   void saveParameters( std::string);
   void loadParameters( std::string);
   CvRect         rectOI;                       /*< Rectangle qui demarque la zone d interet  */
@@ -206,7 +206,11 @@ struct erMacroDropAnalysis:public erAnalysis
 					       */
 };
 
-
+struct erWireAnalysis:public erMacroDropAnalysis
+{
+  erWireAnalysis(std::string name, std::string infofile = "info");
+  bool doItImage(erImage&);
+};
 
 /** \brief  Classe pour des analyse des gouttes en vol : These Julien Chapuis 
 

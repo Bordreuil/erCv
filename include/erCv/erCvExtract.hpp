@@ -564,6 +564,242 @@ void erExtractCurveMacroDrop( Container &pts, IplImage* simag, CvRect recROI, er
 };
 
 
+/**
+   Permet d extraire une ligne continue a partir d une image precedemment filtre
+   \param IplImage* : une image 
+   \param erCerc    : cercle pour le debut de la recherche
+   \param char **   : ensemble des variables venant de l exterieur file_name[2] doit correspondre
+                      au fichier a traiter
+   \param Container (template) : container des points a extraire
+   \param CvRect    : Rectangle pour extraire remettre les points dans les coordoonees de l image
+
+ */
+template< typename Container>
+void erExtractCurveWire( Container &pts, IplImage* simag, CvRect recROI, erCerc* cerc, char* file_name )
+{
+  //typedef Container typeContainer;
+  typedef std::map< double, Container> erMap;
+  erMap ptsMap;
+  typename erMap::iterator iterMap, iterMap_border;
+  typename Container::iterator iterV_construcMap, iterV_cercleDepart, iterV_insidecurv, iterV_polyvalent, iterV_border_bas, iterV_border_hau;
+  
+  for( iterV_construcMap = pts.begin(); iterV_construcMap != pts.end(); iterV_construcMap++)
+    {
+      ptsMap[ iterV_construcMap->y].push_back( *iterV_construcMap);
+    }
+  pts.clear();
+  
+  std::pair< CvPoint, int>    cercle( cerc->centro, cerc->radio);
+  CvPoint                     p_cercleDepart, p_polyvalent;
+  std::vector< int>           ptsDmin, ptsY0;
+  std::vector< int>::iterator iterDmin;
+  bool Dmin = false;
+  int a = 0, b = 0, c = 0;
+  iterMap = ptsMap.begin();
+  for( iterV_cercleDepart = iterMap->second.begin(); iterV_cercleDepart != iterMap->second.end(); iterV_cercleDepart++)
+    {
+      a = abs( iterV_cercleDepart->x - cercle.first.x);
+
+      if( a <= cercle.second)
+	{
+	 
+	  if( a < b || Dmin==false)
+	    {
+	      c = iterV_cercleDepart->x;
+	      Dmin = true;
+	      b = a;
+	    }
+	}
+    }
+  if( Dmin)
+    {      
+      p_cercleDepart.y = iterMap->first;
+      p_cercleDepart.x = c;
+      
+      pts.push_back( p_cercleDepart);
+      
+    }
+  else
+    {
+      std::ofstream file( nameGoodImagesFile( INFOFILE), std::ios_base::app );
+      file << file_name << std::endl; // A proscrire
+      file << std::endl;
+      std::cout << "On ne trouve pas de point de depart" << std::endl;
+      pts.clear();
+      return; 
+    }
+  int SSmap = 7*(ptsMap.size())/10;
+  int A=0;
+  bool candidat;
+  CvPoint cpt;
+  int Dmap;
+  iterMap++;
+  iterMap_border = ptsMap.end();
+  iterMap_border--;
+  for( ; iterMap != iterMap_border; iterMap++)
+    {       
+      Dmap =  distance( ptsMap.begin(), iterMap);
+      cpt = pts.back();
+      //iterV_pts = pts.begin();
+      candidat = false;
+      /*if( cpt.y <= recROI.y || cpt.y >= recROI.y + recROI.height)
+	{
+	  std::ofstream file( nameGoodImagesFile(INFOFILE), std::ios_base::app );
+	  file << file_name << std::endl;
+	  file << std::endl;
+	  pts.clear();
+	  std::cout << "On sort parceque les points sorte de la zone" << std::endl;
+	  return;
+	  }*/
+      iterV_polyvalent = erFindCvPoint( iterMap->second.begin(), iterMap->second.end(), cvPoint( cpt.x,iterMap->first));
+      if( iterV_polyvalent != iterMap->second.end())
+	{
+	  candidat = true;
+	  iterV_insidecurv = erFindCvPoint( pts.begin(), pts.end(), *iterV_polyvalent);
+	}
+      if( !candidat || iterV_insidecurv != pts.end())
+	{ 
+	  candidat = false;
+	  iterV_polyvalent = erFindCvPoint( iterMap->second.begin(), iterMap->second.end(), cvPoint( cpt.x+1,iterMap->first));
+	  if( iterV_polyvalent != iterMap->second.end())
+	    {
+	      candidat = true;
+	      iterV_insidecurv = erFindCvPoint( pts.begin(), pts.end(), *iterV_polyvalent);
+	    }
+	  if( !candidat || iterV_insidecurv != pts.end())
+	    {
+	      candidat = false;
+	      iterV_polyvalent = erFindCvPoint( iterMap->second.begin(), iterMap->second.end(), cvPoint( cpt.x-1,iterMap->first));
+	      if( iterV_polyvalent != iterMap->second.end())
+		{
+		  candidat = true;
+		  iterV_insidecurv = erFindCvPoint( pts.begin(), pts.end(), *iterV_polyvalent);
+		}
+	      if( !candidat || iterV_insidecurv != pts.end())
+		{
+		  iterMap--;
+		  candidat = false;
+		  iterV_polyvalent = erFindCvPoint( iterMap->second.begin(), iterMap->second.end(), cvPoint( cpt.x+1,iterMap->first));
+		  if( iterV_polyvalent != iterMap->second.end())
+		    {
+		      candidat = true;
+		      iterV_insidecurv = erFindCvPoint( pts.begin(), pts.end(), *iterV_polyvalent);
+		    }
+		  if( !candidat || iterV_insidecurv != pts.end())
+		    {
+		      candidat = false;
+		      iterV_polyvalent = erFindCvPoint( iterMap->second.begin(), iterMap->second.end(), cvPoint(cpt.x-1, iterMap->first));
+		      if( iterV_polyvalent != iterMap->second.end())
+			{
+			  candidat = true;
+			  iterV_insidecurv = erFindCvPoint( pts.begin(), pts.end(), *iterV_polyvalent);
+			}
+		      if( !candidat || iterV_insidecurv != pts.end())
+			{
+			  if( iterMap == ptsMap.begin())
+			    {
+			      std::ofstream file( nameGoodImagesFile(INFOFILE), std::ios_base::app );
+			      file << file_name << std::endl;
+			      file << std::endl;
+			      pts.clear();
+			      std::cout << "On sort parcequ'on revient au debut" << std::endl;
+			      return;
+			    }
+			  iterMap--;
+			  candidat = false;
+			  iterV_polyvalent = erFindCvPoint( iterMap->second.begin(), iterMap->second.end(), cvPoint(cpt.x+1, iterMap->first));
+			  if( iterV_polyvalent != iterMap->second.end())
+			    {
+			      candidat = true;
+			      iterV_insidecurv = erFindCvPoint( pts.begin(), pts.end(), *iterV_polyvalent);
+			    }
+			  if( !candidat || iterV_insidecurv != pts.end())
+			    {
+			      candidat = false;
+			      iterV_polyvalent = erFindCvPoint( iterMap->second.begin(), iterMap->second.end(), cvPoint(cpt.x, iterMap->first));
+			      if( iterV_polyvalent != iterMap->second.end())
+				{
+				  candidat = true;
+				  iterV_insidecurv = erFindCvPoint( pts.begin(), pts.end(), *iterV_polyvalent);
+				}
+			      if( !candidat || iterV_insidecurv != pts.end())
+				{
+				  candidat = false;
+				  iterV_polyvalent = erFindCvPoint( iterMap->second.begin(), iterMap->second.end(), cvPoint(cpt.x-1, iterMap->first));
+				  if( iterV_polyvalent != iterMap->second.end())
+				    {
+				      candidat = true;
+				      iterV_insidecurv = erFindCvPoint( pts.begin(), pts.end(), *iterV_polyvalent);
+				    }
+				  if( !candidat || iterV_insidecurv != pts.end())
+				    {
+				      if( Dmap >= SSmap)
+					{
+					  p_polyvalent.x = iterV_polyvalent->x;
+					  p_polyvalent.y = iterV_polyvalent->y;
+					  pts.push_back( p_polyvalent);
+					}
+				      else
+					{
+					  std::ofstream file( nameGoodImagesFile(INFOFILE), std::ios_base::app );
+					  file << file_name << std::endl;
+					  file << std::endl;
+					  pts.clear();
+					}
+				      return;
+				    }
+				  else
+				    {
+				      p_polyvalent.x = iterV_polyvalent->x;
+				      p_polyvalent.y = iterV_polyvalent->y;
+				      pts.push_back( p_polyvalent);
+				    }
+				}
+			      else
+				{
+				  p_polyvalent.x = iterV_polyvalent->x;
+				  p_polyvalent.y = iterV_polyvalent->y;
+				  pts.push_back( p_polyvalent);
+				}
+			    }
+			  else
+			    {
+			      p_polyvalent.x = iterV_polyvalent->x;
+			      p_polyvalent.y = iterV_polyvalent->y;
+			      pts.push_back( p_polyvalent);
+			    }
+			}
+		      else
+			{
+			  p_polyvalent.x = iterV_polyvalent->x;
+			  p_polyvalent.y = iterV_polyvalent->y;
+			  pts.push_back( p_polyvalent);
+			}
+		    }
+		  else
+		    {
+		      p_polyvalent.x = iterV_polyvalent->x;
+		      p_polyvalent.y = iterV_polyvalent->y;
+		      pts.push_back( p_polyvalent);
+		    }
+		}
+	      else
+		{
+		  p_polyvalent.x = iterV_polyvalent->x;
+		  p_polyvalent.y = iterV_polyvalent->y;
+		  pts.push_back( p_polyvalent);
+		}
+	    }
+	  else
+	    {
+	      p_polyvalent.x = iterV_polyvalent->x;
+	      p_polyvalent.y = iterV_polyvalent->y;
+	      pts.push_back( p_polyvalent);
+	    }
+	}
+    };  
+};
+
 
 
 /**
