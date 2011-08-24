@@ -206,8 +206,9 @@ struct erMacroDropAnalysis:public erAnalysis
 					       */
 };
 
-struct erWireAnalysis:public erMacroDropAnalysis
+class erWireAnalysis:public erMacroDropAnalysis
 {
+public:
   erWireAnalysis(std::string name, std::string infofile = "info");
   bool doItImage(erImage&);
 };

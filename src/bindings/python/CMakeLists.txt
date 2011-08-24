@@ -1,7 +1,7 @@
 # Created by the script cgal_create_cmake_script
 # This is the CMake script for compiling a CGAL application.
 
-if(${BUILD_PYTHON_MODULE})
+if(${ENABLE_PYTHON})
 	FIND_PACKAGE(PythonLibs REQUIRED)
 	MESSAGE(STATUS "Python Libs :" ${PythonLibs_FOUND})
 	INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR}
@@ -33,4 +33,4 @@ if(${BUILD_PYTHON_MODULE})
 	                        COMPONENT Runtime
 				EXPORT erCv-targets)
 			      
-endif(${BUILD_PYTHON_MODULE})
+endif(${ENABLE_PYTHON})

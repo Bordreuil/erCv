@@ -7,18 +7,27 @@ project( erCv )
 
 
 SET(ERCV_MAJOR_VERSION "1")
-SET(ERCV_MINOR_VERSION "1")
+SET(ERCV_MINOR_VERSION "2")
 SET(ERCV_PATCH_VERSION "0")
 
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/tools/cmake/modules)
 FIND_PACKAGE(OpenCV REQUIRED)
 FIND_PACKAGE(CGAL REQUIRED)
 FIND_PACKAGE(Boost COMPONENTS graph python filesystem system)
+FIND_PACKAGE(Doxygen)
+
+MESSAGE(STATUS "Doxygen Found: " ${DOXYGEN_FOUND} "'make docs' to generate documentation") 
+
+if(DOXYGEN_FOUND)
+  ADD_SUBDIRECTORY(docs)
+endif(DOXYGEN_FOUND)
 
 
-if(NOT ${BUILD_PYTHON_MODULE})
+OPTION(ENABLE_PYTHON "Variable to build python bindings" OFF)
+
+if(NOT ${ENABLE_PYTHON})
        MESSAGE(STATUS "Python Module of erCv will not be built")
-endif(NOT ${BUILD_PYTHON_MODULE})
+endif(NOT ${ENABLE_PYTHON})
 
 MESSAGE(STATUS "OPENCV: " ${OPENCV_FOUND} )
 MESSAGE(STATUS "CGAL  : " ${CGAL_FOUND} )
@@ -39,7 +48,6 @@ ADD_SUBDIRECTORY(config)
 ADD_SUBDIRECTORY(tools)
 
 MESSAGE(".....ErCv Message : Some python Tools are available in :'tools/python'")
-
 
 install(EXPORT erCv-targets DESTINATION lib/erCv)
 

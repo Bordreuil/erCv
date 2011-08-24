@@ -59,7 +59,16 @@
 #include<CGAL/linear_least_squares_fitting_2.h>
 
 
+
+
 std::string ANALYSIS_EXTENSION="_erCvAnalysis";
+
+/********************************************************************
+
+                      ERANALYSIS
+
+*********************************************************************/
+
 
 erAnalysis::erAnalysis( ){ };
 
@@ -101,8 +110,11 @@ char* erAnalysis::currentFileName()
   return file_name;
 }
 
+/********************************************************************
 
-/* Analysis pour le macro drop */
+                      ER_MACRODROP_ANALYSIS
+
+*********************************************************************/
 
 erMacroDropAnalysis::erMacroDropAnalysis() { };
 
@@ -187,7 +199,8 @@ bool erMacroDropAnalysis::doItImage(erImage& ea)
        std::list<CvPoint> cvPts;
        std::string output_name = (dir_analysis+"/"+name+"_mcr");
        char* nom               = const_cast<char*>(output_name.c_str());
-  
+
+       std::cout << std::endl;
        eb = erConvertToBlackAndWhite( &ea);        
        ec = erDef_ROI( &eb, &rectOI); 
        //erShowImage("essai",&eb);
@@ -219,27 +232,39 @@ void erMacroDropAnalysis::saveParameters(std::string file)
   out << "* End er MacroDrop Analysis" << std::endl;
 };
 
+/********************************************************************
+
+                      ER_WIRE_ANALYSIS
+
+*********************************************************************/
+
+
+
 erWireAnalysis::erWireAnalysis(std::string name, std::string infofile):erMacroDropAnalysis(name,infofile){};
 
 bool erWireAnalysis::doItImage(erImage& ea)
 {      
        erImage  eb, ec, ed; 
        std::list<CvPoint> cvPts;
-       std::string output_name = (dir_analysis+"/"+name+"_mcr");
+       std::string output_name = (dir_analysis+"/"+name+"_wire");
        char* nom               = const_cast<char*>(output_name.c_str());
-  
+
+       std::cout << std::endl;
        eb = erConvertToBlackAndWhite( &ea);        
        ec = erDef_ROI( &eb, &rectOI); 
-       //erShowImage("essai",&eb);
+ 
        erCvEqualizeHist( &ec, &param_equalizer_histogram);
        erCvSmooth( &ec, &param_smooth1);
+
        erCvAdaptiveThreshold( &ec, &param_adaptive_threshold);
        erCvSmooth( &ec, &param_smooth2);
        erCvCanny( &ec, &param_canny);
+ 
        erSaveImage( &ec, currentFileName(), nom);
        IsEqualTo is_equal_255( 255); 
        erExtractCvPoints( cvPts, &ec, is_equal_255, rectOI);
        erExtractCurveWire( cvPts, &ec, rectOI, &cercToStart,currentFileName());
+
        erPrintCvPoint( cvPts,currentFileName(), nom); 
        
        return true;
@@ -248,7 +273,11 @@ bool erWireAnalysis::doItImage(erImage& ea)
 
 
 /* Analysis pour la goutelette de metal de tranfer*/
+/********************************************************************
 
+                      METAL_TRANSFERT_ANALYSIS
+
+*********************************************************************/
 erMetalTransfertAnalysis::erMetalTransfertAnalysis(){ };
 
 erMetalTransfertAnalysis::erMetalTransfertAnalysis( std::string name, std::string infofile):
@@ -334,7 +363,7 @@ bool erMetalTransfertAnalysis::doIt( std::string fich)
   bool loaded;
   char* file_name         = const_cast< char*>( fich.c_str());
   setCurrentFileName(file_name);
- boost::tie(ea, loaded) = erLoadImage( file_name);
+  boost::tie(ea, loaded) = erLoadImage( file_name);
   if( !loaded) return false;
   doItImage(ea);
 };
@@ -409,15 +438,11 @@ void erMetalTransfertAnalysis::saveParameters( std::string file)
 };
 
 
+/********************************************************************
 
+                      WELD_POOL_ANALYSIS
 
-
-
-
-
-
-/* Analysis pour le bain de fusion */
-
+*********************************************************************/
 /* Constructeur par defaut */
 erWeldPoolAnalysis::erWeldPoolAnalysis(){};
 
@@ -455,7 +480,7 @@ bool erWeldPoolAnalysis::defineParametersUI( std::string firstImage)
   
   eb = erConvertToBlackAndWhite( &ea);
   
-  //erWhiteBlobCorrectionUser( &eb, &pwhi);
+  erWhiteBlobCorrectionUser( &eb, &pwhi);
   //erWhiteBloborCorrection( &eb);
   param_white_blob = pwhi;
 
@@ -515,7 +540,7 @@ bool erWeldPoolAnalysis::defineParametersUI( std::string firstImage)
   return true;
 };
 
-//void erWeldPoolAnalysis::defineParameters( CvRect rect, erSmootP smooth1, erSmootP smooth2, erEqualP equal, erCannyP canny, erAdThrP adthr, erTemplP templ, erAlphaP alphas, erFindcP findc)
+
 void erWeldPoolAnalysis::defineParameters( CvRect rect, erWhitBP whiteb, erSmootP smooth1, erSmootP smooth2, erCannyP canny, erDilatP dilate, erThresP thres, erTemplP templ, erAlphaP alphas)
 {
   rectOI = rect;
@@ -559,20 +584,14 @@ bool erWeldPoolAnalysis::doItImage(erImage& ea)
   std::string output_name = (dir_analysis+"/"+name+"_wep");
   char* nom = const_cast< char*>( output_name.c_str());
   eb = erConvertToBlackAndWhite( &ea); 
-  char* nomc= const_cast< char*>( (output_name+"b&w").c_str());
   
-  erSaveImage( &eb,currentFileName(), nomc);
-  erShowImage( "b&w", &eb);
-
+ 
   erWhiteBlobCorrection( &eb, &param_white_blob);
-  nomc = const_cast< char*>( (output_name+"blob").c_str());
-  erSaveImage(&eb,file_name,nomc);
-  erShowImage( "blob", &eb);  
+  
+  
   /** Modif temp */
   erCvSmooth( &eb, &param_smooth1);
-  nomc= const_cast< char*>( (output_name+"blur").c_str());
-  erSaveImage( &eb,currentFileName(), nomc);
-  erShowImage( "blur", &eb);
+ 
   /** Jusque la */
   if( _with_calibration)
     {
@@ -588,14 +607,11 @@ bool erWeldPoolAnalysis::doItImage(erImage& ea)
   ed = erDef_ROI( &ec, &rectOI);
   
   erCvCanny( &ed, &param_canny);
-  nomc= const_cast< char*>( (output_name+"canny").c_str());
-  erSaveImage( &ed,currentFileName(), nomc);
-  erShowImage( "canny", &ed); 
-
+ 
+  
   erCvDilate( &ed, &param_dilate);
-  nomc= const_cast< char*>( (output_name+"dilate").c_str());
-  erSaveImage( &ed,currentFileName(), nomc);
-  erShowImage( "dilate", &ed);
+ 
+
   /**
   erCvSmooth( &ed, &param_smooth1);
   nomc= const_cast< char*>( (output_name+"blur").c_str());
@@ -603,45 +619,26 @@ bool erWeldPoolAnalysis::doItImage(erImage& ea)
   erShowImage( "blur", &ed);
   */
   erCvSmooth( &ed, &param_smooth2);
-  nomc= const_cast< char*>( (output_name+"median").c_str());
-  erSaveImage( &ed,currentFileName(), nomc);
-  erShowImage( "median", &ed);
+ 
 
   ee = erCvTemplate( &ed, &param_template);
-  nomc= const_cast< char*>( (output_name+"temp").c_str());
-  erSaveImage( &ee,currentFileName(), nomc);
-  erShowImage( "temp", &ee);
-
   erCvThreshold( &ee, &param_threshold);
-  nomc= const_cast< char*>( (output_name+"thres").c_str());
-  erSaveImage( &ee,currentFileName() , nomc);
-  erShowImage( "thres", &ee);
-
   erCvCanny( &ee, &param_canny);
-  nomc= const_cast< char*>( (output_name+"canny2").c_str());
-  erSaveImage( &ee,currentFileName(), nomc);
-  erShowImage( "canny2", &ee);
-  //erShowImage( "result canny 2", &ee);
-  //erSaveImage2Analysis( &ee, file_name, fich, "can");
+
 
   IsEqualTo is_equal_255(255);
   erExtractCvPoints( cvPts, &ee, is_equal_255, rectOI);
 
   convertCvToCgalpoints( cvPts, cgalPts);
-  nomc= const_cast< char*>( (output_name+"extract").c_str());
-  erPrintCgalPoint( cgalPts, currentFileName(), nomc);
+  
 
   alpha_edges( cgalPts, cgalSeg, &param_alpha_shape);
-  nomc= const_cast< char*>( (output_name+"alpha").c_str());
-  erPrintCgalPoint( cgalSeg,currentFileName(), nomc);
-
+ 
   largest_closed_segment( cgalSeg, bgraphSeg);
-  nomc= const_cast< char*>( (output_name+"closer").c_str());
-  erPrintCgalPoint( bgraphSeg,currentFileName(), nomc);
+ 
 
   convex_hull( bgraphSeg, cgalPts2);
-  nomc= const_cast< char*>( (output_name+"convex").c_str());
-  erPrintCgalPoint( cgalPts2,currentFileName(), nomc);
+ 
 
   double area;
 
@@ -693,10 +690,12 @@ void erWeldPoolAnalysis::saveParameters( std::string file)
 };
 
 
+/********************************************************************
 
+                      LASER_ANALYSIS
 
+*********************************************************************/
 
-/* Analysis pour le laser du prototypage */
 
 /* Constructeur par defaut */
 erLaserPrototypageAnalysis::erLaserPrototypageAnalysis(){};

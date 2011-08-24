@@ -598,7 +598,7 @@ void erExtractCurveWire( Container &pts, IplImage* simag, CvRect recROI, erCerc*
   iterMap = ptsMap.begin();
   for( iterV_cercleDepart = iterMap->second.begin(); iterV_cercleDepart != iterMap->second.end(); iterV_cercleDepart++)
     {
-      a = abs( iterV_cercleDepart->x - cercle.first.x);
+      a = abs( iterV_cercleDepart->y - cercle.first.y);
 
       if( a <= cercle.second)
 	{
@@ -628,6 +628,7 @@ void erExtractCurveWire( Container &pts, IplImage* simag, CvRect recROI, erCerc*
       pts.clear();
       return; 
     }
+
   int SSmap = 7*(ptsMap.size())/10;
   int A=0;
   bool candidat;
@@ -636,21 +637,14 @@ void erExtractCurveWire( Container &pts, IplImage* simag, CvRect recROI, erCerc*
   iterMap++;
   iterMap_border = ptsMap.end();
   iterMap_border--;
+
   for( ; iterMap != iterMap_border; iterMap++)
     {       
       Dmap =  distance( ptsMap.begin(), iterMap);
       cpt = pts.back();
       //iterV_pts = pts.begin();
       candidat = false;
-      /*if( cpt.y <= recROI.y || cpt.y >= recROI.y + recROI.height)
-	{
-	  std::ofstream file( nameGoodImagesFile(INFOFILE), std::ios_base::app );
-	  file << file_name << std::endl;
-	  file << std::endl;
-	  pts.clear();
-	  std::cout << "On sort parceque les points sorte de la zone" << std::endl;
-	  return;
-	  }*/
+
       iterV_polyvalent = erFindCvPoint( iterMap->second.begin(), iterMap->second.end(), cvPoint( cpt.x,iterMap->first));
       if( iterV_polyvalent != iterMap->second.end())
 	{
@@ -661,6 +655,7 @@ void erExtractCurveWire( Container &pts, IplImage* simag, CvRect recROI, erCerc*
 	{ 
 	  candidat = false;
 	  iterV_polyvalent = erFindCvPoint( iterMap->second.begin(), iterMap->second.end(), cvPoint( cpt.x+1,iterMap->first));
+
 	  if( iterV_polyvalent != iterMap->second.end())
 	    {
 	      candidat = true;
@@ -696,7 +691,7 @@ void erExtractCurveWire( Container &pts, IplImage* simag, CvRect recROI, erCerc*
 			}
 		      if( !candidat || iterV_insidecurv != pts.end())
 			{
-			  if( iterMap == ptsMap.begin())
+			  /*if( iterMap == ptsMap.begin())
 			    {
 			      std::ofstream file( nameGoodImagesFile(INFOFILE), std::ios_base::app );
 			      file << file_name << std::endl;
@@ -704,7 +699,7 @@ void erExtractCurveWire( Container &pts, IplImage* simag, CvRect recROI, erCerc*
 			      pts.clear();
 			      std::cout << "On sort parcequ'on revient au debut" << std::endl;
 			      return;
-			    }
+			      }*/
 			  iterMap--;
 			  candidat = false;
 			  iterV_polyvalent = erFindCvPoint( iterMap->second.begin(), iterMap->second.end(), cvPoint(cpt.x+1, iterMap->first));
@@ -797,7 +792,9 @@ void erExtractCurveWire( Container &pts, IplImage* simag, CvRect recROI, erCerc*
 	      pts.push_back( p_polyvalent);
 	    }
 	}
+     
     };  
+
 };
 
 
@@ -901,7 +898,6 @@ void erPrintCvPoint( Container & pts, char* file_name, char* exit_name)
 {
   //Ecriture du nom du ficher 
   char* new_name = erEcrireNomFichier( file_name, exit_name, "_curvCV_");
-
   //Ouverture du ficher
   std::ofstream myfile( new_name);
   if (myfile.is_open())
@@ -917,7 +913,7 @@ void erPrintCvPoint( Container & pts, char* file_name, char* exit_name)
     }
   else 
     {
-      std::cout << "Unable to open file";
+      std::cout << "Unable to open file:" << new_name << std::endl;
     }
 };
 

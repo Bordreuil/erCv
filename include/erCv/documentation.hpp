@@ -33,54 +33,48 @@
 // The fact that you are presently reading this means that you have had
 // knowledge of the CeCILL license and that you accept its terms.
 /** \mainpage
-    Le projet erCv est un module developpe au cours du projet ANR Jeunes Chercheurs
-    TEMMSA 2007 effectue au sein du Laboratoire de Mecanique et Genie Civil/UMR5508 de 
-    l' Universite de Montpellier 2. Le module developpe par Edward Romero (Le physicien fou)
-    edward.romero@lmgc.univ-montp2.fr (a l'epoque)
-    est essentiellement un couplage entre plusieurs bibliotheques OpenSource
+    erCv's project is a library developped during ANR Project
+    TEMMSA 2007 at  Laboratoire de Mecanique et Genie Civil/UMR5508 of
+    Montpellier 2 University. The library was implemented by  Edward Romero (mad scientist)
+    based on high efficient open source libraries.
 
-    \image html physicien_fou.png Edward Romero en forme apres une sceance de c++
+    \image html physicien_fou.png Edward Romero after c++ implementation time.
 
-
-    - OpenCv   : permet de realiser le traitement d image (segmentation, seuillage, calibration,..)
-    - Boost    : boost::graph est utiliser pour detecter les contours les plus grands,... 
-    - CGAL 3.8 : permet de quantifier tous les aspects geometriques, et tous les aspects de voisinages.
+    The open source libraries used are:
+    - <a href="http://opencv.willowgarage.com/wiki/"> OpenCv</a>   : for basic image treatment  (segmentation, threashold, calibration,..)
+    -  <a href="http://www.boost.org">Boost   </a> : boost::graph is used for detecting cycle,... and Boost.Python if you want python bindings
+    -  <a href="http://www.cgal.org">CGAL 3.8 </a>: perform all geometrical operations (delaunay,....)
     
-    L'installation necessite un compilateur C++.
-    L'installation d erCv necessite le logiciel OpenSource CMake http://www.cmake.org
-    Une extension du module est prevu en python et necessite la bibliotheque Boost.python.
-    Pour  la  compilation pour ces modules, il faut passer la commande -DBUILD_PYTHON_MODULE=1 a cmake
+    It is mainly implemented in C++ but some bindings exist in Python.
+    To install erCv, you will need  <a href="http://www.cmake.org">CMake</a> 
    
 
-    Les fichiers interfaces (.hpp) sont accessibles dans un programme en specifiant le repertoire include ou include/erCv suivant l utilisation qu'on veut en faire.
-
     \section Install Installation
-    
+    Install the libraries in the following order : Opencv, Boost, CGAL. If troubles go to install pages of this libraries.
+    Then, you can install erCv in two ways the first is with cmake, the other is with cmake-gui (you see environment variable for real).
+
     \subsection source Source
-    Pour utiliser les sources, il conveint d'installer les librairies dans l'ordre de 
-    la presentation (OpenCv, Boost, CGAL). 
+    First, create a directory with build-name_of_the_compiler, go inside this directory,
+    then type : cmake -DCMAKE_CXX_COMPILER=compiler ..
 
-    Il est conseiller de creer un repertoire build-nom_du_compilo, puis de se placer dans ce repertoire,
-    ensuite on tape la ligne de commande : cmake -DCMAKE_CXX_COMPILER=nom_compilo ..
+    \subsection Python Python
+    To install python, you have to install python and boost.python and to add to cmake commande line cmake -DENABLE_PYTHON=1 ..
 
-    Cela permet d avoir une installation propre et un acces simple au source sans rien surcharge
-    dans les repertoire des sources.
-    \subsection binaire Paquets
-    Des paquets sont disponibles pour :
+    \subsection binaire Packages
+    Some packages can be made on different platforms ask if you got trouble with installation.
 
-    - Mac Os x: Leopard/Tiger 
-    - Ubuntu  : YaKa demander
-    - Opensuse: Yaka demander
-    - Windows : On work
 
-    Pour tout probleme avec l'installation, vous pouvez contacter cyril.bordreuil@univ-montp2.fr
+    For any trouble with install, contact cyril.bordreuil@univ-montp2.fr
 
     \section test Tests
-    Une serie de tests est en developpement par Edward pour voir si tout tourne correctement apres
-    l installation.
-    Dans le repertoire ou vous l'avez installer, rentrer dans le repertoire tests et taper
-    la ligne de commande ctest -I 
+    Some tests are coming the version in order to see if all compile fine.
+    Go to 'tests' directory then type 'ctest -I' 
 
-    \section refernce References
-    Des articles sur la mise en oeuvre des articles est en cours.
+    \section project Using erCv in other project
+    In the CMAKE_BINARY_DIR (build directory), you will find a lib/erCv directory where there is a ercv-config.cmake file with
+    all the variable needed by erCv.
+    Then in an other CMakeLists.txt you add FIND_PACKAGE(erCv) and then you have erCv_INCLUDE_DIRS and erCv_LIBRARY variable available for
+
+    \section reference References
+    
  */
