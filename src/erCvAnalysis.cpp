@@ -49,7 +49,7 @@
 
 
 #include <erCv/graph/erConnectedSegments.hpp>
-
+#include <erCv/graph/erShortestPaths.hpp>
 
 #include<time.h>
 #include<fstream>
@@ -65,7 +65,7 @@ std::string ANALYSIS_EXTENSION="_erCvAnalysis";
 
 /********************************************************************
 
-                      ERANALYSIS
+                      ER_ANALYSIS
 
 *********************************************************************/
 
@@ -119,7 +119,7 @@ char* erAnalysis::currentFileName()
 erMacroDropAnalysis::erMacroDropAnalysis() { };
 
 erMacroDropAnalysis::erMacroDropAnalysis( std::string name, std::string infofile):
-  erAnalysis( name, infofile), rectOI( ), cercToStart( ), param_smooth1( ), param_smooth2( ),
+  erAnalysis( name, infofile), rectOI( ), cerc_to_start( ), param_smooth1( ), param_smooth2( ),
   param_canny( ), param_adaptive_threshold( ), param_equalizer_histogram( )
 { };
 
@@ -165,7 +165,7 @@ bool erMacroDropAnalysis::defineParametersUI( std::string firstImage)
   
   erExtractCvPoints( cvPts, &ec, is_equal_255, rect); /* Extraction */
   erExtractCurveMacroDropUser( cvPts, &ec, rect, &cerc, file_name);
-  cercToStart = cerc;
+  cerc_to_start = cerc;
   char* nom   = const_cast<char*>(name.c_str());
   erPrintCvPoint( cvPts, file_name, nom); 
   return true;
@@ -176,7 +176,7 @@ bool erMacroDropAnalysis::defineParametersUI( std::string firstImage)
 void erMacroDropAnalysis::defineParameters( CvRect rect, erCerc cerc, erSmootP smooth1, erSmootP smooth2, erCannyP cann, erAdThrP adthr, erEqualP equal)
 {
   rectOI                   = rect;
-  cercToStart              = cerc;
+  cerc_to_start            = cerc;
   param_smooth1            = smooth1;
   param_smooth2            = smooth2;
   param_canny              = cann;
@@ -212,7 +212,7 @@ bool erMacroDropAnalysis::doItImage(erImage& ea)
        erSaveImage( &ec, currentFileName(), nom);
        IsEqualTo is_equal_255( 255); 
        erExtractCvPoints( cvPts, &ec, is_equal_255, rectOI);
-       erExtractCurveMacroDrop( cvPts, &ec, rectOI, &cercToStart,currentFileName());
+       erExtractCurveMacroDrop( cvPts, &ec, rectOI, &cerc_to_start,currentFileName());
        erPrintCvPoint( cvPts,currentFileName(), nom); 
        
        return true;
@@ -224,7 +224,7 @@ void erMacroDropAnalysis::saveParameters(std::string file)
   std::ofstream out(output_file.c_str());
   out << "* Begin er MacroDrop Analysis" << std::endl;
   out << this->rectOI;
-  out << this->cercToStart;
+  out << this->cerc_to_start;
   out << this->param_smooth1;
   out << this->param_adaptive_threshold;
   out << this->param_smooth2;
@@ -240,16 +240,26 @@ void erMacroDropAnalysis::saveParameters(std::string file)
 
 
 
-erWireAnalysis::erWireAnalysis(std::string name, std::string infofile):erMacroDropAnalysis(name,infofile){};
-
+erWireAnalysis::erWireAnalysis(std::string name, std::string infofile):erMacroDropAnalysis(name,infofile),cerc_to_end(),param_alpha_shape(){};
+void erWireAnalysis::setEndZone(erCerc cerc)
+{
+  cerc_to_end = cerc;
+};
+void erWireAnalysis::setBeginZone(erCerc cerc)
+{
+  cerc_to_start = cerc;
+};
 bool erWireAnalysis::doItImage(erImage& ea)
 {      
        erImage  eb, ec, ed; 
-       std::list<CvPoint> cvPts;
+       
+       std::list<CvPoint>    cv_pts;
+       std::list< CgalPoint> cgal_pts,cgal_wire_pts;
+       std::list< CgalSegmt> cgalSeg, bgraphSeg;
+       
        std::string output_name = (dir_analysis+"/"+name+"_wire");
        char* nom               = const_cast<char*>(output_name.c_str());
 
-       std::cout << std::endl;
        eb = erConvertToBlackAndWhite( &ea);        
        ec = erDef_ROI( &eb, &rectOI); 
  
@@ -262,11 +272,17 @@ bool erWireAnalysis::doItImage(erImage& ea)
  
        erSaveImage( &ec, currentFileName(), nom);
        IsEqualTo is_equal_255( 255); 
-       erExtractCvPoints( cvPts, &ec, is_equal_255, rectOI);
-       erExtractCurveWire( cvPts, &ec, rectOI, &cercToStart,currentFileName());
+       erExtractCvPoints( cv_pts, &ec, is_equal_255, rectOI);
+       convertCvToCgalpoints( cv_pts, cgal_pts);
 
-       erPrintCvPoint( cvPts,currentFileName(), nom); 
-       
+       alpha_edges( cgal_pts, cgalSeg, &param_alpha_shape);
+
+       cgal_wire_pts = erGetShortestPath(cgalSeg.begin(),cgalSeg.end(),cerc_to_start,cerc_to_end);
+
+  
+       erPrintCgalPoint( cgal_wire_pts,currentFileName(), nom);
+
+             
        return true;
 };
 
@@ -329,7 +345,7 @@ bool erMetalTransfertAnalysis::defineParametersUI( std::string firstImage)
   
   alpha_edges_user( cgalPts, cgalSeg, &palp);
   param_alpha_shape = palp;
-  largest_closed_segment( cgalSeg, bgraphSeg);
+  largestClosedPolygon( cgalSeg, bgraphSeg);
 
   char* nom = const_cast< char*>( name.c_str());
   erPrintCgalPoint( bgraphSeg, file_name, nom);
@@ -402,7 +418,7 @@ bool erMetalTransfertAnalysis::doItImage(erImage& ea)
   //std::list< CgalSegmt>::iterator dede=cgalSeg.begin();
   //erPrintCgalPoint( cgalSeg, file_name, nom);
     
-  largest_closed_segment( cgalSeg, bgraphSeg);
+  largestClosedPolygon( cgalSeg, bgraphSeg);
   
   erPrintCgalPoint( bgraphSeg,currentFileName(), nom);
 
@@ -533,7 +549,7 @@ bool erWeldPoolAnalysis::defineParametersUI( std::string firstImage)
   
   alpha_edges( cgalPts, cgalSeg, &palp);
   
-  largest_closed_segment( cgalSeg, bgraphSeg);
+  largestClosedPolygon( cgalSeg, bgraphSeg);
 
   erPrintCgalPoint( bgraphSeg, file_name, nom);
   
@@ -634,7 +650,7 @@ bool erWeldPoolAnalysis::doItImage(erImage& ea)
 
   alpha_edges( cgalPts, cgalSeg, &param_alpha_shape);
  
-  largest_closed_segment( cgalSeg, bgraphSeg);
+  largestClosedPolygon( cgalSeg, bgraphSeg);
  
 
   convex_hull( bgraphSeg, cgalPts2);
@@ -763,7 +779,7 @@ bool erLaserPrototypageAnalysis::defineParametersUI( std::string firstImage)
   
   alpha_edges( cgalPts, cgalSeg, &palp);
   
-  largest_closed_segment( cgalSeg, bgraphSeg);
+  largestClosedPolygon( cgalSeg, bgraphSeg);
 
   erPrintCgalPoint( bgraphSeg, file_name, nom);
   
@@ -840,7 +856,7 @@ bool erLaserPrototypageAnalysis::doIt_diffuse(std::string fich)
 
   alpha_edges( cgalPts, cgalSeg, &param_alpha_shape);
 
-  largest_closed_segment( cgalSeg, bgraphSeg);
+  largestClosedPolygon( cgalSeg, bgraphSeg);
 
   erPrintCgalPoint( bgraphSeg, file_name, nom);
   if(output_convex_polygon)
@@ -915,7 +931,7 @@ bool erLaserPrototypageAnalysis::doItImage(erImage& ea)
 
   alpha_edges( cgalPts, cgalSeg, &param_alpha_shape);
 
-  largest_closed_segment( cgalSeg, bgraphSeg);
+  largestClosedPolygon( cgalSeg, bgraphSeg);
 
   erPrintCgalPoint( bgraphSeg,currentFileName(), nom);
  

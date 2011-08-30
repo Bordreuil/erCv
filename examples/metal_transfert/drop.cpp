@@ -144,7 +144,7 @@ int main( int hola, char** file_name)
 //   /*Cette fonction ecrit la curbe d'interet, dans un ficher qui a pour nom, */ 
 //   /* le nom definie par l'usager + le No serial de l'image depuis laquelle etait extrait */
 //   //erEcriturePointPixel( cvPts, file_name);
-  largest_closed_segment( cgalSeg, bgraphSeg); 
+  largestClosedPolygon( cgalSeg, bgraphSeg); 
   erPrintCgalPoint( bgraphSeg, name, exit);
 //   /* Boucle de lecteure des images  */
 //   time_t tbeg = time(NULL);

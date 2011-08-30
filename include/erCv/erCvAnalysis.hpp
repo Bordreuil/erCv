@@ -134,7 +134,7 @@ struct erMacroDropAnalysis:public erAnalysis
   void saveParameters( std::string);
   void loadParameters( std::string);
   CvRect         rectOI;                       /*< Rectangle qui demarque la zone d interet  */
-  erCerc         cercToStart;                  /* < Cercle qui demarque le debut de la curve que sousligne le profil de la macro goutte */
+  erCerc         cerc_to_start;                  /* < Cercle qui demarque le debut de la curve que sousligne le profil de la macro goutte */
   erEqualP       param_equalizer_histogram;    /* < 0 si l equalizateur est active: Augmente le contraste de l image ( image en niveau des gris)
 						    1 si l equalizateur n'est pas active: Contraste naturel de l image 
 					       */
@@ -209,8 +209,12 @@ struct erMacroDropAnalysis:public erAnalysis
 class erWireAnalysis:public erMacroDropAnalysis
 {
 public:
-  erWireAnalysis(std::string name, std::string infofile = "info");
+  erWireAnalysis(std::string name, std::string infofile = "info"); 
+  void setEndZone(erCerc);
+  void setBeginZone(erCerc);
   bool doItImage(erImage&);
+  erCerc    cerc_to_end;
+  erAlphaP  param_alpha_shape; 
 };
 
 /** \brief  Classe pour des analyse des gouttes en vol : These Julien Chapuis 

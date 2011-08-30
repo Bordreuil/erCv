@@ -35,16 +35,11 @@
 #ifndef _ERCV_CONNECTED_SEGMENTS_HPP_
 #define _ERCV_CONNECTED_SEGMENTS_HPP_
 
-#include <boost/config.hpp>
+
 #include <iostream>
 #include <vector>
 #include <boost/graph/connected_components.hpp>
-#include <boost/graph/adjacency_list.hpp>
-#include <erCv/geometry/erCgalBase.hpp>
-
-
-
-
+#include "erGraph.hpp"
 
 
 /** Definition de qq typedef 
@@ -55,17 +50,13 @@ typedef  std::map< uint, BgraphSegmt>          BgraphSegmtMap;
 
 
 
-
-
-
-
 /** 
     Un critere pour detecte si la liste ou le vecteur de segments est bien ferme
 */
-class Segments_set_is_closed
+class SegmentsSetIsClosed
 {
 public:
-  Segments_set_is_closed(){};
+  SegmentsSetIsClosed(){};
   template< typename Iter>
   bool operator ()( Iter debut, Iter fin)
   {
@@ -88,76 +79,23 @@ public:
 };
 
 
-
-
-
-
-
-/** 
-    Definition des types pour la gestion des graphes
-*/
-typedef boost::adjacency_list < boost::vecS, boost::vecS, boost::undirectedS, boost::property< boost::vertex_name_t, CgalPoint> >                                     Graph;
-typedef boost::property_map< Graph, boost::vertex_name_t>::type                  Points_graph_map_t;
-typedef boost::graph_traits< Graph>::vertex_descriptor                           Vertex;
-typedef std::map< CgalPoint, Vertex>                                             PointVertexMap;
-
-
-
-
-
 /**
    Interface avec boost::graph pour trouver les segments connectes entre eux
    La sortie est une map ou chaque numero repere un ensemble connecte
 */
 template< typename Iterator>
-BgraphSegmtMap  get_connected_segments( Iterator debut, Iterator fin)
+BgraphSegmtMap  getConnectedSegments( Iterator debut, Iterator fin)
 { 
   Graph graph;
   PointVertexMap points;
-  bool inserted1,inserted2;
-  typedef PointVertexMap::iterator MapIterator;
+  boost::tie(graph,points) = constructGraphFromSegments(debut,fin);
+
   Points_graph_map_t points_graph = boost::get( boost::vertex_name, graph);
-  
-  MapIterator    ip1,ip2;
-  Vertex u,v;
-  uint id_vertex = 0;
-  for( ;debut != fin;debut++)
-    { uint id1,id2;
-      
-      boost::tie( ip1,inserted1) = points.insert( std::make_pair( debut->source(), Vertex()));
-      boost::tie( ip2,inserted2) = points.insert( std::make_pair( debut->target(), Vertex()));
-      
-      if( inserted1)
-	{
-	  u= boost::add_vertex( graph);
-	  ip1->second = u;
-	  points_graph[ u] = debut->source();
-	}
-      else
-	{ 
-	  u=ip1->second;
-	}
-      
-      if( inserted2)
-	{
-	  v= boost::add_vertex( graph);
-	  ip2->second = v;
-	  points_graph[ v] = debut->target();
-	}
-      else
-	{
-	  v=ip2->second;
-	}
-      boost::add_edge( u, v, graph);
-    };
   
   std::vector< int> connect( boost::num_vertices( graph));
   
   int num = boost::connected_components
-    ( graph, boost::make_iterator_property_map( connect.begin(), boost::get( boost::vertex_index, graph), connect[0]));
-  
-  //std::cout << "Nombre de sommet du graphe:" << boost::num_vertices(graph) << std::endl;
-  //std::cout << "Nombre de domaine connecte:" << num  << std::endl; 
+    ( graph, boost::make_iterator_property_map( connect.begin(),boost::get( boost::vertex_index, graph), connect[0]));
   
   boost::graph_traits< Graph>::edge_iterator     ei,ei_end;
   BgraphSegmtMap map_of_connected;
@@ -173,9 +111,6 @@ BgraphSegmtMap  get_connected_segments( Iterator debut, Iterator fin)
   return map_of_connected;
   
 };
-
-
-
 
 
 /**
@@ -210,11 +145,11 @@ BgraphSegmt filterMapOfSegments( BgraphSegmtMap& map_of_connected, Criteria& cri
 
 
 template< class Container, class Container2>
-void largest_closed_segment( Container cgalSegmts, Container2& bgraphSegmts)
+void largestClosedPolygon( Container cgalSegmts, Container2& bgraphSegmts)
 {
-  BgraphSegmtMap c_segment = get_connected_segments( cgalSegmts.begin(), cgalSegmts.end());
+  BgraphSegmtMap c_segment = getConnectedSegments( cgalSegmts.begin(), cgalSegmts.end());
 
-  Segments_set_is_closed criteria;
+  SegmentsSetIsClosed criteria;
   bgraphSegmts = filterMapOfSegments( c_segment, criteria);
 }
 

@@ -95,7 +95,7 @@ struct erMetalTransfertAnalysis_wrapper : erMetalTransfertAnalysis, bp::wrapper<
     , bp::wrapper< erMetalTransfertAnalysis >(){
     // constructor
     
-  }
+  };
   
   virtual bool doIt( std::string arg0 ) {
     if( bp::override func_doIt = this->get_override( "doIt" ) )
@@ -112,7 +112,8 @@ struct erMetalTransfertAnalysis_wrapper : erMetalTransfertAnalysis, bp::wrapper<
   
   bool default_doIt( std::string arg0 ) {
     return erMetalTransfertAnalysis::doIt( arg0 );
-  }
+  };
+
   bool doItNumPy(pyublas::numpy_array<unsigned short>& arr,std::string file_name="test_1.bmp")
   {
     const npy_intp* dims = arr.dims();
@@ -141,6 +142,64 @@ struct erMetalTransfertAnalysis_wrapper : erMetalTransfertAnalysis, bp::wrapper<
     return true;
   }
 };
+
+
+struct erWireAnalysis_wrapper : erWireAnalysis, bp::wrapper< erWireAnalysis > {
+
+    erWireAnalysis_wrapper(erWireAnalysis const & arg )
+    : erWireAnalysis( arg )
+      , bp::wrapper< erWireAnalysis >(){
+        // copy constructor
+        
+    }
+
+  erWireAnalysis_wrapper(std::string name, std::string infofile="info" )
+    : erWireAnalysis( name, infofile )
+      , bp::wrapper< erWireAnalysis >(){
+        // constructor
+    
+    }
+
+  virtual bool doIt( std::string arg0 ) {
+        if( bp::override func_doIt = this->get_override( "doIt" ) )
+            return func_doIt( arg0 );
+        else
+            return this->erMacroDropAnalysis::doIt( arg0 );
+    }
+    
+    
+  bool default_doIt(std::string arg0 ) {
+        return erMacroDropAnalysis::doIt( arg0 );
+    }
+ bool doItNumPy(pyublas::numpy_array<unsigned short>& arr,std::string file_name="test_1.bmp")
+  {
+    const npy_intp* dims = arr.dims();
+    
+    int ncol = dims[0];
+    int nlig = dims[1];
+    unsigned short* storage = arr.data();
+    char*  file_c   =   const_cast<char*>(file_name.c_str());
+    setCurrentFileName(file_c);
+    
+    IplImage* im = cvCreateImage(cvSize(ncol,nlig),IPL_DEPTH_8U,3);
+
+    for(int i=0;i<ncol;i++)
+      {
+	for(int j=0;j < nlig;j++)
+	  { 
+	    unsigned short va = storage[i*ncol+j]*256/65536;
+	    CvScalar val = cvScalarAll(va);
+	    cvSet2D(im,i,j,val);
+	  };
+      }; 
+
+    erImage eim(im);
+    erWireAnalysis::doItImage(eim);
+
+    return true;
+  }
+};
+
 
 struct erWeldPoolAnalysis_wrapper : erWeldPoolAnalysis, bp::wrapper< erWeldPoolAnalysis > {
   
@@ -235,7 +294,13 @@ void export_erCvAnalysis(){
 	 "doIt"
 	 , bp::pure_virtual( (bool ( ::erAnalysis::* )( std::string ) )(&::erAnalysis::doIt) )
 	 , ( bp::arg("arg0") ) );
-  
+  //-----------------------------------------------------------------------------------------------------------
+  //
+  // 
+  // Python ::::   ER_MACRO_DROP_ANALYSIS
+  //
+  //
+  //-----------------------------------------------------------------------------------------------------------  
   bp::class_< erMacroDropAnalysis_wrapper, bp::bases< erAnalysis > >( "erMacroDropAnalysis",bp::init<>())
     .def(bp::init<std::string,bp::optional<std::string> >(( bp::arg("name"), bp::arg("infofile")="info" )))   
     
@@ -261,14 +326,20 @@ void export_erCvAnalysis(){
 	 , ( bp::arg("arg0") ) )
     
     .def_readwrite( "rectOI",                  &erMacroDropAnalysis::rectOI )
-    .def_readwrite( "cercToStart",             &erMacroDropAnalysis::cercToStart )
+    .def_readwrite( "cerc_to_start",             &erMacroDropAnalysis::cerc_to_start )
     .def_readwrite( "rectOI",                  &erMacroDropAnalysis::rectOI )
     .def_readwrite( "param_smooth1",           &erMacroDropAnalysis::param_smooth1 )
     .def_readwrite( "param_smooth2",           &erMacroDropAnalysis::param_smooth2 )
     .def_readwrite( "param_canny",             &erMacroDropAnalysis::param_canny )
     .def_readwrite( "param_adaptive_threshold",&erMacroDropAnalysis::param_adaptive_threshold )
     .def_readwrite( "param_equalizer_histogram",&erMacroDropAnalysis::param_equalizer_histogram );
-  
+  //-----------------------------------------------------------------------------------------------------------
+  //
+  // 
+  // Python ::::   ER_METAL_TRANSFERT_ANALYSIS
+  //
+  //
+  //-----------------------------------------------------------------------------------------------------------  
 
   
   bp::class_< erMetalTransfertAnalysis_wrapper, bp::bases< erAnalysis > >( "erMetalTransfertAnalysis", bp::init< >() )    
@@ -311,8 +382,39 @@ void export_erCvAnalysis(){
     .def_readwrite( "param_smooth2",            &erMetalTransfertAnalysis::param_smooth2 )    
     .def_readwrite( "output_geo",               &erMetalTransfertAnalysis::output_geometry_characteristics )
     .def_readwrite( "rectOI",                   &erMetalTransfertAnalysis::rectOI );
-  
-  
+  //-----------------------------------------------------------------------------------------------------------
+  //
+  // 
+  // Python ::::   ER_WIRE_ANALYSIS
+  //
+  //
+  //-----------------------------------------------------------------------------------------------------------  
+  bp::class_< erWireAnalysis_wrapper, bp::bases< erMacroDropAnalysis > >( "erWireAnalysis", bp::init< std::string, bp::optional< std::string > >(( bp::arg("name"), bp::arg("infofile")="info" )) )    
+        .def( 
+            "setBeginZone"
+            , (void ( ::erWireAnalysis::* )( ::erCerc ) )( &::erWireAnalysis::setBeginZone )
+            , ( bp::arg("arg0") ) )    
+        .def( 
+            "setEndZone"
+            , (void ( ::erWireAnalysis::* )( ::erCerc ) )( &::erWireAnalysis::setEndZone )
+            , ( bp::arg("arg0") ) )    
+        .def_readwrite( "cerc_to_end", &erWireAnalysis::cerc_to_end )    
+        .def_readwrite( "param_alpha_shape", &erWireAnalysis::param_alpha_shape )    
+        .def(
+	 "doItNumPy"
+	 ,  (bool ( ::erWireAnalysis_wrapper::* )(boost::python::numeric::array& ,std::string ) )(&::erWireAnalysis_wrapper::doItNumPy))
+        .def( 
+            "doIt"
+            , (bool ( ::erMacroDropAnalysis::* )( std::string ) )(&::erMacroDropAnalysis::doIt)
+            , (bool ( erWireAnalysis_wrapper::* )( std::string) )(&erWireAnalysis_wrapper::default_doIt)
+            , ( bp::arg("arg0") ) );
+  //-----------------------------------------------------------------------------------------------------------
+  //
+  // 
+  // Python ::::   ER_WELD_POOL_ANALYSIS
+  //
+  //
+  //-----------------------------------------------------------------------------------------------------------  
   
   bp::class_< erWeldPoolAnalysis_wrapper, bp::bases< erAnalysis > >( "erWeldPoolAnalysis", bp::init< >() )    
     .def( bp::init< std::string, bp::optional< std::string > >(( bp::arg("name"), bp::arg("infofile")="info" )) )    
@@ -350,7 +452,13 @@ void export_erCvAnalysis(){
     .def_readwrite( "param_threshold"   , &erWeldPoolAnalysis::param_threshold)
     .def_readwrite( "rectOI"            , &erWeldPoolAnalysis::rectOI );
   
-
+  //-----------------------------------------------------------------------------------------------------------
+  //
+  // 
+  // Python ::::   ER_LASER_PROTOTYPAGE_ANALYSIS
+  //
+  //
+  //-----------------------------------------------------------------------------------------------------------  
   
 
  bp::class_< erLaserPrototypageAnalysis_wrapper, bp::bases< erAnalysis > >( "erLaserPrototypageAnalysis", bp::init< >() )    

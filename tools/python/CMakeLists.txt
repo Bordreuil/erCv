@@ -1,0 +1,3 @@
+FILE(COPY erCvGeometry.py     DESTINATION ${CMAKE_BINARY_DIR}/lib/erCv)
+FILE(COPY erCvTools.py     DESTINATION ${CMAKE_BINARY_DIR}/lib/erCv)
+FILE(COPY erCv.py     DESTINATION ${CMAKE_BINARY_DIR}/lib/erCv)
