@@ -89,6 +89,7 @@ struct erAnalysis
   std::string          infoFile;      /** < Fichier de sortie des infos */
   std::string          name;          /** < Nom a donner a l analyse */
   std::string          dir_analysis;  /** < Repertoire de la analyse en general name+_erCvAnalysis */  
+  std::string          output_name;  /** < Nom du fichier de sortie des resultats*/
   erCalibration        _calibration;
   bool                 _with_calibration;  // Pour savoir si on active la calibration
   char* file_name;

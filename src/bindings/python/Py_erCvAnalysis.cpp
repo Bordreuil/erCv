@@ -293,7 +293,10 @@ void export_erCvAnalysis(){
     .def( 
 	 "doIt"
 	 , bp::pure_virtual( (bool ( ::erAnalysis::* )( std::string ) )(&::erAnalysis::doIt) )
-	 , ( bp::arg("arg0") ) );
+	 , ( bp::arg("arg0") ) )
+   .def_readwrite( "dir_analysis",                  &erAnalysis::dir_analysis )
+   .def_readwrite( "name",                  &erAnalysis::name)
+   .def_readwrite( "output_name",                  &erAnalysis::output_name);
   //-----------------------------------------------------------------------------------------------------------
   //
   // 

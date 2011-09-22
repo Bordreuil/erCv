@@ -197,7 +197,7 @@ bool erMacroDropAnalysis::doItImage(erImage& ea)
 {      
        erImage  eb, ec, ed; 
        std::list<CvPoint> cvPts;
-       std::string output_name = (dir_analysis+"/"+name+"_mcr");
+       output_name = (dir_analysis+"/"+name+"_mcr");
        char* nom               = const_cast<char*>(output_name.c_str());
 
        std::cout << std::endl;
@@ -257,7 +257,7 @@ bool erWireAnalysis::doItImage(erImage& ea)
        std::list< CgalPoint> cgal_pts,cgal_wire_pts;
        std::list< CgalSegmt> cgalSeg, bgraphSeg;
        
-       std::string output_name = (dir_analysis+"/"+name+"_wire");
+       output_name = (dir_analysis+"/"+name+"_wire");
        char* nom               = const_cast<char*>(output_name.c_str());
 
        eb = erConvertToBlackAndWhite( &ea);        
@@ -391,7 +391,7 @@ bool erMetalTransfertAnalysis::doItImage(erImage& ea)
   std::list< CgalSegmt> cgalSeg, bgraphSeg;
   erEqualP pequ;
 
-  std::string output_name = (dir_analysis+"/"+name+"_mtl");
+  output_name = (dir_analysis+"/"+name+"_mtl");
   char* nom = const_cast< char*>( output_name.c_str());
   
   erSaveImage( &ea,currentFileName(), nom);
@@ -597,7 +597,7 @@ bool erWeldPoolAnalysis::doItImage(erImage& ea)
   std::list< CvPoint>   cvPts;
   std::list< CgalPoint> cgalPts, cgalPts2;
   std::list< CgalSegmt> cgalSeg, bgraphSeg;
-  std::string output_name = (dir_analysis+"/"+name+"_wep");
+  output_name = (dir_analysis+"/"+name+"_wep");
   char* nom = const_cast< char*>( output_name.c_str());
   eb = erConvertToBlackAndWhite( &ea); 
   
@@ -825,7 +825,7 @@ bool erLaserPrototypageAnalysis::doIt_diffuse(std::string fich)
 { 
   bool loaded;
   char* file_name         = const_cast< char*>( fich.c_str());
-  std::string output_name = (dir_analysis+"/"+name+"_wep");
+  output_name = (dir_analysis+"/"+name+"_wep");
   char* nom = const_cast< char*>( output_name.c_str());
   erImage ea, eb, ec, ed, ee;
   std::list< CvPoint>   cvPts;
@@ -896,7 +896,7 @@ bool erLaserPrototypageAnalysis::doIt(std::string fich)
 bool erLaserPrototypageAnalysis::doItImage(erImage& ea)
 {
 
-  std::string output_name = (dir_analysis+"/"+name+"_wep");
+  output_name = (dir_analysis+"/"+name+"_wep");
   char* nom = const_cast< char*>( output_name.c_str());
   erImage eb, ec, ed, ee;
   std::list< CvPoint>   cvPts;
