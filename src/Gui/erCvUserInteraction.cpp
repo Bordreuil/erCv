@@ -368,7 +368,12 @@ std::pair< CvPoint, int> erCvDebutCurve( IplImage *simag)
 // 	  //		img->rectan.y + img->rectan.height), cvScalar( 0xff, 0x00, 0x00));
 // 	}
       cvShowImage( "Marquez le debut curve", cer_img.image);
-      if( cvWaitKey( 700) == EscapeKey) break;
+      if( cvWaitKey( 100) == EscapeKey) 
+	{
+	  std::cout << "que peo" << std::endl;
+	  break;
+	}
+      std::cout << "que lata" << std::endl;
     }
   cvDestroyWindow("Draw_ROI");
   return std::make_pair( cer_img.centeri, cer_img.radiusi);

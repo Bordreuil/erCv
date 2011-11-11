@@ -34,14 +34,16 @@
 // knowledge of the CeCILL license and that you accept its terms.
 #include <erCv/erCvBase.hpp>
 #include <erCv/erCvFilters.hpp>
+#include <erCv/Gui/erCvUserInteraction.hpp>
 #include <erCv/erCvSegmentation.hpp>
 #include <erCv/Gui/erCvFiltersUser.hpp>
 #include <erCv/Gui/erCvSegmentationUser.hpp>
-#include <erCv/Gui/customKeys.hpp>
 #include <iostream>
 #include <fstream>
 #include<map>
 #include<vector>
+//#include "highgui.h"
+//#include <cstdio>
 
 void on_mouse_rect2( int event, int x, int y, int flags, void* param)
 {
@@ -189,7 +191,7 @@ IplImage* erCvTemplateUser( IplImage* img, erTemplP* parm, bool with_trackbar)
   int type;
   std::string name = INFOFILE;
   name+= ".txt";
-  const char* nomb =  const_cast< char*>(name.c_str());
+  const char* nomb = name.c_str();
   int ok =1; 
   while(ok)
     {  
@@ -234,7 +236,7 @@ IplImage* erCvTemplateUser( IplImage* img, erTemplP* parm, bool with_trackbar)
 					parm->rectan.y + parm->rectan.height), cvScalar( 0xff, 0x00, 0x00));
 		}
 	      cvShowImage( "Designer la zone patron ou template", parm->image);
-	      if( cvWaitKey( 700) == EscapeKey) break;
+	      if( cvWaitKey( 700) ==27) break;
 	    }
 	  cvDestroyWindow( "Designer la zone patron ou template");
 	}
@@ -322,7 +324,7 @@ IplImage* erCvCallBackPatchProjectUser( IplImage* img, erCallBP* parm, bool with
   int type, typeH;
   std::string name = INFOFILE;
   name+= ".txt";
-  const char* nomb =  const_cast< char*>(name.c_str());
+  const char* nomb = name.c_str();
   int ok =1; 
   while(ok)
     { 
@@ -344,7 +346,7 @@ IplImage* erCvCallBackPatchProjectUser( IplImage* img, erCallBP* parm, bool with
 				    parm->rectan.y + parm->rectan.height), cvScalar( 0xff, 0x00, 0x00));
 	    }
 	  cvShowImage( "Designer la zone patron ou template", parm->image);
-	  if( cvWaitKey( 100) ==EscapeKey) break;
+	  if( cvWaitKey( 100) ==27) break;
 	}
       cvDestroyWindow( "Designer la zone patron ou template");
       
@@ -450,7 +452,7 @@ void erCvEqualizeHistUser( IplImage* simg, erEqualP* param)
   int usar;
   std::string name = INFOFILE;
   name+= ".txt";
-  const char* nomb =  const_cast< char*>(name.c_str());
+  const char* nomb = name.c_str();
   int ok = 1; 
 
   
@@ -542,7 +544,7 @@ void erCvPyramidUser( IplImage* simg, erPyramP* parm, bool with_trackbar)
 	  cvPyrSegmentation(simg, img, stg, &comp, level, threshold[0], threshold[1]);
 	  cvShowImage( "Pyramid_trackbar", img);
 	  cvShowImage( "original", simg);
-	  if( cvWaitKey( 10) == EscapeKey) break;
+	  if( cvWaitKey( 10) == 27) break;
 	}
       cvDestroyWindow( "Threshold_trackbar");
       std::cout << " T'es content (Oui 0/Non 1)? ";
@@ -663,7 +665,7 @@ void erCvFindContours( IplImage* simg, erFindcP* parm, bool with_trackbar)
 	  cvShowImage( "Findc_trackbar", img );
 
 	  //cvReleaseImage( &cnt_img );
-	  if( cvWaitKey( 10) == EscapeKey) break;
+	  if( cvWaitKey( 10) == 27) break;
 	} 
       cvDestroyWindow( "Original");
       cvDestroyWindow( "Findc_trackbar");
@@ -775,28 +777,27 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
   //img = cvCloneImage(simg);
   std::vector< std::vector<lineBlob> > imgData(simg->width);
   int ok = 1;
-  int ok1;
   while( ok)
     {
       img = cvCreateImage( cvGetSize( simg), simg->depth, simg->nChannels);
       cvCopy( simg, img);
       std::cout << "Threshold upper value to blob detection: ";
-      std::cin >> int_white;
-      //int_white = 150;
+      //std::cin >> int_white;
+      int_white = 150;
       white_thres = (unsigned char) int_white;
       std::cout << std::endl;
       std::cout << "Threshold donwest value to blob detection: ";
-      std::cin >> int_black;
-      //int_black = 150;
+      //std::cin >> int_black;
+      int_black = 150;
       black_thres = (unsigned char) int_black;
       std::cout << std::endl;
       std::cout << "Taille en No de pixles de la tache: ";
-      std::cin >> size_blob;
-      //size_blob = 50;
+      //std::cin >> size_blob;
+      size_blob = 50;
       std::cout << std::endl;
       std::cout << "Extension en pixels du bord de la tache: ";
-      std::cin >> bord_blob;
-      //bord_blob = 5;    
+      //std::cin >> bord_blob;
+      bord_blob = 5;    
       std::cout << std::endl;
       
 
@@ -809,13 +810,13 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
 	{
 	  
 	  //unsigned char byte = (unsigned char) imgStream.get();
-	  unsigned char byte = (unsigned char) simg->imageData[(row*simg->width)+ column];
+	  unsigned char byte = ( unsigned char) simg->imageData[ ( row*simg->width) + column];
 	  
 	  if(byte >= white_thres)
 	    {
 	      int start = column;
 	      
-	      for(;byte >= white_thres; byte = (unsigned char) simg->imageData[(row*simg->width)+ column], ++column);
+	      for( ;byte >= white_thres; byte = (unsigned char) simg->imageData[ ( row*simg->width) + column], ++column);
 	      
 	      int stop = column-1;
 	      lineBlob lineBlobData = {start, stop, blobCounter, row, false};
@@ -891,7 +892,7 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
 	  (*i).second.center.y = (*i).second.min.y + ((*i).second.max.y - (*i).second.min.y) / 2;
 	  
 	  int size = ((*i).second.max.x - (*i).second.min.x) * ((*i).second.max.y - (*i).second.min.y);
-	  std::cout << "-----" << i->first << " " << size << std::endl;
+	  
 	  // Print coordinates on image, if it is large enough
 	  if(size > size_blob)
 	    {
@@ -912,7 +913,7 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
 	    }
 	}
       std::cout << "manchas.size_initial: " << manchas.size() << std::endl;
-      // cb 26/06/2011 if( manchas.size() == 0) return;
+      if( manchas.size() == 0) return;
       
 
       
@@ -942,7 +943,6 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
 		  valor =  simg->imageData[pos_x*(simg->width) + pos_y_L];
 		  val_L = cvGet2D( simg, pos_x, pos_y_L);
 		  val_R = cvGet2D( simg, pos_x, pos_y_R);
-		  std::cout << val_L.val[0] << " " << int_black << std::endl;
 		  if( val_L.val[0] >= black_thres)
 		    {
 		      std::cout << "linea L: " << linea << std::endl;
@@ -984,7 +984,7 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
 	    }
 	}
       std::cout << "map size_left_right: " << manchas.size() << std::endl;   
-      // cb 27/06/2011 if( manchas.size() == 0) return;   
+      if( manchas.size() == 0) return;   
       
 
       
@@ -1046,7 +1046,7 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
 	      manchas.erase(id_refused[l]);
 	    }
 	}
-      //* cb 27/06/2011 if( manchas.size() == 0) return;      
+      if( manchas.size() == 0) return;      
       
       
       
@@ -1125,14 +1125,13 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
       erShow2Image( "Blob corrrection", img, "image_temoin", simg);
       //while(1){if(cvWaitKey(10) == 27) break;
       //cvDestroyWindow( "Blob correction");
-      
       std::cout << " T'es content (Oui 0/Non 1)? ";
-      std::cin >> ok1;
-      ok = ok1;
+      std::cin >> ok;
+      //ok = 0;
       std::cout << std::endl;
     }    
-  parm->trh_w  = (int) white_thres;
-  parm->trh_b  = (int) black_thres;
+  parm->trh_w = (int) white_thres;
+  parm->trh_b = (int) black_thres;
   parm->blob_b = size_blob;
   parm->size_b = bord_blob;
   *simg = *img;
@@ -1149,19 +1148,137 @@ void erWhiteBlobCorrectionUser( IplImage* simg, erWhitBP* parm)
 
 
 
-
-		  // if( mancha == 26 && linea == 18)
-		  // 		    {
-		  // 		      int xc, yc;
-		  // 		      CvScalar d;
-		  // 		      for( xc = pos_x - 4; xc < pos_x + 5; xc++)
-		  // 			{
-		  // 			  for( yc = pos_y_L - 4; yc < pos_y_L + 5; yc++)
-		  // 			    {
-		  // 			      d.val[0] = 0;
-		  // 			      //std::cout << "peo A " << std::endl;
-		  // 			      cvSet2D( simg, xc, yc, d); 
-		  // 			    }
-		  // 			}
-		  // 		      erShow2Image( "prueba", img, "image_temoin", simg);
-		  // 		    }
+/* Logique: L'usager marque un petit cercle autour du pixels ou il souhaite realizer le growing.*/
+/*L'algorithme cherchee par comparaison a travers une valeur de (seuil) definie par l'usager, si les pixels en haut, en bas , a gauche et a droite du pixel marque initialement respectent ou pas le criteria.
+*/ 
+void erRegionGrowingUser( IplImage* simg, erRegGrP* parm)
+{
+  CvRect rect = cvRect( 0,0,0,0);
+  IplImage *img, *img_zero;
+  int ok =1;
+  int num_pix_total, nom_point;
+  int reg_size = 1;
+  int mindis;
+  int mean_point;
+  int nom_free = 10000;
+  std::string name = INFOFILE;
+  name+= ".txt";
+  const char* nomb = name.c_str();
+  std::vector< CvPoint> ext_point;
+  std::pair< CvPoint, int> mdf_point, cercle;
+  std::vector< std::pair< CvPoint, int> > list_mdf_point, abslist_mdf_point;
+  std::vector< std::pair< CvPoint, int> >::iterator minlist_mdf_point, inlist_mdf_point; 
+  CvPoint point_o, point_n;
+  while(ok)
+    {
+      /** Creation de l'image initial des zeros ou sera enregistre l'image final del growing process**/
+      img_zero = cvCreateImage( cvGetSize(simg), simg->depth, simg->nChannels);
+      cvZero(img_zero);
+      /**Distance min en termes de difference de grey level entre pixels pour considerer el growing**/
+      mindis = parm->int_maxdis;
+      /**selection du point du depart de la zone de growing**/
+      cercle = erCvDebutCurve( simg);
+      point_o.x = cercle.first.x + rect.x;
+      point_o.y = cercle.first.y + rect.y;
+      std::cout << "centro.x: " << cercle.first.x << std::endl;
+      std::cout << "centro.y: " << cercle.first.y << std::endl;
+      std::cout << "radio:    " << cercle.second << std::endl;
+      /** extraction du niveau de gris du pixels selectione**/
+      CvScalar mean_point_brut = cvGet2D( simg, point_o.x, point_o.y);      
+      mean_point = (int)mean_point_brut.val[0];
+      /** nombre total des pixels dans l'image**/
+      num_pix_total = simg->width * simg->height;
+      /** Definition de la matrice haut-bas, gauche-droite a utiliser pour chercher autour des pixles selectionnes**/
+      ext_point.push_back( cvPoint( -1, 0));
+      ext_point.push_back( cvPoint( 1, 0));
+      ext_point.push_back( cvPoint( 0, -1));
+      ext_point.push_back( cvPoint( 0, 1));
+      
+      /** Tant que la dif. des niveau entre les pixels selectiones et les nouveaux soit inf. au critere et que la taille des pixles selectionne ne depase pas la taille max possible pour la zone growing, chercher des nouveau pixels**/ 
+      while( mindis < parm->int_maxdis && reg_size < num_pix_total)
+	{
+	  /** On balaye haut-bas ,gauche-droite du pixel en question**/
+	  for( int l = 1; l <= 4; l++)
+	    {
+	      point_n.x = point_o.x + ext_point[ l].x;
+	      point_n.y = point_o.y + ext_point[ l].y;
+	      ext_point.push_back( point_n);
+	      /** On verifie que notre nouveau point soie dans l'image**/
+	      bool veri_bord = ( point_n.y <= simg->width && point_n.y >= 1 && point_n.x <= simg->height && point_n.x >= 1);
+	      /** On prend le niveau de gris du nuveau pixel et on verifie que celui ci ne soie pas zero**/
+	      CvScalar a = cvGet2D( img_zero, point_n.x, point_n.y); 
+	      bool veri_zero = ( a.val[0] == 0);
+	      if( veri_bord && veri_zero)
+		{
+		  /**Increment du nombre des pixels modifie**/
+		  nom_point = nom_point + 1;
+		  /**Niveau de gris du pixel**/
+		  CvScalar b = cvGet2D( simg, point_n.x, point_n.y);
+		  /**construction de la liste pair: avec le pixel en question et leur valeur de gris**/
+		  list_mdf_point[ nom_point] = std::make_pair( point_n, (int)b.val[0]);
+		  /** Modification de l'image des zeros, par la valeur 1 ou se trouve le pixels en question**/ 
+		  CvScalar c;
+		  c.val[0] = 1;
+		  c.val[1] = 0;
+		  c.val[2] = 0;
+		  c.val[3] = 0;
+		  cvSet2D( img_zero, point_n.x, point_n.y, c); 
+		}
+	    }
+	  /** Verification que la taille initial prevue poru la zone growing soie suffisant**/
+	  if( nom_point + 10 > nom_free)
+	    {
+	      nom_free = nom_free + 10000;
+	      for( int ll = nom_point + 1; ll <= nom_free; ll++)
+		{
+		  list_mdf_point[ ll] = std::make_pair( cvPoint( 0, 0), 0);
+		}
+	    }
+	  /**Creation d'une liste avec les valeurs absoluts de la difference des niveau de gris entre les pixles selectiones et le pixel initial**/
+	  for( int lll = 1; lll <= nom_point; lll++)
+	    {       
+	      abslist_mdf_point[ lll] = std::make_pair( list_mdf_point[ lll].first, abs( list_mdf_point[ lll].second - mean_point));
+	    }
+	}
+      /** Recherche du la valeur min de la liste des valeurs absoluts et le pixels au quelle corrspond**/
+      int mindis = abslist_mdf_point.begin()->second;
+      for( minlist_mdf_point = abslist_mdf_point.begin()+1; minlist_mdf_point != abslist_mdf_point.end(); ++minlist_mdf_point)
+	{
+	  if( minlist_mdf_point->second <= mindis)
+	    {
+	      mindis = minlist_mdf_point->second;
+	      inlist_mdf_point = minlist_mdf_point;
+	    }
+	}
+      /** Taille de la region **/
+      reg_size = reg_size + 1;
+      /** Initiation d'un nouveau point de depart pour le growing, point avec la difference min trouve **/
+      /** Valeur de 2 pour le pixel dans la nouvelle image, pour ne pas lui confondre avec les points non modifie avec valeur 0, et celles modifies avec valeur 1 **/
+      CvScalar d;
+      d.val[0] = 2;
+      d.val[1] = 0;
+      d.val[2] = 0;
+      d.val[3] = 0;
+      cvSet2D( img_zero, point_n.x, point_n.y, d);
+      *inlist_mdf_point = list_mdf_point[nom_point];
+      nom_point = nom_point - 1;
+      
+      /** Impresion de l'image de zeoros modifie dans l'ecran **/
+      erShow2Image( "Growing corrrection", img_zero, "image temoin", simg);
+ 
+      std::cout << " T'es content (Oui 0/Non 1)? ";
+      std::cin >> ok;
+      std::cout << std::endl;
+    }    
+  parm->int_maxdis = mindis;
+  parm->ini_point = cercle;
+  *simg = *img_zero;
+  std::ofstream file( nomb, std::ios_base::app );
+  file << "***********Segmentation fonction WhiteBlobCorrection***********\n";
+  file << "Threshold intensity diff :--- " << parm->int_maxdis << std::endl;
+  file << "cordenate X point :---------- " << parm->ini_point.first.x << std::endl;
+  file << "cordenate Y point :---------- " << parm->ini_point.first.y << std::endl;
+  file << "radius from point :---------- " << parm->ini_point.second << std::endl;
+  file << std::endl;
+  file << parm; 
+}

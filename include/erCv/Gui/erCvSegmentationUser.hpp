@@ -79,4 +79,10 @@ void erCvFindContours( IplImage*, erFindcP*, bool with_trackbar = false);
 */
 void erWhiteBlobCorrectionUser( IplImage*, erWhitBP*);
 
+/** \brief
+    Growing ou croisance pour segmenter une region a partir d'un point marque pour l'usager
+*/
+void erRegionGrowingUser( IplImage*, erRegGrP*);
+
+
 #endif

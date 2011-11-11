@@ -32,8 +32,10 @@
 // 
 // The fact that you are presently reading this means that you have had
 // knowledge of the CeCILL license and that you accept its terms.
-#include<erCv/erCvSegmentationParams.hpp>
-
+#include <erCv/erCvSegmentationParams.hpp>
+#include <erCv/erCvBase.hpp>
+#include <iostream>
+#include <fstream>
 //erDiffeP::erDiffeP(){};
 //erDiffeP::erDiffeP(erAdThrP ead,erThresP eth,std::string file,int num):
   //{};
@@ -64,6 +66,9 @@ erFindcP::erFindcP( FindContoursMode co, FindContoursMeth ce, int le): level(le)
 
 erWhitBP::erWhitBP():trh_w(185),trh_b(120),blob_b(5),size_b(10){};
 erWhitBP::erWhitBP( int tw, int tb, int bb, int sb):trh_w(tw),trh_b(tb),blob_b(bb),size_b(sb){};
+
+erRegGrP::erRegGrP(): int_maxdis(0.2), ini_point( std::make_pair( cvPoint(0,0), 0)){};
+erRegGrP::erRegGrP( int dm, std::pair< CvPoint, int> ip): int_maxdis(dm), ini_point(ip){};
 
 std::ostream& operator << (std::ostream& o,const erFindcP ef)
 {

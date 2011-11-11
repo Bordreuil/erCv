@@ -64,7 +64,7 @@ struct erDiffeP
 /**
    \brief
    Structure regroupant les paramettres pour la fonction erCvTemplate
- */
+*/
 enum Templ{};
 enum MatchTemplateType {SQDIFF=1, /** < Methode de la difference des moindres carres */ 
 			SQDIFF_NORMED=2, /** < Methode de la difference des moindres carres normalize */
@@ -81,7 +81,7 @@ struct erTemplP
   erTemplP( MatchTemplateType, CvRect, bool); /** < Constructeur avec les paramettres */
   erTemplP(); /** < Constructeur par default */
   CvRect rectan; /**  < Contien les dimension et coordones du rectangle de l echantillon a utiliser. x et y : coordones de vertices superieur gauche de l echantillon.
-		  width et height: dimensions de l echantillon */
+		      width et height: dimensions de l echantillon */
   bool drawing; /** < Permet de choisir entre designe (drawing = true) ou introduire les coordones et dimension de l echantillon (drawing = false) */  
   IplImage* image; /** < Guarde une copie de l image initial avant l application du template */
   MatchTemplateType type; /** < Methode a utiliser pour la segmentation */
@@ -195,6 +195,13 @@ struct erWhitBP
   int size_b; /** < Taille minimal en nombre de pixels de la tache a detecter */
 };
 
+struct erRegGrP
+{
+  erRegGrP();  /** < Constructeur par defaut */
+  erRegGrP( int, std::pair< CvPoint, int>); /** < Constructeur avec les paramettres */ 
+ std::pair< CvPoint, int> ini_point; /** < Coordones et rayons du cercle autour du point temoin */
+  int int_maxdis; /** < Seuil dans la difference du valeur du pixel temoin et les pixles revises */
+};
 /*@}*/
 #endif
 
