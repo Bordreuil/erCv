@@ -7,14 +7,14 @@ for i in arange(1,6):
         loaded= True
     except:
         loaded = False
-    im=imread('../example_laser_prototypage_'+str(i)+'.png')
+    im=imread('../example_laser_prototypage_'+str(i)+'.jpg')
     figure(i)
-    imshow(im)
+    imshow(im,origin='lower')
     print im.shape
     hold('on')
     if (loaded):
         for x in X:
-            plot(x[::2],x[1::2],linewidth=2,color='red')
+            plot(x[::2],im.shape[0]-x[1::2],linewidth=2,color='red')
     #plot(X[:,0],X[:,1],color='red',linewidth=2)
 
    

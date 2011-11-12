@@ -390,7 +390,7 @@ bool erMetalTransfertAnalysis::doItImage(erImage& ea)
   std::list< CgalPoint> cgalPts;
   std::list< CgalSegmt> cgalSeg, bgraphSeg;
   erEqualP pequ;
-
+ 
   output_name = (dir_analysis+"/"+name+"_mtl");
   char* nom = const_cast< char*>( output_name.c_str());
   
@@ -399,9 +399,9 @@ bool erMetalTransfertAnalysis::doItImage(erImage& ea)
   eb = erConvertToBlackAndWhite( &ea);
  
   ec = erDef_ROI( &eb, &rectOI);
-
-  erCvSmooth( &ec, &param_smooth1);
  
+  erCvSmooth( &ec, &param_smooth1);
+
   erCvAdaptiveThreshold( &ec, &param_adaptive_threshold);
   //erSaveImage2( &ec, file_name, nom, "adp");
   erCvSmooth( &ec, &param_smooth2);
@@ -415,6 +415,7 @@ bool erMetalTransfertAnalysis::doItImage(erImage& ea)
   convertCvToCgalpoints( cvPts, cgalPts);
 
   alpha_edges( cgalPts, cgalSeg, &param_alpha_shape);
+
   //std::list< CgalSegmt>::iterator dede=cgalSeg.begin();
   //erPrintCgalPoint( cgalSeg, file_name, nom);
     
@@ -825,6 +826,7 @@ bool erLaserPrototypageAnalysis::doIt_diffuse(std::string fich)
 { 
   bool loaded;
   char* file_name         = const_cast< char*>( fich.c_str());
+  setCurrentFileName(file_name);
   output_name = (dir_analysis+"/"+name+"_wep");
   char* nom = const_cast< char*>( output_name.c_str());
   erImage ea, eb, ec, ed, ee;
@@ -853,18 +855,19 @@ bool erLaserPrototypageAnalysis::doIt_diffuse(std::string fich)
   erExtractCvPoints( cvPts, &ec, is_equal_255, rectOI);
  
   convertCvToCgalpoints( cvPts, cgalPts);
-
+ 
   alpha_edges( cgalPts, cgalSeg, &param_alpha_shape);
-
+ 
   largestClosedPolygon( cgalSeg, bgraphSeg);
-
-  erPrintCgalPoint( bgraphSeg, file_name, nom);
+ 
+  erPrintCgalPoint( bgraphSeg,currentFileName(), nom);
+ 
   if(output_convex_polygon)
   {
       std::list<CgalPoint> polygon = erGeometryExtractConvexPolygon(bgraphSeg.begin(),bgraphSeg.end());
       std::string output_nam = (dir_analysis+"/"+name+"_wep_poly");
       char* name = const_cast< char*>( output_nam.c_str());
-      erPrintCgalPoint(polygon,file_name,name);
+      erPrintCgalPoint(polygon,currentFileName(),name);
     };
   if(output_geometry_characteristics && bgraphSeg.size() > 6)
     {
@@ -877,6 +880,7 @@ bool erLaserPrototypageAnalysis::doIt_diffuse(std::string fich)
       CgalVect vect=line.to_vector();
       ot << std::setprecision(10) << currentFileName() << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
     };
+
   return true;
 };
 

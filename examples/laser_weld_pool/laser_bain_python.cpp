@@ -27,9 +27,11 @@ int main( int hola, char** file_name)
   erCannyP cann(500,500);
   erAlphaP alp(3);
   erLaserPrototypageAnalysis lpa("laser_prototypage");
+ 
   lpa.defineParameters_diffuse( rect, p1, cann, adt, alp);
+ 
   lpa.doIt_diffuse( "example_laser_prototypage_1.jpg");
-  
+ 
   CvRect rect2;
   rect2.x = 177; rect2.y = 23; rect2.width = 194; rect2.height = 112;
   erAdThrP adt2( THRESH_BINARY, AM_MEAN, 19, 74, 255); 

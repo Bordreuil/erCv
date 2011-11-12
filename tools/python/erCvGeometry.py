@@ -33,9 +33,12 @@
 ## The fact that you are presently reading this means that you have had
 ## knowledge of the CeCILL license and that you accept its terms.
 import string
-from erCvTools import *
+import numpy
+from   erCvTools import *
 
-class geometryDropletInformation:
+ER_TOLER_GEO = 1.e-3
+
+class erGeometryDropletInformation:
     def __init__(self,incTime,x,y,area,princ_x,princ_y,fit):
         self._incTime = incTime
         self._x       = x
@@ -59,13 +62,13 @@ class geometryDropletInformation:
     def fit(self):
         return self._fit
 
-def readGeometryFile(fichier):
+def erReadGeometryFile(fichier):
     lignes = open(fichier,'r').readlines()
     geoChar = []
     for ligne in lignes[1:]:
         res = string.split(ligne)
         ind = erGetImageNumber(res[0])
-        geoChar.append(geometryDropletInformation(int(ind),
+        geoChar.append(erGeometryDropletInformation(int(ind),
                                                   float(res[1]),
                                                   float(res[2]),
                                                   float(res[3]),
@@ -74,9 +77,129 @@ def readGeometryFile(fichier):
                                                   float(res[6])))
     return geoChar
 
-def filterGeometry(geoChar,filtre):
+def erFilterGeometry(geoChar,filtre):
     geoFiltr=[]
     for geo in geoChar:
         if filtre(geo):
             geoFiltr.append(geo)
     return geoFiltr
+
+
+# This function was copied from scipy
+# http://www.scipy.org/Cookbook/SignalSmooth
+def scipySmooth(x,window_len=11,window='hanning'):
+    """smooth the data using a window with requested size.
+    
+    This method is based on the convolution of a scaled window with the signal.
+    The signal is prepared by introducing reflected copies of the signal 
+    (with the window size) in both ends so that transient parts are minimized
+    in the begining and end part of the output signal.
+    
+    input:
+        x: the input signal 
+        window_len: the dimension of the smoothing window; should be an odd integer
+        window: the type of window from 'flat', 'hanning', 'hamming', 'bartlett', 'blackman'
+            flat window will produce a moving average smoothing.
+
+    output:
+        the smoothed signal
+        
+    example:
+
+    t=linspace(-2,2,0.1)
+    x=sin(t)+randn(len(t))*0.1
+    y=smooth(x)
+    
+    see also: 
+    
+    numpy.hanning, numpy.hamming, numpy.bartlett, numpy.blackman, numpy.convolve
+    scipy.signal.lfilter
+ 
+    TODO: the window parameter could be the window itself if an array instead of a string   
+    """
+
+    if x.ndim != 1:
+        raise ValueError, "smooth only accepts 1 dimension arrays."
+
+    if x.size < window_len:
+        raise ValueError, "Input vector needs to be bigger than window size."
+
+
+    if window_len<3:
+        return x
+
+
+    if not window in ['flat', 'hanning', 'hamming', 'bartlett', 'blackman']:
+        raise ValueError, "Window is on of 'flat', 'hanning', 'hamming', 'bartlett', 'blackman'"
+
+
+    s=numpy.r_[x[window_len-1:0:-1],x,x[-1:-window_len:-1]]
+    #print(len(s))
+    if window == 'flat': #moving average
+        w=numpy.ones(window_len,'d')
+    else:
+        w=eval('numpy.'+window+'(window_len)')
+
+    y=numpy.convolve(w/w.sum(),s,mode='valid')
+    return y
+
+class erPoint:
+    """
+    
+    """
+    def __init__(self,x,y):
+        self.__x  = x
+        self.__y  = y
+    def x(self):
+        return self.__x
+    def y(self):
+        return self.__y
+
+    def __eq__(self,other):
+        return abs(self.x()-other.x()) < ER_TOLER_GEO and abs(self.y()-other.y()) < ER_TOLER_GEO
+
+def erSmoothContour(X,window_len=6,window='hanning'):
+    xx=scipySmooth(X[:,0],window_len=window_len,window=window)
+    yy=scipySmooth(X[:,1],window_len=window_len,window=window)
+    list_points = []
+    for i in range(len(xx)):
+        pt = erPoint(xx[i],yy[i])
+        if pt not in list_points: # Mauvais test
+            list_points.append(pt)
+    X = zeros((len(list_points),2),'float')
+    for i,pt in enumerate(list_points):
+        X[i,0] = pt.x()
+        X[i,1] = pt.y()
+    return X
+
+def erCurvilinearAbscissa(X):
+    if X.shape[1] != 2:
+        raise ValueError('Shape array must have 2 in second dimension')
+    dx = [0.]+list(diff(X[:,0]))
+    dy = [0.]+list(diff(X[:,1]))
+    ds = map(lambda x,y:sqrt(x**2.+y**2.),dx,dy)
+    s  = add.accumulate(ds)
+    return s
+
+
+
+def erMeanCurvatures(X,distance=5,debut=0,fin=0):
+    meanCurvatures=[]
+    for i in arange(debut,fin):
+        deb = i-distance
+        fin = i+distance
+        if deb < 0:
+            deb=0
+            fin+=distance
+        if fin > X.shape[0]:
+            fin = X.shape[0]
+            deb-=distance
+
+        a = polyfit(X[deb:fin,0],X[deb:fin,1],2)
+        meanCurvatures.append(a[0])
+    return array(meanCurvatures,'f')
+
+def erFmin(X,funct):
+    pass
+    
+    

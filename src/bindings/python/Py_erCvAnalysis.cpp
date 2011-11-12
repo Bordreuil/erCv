@@ -117,7 +117,7 @@ struct erMetalTransfertAnalysis_wrapper : erMetalTransfertAnalysis, bp::wrapper<
   bool doItNumPy(pyublas::numpy_array<unsigned short>& arr,std::string file_name="test_1.bmp")
   {
     const npy_intp* dims = arr.dims();
-    
+
     int ncol = dims[0];
     int nlig = dims[1];
     unsigned short* storage = arr.data();

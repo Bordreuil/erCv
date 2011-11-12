@@ -36,4 +36,5 @@
 
 from erCvTools    import *
 from erCvGeometry import *
+from visualization.erPlotTools import *
 from PyerCv       import *
