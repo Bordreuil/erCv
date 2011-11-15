@@ -339,7 +339,82 @@ struct erMetalTransfertAnalysis:public erAnalysis
 };
 
 
+struct erSolidificationAnalysis:public erAnalysis
+{
+  /** Constructeur par defaul */
+  erSolidificationAnalysis( );
+  /** Cosntructeur a partir du nom de l image 
+      \param std::string : nom de l image
+      \param std::string : nom des fichers sortie
+  */
+  erSolidificationAnalysis( std::string name, std::string infofile = "info");
+    /** Definition des paramettres interactive
+      \param std::string : nom de l image
+  */     
+  
+  void defineParameters( CvRect,erSmootP, erCannyP, erThresP, erAlphaP);
 
+  /** Application de l analyse
+      \param std::string : nom de l image
+   */
+  bool doIt( std::string);
+  bool doItImage(erImage&);
+  /** Enregistrement des parametres
+      \param std::string : nom de l image
+  */
+ 
+
+  void setOutputGeometryFile(std::string);         /** <  Methode pour reinitialiser le nom du fichier de geometrie
+						          A chaque passage, l ancien fichier est ecrase      */
+  CvRect         rectOI;                           /** <  Position de la zone d etude dans l image */
+  erSmootP       param_smooth1;                    /**  
+							Premier lissage du type BLUR: Augmente ou diminue l homegenite de l image.
+							Valeurs possibles numeros impairs: 1, 3, 5, ..., 2n+1 avec n Naturel.						   
+							Pour    +> Uniformise les niveaux de gris a l interieur du la goutelette
+							Contre +> Rendre difficil la detection du bord entre
+							la goutelette et les zones dans l espace a faible contraste
+							Pour    <- Plus facil la detection du contour de la goutelette
+							dans les zones a faible contraste
+							Contre <- Reduit l unfirmite a l interieur de la goutelette, 
+							donc plus difficil de determiner quelle est la macro goutte
+							
+							Deuxieme lissage du type MEDIAN 
+							Valeurs possibles numeros impairs: 1, 3, 5, ..., 2n+1 avec n Naturel.
+							Pour    +> Unifie les zones a egal niveau de gris,
+							en reduisant les espace blanche entre les dites zones,
+							si celle-ci sont minoritaires et rares
+							
+							Contre +> Peut ajouter des elements externes a la goutelette
+							et modifier sa forme et taille, notament vers les extremites de l image
+							Pour    <- Ameliore la perception de la taille reel de la macro goutte
+							Contre <- Peut  modifier la forme de la goutelette
+						   */
+  erCannyP       param_canny;                      /**  
+							Valeurs pour discriminer les bordes principaux 
+							selon le filtre de canny (Threshold I et II):
+							Valeurs possibles [0, 500]						   
+							Pour    +> Reduit le nombre de bords secondaire
+							detectes par la filtre 
+							Contre +> Reduit la posibilite d obtenir un contour 
+							continue sur le profil de la goutelette ( si le bord n'est pas bien definie)
+							Pour    <- Ameliore la posibilite d obtenier un contour continue
+							Contre <- Augmente le nombre de bord secondaire qui 
+							aparetraint dans l image final
+						   */
+  erThresP                 param_threshold;         /**
+						    
+						   */
+  erAlphaP       param_alpha_shape;                /** 
+						       Parametre pour travailler avec les alpha shape de CGAL 
+						       Valeurs possibles [ 1, ) 
+						   */  
+  bool           output_geometry_characteristics;  /**
+						      Desactiviation des sorties geometriques 
+						   */
+  std::string    output_geometry_file;             /** 
+						       Nom du fichier de sortie pour la geometrie 
+						   */
+};
 
 
 

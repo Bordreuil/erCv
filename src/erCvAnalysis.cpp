@@ -401,7 +401,7 @@ bool erMetalTransfertAnalysis::doItImage(erImage& ea)
   ec = erDef_ROI( &eb, &rectOI);
  
   erCvSmooth( &ec, &param_smooth1);
-
+  
   erCvAdaptiveThreshold( &ec, &param_adaptive_threshold);
   //erSaveImage2( &ec, file_name, nom, "adp");
   erCvSmooth( &ec, &param_smooth2);
@@ -452,6 +452,112 @@ void erMetalTransfertAnalysis::saveParameters( std::string file)
   out << this->param_canny;
   //out << this->param_alpha_shape;
   out << "* End er MetalTransfert Analysis" << std::endl;
+};
+
+/* Analysis pour la goutelette de metal de tranfer*/
+/********************************************************************
+
+                      SOLIDIFICATION_ANALYSIS
+
+*********************************************************************/
+erSolidificationAnalysis::erSolidificationAnalysis(){ };
+
+erSolidificationAnalysis::erSolidificationAnalysis( std::string name, std::string infofile):
+  erAnalysis( name, infofile), rectOI( ), param_smooth1( ), param_canny( ), 
+  param_threshold( ), param_alpha_shape(), output_geometry_characteristics(true)
+{setOutputGeometryFile(name); }; 
+
+
+
+
+
+void erSolidificationAnalysis::defineParameters( CvRect rect, erSmootP smooth1, erCannyP cann, erThresP adthr, erAlphaP alphas)
+{
+                    rectOI = rect;
+             param_smooth1 = smooth1;
+               param_canny = cann;
+           param_threshold = adthr;
+         param_alpha_shape = alphas;
+};
+
+void erSolidificationAnalysis::setOutputGeometryFile(std::string file) //** Le fichier existant est ecrase!!
+{
+  output_geometry_file = dir_analysis+"/"+file+"_sol"+".geo";
+  std::ofstream out(output_geometry_file.c_str());
+  out << "Nom_du_fichier\t\tCentroid_x\tCentroid_y\tAire\tAxe_Princ_x\tAxe_Princ_y\tFit(0-1)\n";
+
+};
+
+bool erSolidificationAnalysis::doIt( std::string fich)
+{
+  erImage ea;
+  bool loaded;
+  char* file_name         = const_cast< char*>( fich.c_str());
+  setCurrentFileName(file_name);
+  boost::tie(ea, loaded) = erLoadImage( file_name);
+  if( !loaded) return false;
+  doItImage(ea);
+};
+
+bool erSolidificationAnalysis::doItImage(erImage& ea)
+{
+  erImage eb, ec;
+  std::list< CvPoint>   cvPts;
+  std::list< CgalPoint> cgalPts;
+  std::list< CgalSegmt> cgalSeg, bgraphSeg;
+  erEqualP pequ;
+ 
+  output_name = (dir_analysis+"/"+name+"_mtl");
+  char* nom = const_cast< char*>( output_name.c_str());
+  
+  erSaveImage( &ea,currentFileName(), nom);
+ 
+  eb = erConvertToBlackAndWhite( &ea);
+ 
+  ec = erDef_ROI( &eb, &rectOI);
+ 
+  erCvSmooth( &ec, &param_smooth1);
+  // enum ThresholdType{ THRESH_BINARY_    = 1, /** < 1: Seuillage binaire  */
+  //		    THRESH_BINARY_INV_= 2, /** < 2: Seuilage binaire inverse  */
+  //		    THRESH_TRUNC_     = 3, /** < 3: Seuillage truncate  */
+  //		    THRESH_TOZERO_    = 4, /** < 4: Seuillage vers zero  */
+  //		    THRESH_TOZERO_INV_= 5  /** < 5: Seuillage vers le zero inverse  */
+  //erThresP param_threshold(THRESH_BINARY_INV_,35,255);
+  erCvThreshold( &ec, &param_threshold);
+  //erCvAdaptiveThreshold( &ec, &param_adaptive_threshold);
+  //erShowImage( "adapt", &ec); 
+
+  erCvCanny( &ec, &param_canny);
+  //erShowImage( "canny", &ec);
+  //erSaveImage(&ec,"canny",nom);
+  IsEqualTo is_equal_255( 255);
+  erExtractCvPoints( cvPts, &ec, is_equal_255, rectOI);
+  //std::cout << "Nombre de points apres canny:" << cvPts.size() << std::endl;
+  convertCvToCgalpoints( cvPts, cgalPts);
+
+  alpha_edges( cgalPts, cgalSeg, &param_alpha_shape);
+
+  //std::list< CgalSegmt>::iterator dede=cgalSeg.begin();
+  //erPrintCgalPoint( cgalSeg, file_name, nom);
+    
+  largestClosedPolygon( cgalSeg, bgraphSeg);
+  
+  erPrintCgalPoint( bgraphSeg,currentFileName(), nom);
+
+  if(output_geometry_characteristics && bgraphSeg.size() > 6)
+    {
+      std::list<CgalTrian> triangs=erGeometryExtractTriangles(bgraphSeg.begin(),bgraphSeg.end());
+      double area   = getArea(triangs.begin(),triangs.end());
+      CgalLine  line;
+      CgalPoint pt;
+      CgalFTrai fit = linear_least_squares_fitting_2(triangs.begin(),triangs.end(),line,pt,CGAL::Dimension_tag<2>());	
+      std::ofstream ot(output_geometry_file.c_str(),std::ios_base::app);
+      CgalVect vect=line.to_vector();
+      ot << std::setprecision(10) << currentFileName() << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
+    };
+ 
+
+  return true;
 };
 
 

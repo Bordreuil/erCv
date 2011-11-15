@@ -4,6 +4,14 @@
 
 namespace bp = boost::python;
 
+//-----------------------------------------------------------------------
+//
+//    ER_ANALYSIS_WRAPPER
+//
+//-----------------------------------------------------------------------
+
+
+
 struct erAnalysis_wrapper : erAnalysis, bp::wrapper< erAnalysis > {
   
   erAnalysis_wrapper( )
@@ -30,6 +38,11 @@ struct erAnalysis_wrapper : erAnalysis, bp::wrapper< erAnalysis > {
   }
 };
 
+//-----------------------------------------------------------------------
+//
+//    ER_MACRO_ANALYSIS_WRAPPER
+//
+//-----------------------------------------------------------------------
 
 
 
@@ -73,6 +86,13 @@ struct erMacroDropAnalysis_wrapper : erMacroDropAnalysis, bp::wrapper< erMacroDr
   }
   
 };
+
+//-----------------------------------------------------------------------
+//
+//    ER_METAL_ANALYSIS_WRAPPER
+//
+//-----------------------------------------------------------------------
+
 
 struct erMetalTransfertAnalysis_wrapper : erMetalTransfertAnalysis, bp::wrapper< erMetalTransfertAnalysis > {
   
@@ -142,7 +162,85 @@ struct erMetalTransfertAnalysis_wrapper : erMetalTransfertAnalysis, bp::wrapper<
     return true;
   }
 };
+//-----------------------------------------------------------------------
+//
+//    ER_SOLIDIFICATION_ANALYSIS_WRAPPER
+//
+//-----------------------------------------------------------------------
 
+struct erSolidificationAnalysis_wrapper : erSolidificationAnalysis, bp::wrapper< erSolidificationAnalysis > {
+  
+  erSolidificationAnalysis_wrapper(erSolidificationAnalysis const & arg )
+    : erSolidificationAnalysis( arg )
+    , bp::wrapper< erSolidificationAnalysis >(){
+    // copy constructor
+    
+  }
+  
+  erSolidificationAnalysis_wrapper( )
+    : erSolidificationAnalysis( )
+    , bp::wrapper< erSolidificationAnalysis >(){
+    // null constructor
+    
+  }
+  
+  erSolidificationAnalysis_wrapper(std::string name, std::string infofile="info" )
+    : erSolidificationAnalysis( name, infofile )
+    , bp::wrapper< erSolidificationAnalysis >(){
+    // constructor
+    
+  };
+  
+  virtual bool doIt( std::string arg0 ) {
+    if( bp::override func_doIt = this->get_override( "doIt" ) )
+      return func_doIt( arg0 );
+    else
+      return this->erSolidificationAnalysis::doIt( arg0 );
+  }
+  virtual bool doItImage( erImage& arg0 ) {
+    if( bp::override func_doItImage = this->get_override( "doItImage" ) )
+      return func_doItImage( arg0 );
+    else
+      return this->erSolidificationAnalysis::doItImage( arg0 );
+  }
+  
+  bool default_doIt( std::string arg0 ) {
+    return erSolidificationAnalysis::doIt( arg0 );
+  };
+
+  bool doItNumPy(pyublas::numpy_array<unsigned short>& arr,std::string file_name="test_1.bmp")
+  {
+    const npy_intp* dims = arr.dims();
+
+    int ncol = dims[0];
+    int nlig = dims[1];
+    unsigned short* storage = arr.data();
+    char*  file_c   =   const_cast<char*>(file_name.c_str());
+    setCurrentFileName(file_c);
+    
+    IplImage* im = cvCreateImage(cvSize(ncol,nlig),IPL_DEPTH_8U,3);
+
+    for(int i=0;i<ncol;i++)
+      {
+	for(int j=0;j < nlig;j++)
+	  { 
+	    unsigned short va = storage[i*ncol+j]*256/65536;
+	    CvScalar val = cvScalarAll(va);
+	    cvSet2D(im,i,j,val);
+	  };
+      }; 
+
+    erImage eim(im);
+    erSolidificationAnalysis::doItImage(eim);
+
+    return true;
+  }
+};
+//-----------------------------------------------------------------------
+//
+//    ER_WIRE_ANALYSIS_WRAPPER
+//
+//-----------------------------------------------------------------------
 
 struct erWireAnalysis_wrapper : erWireAnalysis, bp::wrapper< erWireAnalysis > {
 
@@ -200,6 +298,11 @@ struct erWireAnalysis_wrapper : erWireAnalysis, bp::wrapper< erWireAnalysis > {
   }
 };
 
+//-----------------------------------------------------------------------
+//
+//    ER_WELD_ANALYSIS_WRAPPER
+//
+//-----------------------------------------------------------------------
 
 struct erWeldPoolAnalysis_wrapper : erWeldPoolAnalysis, bp::wrapper< erWeldPoolAnalysis > {
   
@@ -237,7 +340,11 @@ struct erWeldPoolAnalysis_wrapper : erWeldPoolAnalysis, bp::wrapper< erWeldPoolA
   }
   
 };
-
+//-----------------------------------------------------------------------
+//
+//    ER_LASER_PROTOTYPAGE_ANALYSIS_WRAPPER
+//
+//-----------------------------------------------------------------------
 struct erLaserPrototypageAnalysis_wrapper : erLaserPrototypageAnalysis, bp::wrapper< erLaserPrototypageAnalysis > {
 
     erLaserPrototypageAnalysis_wrapper(erLaserPrototypageAnalysis const & arg )
@@ -275,7 +382,11 @@ struct erLaserPrototypageAnalysis_wrapper : erLaserPrototypageAnalysis, bp::wrap
 
 };
 
-
+//-----------------------------------------------------------------------
+//
+//    EXPORT_ANALYSIS
+//
+//-----------------------------------------------------------------------
 void export_erCvAnalysis(){
   // Seul les applications sont a wrapper: - erMacroDropAnalysis
   //                                       - erMetalTransfer
@@ -385,6 +496,44 @@ void export_erCvAnalysis(){
     .def_readwrite( "param_smooth2",            &erMetalTransfertAnalysis::param_smooth2 )    
     .def_readwrite( "output_geo",               &erMetalTransfertAnalysis::output_geometry_characteristics )
     .def_readwrite( "rectOI",                   &erMetalTransfertAnalysis::rectOI );
+//-----------------------------------------------------------------------------------------------------------
+  //
+  // 
+  // Python ::::   ER_SOLIDIFICATION_ANALYSIS
+  //
+  //
+  //-----------------------------------------------------------------------------------------------------------  
+
+  
+  bp::class_< erSolidificationAnalysis_wrapper, bp::bases< erAnalysis > >( "erSolidificationAnalysis", bp::init< >() )    
+    .def( bp::init< std::string, bp::optional< std::string > >(( bp::arg("name"), bp::arg("infofile")="info" )) )    
+    
+    .def( 
+	 "defineParameters"
+	 , (void ( ::erSolidificationAnalysis::* )( ::CvRect,::erSmootP,::erCannyP,::erThresP,::erAlphaP ) )( &::erSolidificationAnalysis::defineParameters )
+	 , ( bp::arg("arg0"), bp::arg("arg1"), bp::arg("arg2"), bp::arg("arg3"), bp::arg("arg4")) )  
+    
+   
+    .def( 
+	 "doIt"
+	 , (bool ( ::erSolidificationAnalysis::* )( std::string ) )(&::erSolidificationAnalysis::doIt)
+	 , (bool ( erSolidificationAnalysis_wrapper::* )( std::string ) )(&erSolidificationAnalysis_wrapper::default_doIt)
+	 , ( bp::arg("arg0") ) )
+    .def(
+	 "doItNumPy"
+	 ,  (bool ( ::erSolidificationAnalysis_wrapper::* )(boost::python::numeric::array& ,std::string ) )(&::erSolidificationAnalysis_wrapper::doItNumPy))
+  
+  
+    .def( 
+	 "setOutputGeometryFile"
+	 , (void ( ::erSolidificationAnalysis::* )( std::string ) )( &::erSolidificationAnalysis::setOutputGeometryFile )
+	 , ( bp::arg("arg0") ) )   
+    .def_readwrite( "param_threshold"           , &erSolidificationAnalysis::param_threshold )    
+    .def_readwrite( "param_alpha_shape"         , &erSolidificationAnalysis::param_alpha_shape )    
+    .def_readwrite( "param_canny"               , &erSolidificationAnalysis::param_canny )    
+    .def_readwrite( "param_smooth1"             , &erSolidificationAnalysis::param_smooth1 )    
+    .def_readwrite( "output_geo"                , &erSolidificationAnalysis::output_geometry_characteristics )
+    .def_readwrite( "rectOI"                    , &erSolidificationAnalysis::rectOI );
   //-----------------------------------------------------------------------------------------------------------
   //
   // 
