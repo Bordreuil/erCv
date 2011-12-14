@@ -144,7 +144,7 @@ struct erMetalTransfertAnalysis_wrapper : erMetalTransfertAnalysis, bp::wrapper<
     char*  file_c   =   const_cast<char*>(file_name.c_str());
     setCurrentFileName(file_c);
     
-    IplImage* im = cvCreateImage(cvSize(ncol,nlig),IPL_DEPTH_8U,3);
+    IplImage* im = cvCreateImage(cvSize(nlig,ncol),IPL_DEPTH_8U,3);
 
     for(int i=0;i<ncol;i++)
       {
@@ -196,13 +196,13 @@ struct erSolidificationAnalysis_wrapper : erSolidificationAnalysis, bp::wrapper<
       return func_doIt( arg0 );
     else
       return this->erSolidificationAnalysis::doIt( arg0 );
-  }
-  virtual bool doItImage( erImage& arg0 ) {
-    if( bp::override func_doItImage = this->get_override( "doItImage" ) )
-      return func_doItImage( arg0 );
-    else
-      return this->erSolidificationAnalysis::doItImage( arg0 );
-  }
+  };
+  //virtual bool doItImage( erImage& arg0 ) {
+  //  if( bp::override func_doItImage = this->get_override( "doItImage" ) )
+  //    return func_doItImage( arg0 );
+  //  else
+  //    return this->erSolidificationAnalysis::doItImage( arg0 );
+  //}
   
   bool default_doIt( std::string arg0 ) {
     return erSolidificationAnalysis::doIt( arg0 );
@@ -218,7 +218,7 @@ struct erSolidificationAnalysis_wrapper : erSolidificationAnalysis, bp::wrapper<
     char*  file_c   =   const_cast<char*>(file_name.c_str());
     setCurrentFileName(file_c);
     
-    IplImage* im = cvCreateImage(cvSize(ncol,nlig),IPL_DEPTH_8U,3);
+    IplImage* im = cvCreateImage(cvSize(nlig,ncol),IPL_DEPTH_8U,3);
 
     for(int i=0;i<ncol;i++)
       {

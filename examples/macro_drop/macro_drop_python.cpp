@@ -29,6 +29,7 @@ int main( int hola, char** file_name)
   erAdThrP adp(THRESH_BINARY,AM_MEAN,51,17,255); //** < 
   erMacroDropAnalysis mda("ANmd");
   mda.defineParameters(rect,cerc,p1,p2,cann,adp,equ);
+
   mda.doIt("macro_goutte_1.png");
   mda.doIt("macro_goutte_2.png");
   mda.doIt("macro_goutte_3.png");

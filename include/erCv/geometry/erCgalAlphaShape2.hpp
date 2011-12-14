@@ -35,7 +35,7 @@
 #ifndef _ER_CGAL_ALPHA_SHAPES_2_HPP_
 #define _ER_CGAL_ALPHA_SHAPES_2_HPP_
 
-#include "erCgalBase.hpp"
+#include <erCv/geometry/erCgalBase.hpp>
 #include <CGAL/algorithm.h>
 #include <CGAL/Delaunay_triangulation_2.h>
 #include <CGAL/Alpha_shape_2.h>
@@ -88,7 +88,7 @@ void alpha_edges_user( Container cgalPoints, Container2& cgalSegmts, erAlphaP* p
 
 
 template < class Container, class Container2 >
-void alpha_edges( Container cgalPoints, Container2& cgalSegmts, erAlphaP* param)
+void erAlphaEdges( Container cgalPoints, Container2& cgalSegmts, erAlphaP* param)
 {
   double alfa = param->alpha;
   

@@ -275,7 +275,7 @@ bool erWireAnalysis::doItImage(erImage& ea)
        erExtractCvPoints( cv_pts, &ec, is_equal_255, rectOI);
        convertCvToCgalpoints( cv_pts, cgal_pts);
 
-       alpha_edges( cgal_pts, cgalSeg, &param_alpha_shape);
+       erAlphaEdges( cgal_pts, cgalSeg, &param_alpha_shape);
 
        cgal_wire_pts = erGetShortestPath(cgalSeg.begin(),cgalSeg.end(),cerc_to_start,cerc_to_end);
 
@@ -345,7 +345,7 @@ bool erMetalTransfertAnalysis::defineParametersUI( std::string firstImage)
   
   alpha_edges_user( cgalPts, cgalSeg, &palp);
   param_alpha_shape = palp;
-  largestClosedPolygon( cgalSeg, bgraphSeg);
+  erLargestClosedPolygon( cgalSeg, bgraphSeg);
 
   char* nom = const_cast< char*>( name.c_str());
   erPrintCgalPoint( bgraphSeg, file_name, nom);
@@ -381,7 +381,7 @@ bool erMetalTransfertAnalysis::doIt( std::string fich)
   setCurrentFileName(file_name);
   boost::tie(ea, loaded) = erLoadImage( file_name);
   if( !loaded) return false;
-  doItImage(ea);
+  return doItImage(ea);
 };
 bool erMetalTransfertAnalysis::doItImage(erImage& ea)
 {
@@ -414,12 +414,16 @@ bool erMetalTransfertAnalysis::doItImage(erImage& ea)
   
   convertCvToCgalpoints( cvPts, cgalPts);
 
-  alpha_edges( cgalPts, cgalSeg, &param_alpha_shape);
+  erAlphaEdges( cgalPts, cgalSeg, &param_alpha_shape);
 
   //std::list< CgalSegmt>::iterator dede=cgalSeg.begin();
-  //erPrintCgalPoint( cgalSeg, file_name, nom);
+  //std::string naname(nom);
+  //std::string extension("_after_alpha_shape_");
+  //std::string final=nom+extension;
+  //char* Cnom = const_cast< char*>( final.c_str());
+  //erPrintCgalPoint( cgalSeg, currentFileName(),Cnom);
     
-  largestClosedPolygon( cgalSeg, bgraphSeg);
+  erLargestClosedPolygon( cgalSeg, bgraphSeg);
   
   erPrintCgalPoint( bgraphSeg,currentFileName(), nom);
 
@@ -511,12 +515,13 @@ bool erSolidificationAnalysis::doItImage(erImage& ea)
   char* nom = const_cast< char*>( output_name.c_str());
   
   erSaveImage( &ea,currentFileName(), nom);
- 
+  //erShowImage("base",&ea);
   eb = erConvertToBlackAndWhite( &ea);
- 
+  //erShowImage("after conversion",&eb);
   ec = erDef_ROI( &eb, &rectOI);
- 
+  //erShowImage("ROI",&ec);
   erCvSmooth( &ec, &param_smooth1);
+  //erShowImage( "smooth", &ec); 
   // enum ThresholdType{ THRESH_BINARY_    = 1, /** < 1: Seuillage binaire  */
   //		    THRESH_BINARY_INV_= 2, /** < 2: Seuilage binaire inverse  */
   //		    THRESH_TRUNC_     = 3, /** < 3: Seuillage truncate  */
@@ -535,15 +540,15 @@ bool erSolidificationAnalysis::doItImage(erImage& ea)
   //std::cout << "Nombre de points apres canny:" << cvPts.size() << std::endl;
   convertCvToCgalpoints( cvPts, cgalPts);
 
-  alpha_edges( cgalPts, cgalSeg, &param_alpha_shape);
+  erAlphaEdges( cgalPts, cgalSeg, &param_alpha_shape);
 
   //std::list< CgalSegmt>::iterator dede=cgalSeg.begin();
   //erPrintCgalPoint( cgalSeg, file_name, nom);
     
-  largestClosedPolygon( cgalSeg, bgraphSeg);
+  erLargestClosedPolygon( cgalSeg, bgraphSeg);
   
   erPrintCgalPoint( bgraphSeg,currentFileName(), nom);
-
+  
   if(output_geometry_characteristics && bgraphSeg.size() > 6)
     {
       std::list<CgalTrian> triangs=erGeometryExtractTriangles(bgraphSeg.begin(),bgraphSeg.end());
@@ -654,9 +659,9 @@ bool erWeldPoolAnalysis::defineParametersUI( std::string firstImage)
   erExtractCvPoints( cvPts, &ee, is_equal_255, rect);
   convertCvToCgalpoints( cvPts, cgalPts);
   
-  alpha_edges( cgalPts, cgalSeg, &palp);
+  erAlphaEdges( cgalPts, cgalSeg, &palp);
   
-  largestClosedPolygon( cgalSeg, bgraphSeg);
+  erLargestClosedPolygon( cgalSeg, bgraphSeg);
 
   erPrintCgalPoint( bgraphSeg, file_name, nom);
   
@@ -755,9 +760,9 @@ bool erWeldPoolAnalysis::doItImage(erImage& ea)
   convertCvToCgalpoints( cvPts, cgalPts);
   
 
-  alpha_edges( cgalPts, cgalSeg, &param_alpha_shape);
+  erAlphaEdges( cgalPts, cgalSeg, &param_alpha_shape);
  
-  largestClosedPolygon( cgalSeg, bgraphSeg);
+  erLargestClosedPolygon( cgalSeg, bgraphSeg);
  
 
   convex_hull( bgraphSeg, cgalPts2);
@@ -884,9 +889,9 @@ bool erLaserPrototypageAnalysis::defineParametersUI( std::string firstImage)
   erExtractCvPoints( cvPts, &ee, is_equal_255, rect);
   convertCvToCgalpoints( cvPts, cgalPts);
   
-  alpha_edges( cgalPts, cgalSeg, &palp);
+  erAlphaEdges( cgalPts, cgalSeg, &palp);
   
-  largestClosedPolygon( cgalSeg, bgraphSeg);
+  erLargestClosedPolygon( cgalSeg, bgraphSeg);
 
   erPrintCgalPoint( bgraphSeg, file_name, nom);
   
@@ -962,9 +967,9 @@ bool erLaserPrototypageAnalysis::doIt_diffuse(std::string fich)
  
   convertCvToCgalpoints( cvPts, cgalPts);
  
-  alpha_edges( cgalPts, cgalSeg, &param_alpha_shape);
+  erAlphaEdges( cgalPts, cgalSeg, &param_alpha_shape);
  
-  largestClosedPolygon( cgalSeg, bgraphSeg);
+  erLargestClosedPolygon( cgalSeg, bgraphSeg);
  
   erPrintCgalPoint( bgraphSeg,currentFileName(), nom);
  
@@ -1039,9 +1044,9 @@ bool erLaserPrototypageAnalysis::doItImage(erImage& ea)
  
   convertCvToCgalpoints( cvPts, cgalPts);
 
-  alpha_edges( cgalPts, cgalSeg, &param_alpha_shape);
+  erAlphaEdges( cgalPts, cgalSeg, &param_alpha_shape);
 
-  largestClosedPolygon( cgalSeg, bgraphSeg);
+  erLargestClosedPolygon( cgalSeg, bgraphSeg);
 
   erPrintCgalPoint( bgraphSeg,currentFileName(), nom);
  

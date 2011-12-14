@@ -60,15 +60,15 @@ public:
   template< typename Iter>
   bool operator ()( Iter debut, Iter fin)
   {
-    std::map< CgalPoint, uint> ncompt;
+    //std::map< CgalPoint, uint> ncompt;
     Iter it;
     for( it = debut; it!=fin; it++)
       {
-	ncompt[ it->source()]++;
-	ncompt[ it->target()]++;
+	_ncompt[ it->source()]++;
+	_ncompt[ it->target()]++;
       };
-    std::map< CgalPoint, uint>::iterator dede=ncompt.begin();
-    while( dede != ncompt.end())
+    std::map< CgalPoint, uint>::iterator dede=_ncompt.begin();
+    while( dede != _ncompt.end())
       {
 	if( dede->second < 2) return false;
 	dede++;
@@ -76,6 +76,24 @@ public:
     return true;
     
   };
+  std::pair<CgalPoint,CgalPoint> borders()
+  {
+    std::map< CgalPoint, uint>::iterator dede=_ncompt.begin();
+    std::pair<CgalPoint,CgalPoint> borders;
+    bool first(true);
+    while( dede != _ncompt.end())
+      {
+	if( dede->second < 2)
+	  {
+	    if(first){borders.first = dede->first;first=false;}
+	    else{borders.second = dede->first;}
+	  }
+	  dede++;
+      };
+    return borders;
+  };
+private:
+  std::map<CgalPoint,uint> _ncompt;
 };
 
 
@@ -145,7 +163,7 @@ BgraphSegmt filterMapOfSegments( BgraphSegmtMap& map_of_connected, Criteria& cri
 
 
 template< class Container, class Container2>
-void largestClosedPolygon( Container cgalSegmts, Container2& bgraphSegmts)
+void erLargestClosedPolygon( Container cgalSegmts, Container2& bgraphSegmts)
 {
   BgraphSegmtMap c_segment = getConnectedSegments( cgalSegmts.begin(), cgalSegmts.end());
 

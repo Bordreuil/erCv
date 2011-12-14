@@ -119,7 +119,7 @@ int main(int HOLA, char** file_name)
   //erPrintCgalPoint( cgalSeg, name, exit);
   std::cout << "cgalSeg.size: " << cgalSeg.size() << std::endl;
 
-  largestClosedPolygon( cgalSeg, bgraphSeg);
+  erLargestClosedPolygon( cgalSeg, bgraphSeg);
   erPrintCgalPoint( bgraphSeg, name, exit);
   std::cout << "bgraphSeg.size: " << bgraphSeg.size() << std::endl;
 

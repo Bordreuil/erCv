@@ -859,6 +859,7 @@ void erPrintCgalPoint( Container & pts, char* file_name, char* exit_name)
 {
   //Ecriture du nom du ficher 
   char* new_name = erEcrireNomFichier( file_name, exit_name, "_curveCgal_");
+
   //Ouverture du ficher
   std::ofstream myfile( new_name);
   if (myfile.is_open())
