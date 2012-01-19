@@ -33,7 +33,7 @@ int main( int hola, char** file_name)
   //rec_tem.x = 14; rec_tem.y = 20; rec_tem.width = 5; rec_tem.height = 5;
   erTemplP templ(SQDIFF_NORMED, rec_tem, true); 
   erAlphaP alp(1);
-  erWeldPoolAnalysis wpa("full_bain_4");
+  erWeldPoolAnalysis wpa("full_bain_5");
 
   wpa.defineCalibration("calibration_source.jpg","calibration_target.bmp");
   wpa.defineParameters( rect, whi, p1, p2, cann, dil, thr, templ, alp);
@@ -55,12 +55,13 @@ int main( int hola, char** file_name)
   //wpa.doIt( "example_full_bain_2.bmp");
 
   wpa.doIt( "example_full_bain_4.bmp");
-  std::cout << "HOLA_1" << std::endl;
+  //std::cout << "HOLA_0" << std::endl;
 
   erSmootP p12(BLUR,7), p22(MEDIAN,7);
   erThresP thr2(THRESH_BINARY_,215,255); 
+ 
   wpa.defineParameters( rect, whi, p12, p22, cann, dil, thr2, templ, alp);
-  //wpa.doIt( "example_full_bain_4.bmp");
+  //  wpa.doIt( "example_full_bain_4.bmp");
 //>>>>>>> .r124
   
   return(0);

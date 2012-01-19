@@ -703,6 +703,7 @@ bool erWeldPoolAnalysis::doIt(std::string fich)
   if( !loaded)return false;
   doItImage(ea);
 };
+
 bool erWeldPoolAnalysis::doItImage(erImage& ea)
 {
   erImage  eb, ec, ed, ee;
@@ -711,20 +712,23 @@ bool erWeldPoolAnalysis::doItImage(erImage& ea)
   std::list< CgalSegmt> cgalSeg, bgraphSeg;
   output_name = (dir_analysis+"/"+name+"_wep");
   char* nom = const_cast< char*>( output_name.c_str());
-  eb = erConvertToBlackAndWhite( &ea); 
   
+  eb = erConvertToBlackAndWhite( &ea); 
+  //erSaveImage2(&ec, file_name, nom, "grey");
+  //erShowImage( "grey", &ec);
  
   erWhiteBlobCorrection( &eb, &param_white_blob);
-  
+  //erSaveImage2(&ec, file_name, nom, "wblob");
+  //erShowImage( "wblob", &ec);
   
   /** Modif temp */
-  erCvSmooth( &eb, &param_smooth1);
- 
+  //erCvSmooth( &eb, &param_smooth1);
+
   /** Jusque la */
   if( _with_calibration)
     {
       ec = _calibration.transform_image(eb);
-      //erSaveImage(&ec,file_name, nom+'calib');
+      //erSaveImage2(&ec, file_name, nom, "calib");
       //erShowImage( "calib", &ec);
     }
   else
@@ -735,39 +739,48 @@ bool erWeldPoolAnalysis::doItImage(erImage& ea)
   ed = erDef_ROI( &ec, &rectOI);
   
   erCvCanny( &ed, &param_canny);
- 
+  //erSaveImage2(&ec, file_name, nom, "canny1");
+  //erShowImage( "canny1", &ec);
   
   erCvDilate( &ed, &param_dilate);
- 
+  //erSaveImage2(&ec, file_name, nom, "dilate");
+  //erShowImage( "dilate", &ec);
 
-  /**
+  
   erCvSmooth( &ed, &param_smooth1);
-  nomc= const_cast< char*>( (output_name+"blur").c_str());
-  erSaveImage( &ed, file_name, nomc);
-  erShowImage( "blur", &ed);
-  */
+  //char * nomc = const_cast< char*>( (output_name+"blur").c_str());
+  //erSaveImage2( &ed, file_name, nom, "blur");
+  //erShowImage( "blur", &ed);
+  
   erCvSmooth( &ed, &param_smooth2);
- 
+  //erSaveImage2(&ec, file_name, nom, "calib");
+  //erShowImage( "calib", &ec);
 
   ee = erCvTemplate( &ed, &param_template);
   erCvThreshold( &ee, &param_threshold);
   erCvCanny( &ee, &param_canny);
 
-
   IsEqualTo is_equal_255(255);
-  erExtractCvPoints( cvPts, &ee, is_equal_255, rectOI);
 
-  convertCvToCgalpoints( cvPts, cgalPts);
-  
+  erExtractCvPoints( cvPts, &ee, is_equal_255, rectOI);
+  char * nomc;
+
+  convertCvToCgalpoints( cvPts, cgalPts);  
+  nomc= const_cast< char*>( (output_name + "extrac").c_str());
+  erPrintCgalPoint( cgalSeg, file_name, nomc);
 
   erAlphaEdges( cgalPts, cgalSeg, &param_alpha_shape);
- 
+  nomc= const_cast< char*>( (output_name + "alpha").c_str());
+  erPrintCgalPoint( cgalSeg, file_name, nomc); 
+
   erLargestClosedPolygon( cgalSeg, bgraphSeg);
- 
+  nomc= const_cast< char*>( (output_name + "closed").c_str());
+  erPrintCgalPoint( cgalSeg, file_name, nomc);
 
   convex_hull( bgraphSeg, cgalPts2);
+  nomc= const_cast< char*>( (output_name + "convex").c_str());
+  erPrintCgalPoint( cgalSeg, file_name, nomc);
  
-
   double area;
 
   if(output_convex_polygon)
@@ -1015,7 +1028,7 @@ bool erLaserPrototypageAnalysis::doItImage(erImage& ea)
   char* nom = const_cast< char*>( output_name.c_str());
   erImage eb, ec, ed, ee;
   std::list< CvPoint>   cvPts;
-  std::list< CgalPoint> cgalPts;
+  std::list< CgalPoint> cgalPts, cgalPts2;
   std::list< CgalSegmt> cgalSeg, bgraphSeg;
   
   ec = erConvertToBlackAndWhite( &ea);
@@ -1050,6 +1063,7 @@ bool erLaserPrototypageAnalysis::doItImage(erImage& ea)
 
   erPrintCgalPoint( bgraphSeg,currentFileName(), nom);
  
+
   if(output_convex_polygon)
   {
       std::list<CgalPoint> polygon = erGeometryExtractConvexPolygon(bgraphSeg.begin(),bgraphSeg.end());

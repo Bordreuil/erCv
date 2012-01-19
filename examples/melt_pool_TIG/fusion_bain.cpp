@@ -70,6 +70,7 @@ int main(int HOLA, char** file_name)
   
   erCalibration ca( "cuadro5-rescale-511.jpg", "rec_droite_256_2.bmp", 3, 3); /* Calibration des images */
   
+ 
   boost::tie(ea,loaded) = erLoadImage(name);
 
   eb = erConvertToBlackAndWhite( &ea); /* Conversion en 8 bit single channel */ 
