@@ -45,7 +45,7 @@ typedef CGAL::Polygon_2<K> Polygon_2;
 typedef Polygon_2::Vertex_iterator Polygon_vertex_iterator;
 
 template< class Container, class Container2>
-void convex_hull( Container bgraphSegments, Container2& cgalPoint)
+void erConvexHull( Container bgraphSegments, Container2& cgalPoint)
 {		    
   cgalPoint =  erGeometryExtractConvexPolygon( bgraphSegments.begin(), bgraphSegments.end());
 }

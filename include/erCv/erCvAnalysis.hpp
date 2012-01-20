@@ -55,6 +55,9 @@
  \brief Base class to others. Pure virtual.
 
  */
+
+typedef std::list< CgalSegmt> SegmentList;
+
 struct erAnalysis
 {
   erAnalysis( );
@@ -78,10 +81,18 @@ struct erAnalysis
 
   /** Creation de la matrix de calibration pour les images
    */
-  void  defineCalibration( std::string, std::string);
-  char*  currentFileName();
-  void   setCurrentFileName(char*);
-
+  void        defineCalibration( std::string, std::string);
+  char*       currentFileName();
+  void        setCurrentFileName(char*);
+  void        setOutputGeometryFile(std::string);
+  void        writeOutGeometry(SegmentList&);
+  std::string outputGeometryFile();
+  bool        outputGeometry();
+  bool        outputConvex();
+  void        setOutputConvex(bool);
+  void        setOuputGeometry(bool);
+  bool        outputAxisymmetricGeometry();
+  void        setOutputAxisymmetricGeometry(bool);
   /* \brief Application de l Analysis avec des parametres introduit dans le ficher de finition de l 'experiance.
    */
   virtual bool doIt     ( std::string)=0; 
@@ -92,6 +103,10 @@ struct erAnalysis
   std::string          output_name;  /** < Nom du fichier de sortie des resultats*/
   erCalibration        _calibration;
   bool                 _with_calibration;  // Pour savoir si on active la calibration
+  bool                 _output_geometry_characteristics;
+  bool                 _output_axisymmetric;
+  bool                 _output_convex;
+  std::string          _output_geometry_file;
   char* file_name;
 };
 
@@ -267,8 +282,8 @@ struct erMetalTransfertAnalysis:public erAnalysis
   void loadParameters( std::string);               /** <  Pas encore active */
 
 
-  void setOutputGeometryFile(std::string);         /** <  Methode pour reinitialiser le nom du fichier de geometrie
-						          A chaque passage, l ancien fichier est ecrase      */
+  //void setOutputGeometryFile(std::string);         /** <  Methode pour reinitialiser le nom du fichier de geometrie
+  //						          A chaque passage, l ancien fichier est ecrase      */
   CvRect         rectOI;                           /** <  Position de la zone d etude dans l image */
   erSmootP       param_smooth1, param_smooth2;     /**  
 							Premier lissage du type BLUR: Augmente ou diminue l homegenite de l image.
@@ -330,12 +345,8 @@ struct erMetalTransfertAnalysis:public erAnalysis
 						       Parametre pour travailler avec les alpha shape de CGAL 
 						       Valeurs possibles [ 1, ) 
 						   */  
-  bool           output_geometry_characteristics;  /**
-						      Desactiviation des sorties geometriques 
-						   */
-  std::string    output_geometry_file;             /** 
-						       Nom du fichier de sortie pour la geometrie 
-						   */
+
+
 };
 
 
@@ -364,8 +375,8 @@ struct erSolidificationAnalysis:public erAnalysis
   */
  
 
-  void setOutputGeometryFile(std::string);         /** <  Methode pour reinitialiser le nom du fichier de geometrie
-						          A chaque passage, l ancien fichier est ecrase      */
+  //void setOutputGeometryFile(std::string);         /** <  Methode pour reinitialiser le nom du fichier de geometrie
+  //						          A chaque passage, l ancien fichier est ecrase      */
   CvRect         rectOI;                           /** <  Position de la zone d etude dans l image */
   erSmootP       param_smooth1;                    /**  
 							Premier lissage du type BLUR: Augmente ou diminue l homegenite de l image.
@@ -408,12 +419,7 @@ struct erSolidificationAnalysis:public erAnalysis
 						       Parametre pour travailler avec les alpha shape de CGAL 
 						       Valeurs possibles [ 1, ) 
 						   */  
-  bool           output_geometry_characteristics;  /**
-						      Desactiviation des sorties geometriques 
-						   */
-  std::string    output_geometry_file;             /** 
-						       Nom du fichier de sortie pour la geometrie 
-						   */
+ 
 };
 
 
@@ -457,7 +463,7 @@ struct erWeldPoolAnalysis:public erAnalysis
   bool doItImage(erImage&);
   void saveParameters( std::string);
   void loadParameters( std::string);
-  void setOutputGeometryFile(std::string);         /** < Methode pour reinitialiser le nom du fichier de geometrie */
+  //void setOutputGeometryFile(std::string);         /** < Methode pour reinitialiser le nom du fichier de geometrie */
   
   CvRect   rectOI;                                 /** < Position de la zone d etude dans l image */
   erWhitBP param_white_blob;                       /**
@@ -587,12 +593,7 @@ struct erWeldPoolAnalysis:public erAnalysis
   erAlphaP param_alpha_shape;                      /**
 						      Paramettre pour la construction des alpha shape en CGAL 
 						   */
-  bool           output_geometry_characteristics;  /**
-						      Desactiviation des sorties geometriques  Initialiser a true
-						   */
-  std::string    output_geometry_file;             /**
-						      Nom du fichier de sortie pour la geometrie 
-						   */
+  
   bool           output_convex_polygon;            /**
 						      Si on veut extraire le domaine convexe initialiser a true au depart 
 						   */
@@ -665,7 +666,7 @@ struct erLaserPrototypageAnalysis:public erAnalysis
   /** Methode pour reinitialiser le nom du ficher de geometrie 
       \param std::string : nom de l image
   */
-  void setOutputGeometryFile(std::string);         
+  //void setOutputGeometryFile(std::string);         
 
   CvRect   rectOI;
   erSmootP param_smooth1, param_smooth2;
@@ -675,8 +676,8 @@ struct erLaserPrototypageAnalysis:public erAnalysis
   erAdThrP param_adaptive_threshold;
   erTemplP param_template;
   erAlphaP param_alpha_shape;
-  bool           output_geometry_characteristics;  /** <  Desactiviation des sorties geometriques  Initialiser a true*/
-  std::string    output_geometry_file;             /** <  Nom du fichier de sortie pour la geometrie */
+  //bool           output_geometry_characteristics;  /** <  Desactiviation des sorties geometriques  Initialiser a true*/
+  //std::string    output_geometry_file;             /** <  Nom du fichier de sortie pour la geometrie */
   bool           output_convex_polygon;           /** < Si on veut extraire le domaine convexe initialiser a true au depart */
 };
 /**\}*/

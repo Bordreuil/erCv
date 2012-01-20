@@ -144,21 +144,44 @@ BgraphSegmt filterMapOfSegments( BgraphSegmtMap& map_of_connected, Criteria& cri
   uint current=0;
   
   for( deb = map_of_connected.begin(); deb != map_of_connected.end(); deb++)
-    {
+    { //std::cout << "----" << deb->second.size() << " " << nmax << std::endl;
       if( crit( deb->second.begin(), deb->second.end()))
-	{	  
+      	{	  
 	  if(deb->second.size() > nmax)
 	    {
-	      nmax=deb->second.size();
+	      nmax   = deb->second.size();
 	      output = deb->second;
+	      
 	    };
-	};
+	  	};
       
     };
   
   return output;
 };
 
+
+BgraphSegmt filterLargestMapOfSegments( BgraphSegmtMap& map_of_connected)
+{
+  BgraphSegmtMap::iterator deb,fi;
+  BgraphSegmt output;
+  uint nmax=0;
+  uint current=0;
+  
+  for( deb = map_of_connected.begin(); deb != map_of_connected.end(); deb++)
+    {  
+	  if(deb->second.size() > nmax)
+	    {
+	      nmax   = deb->second.size();
+	      output = deb->second;
+	      
+	    };
+	
+      
+    };
+  
+  return output;
+};
 
 
 
@@ -169,6 +192,13 @@ void erLargestClosedPolygon( Container cgalSegmts, Container2& bgraphSegmts)
 
   SegmentsSetIsClosed criteria;
   bgraphSegmts = filterMapOfSegments( c_segment, criteria);
-}
+};
 
+template< class Container, class Container2>
+void erLargestPolygon( Container cgalSegmts, Container2& bgraphSegmts)
+{
+  BgraphSegmtMap c_segment = getConnectedSegments( cgalSegmts.begin(), cgalSegmts.end());
+
+  bgraphSegmts = filterLargestMapOfSegments( c_segment);
+};
 #endif

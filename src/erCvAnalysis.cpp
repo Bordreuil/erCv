@@ -59,8 +59,6 @@
 #include<CGAL/linear_least_squares_fitting_2.h>
 
 
-
-
 std::string ANALYSIS_EXTENSION="_erCvAnalysis";
 
 /********************************************************************
@@ -73,7 +71,8 @@ std::string ANALYSIS_EXTENSION="_erCvAnalysis";
 erAnalysis::erAnalysis( ){ };
 
 erAnalysis::erAnalysis( std::string name, std::string infofile): 
-  name( name), infoFile( infofile),_with_calibration(false)
+  name( name), infoFile( infofile),_with_calibration(false),_output_geometry_characteristics(true),
+  _output_axisymmetric(false),_output_convex(false)
 {  
   dir_analysis = name + ANALYSIS_EXTENSION;
   create( );
@@ -95,11 +94,12 @@ void erAnalysis::create()
 
 //ATTENTION erCalibration doit inclure un ficher avec les facteurs de conversion
 void erAnalysis::defineCalibration(std::string source,std::string target)
-{  char* source_c    =  const_cast<char*>(source.c_str());
-   char*  target_c   =   const_cast<char*>(target.c_str());
+{  char* source_c    = const_cast<char*>(source.c_str());
+   char*  target_c   = const_cast<char*>(target.c_str());
    _calibration      = erCalibration(source_c,target_c,3,3);
    _with_calibration = true;
 };
+
 void erAnalysis::setCurrentFileName(char* file)
 {
   file_name = file;
@@ -109,6 +109,84 @@ char* erAnalysis::currentFileName()
 {
   return file_name;
 }
+bool        erAnalysis::outputGeometry()
+{
+  return _output_geometry_characteristics;
+};
+void erAnalysis::writeOutGeometry(SegmentList& bgraphSeg)
+{ 
+  if( outputGeometry() && bgraphSeg.size() > 6)
+    {
+      std::list<CgalTrian> triangs;
+      if(!outputAxisymmetricGeometry())
+	{
+	  triangs=erGeometryExtractTriangles(bgraphSeg.begin(),bgraphSeg.end());
+	}
+      else
+	{
+	  triangs=erGeometryExtractTrianglesWithMesh(bgraphSeg.begin(),bgraphSeg.end());
+	};
+	  double area; 
+	  CgalLine  line;
+	  CgalPoint pt;
+	  CgalFTrai fit = linear_least_squares_fitting_2(triangs.begin(),triangs.end(),line,pt,CGAL::Dimension_tag<2>());
+	  CgalVect vect  = line.to_vector();
+      if(!outputAxisymmetricGeometry())
+	{	
+	  area     = erGetArea(triangs.begin(),triangs.end());
+	}
+      else
+	{
+	  area   =erGetAreaAxi(triangs.begin(),triangs.end(),pt,vect);
+	}
+	  std::ofstream ot(outputGeometryFile().c_str(),std::ios_base::app);
+
+	  ot << std::setprecision(10) << currentFileName() << "\t" << pt.x() << "\t" << pt.y() << "\t" << area  << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;        
+    }
+};
+
+void         erAnalysis::setOutputGeometryFile(std::string outputgeometry)
+{ 
+  _output_geometry_file = dir_analysis+"/"+outputgeometry+".geo";
+  std::ofstream out(_output_geometry_file.c_str());
+  std::cout << "-----Fichier de stockage de la geometry:\t\t" << _output_geometry_file << std::endl;
+  if(outputAxisymmetricGeometry())
+    {
+       out << "Nom_du_fichier\t\tCentroid_x\tCentroid_y\tVolume\tAxe_Princ_x\tAxe_Princ_y\tFit(0-1)\n";
+    }
+  else
+    {
+      out << "Nom_du_fichier\t\tCentroid_x\tCentroid_y\tAire\tAxe_Princ_x\tAxe_Princ_y\tFit(0-1)\n";
+    };
+};
+
+std::string erAnalysis::outputGeometryFile()
+{
+  return _output_geometry_file;
+};
+
+void        erAnalysis::setOuputGeometry(bool out)
+{
+  _output_geometry_characteristics = out;
+};
+bool        erAnalysis::outputAxisymmetricGeometry()
+{
+  return _output_axisymmetric; 
+};
+void        erAnalysis::setOutputAxisymmetricGeometry(bool axi)
+{  
+  _output_axisymmetric = axi;
+  
+};
+bool    erAnalysis::outputConvex()
+{
+  return _output_convex;
+};
+void erAnalysis::setOutputConvex(bool out)
+{
+  _output_convex=out;
+  // setOutputGeometryFile(outputGeometryFile());
+};
 
 /********************************************************************
 
@@ -298,8 +376,8 @@ erMetalTransfertAnalysis::erMetalTransfertAnalysis(){ };
 
 erMetalTransfertAnalysis::erMetalTransfertAnalysis( std::string name, std::string infofile):
   erAnalysis( name, infofile), rectOI( ), param_smooth1( ), param_smooth2( ), param_canny( ), 
-  param_adaptive_threshold( ), param_alpha_shape(), output_geometry_characteristics(true)
-{setOutputGeometryFile(name); }; 
+  param_adaptive_threshold( ), param_alpha_shape()
+{}; 
 
 bool erMetalTransfertAnalysis::defineParametersUI( std::string firstImage)
 { 
@@ -365,13 +443,13 @@ void erMetalTransfertAnalysis::defineParameters( CvRect rect, erSmootP smooth1, 
          param_alpha_shape = alphas;
 };
 
-void erMetalTransfertAnalysis::setOutputGeometryFile(std::string file) //** Le fichier existant est ecrase!!
-{
-  output_geometry_file = dir_analysis+"/"+file+"_mtl"+".geo";
-  std::ofstream out(output_geometry_file.c_str());
-  out << "Nom_du_fichier\t\tCentroid_x\tCentroid_y\tAire\tAxe_Princ_x\tAxe_Princ_y\tFit(0-1)\n";
+// void erMetalTransfertAnalysis::setOutputGeometryFile(std::string file) //** Le fichier existant est ecrase!!
+// {
+//   output_geometry_file = dir_analysis+"/"+file+"_mtl"+".geo";
+//   std::ofstream out(output_geometry_file.c_str());
+//   out << "Nom_du_fichier\t\tCentroid_x\tCentroid_y\tAire\tAxe_Princ_x\tAxe_Princ_y\tFit(0-1)\n";
 
-};
+// };
 
 bool erMetalTransfertAnalysis::doIt( std::string fich)
 {
@@ -403,12 +481,12 @@ bool erMetalTransfertAnalysis::doItImage(erImage& ea)
   erCvSmooth( &ec, &param_smooth1);
   
   erCvAdaptiveThreshold( &ec, &param_adaptive_threshold);
-  //erSaveImage2( &ec, file_name, nom, "adp");
+
   erCvSmooth( &ec, &param_smooth2);
   //erSaveImage2( &ec, file_name, nom, "sm2");
 
   erCvCanny( &ec, &param_canny);
- 
+  //erSaveImage2( &ec, file_name, nom, "canny");
   IsEqualTo is_equal_255( 255);
   erExtractCvPoints( cvPts, &ec, is_equal_255, rectOI);
   
@@ -426,18 +504,18 @@ bool erMetalTransfertAnalysis::doItImage(erImage& ea)
   erLargestClosedPolygon( cgalSeg, bgraphSeg);
   
   erPrintCgalPoint( bgraphSeg,currentFileName(), nom);
-
-  if(output_geometry_characteristics && bgraphSeg.size() > 6)
-    {
-      std::list<CgalTrian> triangs=erGeometryExtractTriangles(bgraphSeg.begin(),bgraphSeg.end());
-      double area   = getArea(triangs.begin(),triangs.end());
-      CgalLine  line;
-      CgalPoint pt;
-      CgalFTrai fit = linear_least_squares_fitting_2(triangs.begin(),triangs.end(),line,pt,CGAL::Dimension_tag<2>());	
-      std::ofstream ot(output_geometry_file.c_str(),std::ios_base::app);
-      CgalVect vect=line.to_vector();
-      ot << std::setprecision(10) << currentFileName() << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
-    };
+  writeOutGeometry(bgraphSeg);
+  // if(output_geometry_characteristics && bgraphSeg.size() > 6)
+  //   {
+  //     std::list<CgalTrian> triangs=erGeometryExtractTriangles(bgraphSeg.begin(),bgraphSeg.end());
+  //     double area   = getArea(triangs.begin(),triangs.end());
+  //     CgalLine  line;
+  //     CgalPoint pt;
+  //     CgalFTrai fit = linear_least_squares_fitting_2(triangs.begin(),triangs.end(),line,pt,CGAL::Dimension_tag<2>());	
+  //     std::ofstream ot(output_geometry_file.c_str(),std::ios_base::app);
+  //     CgalVect vect=line.to_vector();
+  //     ot << std::setprecision(10) << currentFileName() << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
+  //   };
  
 
   return true;
@@ -468,8 +546,8 @@ erSolidificationAnalysis::erSolidificationAnalysis(){ };
 
 erSolidificationAnalysis::erSolidificationAnalysis( std::string name, std::string infofile):
   erAnalysis( name, infofile), rectOI( ), param_smooth1( ), param_canny( ), 
-  param_threshold( ), param_alpha_shape(), output_geometry_characteristics(true)
-{setOutputGeometryFile(name); }; 
+  param_threshold( ), param_alpha_shape()
+{ }; 
 
 
 
@@ -484,13 +562,13 @@ void erSolidificationAnalysis::defineParameters( CvRect rect, erSmootP smooth1, 
          param_alpha_shape = alphas;
 };
 
-void erSolidificationAnalysis::setOutputGeometryFile(std::string file) //** Le fichier existant est ecrase!!
-{
-  output_geometry_file = dir_analysis+"/"+file+"_sol"+".geo";
-  std::ofstream out(output_geometry_file.c_str());
-  out << "Nom_du_fichier\t\tCentroid_x\tCentroid_y\tAire\tAxe_Princ_x\tAxe_Princ_y\tFit(0-1)\n";
+// void erSolidificationAnalysis::setOutputGeometryFile(std::string file) //** Le fichier existant est ecrase!!
+// {
+//   output_geometry_file = dir_analysis+"/"+file+"_sol"+".geo";
+//   std::ofstream out(output_geometry_file.c_str());
+//   out << "Nom_du_fichier\t\tCentroid_x\tCentroid_y\tAire\tAxe_Princ_x\tAxe_Princ_y\tFit(0-1)\n";
 
-};
+// };
 
 bool erSolidificationAnalysis::doIt( std::string fich)
 {
@@ -548,18 +626,18 @@ bool erSolidificationAnalysis::doItImage(erImage& ea)
   erLargestClosedPolygon( cgalSeg, bgraphSeg);
   
   erPrintCgalPoint( bgraphSeg,currentFileName(), nom);
-  
-  if(output_geometry_characteristics && bgraphSeg.size() > 6)
-    {
-      std::list<CgalTrian> triangs=erGeometryExtractTriangles(bgraphSeg.begin(),bgraphSeg.end());
-      double area   = getArea(triangs.begin(),triangs.end());
-      CgalLine  line;
-      CgalPoint pt;
-      CgalFTrai fit = linear_least_squares_fitting_2(triangs.begin(),triangs.end(),line,pt,CGAL::Dimension_tag<2>());	
-      std::ofstream ot(output_geometry_file.c_str(),std::ios_base::app);
-      CgalVect vect=line.to_vector();
-      ot << std::setprecision(10) << currentFileName() << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
-    };
+  writeOutGeometry(bgraphSeg);
+  // if(output_geometry_characteristics && bgraphSeg.size() > 6)
+  //   {
+  //     std::list<CgalTrian> triangs=erGeometryExtractTriangles(bgraphSeg.begin(),bgraphSeg.end());
+  //     double area   = getArea(triangs.begin(),triangs.end());
+  //     CgalLine  line;
+  //     CgalPoint pt;
+  //     CgalFTrai fit = linear_least_squares_fitting_2(triangs.begin(),triangs.end(),line,pt,CGAL::Dimension_tag<2>());	
+  //     std::ofstream ot(output_geometry_file.c_str(),std::ios_base::app);
+  //     CgalVect vect=line.to_vector();
+  //     ot << std::setprecision(10) << currentFileName() << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
+  //   };
  
 
   return true;
@@ -576,7 +654,7 @@ erWeldPoolAnalysis::erWeldPoolAnalysis(){};
 
 //** Constructeur avec des paramettres determines ailleurs */
 erWeldPoolAnalysis::erWeldPoolAnalysis( std::string name, std::string infofile): 
-  erAnalysis( name, infofile), rectOI( ), param_white_blob( ), param_smooth1( ), param_smooth2( ), param_dilate( ), param_canny( ), param_threshold( ), param_template( ), param_alpha_shape( ), output_geometry_characteristics(true),output_convex_polygon(true){setOutputGeometryFile(name); }; 
+  erAnalysis( name, infofile), rectOI( ), param_white_blob( ), param_smooth1( ), param_smooth2( ), param_dilate( ), param_canny( ), param_threshold( ), param_template( ), param_alpha_shape( ){setOutputConvex(true); }; 
 
 //** Boucle de execution du programe en utilisant le la user interface de openCv */
 bool erWeldPoolAnalysis::defineParametersUI( std::string firstImage) 
@@ -684,13 +762,13 @@ void erWeldPoolAnalysis::defineParameters( CvRect rect, erWhitBP whiteb, erSmoot
 };
 
 
-void erWeldPoolAnalysis::setOutputGeometryFile(std::string file) //** Le fichier existant est ecrase!!
-{
-  output_geometry_file = dir_analysis+"/"+file+"_wep"+".geo";
-  std::ofstream out(output_geometry_file.c_str());
-  out << "Nom_du_fichier\t\t\t\tCentroid_x\tCentroid_y\tAire\tAxe_Princ_x\tAxe_Princ_y\tFit(0-1)\n";
+// void erWeldPoolAnalysis::setOutputGeometryFile(std::string file) //** Le fichier existant est ecrase!!
+// {
+//   output_geometry_file = dir_analysis+"/"+file+"_wep"+".geo";
+//   std::ofstream out(output_geometry_file.c_str());
+//   out << "Nom_du_fichier\t\t\t\tCentroid_x\tCentroid_y\tAire\tAxe_Princ_x\tAxe_Princ_y\tFit(0-1)\n";
 
-};
+// };
 
 bool erWeldPoolAnalysis::doIt(std::string fich)
 { 
@@ -710,26 +788,22 @@ bool erWeldPoolAnalysis::doItImage(erImage& ea)
   std::list< CvPoint>   cvPts;
   std::list< CgalPoint> cgalPts, cgalPts2;
   std::list< CgalSegmt> cgalSeg, bgraphSeg;
-  output_name = (dir_analysis+"/"+name+"_wep");
+  output_name = dir_analysis+"/"+name+"_wep";
   char* nom = const_cast< char*>( output_name.c_str());
   
   eb = erConvertToBlackAndWhite( &ea); 
   //erSaveImage2(&ec, file_name, nom, "grey");
   //erShowImage( "grey", &ec);
- 
   erWhiteBlobCorrection( &eb, &param_white_blob);
-  //erSaveImage2(&ec, file_name, nom, "wblob");
-  //erShowImage( "wblob", &ec);
-  
-  /** Modif temp */
-  //erCvSmooth( &eb, &param_smooth1);
-
+ 
   /** Jusque la */
   if( _with_calibration)
     {
       ec = _calibration.transform_image(eb);
-      //erSaveImage2(&ec, file_name, nom, "calib");
-      //erShowImage( "calib", &ec);
+      std::string calib_name = dir_analysis+"/"+name+"_calib";
+      char* nomcalib = const_cast< char*>( calib_name.c_str());
+      erSaveImage(&ec,file_name, nomcalib);
+  
     }
   else
     {
@@ -737,26 +811,22 @@ bool erWeldPoolAnalysis::doItImage(erImage& ea)
     };
 
   ed = erDef_ROI( &ec, &rectOI);
-  
+  erCvSmooth( &ed, &param_smooth1);
+
   erCvCanny( &ed, &param_canny);
   //erSaveImage2(&ec, file_name, nom, "canny1");
   //erShowImage( "canny1", &ec);
   
   erCvDilate( &ed, &param_dilate);
-  //erSaveImage2(&ec, file_name, nom, "dilate");
-  //erShowImage( "dilate", &ec);
+   erCvSmooth( &ed, &param_smooth2); 
+
+  char* nomc= const_cast< char*>( (output_name+"_blur").c_str());
+  erSaveImage( &ed, file_name, nomc);
 
   
-  erCvSmooth( &ed, &param_smooth1);
-  //char * nomc = const_cast< char*>( (output_name+"blur").c_str());
-  //erSaveImage2( &ed, file_name, nom, "blur");
-  //erShowImage( "blur", &ed);
-  
-  erCvSmooth( &ed, &param_smooth2);
-  //erSaveImage2(&ec, file_name, nom, "calib");
-  //erShowImage( "calib", &ec);
 
   ee = erCvTemplate( &ed, &param_template);
+
   erCvThreshold( &ee, &param_threshold);
   erCvCanny( &ee, &param_canny);
 
@@ -770,43 +840,24 @@ bool erWeldPoolAnalysis::doItImage(erImage& ea)
   erPrintCgalPoint( cgalSeg, file_name, nomc);
 
   erAlphaEdges( cgalPts, cgalSeg, &param_alpha_shape);
-  nomc= const_cast< char*>( (output_name + "alpha").c_str());
-  erPrintCgalPoint( cgalSeg, file_name, nomc); 
+  erPrintCgalPoint(cgalSeg,file_name,nom);
+  erLargestPolygon( cgalSeg, bgraphSeg);
 
-  erLargestClosedPolygon( cgalSeg, bgraphSeg);
-  nomc= const_cast< char*>( (output_name + "closed").c_str());
-  erPrintCgalPoint( cgalSeg, file_name, nomc);
-
-  convex_hull( bgraphSeg, cgalPts2);
-  nomc= const_cast< char*>( (output_name + "convex").c_str());
-  erPrintCgalPoint( cgalSeg, file_name, nomc);
- 
+  erConvexHull( bgraphSeg, cgalPts2);
   double area;
+  double area_axi;
 
-  if(output_convex_polygon)
+
+  if(outputConvex())
   {
-    std::list<CgalPoint> polygon = erGeometryExtractConvexPolygon(bgraphSeg.begin(),bgraphSeg.end());
-
+      std::list<CgalPoint> polygon = erGeometryExtractConvexPolygon(bgraphSeg.begin(),bgraphSeg.end());
       std::string output_nam = (dir_analysis+"/"+name+"_wep_poly");
       char* name = const_cast< char*>( output_nam.c_str());
       erPrintCgalPoint(polygon,currentFileName(),name);
-      Polygon_2 poly(polygon.begin(),polygon.end());
-      area = poly.area();
+     
     };
-  if(output_geometry_characteristics && bgraphSeg.size() > 6)
-    {
-      std::list<CgalTrian> triangs=erGeometryExtractTriangles(bgraphSeg.begin(),bgraphSeg.end());
-      if(!not output_convex_polygon)
-	{
-	 area   = getArea(triangs.begin(),triangs.end());
-	};
-      CgalLine  line;
-      CgalPoint pt;
-      CgalFTrai fit = linear_least_squares_fitting_2(triangs.begin(),triangs.end(),line,pt,CGAL::Dimension_tag<2>());	
-      std::ofstream ot(output_geometry_file.c_str(),std::ios_base::app);
-      CgalVect vect=line.to_vector();
-      ot << std::setprecision(10) << currentFileName() << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
-    };
+  writeOutGeometry(bgraphSeg);
+ 
   return true;
  
 };
@@ -843,7 +894,7 @@ erLaserPrototypageAnalysis::erLaserPrototypageAnalysis(){};
 
 //** Constructeur avec des paramettres determines ailleurs */
 erLaserPrototypageAnalysis::erLaserPrototypageAnalysis( std::string name, std::string infofile): 
-  erAnalysis( name, infofile), rectOI( ), param_smooth1( ), param_smooth2( ), param_canny( ),  param_dilate( ), param_threshold( ), param_adaptive_threshold( ), param_template( ), param_alpha_shape( ), output_geometry_characteristics(true),output_convex_polygon(true){setOutputGeometryFile(name); }; 
+  erAnalysis( name, infofile), rectOI( ), param_smooth1( ), param_smooth2( ), param_canny( ),  param_dilate( ), param_threshold( ), param_adaptive_threshold( ), param_template( ), param_alpha_shape( ){ }; 
 
 //** Boucle de execution du programe en utilisant le la user interface de openCv */
 bool erLaserPrototypageAnalysis::defineParametersUI( std::string firstImage) 
@@ -938,12 +989,9 @@ void erLaserPrototypageAnalysis::defineParameters( CvRect rect, erSmootP smooth1
 
 
 
-void erLaserPrototypageAnalysis::setOutputGeometryFile(std::string file) //** Le fichier existant est ecrase!!
-{
-  output_geometry_file = dir_analysis+"/"+file+"_wep"+".geo";
-  std::ofstream out(output_geometry_file.c_str());
-  out << "Nom_du_fichier\t\tCentroid_x\tCentroid_y\tAire\tAxe_Princ_x\tAxe_Princ_y\tFit(0-1)\n";
-};
+//void erLaserPrototypageAnalysis::setOutputGeometryFile(std::string file) //** Le fichier existant est ecrase!!
+//{
+//};
 
 
 bool erLaserPrototypageAnalysis::doIt_diffuse(std::string fich)
@@ -956,7 +1004,7 @@ bool erLaserPrototypageAnalysis::doIt_diffuse(std::string fich)
   erImage ea, eb, ec, ed, ee;
   std::list< CvPoint>   cvPts;
   std::list< CgalPoint> cgalPts;
-  std::list< CgalSegmt> cgalSeg, bgraphSeg;
+  SegmentList cgalSeg, bgraphSeg;
   
   boost::tie(ea, loaded) = erLoadImage( file_name);
   if( !loaded) return false;
@@ -986,24 +1034,25 @@ bool erLaserPrototypageAnalysis::doIt_diffuse(std::string fich)
  
   erPrintCgalPoint( bgraphSeg,currentFileName(), nom);
  
-  if(output_convex_polygon)
+  if(outputConvex())
   {
       std::list<CgalPoint> polygon = erGeometryExtractConvexPolygon(bgraphSeg.begin(),bgraphSeg.end());
       std::string output_nam = (dir_analysis+"/"+name+"_wep_poly");
       char* name = const_cast< char*>( output_nam.c_str());
       erPrintCgalPoint(polygon,currentFileName(),name);
     };
-  if(output_geometry_characteristics && bgraphSeg.size() > 6)
-    {
-      std::list<CgalTrian> triangs=erGeometryExtractTriangles(bgraphSeg.begin(),bgraphSeg.end());
-      double area   = getArea(triangs.begin(),triangs.end());
-      CgalLine  line;
-      CgalPoint pt;
-      CgalFTrai fit = linear_least_squares_fitting_2(triangs.begin(),triangs.end(),line,pt,CGAL::Dimension_tag<2>());	
-      std::ofstream ot(output_geometry_file.c_str(),std::ios_base::app);
-      CgalVect vect=line.to_vector();
-      ot << std::setprecision(10) << currentFileName() << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
-    };
+  writeOutGeometry(bgraphSeg);
+  // if(output_geometry_characteristics && bgraphSeg.size() > 6)
+  //   {
+  //     std::list<CgalTrian> triangs=erGeometryExtractTriangles(bgraphSeg.begin(),bgraphSeg.end());
+  //     double area   = getArea(triangs.begin(),triangs.end());
+  //     CgalLine  line;
+  //     CgalPoint pt;
+  //     CgalFTrai fit = linear_least_squares_fitting_2(triangs.begin(),triangs.end(),line,pt,CGAL::Dimension_tag<2>());	
+  //     std::ofstream ot(output_geometry_file.c_str(),std::ios_base::app);
+  //     CgalVect vect=line.to_vector();
+  //     ot << std::setprecision(10) << currentFileName() << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
+  //   };
 
   return true;
 };
@@ -1071,18 +1120,18 @@ bool erLaserPrototypageAnalysis::doItImage(erImage& ea)
       char* name = const_cast< char*>( output_nam.c_str());
       erPrintCgalPoint(polygon,currentFileName(),name);
     };
-
-  if(output_geometry_characteristics && bgraphSeg.size() > 6)
-    {
-      std::list<CgalTrian> triangs=erGeometryExtractTriangles(bgraphSeg.begin(),bgraphSeg.end());
-      double area   = getArea(triangs.begin(),triangs.end());
-      CgalLine  line;
-      CgalPoint pt;
-      CgalFTrai fit = linear_least_squares_fitting_2(triangs.begin(),triangs.end(),line,pt,CGAL::Dimension_tag<2>());	
-      std::ofstream ot(output_geometry_file.c_str(),std::ios_base::app);
-      CgalVect vect=line.to_vector();
-      ot << std::setprecision(10) << currentFileName() << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
-    };
+  writeOutGeometry(bgraphSeg);
+  // if(output_geometry_characteristics && bgraphSeg.size() > 6)
+  //   {
+  //     std::list<CgalTrian> triangs=erGeometryExtractTriangles(bgraphSeg.begin(),bgraphSeg.end());
+  //     double area   = getArea(triangs.begin(),triangs.end());
+  //     CgalLine  line;
+  //     CgalPoint pt;
+  //     CgalFTrai fit = linear_least_squares_fitting_2(triangs.begin(),triangs.end(),line,pt,CGAL::Dimension_tag<2>());	
+  //     std::ofstream ot(output_geometry_file.c_str(),std::ios_base::app);
+  //     CgalVect vect=line.to_vector();
+  //     ot << std::setprecision(10) << currentFileName() << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
+  //   };
   return true;
 };
 

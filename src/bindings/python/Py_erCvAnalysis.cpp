@@ -392,7 +392,8 @@ void export_erCvAnalysis(){
   //                                       - erMetalTransfer
   //                                       - erMeltPool
   bp::class_< erAnalysis_wrapper, boost::noncopyable >( "erAnalysis", bp::init< >() )    
-    .def( bp::init< std::string, bp::optional< std::string > >(( bp::arg("name"), bp::arg("infofile")="info" )) )    
+    .def( bp::init< std::string, bp::optional< std::string > >(( bp::arg("name"), 
+								 bp::arg("infofile")="info"  )) )    
     .def( 
 	 "create"
 	 , (void ( ::erAnalysis::* )(  ) )( &::erAnalysis::create ) )    
@@ -400,7 +401,19 @@ void export_erCvAnalysis(){
 	 "defineCalibration"
 	 , (void ( ::erAnalysis::* )(std::string,std::string) )( &::erAnalysis::defineCalibration )
 	 , ( bp::arg("arg0"), bp::arg("arg1") ) )    
-  
+    .def(
+		 "setOutputGeometryFile"
+		 ,(void  (::erAnalysis::*)(std::string) )( &::erAnalysis::setOutputGeometryFile)
+		 ,(bp::arg("arg0") ))
+    .def(
+		 "setOutputAxisymmetricGeometry"
+		 ,(void  (::erAnalysis::*)(bool) )( &::erAnalysis::setOutputAxisymmetricGeometry)
+		 ,(bp::arg("arg0") ))	    
+	    //std::string outputGeometryFile();
+	    //bool        outputGeometry();
+	    //void        setOuputGeometry(bool);
+	    //bool        outputAxisymmetricGeometry();
+	    //void        setOutputAxisymmetricGeometry(bool);
     .def( 
 	 "doIt"
 	 , bp::pure_virtual( (bool ( ::erAnalysis::* )( std::string ) )(&::erAnalysis::doIt) )
@@ -485,16 +498,16 @@ void export_erCvAnalysis(){
 	 "saveParameters"
 	 , (void ( ::erMetalTransfertAnalysis::* )( std::string ) )( &::erMetalTransfertAnalysis::saveParameters )
 	 , ( bp::arg("arg0") ) )   
-    .def( 
-	 "setOutputGeometryFile"
-	 , (void ( ::erMetalTransfertAnalysis::* )( std::string ) )( &::erMetalTransfertAnalysis::setOutputGeometryFile )
-	 , ( bp::arg("arg0") ) )   
+    // .def( 
+    // 	 "setOutputGeometryFile"
+    // 	 , (void ( ::erMetalTransfertAnalysis::* )( std::string ) )( &::erMetalTransfertAnalysis::setOutputGeometryFile )
+    // 	 , ( bp::arg("arg0") ) )   
     .def_readwrite( "param_adaptive_threshold", &erMetalTransfertAnalysis::param_adaptive_threshold )    
     .def_readwrite( "param_alpha_shape",        &erMetalTransfertAnalysis::param_alpha_shape )    
     .def_readwrite( "param_canny",              &erMetalTransfertAnalysis::param_canny )    
     .def_readwrite( "param_smooth1",            &erMetalTransfertAnalysis::param_smooth1 )    
     .def_readwrite( "param_smooth2",            &erMetalTransfertAnalysis::param_smooth2 )    
-    .def_readwrite( "output_geo",               &erMetalTransfertAnalysis::output_geometry_characteristics )
+    //.def_readwrite( "output_geo",               &erMetalTransfertAnalysis::output_geometry_characteristics )
     .def_readwrite( "rectOI",                   &erMetalTransfertAnalysis::rectOI );
 //-----------------------------------------------------------------------------------------------------------
   //
@@ -524,15 +537,15 @@ void export_erCvAnalysis(){
 	 ,  (bool ( ::erSolidificationAnalysis_wrapper::* )(boost::python::numeric::array& ,std::string ) )(&::erSolidificationAnalysis_wrapper::doItNumPy))
   
   
-    .def( 
-	 "setOutputGeometryFile"
-	 , (void ( ::erSolidificationAnalysis::* )( std::string ) )( &::erSolidificationAnalysis::setOutputGeometryFile )
-	 , ( bp::arg("arg0") ) )   
+    // .def( 
+    // 	 "setOutputGeometryFile"
+    // 	 , (void ( ::erSolidificationAnalysis::* )( std::string ) )( &::erSolidificationAnalysis::setOutputGeometryFile )
+    // 	 , ( bp::arg("arg0") ) )   
     .def_readwrite( "param_threshold"           , &erSolidificationAnalysis::param_threshold )    
     .def_readwrite( "param_alpha_shape"         , &erSolidificationAnalysis::param_alpha_shape )    
     .def_readwrite( "param_canny"               , &erSolidificationAnalysis::param_canny )    
     .def_readwrite( "param_smooth1"             , &erSolidificationAnalysis::param_smooth1 )    
-    .def_readwrite( "output_geo"                , &erSolidificationAnalysis::output_geometry_characteristics )
+    //.def_readwrite( "output_geo"                , &erSolidificationAnalysis::output_geometry_characteristics )
     .def_readwrite( "rectOI"                    , &erSolidificationAnalysis::rectOI );
   //-----------------------------------------------------------------------------------------------------------
   //
@@ -644,12 +657,12 @@ void export_erCvAnalysis(){
             "saveParameters"
             , (void ( ::erLaserPrototypageAnalysis::* )( std::string ) )( &::erLaserPrototypageAnalysis::saveParameters )
             , ( bp::arg("arg0") ) )    
-        .def( 
-            "setOutputGeometryFile"
-            , (void ( ::erLaserPrototypageAnalysis::* )( std::string ) )( &::erLaserPrototypageAnalysis::setOutputGeometryFile )
-            , ( bp::arg("arg0") ) )    
-        .def_readwrite( "output_convex_polygon", &erLaserPrototypageAnalysis::output_convex_polygon )    
-        .def_readwrite( "output_geometry_characteristics", &erLaserPrototypageAnalysis::output_geometry_characteristics )    
+   // .def( 
+   //         "setOutputGeometryFile"
+   //         , (void ( ::erLaserPrototypageAnalysis::* )( std::string ) )( &::erLaserPrototypageAnalysis::setOutputGeometryFile )
+   //         , ( bp::arg("arg0") ) )    
+   //   .def_readwrite( "output_convex_polygon", &erLaserPrototypageAnalysis::output_convex_polygon )    
+   //.def_readwrite( "output_geometry_characteristics", &erLaserPrototypageAnalysis::output_geometry_characteristics )    
         .def_readwrite( "param_adaptive_threshold", &erLaserPrototypageAnalysis::param_adaptive_threshold )    
         .def_readwrite( "param_alpha_shape", &erLaserPrototypageAnalysis::param_alpha_shape )    
         .def_readwrite( "param_canny", &erLaserPrototypageAnalysis::param_canny )    
