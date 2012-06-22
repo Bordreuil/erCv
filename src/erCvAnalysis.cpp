@@ -188,6 +188,7 @@ void erAnalysis::setOutputConvex(bool out)
   // setOutputGeometryFile(outputGeometryFile());
 };
 
+
 /********************************************************************
 
                       ER_MACRODROP_ANALYSIS
@@ -343,20 +344,22 @@ bool erWireAnalysis::doItImage(erImage& ea)
  
        erCvEqualizeHist( &ec, &param_equalizer_histogram);
        erCvSmooth( &ec, &param_smooth1);
-
+       
        erCvAdaptiveThreshold( &ec, &param_adaptive_threshold);
+       
        erCvSmooth( &ec, &param_smooth2);
+       
        erCvCanny( &ec, &param_canny);
- 
+       
        erSaveImage( &ec, currentFileName(), nom);
        IsEqualTo is_equal_255( 255); 
        erExtractCvPoints( cv_pts, &ec, is_equal_255, rectOI);
        convertCvToCgalpoints( cv_pts, cgal_pts);
 
        erAlphaEdges( cgal_pts, cgalSeg, &param_alpha_shape);
-
+      
        cgal_wire_pts = erGetShortestPath(cgalSeg.begin(),cgalSeg.end(),cerc_to_start,cerc_to_end);
-
+      
   
        erPrintCgalPoint( cgal_wire_pts,currentFileName(), nom);
 
@@ -833,11 +836,11 @@ bool erWeldPoolAnalysis::doItImage(erImage& ea)
   IsEqualTo is_equal_255(255);
 
   erExtractCvPoints( cvPts, &ee, is_equal_255, rectOI);
-  char * nomc;
+  //char * nomc;
 
   convertCvToCgalpoints( cvPts, cgalPts);  
-  nomc= const_cast< char*>( (output_name + "extrac").c_str());
-  erPrintCgalPoint( cgalSeg, file_name, nomc);
+  //nomc= const_cast< char*>( (output_name + "extrac").c_str());
+  //erPrintCgalPoint( cgalSeg, file_name, nomc);
 
   erAlphaEdges( cgalPts, cgalSeg, &param_alpha_shape);
   erPrintCgalPoint(cgalSeg,file_name,nom);

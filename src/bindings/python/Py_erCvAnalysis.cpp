@@ -137,24 +137,26 @@ struct erMetalTransfertAnalysis_wrapper : erMetalTransfertAnalysis, bp::wrapper<
   bool doItNumPy(pyublas::numpy_array<unsigned short>& arr,std::string file_name="test_1.bmp")
   {
     const npy_intp* dims = arr.dims();
-
     int ncol = dims[0];
     int nlig = dims[1];
+    
     unsigned short* storage = arr.data();
     char*  file_c   =   const_cast<char*>(file_name.c_str());
     setCurrentFileName(file_c);
     
     IplImage* im = cvCreateImage(cvSize(nlig,ncol),IPL_DEPTH_8U,3);
-
     for(int i=0;i<ncol;i++)
-      {
-	for(int j=0;j < nlig;j++)
+       {
+	  for(int j=0;j < nlig;j++)
 	  { 
-	    unsigned short va = storage[i*ncol+j]*256/65536;
-	    CvScalar val = cvScalarAll(va);
+
+	    unsigned short va = storage[j+i*nlig]*256/65536;
+	    CvScalar val      = cvScalarAll(va);
 	    cvSet2D(im,i,j,val);
 	  };
+
       }; 
+
 
     erImage eim(im);
     erMetalTransfertAnalysis::doItImage(eim);
@@ -211,23 +213,24 @@ struct erSolidificationAnalysis_wrapper : erSolidificationAnalysis, bp::wrapper<
   bool doItNumPy(pyublas::numpy_array<unsigned short>& arr,std::string file_name="test_1.bmp")
   {
     const npy_intp* dims = arr.dims();
-
     int ncol = dims[0];
     int nlig = dims[1];
+    
     unsigned short* storage = arr.data();
     char*  file_c   =   const_cast<char*>(file_name.c_str());
     setCurrentFileName(file_c);
     
     IplImage* im = cvCreateImage(cvSize(nlig,ncol),IPL_DEPTH_8U,3);
-
     for(int i=0;i<ncol;i++)
-      {
-	for(int j=0;j < nlig;j++)
+       {
+	  for(int j=0;j < nlig;j++)
 	  { 
-	    unsigned short va = storage[i*ncol+j]*256/65536;
-	    CvScalar val = cvScalarAll(va);
+
+	    unsigned short va = storage[j+i*nlig]*256/65536;
+	    CvScalar val      = cvScalarAll(va);
 	    cvSet2D(im,i,j,val);
 	  };
+
       }; 
 
     erImage eim(im);
@@ -271,15 +274,19 @@ struct erWireAnalysis_wrapper : erWireAnalysis, bp::wrapper< erWireAnalysis > {
     }
  bool doItNumPy(pyublas::numpy_array<unsigned short>& arr,std::string file_name="test_1.bmp")
   {
+
+
+
+
     const npy_intp* dims = arr.dims();
-    
+
     int ncol = dims[0];
     int nlig = dims[1];
     unsigned short* storage = arr.data();
     char*  file_c   =   const_cast<char*>(file_name.c_str());
     setCurrentFileName(file_c);
     
-    IplImage* im = cvCreateImage(cvSize(ncol,nlig),IPL_DEPTH_8U,3);
+    IplImage* im = cvCreateImage(cvSize(nlig,ncol),IPL_DEPTH_8U,3);
 
     for(int i=0;i<ncol;i++)
       {
@@ -290,6 +297,9 @@ struct erWireAnalysis_wrapper : erWireAnalysis, bp::wrapper< erWireAnalysis > {
 	    cvSet2D(im,i,j,val);
 	  };
       }; 
+
+
+
 
     erImage eim(im);
     erWireAnalysis::doItImage(eim);

@@ -1,4 +1,32 @@
 from pylab import *
+try:
+    from SoGranu.geometry.PySoGranuContour import *
+except ImportError:
+    print 'erTransformSegments needs SoGranu!!'
+TOLER =0.5
+class erPoint:
+    def __init__(self,x,y):
+        self._x = x
+        self._y = y
+    def x(self):
+        return self._x
+    def y(self):
+        return self._y 
+    def __eq__(self,pt):
+        return abs(self.x()-pt.x()) < TOLER and abs(self.y()-pt.y()) < TOLER
+    def __str__(self):
+        return str(self.x())+' '+str(self.y())
+class erSegment:
+    def __init__(self,source,target):
+        self._source = source
+        self._target = target
+    def source(self):
+        return self._source
+    def target(self):
+        return self._target
+    def __str__(self):
+             return '['+str(self.source())+','+str(self.target())+']'     
+
 
 def erLoadImage(image):
     """
@@ -27,25 +55,56 @@ def erTransformPoints(x):
     X[-1,:]  = x[0,:]
     return X
 
-def erTransformSegmentsToClosedList(x):
+def erTransformSegmentsToPointsList(x):
     
-    X=[]
-    Y=[]
-    try:
-        for x1,y1,x2,y2 in x:
-            x1inX = x1 in X;y1inY = y1 in Y
-            x2inX = x2 in X;y2inY = y2 in Y
-            if(x1inX and y1inY and (not (x2inX or y2inY))):
-                x1i =X.index(x1);X.insert(x1i+1,x2);Y.insert(x1i+1,y2)
-            if(x2inX and y2inY and (not (x1inX or y1inY))):
-                x2i =X.index(x2);X.insert(x2i+1,x1);Y.insert(x2i+1,y1)  
-            if(not x1inX and not y1inY and not x2inX and not y2inY):
-                X.append(x1);X.append(x2);Y.append(y1);Y.append(y2)
-            # AFINIR LES TESTS
-    except:
-        print 'Error : erTransformSegmentsToClosedList() : x ne contient pas des segments'
-        sys.exit()
-    return array([X,Y],'f')
+    pts   = []
+    edges=[]
+    for x1,y1,x2,y2 in x:
+           pt1    = erPoint(x1,y1)
+           pt2    = erPoint(x2,y2)
+           edges.append(erSegment(pt1,pt2))
+           if pt1 not in pts:
+               pts.append(pt1)
+           if pt2 not in pts:
+               pts.append(pt2)
+    #ed  = edges.pop(0)
+    #pts.append(ed.target())
+    #inc = 0 
+    #while(len(edges) != 0 and inc < 250):
+    #    inc+=1
+    #    topop=[]
+    #    for i,edge in enumerate(edges):
+    #          if edge.source() == pts[-1]:
+    #               pts.append(edge.target())
+    #               topop.append(i)
+    #               break
+    #          if edge.source() in pts:
+    #              topop.append(i)
+    #    for to in topop:
+    #        edges.pop(to)
+              #if edge.target() == pts[-1]:
+              #     pts.append(edge.source())
+              #     edges.pop(i)
+              #     break
+    #       pt1in  = pt1 in pts
+    #       pt2in  = pt2 in pts
+    
+    #       if (not pt1in) and (not pt2in):
+    #           pts.append(pt1);pts.append(pt2)
+    #       if (not pt1in) and pt2in:
+    #           ind  = pts.index(pt2)
+    #           pts.insert(ind,pt1)
+    #       if pt1in and (not pt2in):
+    #           ind  = pts.index(pt1)
+    #           pts.insert(ind+1,pt2)
+    #     edges.append([[x1,y1],[x2,y2]])
+    #polygone = zeros((1000,2),'f') 
+    #npol     = soGranuConnectedSegments(edges,polygone)
+    Pts      = zeros((len(pts),2),'f')
+    for i,pt in enumerate(pts):
+        Pts[i,:] = [pt.x(),pt.y()]
+    return Pts
+    return polygon[npol,:]
 def erLoadCurve(curve,type='asItIs'):
     """
     permet de charger une courbe 
@@ -78,18 +137,7 @@ def erLoadImageAndCurve( name_analysis, base_image, number, typ_curve = '_curve_
     permet de charger une image et une courbe a un temps donne
     si l une des deux n a pas ete charge, la premiere sortie sera fausse
     """
-    #print 'name_analysis:'
-    #print name_analysis
-    #print 'base_image'
-    #print base_image
-    #print 'typ_curve:'
-    #print typ_curve
-    #print 'typ_image:'
-    #print typ_image
-    #print 'format:'
-    #print format
-    #print 'type:'
-    #print type
+ 
     fich     = name_analysis + typ_curve + number + '.txt'
     imag     = base_image + typ_image + number + '.' + format
     loadc,x  = erLoadCurve(fich,type)

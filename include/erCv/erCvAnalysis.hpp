@@ -221,7 +221,13 @@ struct erMacroDropAnalysis:public erAnalysis
 						   Contre <- Reunis toutes les zones de l image dans une seul niveau (blanche)
 					       */
 };
+/** \brief  Comportement du liquide residuel en bout de fil MIG
 
+
+    Cette classe encapsule les methodes pour obtenir le
+    contour non ferme delimitant le contour du fil par 
+    une methode d  ombroscopie
+ */
 class erWireAnalysis:public erMacroDropAnalysis
 {
 public:
@@ -349,6 +355,9 @@ struct erMetalTransfertAnalysis:public erAnalysis
 
 };
 
+/** \brief  Detection de contour d une zone en fusion 
+    sans arc pour regarder le comportement  de solidification
+ */
 
 struct erSolidificationAnalysis:public erAnalysis
 {

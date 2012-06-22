@@ -183,9 +183,9 @@ def erCurvilinearAbscissa(X):
 
 
 
-def erMeanCurvatures(X,distance=5,debut=0,fin=0):
+def erMeanCurvatures(X,distance=5,debut=0,fini=0):
     meanCurvatures=[]
-    for i in arange(debut,fin):
+    for i in arange(debut,fini):
         deb = i-distance
         fin = i+distance
         if deb < 0:
@@ -198,7 +198,13 @@ def erMeanCurvatures(X,distance=5,debut=0,fin=0):
         a = polyfit(X[deb:fin,0],X[deb:fin,1],2)
         meanCurvatures.append(a[0])
     return array(meanCurvatures,'f')
-
+def erCircleInterpolation(p,x,y):
+    return (x-p[0])**2.+(y-p[1])**2.-p[2]**2.
+def erParabolicInterpolation(p,x,y):
+    funct = y-p[0]*x**2.-p[1]*x-p[2]
+    return funct
+def erLinearInterpolation(p,x,y):
+    return y-p[0]*x-p[1]
 def erFmin(X,funct):
     pass
     

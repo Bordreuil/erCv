@@ -56,7 +56,7 @@ std::list<CgalPoint> erGetShortestPath(Iterator debut,Iterator fin,erCerc zone_d
 
   boost::tie(find_begin,begin_vertex) = findVertexInCerc(points,zone_debut);
   boost::tie(find_end  ,end_vertex  ) = findVertexInCerc(points,zone_fin);
-
+  
   if(find_begin && find_end)
     {
       boost::property_map<Graph, boost::vertex_name_t>::type  cgp      = boost::get(boost::vertex_name, graph);

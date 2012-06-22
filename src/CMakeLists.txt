@@ -30,6 +30,7 @@ ADD_LIBRARY(erCv params
 		 erCvInfofile
 		 erCvTools
 		 erCvAnalysis
+		 #erCvMacroDropAnalysis
 	         Gui/erCvFiltersUser
 		 Gui/erCvUserInteraction
                  Gui/erCvSegmentationUser 
