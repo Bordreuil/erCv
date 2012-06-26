@@ -32,8 +32,8 @@
 // 
 // The fact that you are presently reading this means that you have had
 // knowledge of the CeCILL license and that you accept its terms.
-#ifndef _MY_ERCV_HPP_
-#define _MY_ERCV_HPP_
+#ifndef _ERCV_HPP_
+#define _ERCV_HPP_
 
 /** Module definissant l ensemble des headers necessaires 
     a l utilisation du module erCv
@@ -50,7 +50,7 @@
 //#include <erCv/erCvToCgal.hpp>
 #include <erCv/utilities/erPredicates.hpp>
 #include <erCv/geometry/erCgalAlphaShape2.hpp>
-
+#include<erCv/erCvAnalysis.hpp>
 
 
 #include<boost/tuple/tuple.hpp>

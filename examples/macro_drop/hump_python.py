@@ -13,5 +13,4 @@ adp = erAdThrP(THRESH_BINARY,AM_MEAN,49,119,255);
 an=erMacroDropAnalysis("hump","hump")
 an.defineParameters(rect,cerc,p1,p2,cann,adp)
 an.doIt("hump_1.bmp")
-an.doIt("hump_2.bmp")
-an.doIt("hump_3.bmp")
+

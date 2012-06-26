@@ -1,81 +1,20 @@
 #include <erCv/erCv.hpp>
-#include <erCv/erCv.hpp>
-#include <erCv/erCvFilters.hpp>
-#include <erCv/erCvFiltersParams.hpp>
-#include <erCv/erCvAnalysis.hpp>
-#include <erCv/utilities/erPredicates.hpp>
-#include <erCv/erCvExtract.hpp>
-#include <erCv/erCvToCgal.hpp>
-#include <erCv/geometry/erCgalAlphaShape2.hpp>
-#include<time.h>
-#include<boost/lexical_cast.hpp>
-/* Valeurs des paramettres a introduire, pour chaque fonction:
-Smooth           : 7, 1 (0 pour OK)
-AdaptiveThreshold: 1, 29, 1, 1 (0 pour OK)
-Smooth2          : 7, 3 (0 pour OK)
-Canny            : 355, 355 */
 
 
 int main( int hola, char** file_name)
 {
 
-//-------ATTENTION paramettres pour le CVAnalysis de yo no se quien-------------/ 
   CvRect rect;
-  rect.x=17;rect.y=143;rect.width=210;rect.height=93;
-  erCerc cerc(18,212,4);
+  rect.x=20;rect.y=160;rect.width=230;rect.height=75;
+  erCerc cerc(20,210,5);
   erEqualP equ(0);
-  erSmootP p1(BLUR,5),p2(GAUSSIAN,5);
+  erSmootP p1(BLUR,7),p2(GAUSSIAN,5);
   erCannyP cann(355,355);
-  erAdThrP adp(THRESH_BINARY,AM_MEAN,51,17,255); //** < 
-  erMacroDropAnalysis mda("ANmd");
+  erAdThrP adp(THRESH_BINARY,AM_MEAN,50,14,255); //** < 
+  erMacroDropAnalysis mda("macroDrop");
   mda.defineParameters(rect,cerc,p1,p2,cann,adp,equ);
 
-  mda.doIt("macro_goutte_1.png");
-  mda.doIt("macro_goutte_2.png");
-  mda.doIt("macro_goutte_3.png");
-  mda.doIt("macro_goutte_4.png");
-  mda.doIt("macro_goutte_5.png");
-  //  emt.doIt("imageExemple_6.bmp");
-  //   std::string img_base="../pictures/macro_drop/MCR_hongo_1.bmp";
-  //   for(int i = 1; i < 15;i++)
-  //     {
-  //       std::string filename = erLoadImageSeriesManipulationWeldPool( img_base, 1);
-  //       std::cout << "file name: " << filename << std::endl;
-  //       std::cout << "hola0" << std::endl;
-  //       mda.doIt(filename);
-  //       img_base = filename;
-  //     };
-  //   mda.saveParameters( "result/test.out");
-  
-  //-----------ATTENTION paramettres pour CvAnalysis de la macro-goutte-champignon--------/
- //  CvRect rect;
-//   rect.x = 160; rect.y = 126; rect.width = 140; rect.height = 89;
-//   erCerc cerc(160,193,2);
-//   erEqualP equ(0);
-//   erSmootP p1(BLUR,7),p2(GAUSSIAN,5);
-//   erCannyP cann(355,355);
-//   erAdThrP adp(THRESH_BINARY,AM_MEAN,28,130,255); //** < 
-//   erMacroDropAnalysis mda("AN_macro_drop");
-//   mda.defineParameters(rect,cerc,p1,p2,cann,adp,equ);
-//   std::string img_base="../Pictures/macro_drop/MCR_hongo_1.bmp";
-//   for(int i = 1; i < 15;i++)
-//     {
-//       std::string filename = erLoadImageSeriesAnalysis( img_base, 1);
-//       std::cout << "file name: " << filename << std::endl;
-//       std::cout << "hola0" << std::endl;
-//       mda.doIt(filename);
-//       img_base = filename;
-//     };
-//   mda.saveParameters( "result/test.out");
+  mda.doIt("imageExemple_1.bmp");
 
-
-
-
-//   for(int i=1;i<17;i++)
-//       {
-// 	std::string filename=img_base+boost::lexical_cast<std::string>(i)+".bmp";
-// 	mda.doIt(filename);
-//       };
-//   mda.saveParameters("result/test.out");
   return(0);
 };
