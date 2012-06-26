@@ -10,6 +10,6 @@ p2  = erSmootP(GAUSSIAN,5);
 cann= erCannyP(355,355);
 adp = erAdThrP(THRESH_BINARY,AM_MEAN,50,14,255);
 
-an=erMacroDropAnalysis("peo","peo")
+an=erMacroDropAnalysis("macroDrop","macroDrop")
 an.defineParameters(rect,cerc,p1,p2,cann,adp)
 an.doIt("imageExemple_1.bmp")
