@@ -33,7 +33,8 @@
 ## The fact that you are presently reading this means that you have had
 ## knowledge of the CeCILL license and that you accept its terms
 
-
+__version__="1.2.0"
+__date__   = "11/10/2012"
 from erCvTools    import *
 from erCvGeometry import *
 from visualization.erPlotTools import *

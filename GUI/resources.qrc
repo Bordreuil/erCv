@@ -1,0 +1,9 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+<file alias="ouvrir.png">images/ouvrir.png</file>
+<file alias="G_nouveau.png">images/G_nouveau.png</file>
+<file alias="G_supprimer.png">images/G_supprimer.png</file>
+<file alias="new.png">images/new.png</file>
+<file alias="bame.png">images/bame.png</file>
+</qresource>
+</RCC>
