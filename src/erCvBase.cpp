@@ -319,9 +319,12 @@ void erSaveImage2Analysis( IplImage* simag, char* file_name, std::string exit_na
    
 // }
 IplImage* erConvertToBlackAndWhite( IplImage* simag)
-{
-   IplImage * ipbw = cvCreateImage( cvGetSize(simag), simag->depth, 1);
+{  
+   CvSize cs = cvGetSize(simag);
+   IplImage * ipbw = cvCreateImage( cs, simag->depth, 1);
+
    cvCvtColor( simag, ipbw, CV_RGB2GRAY);
+
    return ipbw;
    ;
 }

@@ -348,6 +348,40 @@ struct erWeldPoolAnalysis_wrapper : erWeldPoolAnalysis, bp::wrapper< erWeldPoolA
   bool default_doIt(std::string arg0 ) {
     return erWeldPoolAnalysis::doIt( arg0 );
   }
+bool doItNumPy(pyublas::numpy_array<unsigned short>& arr,std::string file_name="test_1.bmp")
+  {
+
+
+
+
+    const npy_intp* dims = arr.dims();
+
+    int ncol = dims[0];
+    int nlig = dims[1];
+    unsigned short* storage = arr.data();
+    char*  file_c   =   const_cast<char*>(file_name.c_str());
+    setCurrentFileName(file_c);
+    
+    IplImage* im = cvCreateImage(cvSize(nlig,ncol),IPL_DEPTH_8U,3);
+
+    for(int i=0;i<ncol;i++)
+      {
+	for(int j=0;j < nlig;j++)
+	  { 
+	    unsigned short va = storage[i*ncol+j]*256/65536;
+	    CvScalar val = cvScalarAll(va);
+	    cvSet2D(im,i,j,val);
+	  };
+      }; 
+
+
+
+
+    erImage eim(im);
+    erWeldPoolAnalysis::doItImage(eim);
+
+    return true;
+  }
   
 };
 //-----------------------------------------------------------------------
@@ -610,6 +644,15 @@ void export_erCvAnalysis(){
 	 , (bool ( ::erWeldPoolAnalysis::* )( std::string ) )(&::erWeldPoolAnalysis::doIt)
 	 , (bool ( erWeldPoolAnalysis_wrapper::* )( std::string ) )(&erWeldPoolAnalysis_wrapper::default_doIt)
 	 , ( bp::arg("arg0") ) )    
+    .def(
+	 "doItNumPy"
+	 ,  (bool ( ::erWeldPoolAnalysis_wrapper::* )(boost::python::numeric::array& ,std::string ) )(&::erWeldPoolAnalysis_wrapper::doItNumPy))
+  
+    .def(
+		 "setWhiteBlobDetection"
+		 ,(void  (::erWeldPoolAnalysis::*)(bool) )( &::erWeldPoolAnalysis::setWhiteBlobDetection)
+		 ,(bp::arg("arg0") ))
+
     //  .def( 
     //             "loadParameters"
     //             , (void ( ::erWeldPoolAnalysis::* )( std::string ) )( &::erWeldPoolAnalysis::loadParameters )

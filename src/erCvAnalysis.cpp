@@ -666,8 +666,13 @@ erWeldPoolAnalysis::erWeldPoolAnalysis(){};
 
 //** Constructeur avec des paramettres determines ailleurs */
 erWeldPoolAnalysis::erWeldPoolAnalysis( std::string name, std::string infofile): 
-  erAnalysis( name, infofile), rectOI( ), param_white_blob( ), param_smooth1( ), param_smooth2( ), param_dilate( ), param_canny( ), param_threshold( ), param_template( ), param_alpha_shape( ){setOutputConvex(true); }; 
-
+  erAnalysis( name, infofile), rectOI( ), param_white_blob( ), param_smooth1( ), param_smooth2( ), param_dilate( ), param_canny( ), param_threshold( ), param_template( ), param_alpha_shape( ){setOutputConvex(true);setWhiteBlobDetection(true); }; 
+bool erWeldPoolAnalysis::whiteBlobDetection()
+{return white_blob_detection;};
+void erWeldPoolAnalysis::setWhiteBlobDetection(bool ii)
+{
+  white_blob_detection = ii;
+};
 //** Boucle de execution du programe en utilisant le la user interface de openCv */
 bool erWeldPoolAnalysis::defineParametersUI( std::string firstImage) 
 {
@@ -802,10 +807,11 @@ bool erWeldPoolAnalysis::doItImage(erImage& ea)
   std::list< CgalSegmt> cgalSeg, bgraphSeg;
   output_name = dir_analysis+"/"+name+"_wep";
   char* nom = const_cast< char*>( output_name.c_str());
-  
+
   eb = erConvertToBlackAndWhite( &ea); 
-  erWhiteBlobCorrection( &eb, &param_white_blob);
- 
+  if (whiteBlobDetection()){
+    erWhiteBlobCorrection( &eb, &param_white_blob);};
+
   /** Jusque la */
   if( _with_calibration)
     {
@@ -819,7 +825,7 @@ bool erWeldPoolAnalysis::doItImage(erImage& ea)
     {
       ec = eb;
     };
-
+  
   ed = erDef_ROI( &ec, &rectOI);
   erCvSmooth( &ed, &param_smooth1);
 
@@ -834,7 +840,7 @@ bool erWeldPoolAnalysis::doItImage(erImage& ea)
       erSaveImage( &ed, file_name, nomc);
     };
   
-
+   
   ee = erCvTemplate( &ed, &param_template);
 
   erCvThreshold( &ee, &param_threshold);

@@ -475,6 +475,8 @@ struct erWeldPoolAnalysis:public erAnalysis
   bool doItImage(erImage&);
   void saveParameters( std::string);
   void loadParameters( std::string);
+  bool whiteBlobDetection();
+  void setWhiteBlobDetection(bool);
   //void setOutputGeometryFile(std::string);         /** < Methode pour reinitialiser le nom du fichier de geometrie */
   
   CvRect   rectOI;                                 /** < Position de la zone d etude dans l image */
@@ -609,6 +611,7 @@ struct erWeldPoolAnalysis:public erAnalysis
   bool           output_convex_polygon;            /**
 						      Si on veut extraire le domaine convexe initialiser a true au depart 
 						   */
+  bool           white_blob_detection;
 };
 
 
