@@ -11,6 +11,6 @@ int main( int hola, char** file_name)
   erAdThrP adp(THRESH_BINARY,AM_MEAN,49,119,255); //** < */
   erMacroDropAnalysis mda("hump");
   mda.defineParameters(rect,cerc,p1,p2,cann,adp,equ);
-  mda.doIt('hump_1.bmp')
+  mda.doIt("hump_1.bmp");
   return(0);
 };

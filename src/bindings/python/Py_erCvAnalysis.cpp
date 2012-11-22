@@ -418,6 +418,10 @@ void export_erCvAnalysis(){
     .def(
 		 "setOutputAxisymmetricGeometry"
 		 ,(void  (::erAnalysis::*)(bool) )( &::erAnalysis::setOutputAxisymmetricGeometry)
+		 ,(bp::arg("arg0") ))
+    .def(
+		 "setOutputIntermediateImages"
+		 ,(void  (::erAnalysis::*)(bool) )( &::erAnalysis::setOutputIntermediateImages)
 		 ,(bp::arg("arg0") ))	    
 	    //std::string outputGeometryFile();
 	    //bool        outputGeometry();

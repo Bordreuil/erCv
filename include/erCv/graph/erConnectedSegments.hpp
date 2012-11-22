@@ -60,17 +60,21 @@ public:
   template< typename Iter>
   bool operator ()( Iter debut, Iter fin)
   {
-    //std::map< CgalPoint, uint> ncompt;
+    
+    
     Iter it;
+    _ncompt.clear();
     for( it = debut; it!=fin; it++)
-      {
+      { 
 	_ncompt[ it->source()]++;
 	_ncompt[ it->target()]++;
       };
+   
     std::map< CgalPoint, uint>::iterator dede=_ncompt.begin();
     while( dede != _ncompt.end())
       {
-	if( dede->second < 2) return false;
+	
+	if( dede->second < 2) {return false;};
 	dede++;
       };
     return true;
@@ -140,11 +144,14 @@ BgraphSegmt filterMapOfSegments( BgraphSegmtMap& map_of_connected, Criteria& cri
 {
   BgraphSegmtMap::iterator deb,fi;
   BgraphSegmt output;
-  uint nmax=0;
-  uint current=0;
+  uint nmax    = 0;
+  uint current = 0;
   
   for( deb = map_of_connected.begin(); deb != map_of_connected.end(); deb++)
-    { //std::cout << "----" << deb->second.size() << " " << nmax << std::endl;
+    
+    { 
+      bool Criterio = crit( deb->second.begin(), deb->second.end());
+ 
       if( crit( deb->second.begin(), deb->second.end()))
       	{	  
 	  if(deb->second.size() > nmax)
@@ -170,6 +177,7 @@ BgraphSegmt filterLargestMapOfSegments( BgraphSegmtMap& map_of_connected)
   
   for( deb = map_of_connected.begin(); deb != map_of_connected.end(); deb++)
     {  
+ 
 	  if(deb->second.size() > nmax)
 	    {
 	      nmax   = deb->second.size();
@@ -189,7 +197,7 @@ template< class Container, class Container2>
 void erLargestClosedPolygon( Container cgalSegmts, Container2& bgraphSegmts)
 {
   BgraphSegmtMap c_segment = getConnectedSegments( cgalSegmts.begin(), cgalSegmts.end());
-
+  //std::cout << "Nombre de graphe connecte:",c_segment.size() << std::endl;
   SegmentsSetIsClosed criteria;
   bgraphSegmts = filterMapOfSegments( c_segment, criteria);
 };
@@ -198,7 +206,7 @@ template< class Container, class Container2>
 void erLargestPolygon( Container cgalSegmts, Container2& bgraphSegmts)
 {
   BgraphSegmtMap c_segment = getConnectedSegments( cgalSegmts.begin(), cgalSegmts.end());
-
+  
   bgraphSegmts = filterLargestMapOfSegments( c_segment);
 };
 #endif

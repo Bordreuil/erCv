@@ -72,7 +72,7 @@ erAnalysis::erAnalysis( ){ };
 
 erAnalysis::erAnalysis( std::string name, std::string infofile): 
   name( name), infoFile( infofile),_with_calibration(false),_output_geometry_characteristics(true),
-  _output_axisymmetric(false),_output_convex(false)
+  _output_axisymmetric(false),_output_convex(false),_output_intermediate_images(false)
 {  
   dir_analysis = name + ANALYSIS_EXTENSION;
   create( );
@@ -176,6 +176,15 @@ bool        erAnalysis::outputAxisymmetricGeometry()
 void        erAnalysis::setOutputAxisymmetricGeometry(bool axi)
 {  
   _output_axisymmetric = axi;
+  
+};
+bool        erAnalysis::outputIntermediateImages()
+{
+  return _output_intermediate_images; 
+};
+void        erAnalysis::setOutputIntermediateImages(bool ii)
+{  
+  _output_intermediate_images = ii;
   
 };
 bool    erAnalysis::outputConvex()
@@ -795,8 +804,6 @@ bool erWeldPoolAnalysis::doItImage(erImage& ea)
   char* nom = const_cast< char*>( output_name.c_str());
   
   eb = erConvertToBlackAndWhite( &ea); 
-  //erSaveImage2(&ec, file_name, nom, "grey");
-  //erShowImage( "grey", &ec);
   erWhiteBlobCorrection( &eb, &param_white_blob);
  
   /** Jusque la */
@@ -817,39 +824,48 @@ bool erWeldPoolAnalysis::doItImage(erImage& ea)
   erCvSmooth( &ed, &param_smooth1);
 
   erCvCanny( &ed, &param_canny);
-  //erSaveImage2(&ec, file_name, nom, "canny1");
-  //erShowImage( "canny1", &ec);
   
-  erCvDilate( &ed, &param_dilate);
+  
+   erCvDilate( &ed, &param_dilate);
    erCvSmooth( &ed, &param_smooth2); 
-
-  char* nomc= const_cast< char*>( (output_name+"_blur").c_str());
-  erSaveImage( &ed, file_name, nomc);
-
+   if(outputIntermediateImages())
+    {
+      char* nomc= const_cast< char*>( (output_name+"_blur").c_str());
+      erSaveImage( &ed, file_name, nomc);
+    };
   
 
   ee = erCvTemplate( &ed, &param_template);
 
   erCvThreshold( &ee, &param_threshold);
+  char* nomt= const_cast< char*>( (output_name+"_threshold").c_str());
+  if(outputIntermediateImages())
+    {
+      erSaveImage( &ee, file_name, nomt);
+    }
   erCvCanny( &ee, &param_canny);
-
+  if(outputIntermediateImages())
+    {
+      char* nomca= const_cast< char*>( (output_name+"_canny").c_str());
+      erSaveImage( &ee, file_name, nomca);
+    };
   IsEqualTo is_equal_255(255);
 
   erExtractCvPoints( cvPts, &ee, is_equal_255, rectOI);
   //char * nomc;
 
   convertCvToCgalpoints( cvPts, cgalPts);  
-  //nomc= const_cast< char*>( (output_name + "extrac").c_str());
-  //erPrintCgalPoint( cgalSeg, file_name, nomc);
-
+  
   erAlphaEdges( cgalPts, cgalSeg, &param_alpha_shape);
   erPrintCgalPoint(cgalSeg,file_name,nom);
-  erLargestPolygon( cgalSeg, bgraphSeg);
-
+ 
+  erLargestClosedPolygon( cgalSeg, bgraphSeg);
+  
+  char * nomcg = const_cast< char*>( (output_name + "_extrac").c_str());
+  erPrintCgalPoint( bgraphSeg, file_name, nomcg);
   erConvexHull( bgraphSeg, cgalPts2);
   double area;
   double area_axi;
-
 
   if(outputConvex())
   {

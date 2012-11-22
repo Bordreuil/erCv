@@ -4,13 +4,13 @@ im   = imread('imageExemple_1.bmp')
 X    = loadtxt('results/macroDrop_mcr_curvCV_1.txt')
 Xmod = loadtxt('results/macroDrop_modified_mcr_curvCV_1.txt')
 imshow(im,origin='lower')
-deb=3;fin=80
-debmod=6;finmod=80
+deb=4;fin=80
+debmod=8;finmod=80
 
 plot(X[deb:fin,0],im.shape[0]-X[deb:fin,1],label='base')
 plot(Xmod[debmod:finmod,0],im.shape[0]-Xmod[debmod:finmod,1],label='modified')
 
-totpts = 15
+totpts = 10
 a      = polyfit(X[deb:deb+totpts,0],im.shape[0]-X[deb:deb+totpts,1],1)
 amod   = polyfit(Xmod[debmod:debmod+totpts,0],im.shape[0]-Xmod[debmod:debmod+totpts,1],1)
 

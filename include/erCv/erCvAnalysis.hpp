@@ -92,6 +92,8 @@ struct erAnalysis
   void        setOutputConvex(bool);
   void        setOuputGeometry(bool);
   bool        outputAxisymmetricGeometry();
+  void        setOutputIntermediateImages(bool);
+  bool        outputIntermediateImages();
   void        setOutputAxisymmetricGeometry(bool);
   /* \brief Application de l Analysis avec des parametres introduit dans le ficher de finition de l 'experiance.
    */
@@ -106,6 +108,7 @@ struct erAnalysis
   bool                 _output_geometry_characteristics;
   bool                 _output_axisymmetric;
   bool                 _output_convex;
+  bool                 _output_intermediate_images;
   std::string          _output_geometry_file;
   char* file_name;
 };
