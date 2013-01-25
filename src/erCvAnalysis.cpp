@@ -673,95 +673,6 @@ void erWeldPoolAnalysis::setWhiteBlobDetection(bool ii)
 {
   white_blob_detection = ii;
 };
-//** Boucle de execution du programe en utilisant le la user interface de openCv */
-bool erWeldPoolAnalysis::defineParametersUI( std::string firstImage) 
-{
-  std::cout <<"--------------------------------------------------\n\n";
-  std::cout <<"\tMagic treatment for metal transfert\ntBy Edward Romero\n\tMay 2010\n\tLMGC/UM2/UM5508\n\tANR-TEMMSA\n\n";
-  std::cout <<"-------------------------------------------------\n\n";
-  
-  /*Declaration de variables a utiliser par les fonctions */
-  INFOFILE = this->infoFile;
-  erImage ea, eb, ec, ed, ee;
-  CvRect rect;
-  erSmootP psmo1, psmo2;
-  erCannyP pcan;
-  erThresP pthr;
-  erTemplP ptem;
-  erWhitBP pwhi;
-  erDilatP pdil;
-  std::list< CvPoint> cvPts;
-  std::list< CgalPoint> cgalPts;
-  std::list< CgalSegmt> cgalSeg, bgraphSeg;
-  erAlphaP palp;
-  bool loaded;
-  
-  char* file_name = const_cast< char*>(firstImage.c_str());
-  
-  boost::tie( ea, loaded) = erLoadImage( file_name);
-  if(!loaded) return false;
-  
-  eb = erConvertToBlackAndWhite( &ea);
-  
-  erWhiteBlobCorrectionUser( &eb, &pwhi);
-  //erWhiteBloborCorrection( &eb);
-  param_white_blob = pwhi;
-
-  if( _with_calibration)
-    {
-      ec = _calibration.transform_image(eb);
-      //erSaveImage(&ec,file_name, nom+'calib');
-      //erShowImage( "calib", &ec);
-    }
-  else
-    {
-      ec = eb;
-    };
-  
-  
-  ed = erDef_ROIuser( &ec, &rect,true);
-  rectOI = rect;
-  erCvSmoothUser( &ed, &psmo1);
-  param_smooth1 = psmo1;
- 
-
-  ed = erCvTemplateUser( &ed, &ptem,true);
-  param_template = ptem;
-
-
-  erCvCannyUser( &ed, &pcan,true);
-  param_canny = pcan;
-  
-  erCvDilateUser( &ed, &pdil,true);
-  param_dilate = pdil;
-  erCvSmoothUser( &ed, &psmo2);
-  param_smooth2 = psmo2;
-  /** erCvSmoothUser( &ed, &psmo1);
-      param_smooth1 = psmo1; */
-
-  //ee = erCvTemplateUser( &ed, &ptem,true);
-  //param_template = ptem;
-  
-  erCvThresholdUser( &ed, &pthr,true);
-  param_threshold = pthr;
-  
-  erCvCannyUser( &ee, &pcan,true);
-  param_canny = pcan;
-  
-  IsEqualTo is_equal_255(255);
-  char* nom   = const_cast<char*>(name.c_str());
-  
-  erExtractCvPoints( cvPts, &ee, is_equal_255, rect);
-  convertCvToCgalpoints( cvPts, cgalPts);
-  
-  erAlphaEdges( cgalPts, cgalSeg, &palp);
-  
-  erLargestClosedPolygon( cgalSeg, bgraphSeg);
-
-  erPrintCgalPoint( bgraphSeg, file_name, nom);
-  
-  return true;
-};
 
 
 void erWeldPoolAnalysis::defineParameters( CvRect rect, erWhitBP whiteb, erSmootP smooth1, erSmootP smooth2, erCannyP canny, erDilatP dilate, erThresP thres, erTemplP templ, erAlphaP alphas)
@@ -779,18 +690,12 @@ void erWeldPoolAnalysis::defineParameters( CvRect rect, erWhitBP whiteb, erSmoot
 };
 
 
-// void erWeldPoolAnalysis::setOutputGeometryFile(std::string file) //** Le fichier existant est ecrase!!
-// {
-//   output_geometry_file = dir_analysis+"/"+file+"_wep"+".geo";
-//   std::ofstream out(output_geometry_file.c_str());
-//   out << "Nom_du_fichier\t\t\t\tCentroid_x\tCentroid_y\tAire\tAxe_Princ_x\tAxe_Princ_y\tFit(0-1)\n";
-
-// };
 
 bool erWeldPoolAnalysis::doIt(std::string fich)
 { 
   bool loaded;
   char* file_name         = const_cast< char*>( fich.c_str());
+  std::cout << "Nom du fichier:" << file_name << std::endl;
   setCurrentFileName(file_name);
   erImage ea;
   
@@ -805,6 +710,7 @@ bool erWeldPoolAnalysis::doItImage(erImage& ea)
   std::list< CvPoint>   cvPts;
   std::list< CgalPoint> cgalPts, cgalPts2;
   std::list< CgalSegmt> cgalSeg, bgraphSeg;
+  
   output_name = dir_analysis+"/"+name+"_wep";
   char* nom = const_cast< char*>( output_name.c_str());
 
@@ -828,31 +734,47 @@ bool erWeldPoolAnalysis::doItImage(erImage& ea)
   
   ed = erDef_ROI( &ec, &rectOI);
   erCvSmooth( &ed, &param_smooth1);
-
-  erCvCanny( &ed, &param_canny);
+ if(outputIntermediateImages())
+    {
+      char* nomc= const_cast< char*>( (output_name+"_1_smooth").c_str());
+      erSaveImage( &ed, file_name, nomc);
+    };
+ //erCvCanny( &ed, &param_canny);
   
   
    erCvDilate( &ed, &param_dilate);
+   if(outputIntermediateImages())
+    {
+      char* nomc= const_cast< char*>( (output_name+"_2_dilate").c_str());
+      erSaveImage( &ed, file_name, nomc);
+    };
    erCvSmooth( &ed, &param_smooth2); 
    if(outputIntermediateImages())
     {
-      char* nomc= const_cast< char*>( (output_name+"_blur").c_str());
+      char* nomc= const_cast< char*>( (output_name+"_3_smooth").c_str());
       erSaveImage( &ed, file_name, nomc);
     };
   
    
   ee = erCvTemplate( &ed, &param_template);
-
+   if(outputIntermediateImages())
+    {
+      
+      char* nomc= const_cast< char*>( (output_name+"_4_template").c_str());
+      
+      erSaveImage( &ee, file_name, nomc);
+    };
   erCvThreshold( &ee, &param_threshold);
-  char* nomt= const_cast< char*>( (output_name+"_threshold").c_str());
+  
   if(outputIntermediateImages())
     {
+      char* nomt= const_cast< char*>( (output_name+"_5_threshold").c_str());
       erSaveImage( &ee, file_name, nomt);
     }
   erCvCanny( &ee, &param_canny);
   if(outputIntermediateImages())
     {
-      char* nomca= const_cast< char*>( (output_name+"_canny").c_str());
+      char* nomca= const_cast< char*>( (output_name+"_6_canny").c_str());
       erSaveImage( &ee, file_name, nomca);
     };
   IsEqualTo is_equal_255(255);

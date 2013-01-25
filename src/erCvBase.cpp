@@ -216,8 +216,11 @@ std::string erLoadImageSeriesAnalysis( std::string name, uint inc)
 void erSaveImage( IplImage* simag, char* file_name, char* exit_name)
 {
   std::string name( file_name);
+  
   size_t ext_pos = name.find_last_of( '_' );
   size_t ext_pos1 = name.find_last_of( '.');
+  std::string name4( exit_name);
+
   if( ext_pos != std::string::npos && ext_pos1 != std::string::npos )
     {
       
@@ -229,14 +232,15 @@ void erSaveImage( IplImage* simag, char* file_name, char* exit_name)
 	{
 	  name3.insert( 0, "0" );
 	}
-      std::string name4( exit_name);
+      
+
       name4+= "_";
       name4+= name3;
       name4+= ".bmp";
       char* new_name = new char[ name4.size() + 1];
       std::copy( name4.begin(), name4.end(), new_name);
       new_name[ name4.size()] = '\0';
-
+     
       cvSaveImage( new_name, simag);
     }
 }

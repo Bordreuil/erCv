@@ -635,10 +635,7 @@ void export_erCvAnalysis(){
 	 "defineParameters"
 	 , (void ( ::erWeldPoolAnalysis::* )( ::CvRect, ::erWhitBP, ::erSmootP,::erSmootP,::erCannyP,::erDilatP,::erThresP,::erTemplP,::erAlphaP ) )( &::erWeldPoolAnalysis::defineParameters )
 	 , ( bp::arg("arg0"), bp::arg("arg1"), bp::arg("arg2"), bp::arg("arg3"), bp::arg("arg4"), bp::arg("arg5"), bp::arg("arg6"), bp::arg("arg7"), bp::arg("arg8") ) )    
-    .def( 
-	 "defineParametersUI"
-	 , (bool ( ::erWeldPoolAnalysis::* )( std::string ) )( &::erWeldPoolAnalysis::defineParametersUI )
-	 , ( bp::arg("image") ) )    
+  
     .def( 
 	 "doIt"
 	 , (bool ( ::erWeldPoolAnalysis::* )( std::string ) )(&::erWeldPoolAnalysis::doIt)

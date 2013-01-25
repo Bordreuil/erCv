@@ -453,13 +453,9 @@ struct erWeldPoolAnalysis:public erAnalysis
       \param std::string : nom des fichers sortie
   */
   erWeldPoolAnalysis( std::string name, std::string infofile = "info");
-
-  /** Definition des paramettres interactive
-      \param std::string : nom de l image
-  */     
-  bool defineParametersUI( std::string image);
-
-  /** Passage des parametres dans le ficher a compiler fusion_bain_python.cpp 
+ 
+  void defineParameters( CvRect, erWhitBP, erSmootP, erSmootP, erCannyP, erDilatP, erThresP, erTemplP, erAlphaP); 
+ /** Passage des parametres dans le ficher a compiler fusion_bain_python.cpp 
       \param CvRect       : rectangle de la zone d interet 
       \param erWhitBP     : parametres pour l atenuations de taches blanches
       \param erSmootP     : premier parametre de lissage
@@ -470,7 +466,6 @@ struct erWeldPoolAnalysis:public erAnalysis
       \param erTemplP     : parametres pour la segmentation
       \param erAlphaP     : parametre pour l alpha shape
    */
-  void defineParameters( CvRect, erWhitBP, erSmootP, erSmootP, erCannyP, erDilatP, erThresP, erTemplP, erAlphaP); 
   bool doIt( std::string); /** < Analyse sur le ficher */
   bool doItImage(erImage&);
   void saveParameters( std::string);
@@ -603,6 +598,8 @@ struct erWeldPoolAnalysis:public erAnalysis
 						       notamment le bain fusion. Plus reduit est l echantillion ,
 						       plus dificile est pour l algorithme etablir la difference
 						       entre deux zones dans l image.
+						       Le rectangle est defini dans le nouveau repere
+						       de l image.
 						   */
   erAlphaP param_alpha_shape;                      /**
 						      Paramettre pour la construction des alpha shape en CGAL 
