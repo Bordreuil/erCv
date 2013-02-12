@@ -136,22 +136,12 @@ struct erMacroDropAnalysis:public erAnalysis
   /** Definition des paramettres interactive
       \param std::string : nom de l image
   */     
-  bool defineParametersUI( std::string image); 
-  /** Passage des parametres dans le ficher a compiler macro_drop_python.cpp 
-      \param CvRect       : rectangle de la zone d interet 
-      \param erCerc       : cercle du debut de la curve a extraire
-      \param erSmootP     : premier parametre de lissage
-      \param erSmoothP    : seconde parametre de lissage
-      \param erCannyP     : parametre du filtre de canny
-      \param erAdThrP     : parametre du seuil adapte par zones
-      \param erEqualP     : equalizateur d histogrames
-   */
+ 
   void defineParameters( CvRect, erCerc, erSmootP, erSmootP, erCannyP, erAdThrP, erEqualP equal=erEqualP(1)); /** < Passages Parametres en dur */
 
   bool doIt( std::string);  /** < Analyse sur le fichier */
   virtual bool doItImage(erImage&);
-  void saveParameters( std::string);
-  void loadParameters( std::string);
+ 
   CvRect         rectOI;                       /*< Rectangle qui demarque la zone d interet  */
   erCerc         cerc_to_start;                  /* < Cercle qui demarque le debut de la curve que sousligne le profil de la macro goutte */
   erEqualP       param_equalizer_histogram;    /* < 0 si l equalizateur est active: Augmente le contraste de l image ( image en niveau des gris)
@@ -264,16 +254,7 @@ struct erMetalTransfertAnalysis:public erAnalysis
     /** Definition des paramettres interactive
       \param std::string : nom de l image
   */     
-  bool defineParametersUI( std::string image);
-  /** Passage des parametres dans le ficher a compiler drop_python.cpp 
-      \param CvRect       : rectangle de la zone d interet 
-      \param erCerc       : cercle du debut de la curve a extraire
-      \param erSmootP     : premier parametre de lissage
-      \param erSmoothP    : seconde parametre de lissage
-      \param erCannyP     : parametre du filtre de canny
-      \param erAdThrP     : parametre du seuil adapte par zones
-      \param erEqualP     : valeur de l alpha shape
-   */
+ 
   void defineParameters( CvRect, erSmootP, erSmootP, erCannyP, erAdThrP, erAlphaP);
 
   /** Application de l analyse
@@ -284,14 +265,7 @@ struct erMetalTransfertAnalysis:public erAnalysis
   /** Enregistrement des parametres
       \param std::string : nom de l image
   */
-  void saveParameters( std::string);             
-
-  /** Charger les parametres
-   */
-  void loadParameters( std::string);               /** <  Pas encore active */
-
-
-  //void setOutputGeometryFile(std::string);         /** <  Methode pour reinitialiser le nom du fichier de geometrie
+ 
   //						          A chaque passage, l ancien fichier est ecrase      */
   CvRect         rectOI;                           /** <  Position de la zone d etude dans l image */
   erSmootP       param_smooth1, param_smooth2;     /**  
@@ -468,8 +442,7 @@ struct erWeldPoolAnalysis:public erAnalysis
    */
   bool doIt( std::string); /** < Analyse sur le ficher */
   bool doItImage(erImage&);
-  void saveParameters( std::string);
-  void loadParameters( std::string);
+
   bool whiteBlobDetection();
   void setWhiteBlobDetection(bool);
   //void setOutputGeometryFile(std::string);         /** < Methode pour reinitialiser le nom du fichier de geometrie */
@@ -637,19 +610,7 @@ struct erLaserPrototypageAnalysis:public erAnalysis
   /** Definition des paramettres interactive
       \param std::string : nom de l image
   */     
-  bool defineParametersUI( std::string image); /** < Definitions des parametres interactive */
-  
-  /** Passage des parametres dans le ficher a compiler fusion_bain_python.cpp 
-      \param CvRect       : rectangle de la zone d interet 
-      \param erSmootP     : premier parametre de lissage
-      \param erSmootP     : seconde parametre de lissage
-      \param erCannyP     : parametre du filtre de canny
-      \param erDilatP     : parametre reduction des pixles noirs
-      \param erThresP     : parametre du seuil
-      \param erAdThrP     : parametre du seuil adapte par zones
-      \param erTemplP     : parametres pour la segmentation
-      \param erAlphaP     : parametre pour l alpha shape
-  */
+
   void defineParameters_diffuse( CvRect, erSmootP, erCannyP, erAdThrP, erAlphaP);
 
   /** Passage des parametres dans le ficher a compiler fusion_bain_python.cpp 
@@ -669,17 +630,12 @@ struct erLaserPrototypageAnalysis:public erAnalysis
    */ 
   bool doIt( std::string);
   bool doItImage(erImage&);
-  /** Enregistrement des parametres
-      \param std::string :  nom de l image */
-  void saveParameters( std::string);
-
-  void loadParameters( std::string);
+ 
 
   /** Methode pour reinitialiser le nom du ficher de geometrie 
       \param std::string : nom de l image
   */
-  //void setOutputGeometryFile(std::string);         
-
+ 
   CvRect   rectOI;
   erSmootP param_smooth1, param_smooth2;
   erDilatP param_dilate;

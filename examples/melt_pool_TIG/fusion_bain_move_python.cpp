@@ -46,7 +46,7 @@ int main( int hola, char** file_name)
       wpa.doIt(filename);
       img_base = filename;
     };
-  wpa.saveParameters( "result/test.out");
+  
   
   
   return(0);

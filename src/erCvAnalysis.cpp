@@ -211,53 +211,6 @@ erMacroDropAnalysis::erMacroDropAnalysis( std::string name, std::string infofile
   param_canny( ), param_adaptive_threshold( ), param_equalizer_histogram( )
 { };
 
-bool erMacroDropAnalysis::defineParametersUI( std::string firstImage)
-{
-  std::cout <<"-----------------------------------------------\n\n";
-  std::cout <<"\tMagic treatment for macroDrop\n\tBy Edward Romero\n\tNovember 2009\n\tLMGC/UM2/UM5508\n\tANR-TEMMSA\n\n";
-  std::cout <<"-----------------------------------------------\n\n";
-  
-  /* Declaration de variables a utiliser par les fonctions */
-  INFOFILE = this->infoFile;
-  
-  erImage ea, eb, ec, ed;
-  CvRect rect;
-  erCerc cerc; 
-  erSmootP psmo, psmo1;
-  erCannyP pcan;
-  erAdThrP padt;
-  erEqualP pequ;
-  bool loaded; 
-  std::list< CvPoint> cvPts;
-  
-  char* file_name =const_cast<char*>(firstImage.c_str());
-  
-  boost::tie(ea,loaded) = erLoadImage(file_name);
-  if(!loaded) return false;
-  eb            = erConvertToBlackAndWhite( &ea); /* Conversion en 8 bit single channel */
-  //ed            = eb; 
-  
-  ec            = erDef_ROIuser( &eb, &rect);
-  rectOI        = rect;
-  erCvEqualizeHist( &ec, &pequ);
-  erCvSmoothUser( &ec, &psmo);
-  param_smooth1 = psmo;
-  erCvAdaptiveThresholdUser( &ec, &padt);
-  param_adaptive_threshold = padt;
-  erCvSmoothUser( &ec, &psmo1);
-  param_smooth2 = psmo1;
-  erCvCannyUser( &ec, &pcan);
-  param_canny   = pcan;
-  
-  IsEqualTo is_equal_255( 255);
-  
-  erExtractCvPoints( cvPts, &ec, is_equal_255, rect); /* Extraction */
-  erExtractCurveMacroDropUser( cvPts, &ec, rect, &cerc, file_name);
-  cerc_to_start = cerc;
-  char* nom   = const_cast<char*>(name.c_str());
-  erPrintCvPoint( cvPts, file_name, nom); 
-  return true;
-};
 
 
 
@@ -306,19 +259,7 @@ bool erMacroDropAnalysis::doItImage(erImage& ea)
        return true;
 };
 
-void erMacroDropAnalysis::saveParameters(std::string file)
-{ 
-  std::string output_file=dir_analysis+"/"+file;
-  std::ofstream out(output_file.c_str());
-  out << "* Begin er MacroDrop Analysis" << std::endl;
-  out << this->rectOI;
-  out << this->cerc_to_start;
-  out << this->param_smooth1;
-  out << this->param_adaptive_threshold;
-  out << this->param_smooth2;
-  out << this->param_canny;
-  out << "* End er MacroDrop Analysis" << std::endl;
-};
+
 
 /********************************************************************
 
@@ -391,58 +332,6 @@ erMetalTransfertAnalysis::erMetalTransfertAnalysis( std::string name, std::strin
   param_adaptive_threshold( ), param_alpha_shape()
 {}; 
 
-bool erMetalTransfertAnalysis::defineParametersUI( std::string firstImage)
-{ 
-  std::cout <<"--------------------------------------------------\n\n";
-  std::cout <<"\tMagic treatment for metal transfert\ntBy Edward Romero\n\tMay 2010\n\tLMGC/UM2/UM5508\n\tANR-TEMMSA\n\n";
-  std::cout <<"-------------------------------------------------\n\n";
-  
-  /*Declaration de variables a utiliser par les fonctions */
-  INFOFILE = this->infoFile;
-
-  erImage ea, eb, ec, ed, ee;
-  CvRect rect;
-  erSmootP psmo, psmo1;
-  erCannyP pcan;
-  erAdThrP padt;
-
-  std::list< CvPoint> cvPts;
-  std::list< CgalPoint> cgalPts;
-  std::list< CgalSegmt> cgalSeg, bgraphSeg;
-  erAlphaP palp;
-  bool loaded;
-
-  char* file_name = const_cast< char*>(firstImage.c_str());
-
-  boost::tie( ea, loaded) = erLoadImage( file_name);
-  if(!loaded) return false;
-  eb = erConvertToBlackAndWhite( &ea); /* Conversion en 8 bit single channel */
-  ec = erDef_ROIuser( &eb, &rect,true);
-  rectOI = rect;
-  erCvSmoothUser( &ec, &psmo);
-  param_smooth1 = psmo;
-  erCvAdaptiveThresholdUser( &ec, &padt,true);
-  param_adaptive_threshold = padt;
-  erCvSmoothUser( &ec, &psmo1);
-  param_smooth2 = psmo1;
-  erCvCannyUser( &ec, &pcan,true);
-  param_canny = pcan;
-
-  IsEqualTo is_equal_255( 255);
-
-  erExtractCvPoints( cvPts, &ec, is_equal_255, rect); /* Extraction */
-  convertCvToCgalpoints( cvPts, cgalPts);
-  
-  alpha_edges_user( cgalPts, cgalSeg, &palp);
-  param_alpha_shape = palp;
-  erLargestClosedPolygon( cgalSeg, bgraphSeg);
-
-  char* nom = const_cast< char*>( name.c_str());
-  erPrintCgalPoint( bgraphSeg, file_name, nom);
-
-  return true; 
-};
-
 
 
 void erMetalTransfertAnalysis::defineParameters( CvRect rect, erSmootP smooth1, erSmootP smooth2, erCannyP cann, erAdThrP adthr, erAlphaP alphas)
@@ -455,13 +344,6 @@ void erMetalTransfertAnalysis::defineParameters( CvRect rect, erSmootP smooth1, 
          param_alpha_shape = alphas;
 };
 
-// void erMetalTransfertAnalysis::setOutputGeometryFile(std::string file) //** Le fichier existant est ecrase!!
-// {
-//   output_geometry_file = dir_analysis+"/"+file+"_mtl"+".geo";
-//   std::ofstream out(output_geometry_file.c_str());
-//   out << "Nom_du_fichier\t\tCentroid_x\tCentroid_y\tAire\tAxe_Princ_x\tAxe_Princ_y\tFit(0-1)\n";
-
-// };
 
 bool erMetalTransfertAnalysis::doIt( std::string fich)
 {
@@ -534,20 +416,6 @@ bool erMetalTransfertAnalysis::doItImage(erImage& ea)
 };
 
 
-void erMetalTransfertAnalysis::saveParameters( std::string file)
-{
-  std::string output_file = dir_analysis+"/"+file;
-  std::ofstream out( output_file.c_str());
-  out << "* Begin er MetalTransfert Analysis" << std::endl;
-  out << this->rectOI;
-  out << this->param_smooth1;
-  out << this->param_adaptive_threshold;
-  out << this->param_smooth2;
-  out << this->param_canny;
-  //out << this->param_alpha_shape;
-  out << "* End er MetalTransfert Analysis" << std::endl;
-};
-
 /* Analysis pour la goutelette de metal de tranfer*/
 /********************************************************************
 
@@ -574,13 +442,7 @@ void erSolidificationAnalysis::defineParameters( CvRect rect, erSmootP smooth1, 
          param_alpha_shape = alphas;
 };
 
-// void erSolidificationAnalysis::setOutputGeometryFile(std::string file) //** Le fichier existant est ecrase!!
-// {
-//   output_geometry_file = dir_analysis+"/"+file+"_sol"+".geo";
-//   std::ofstream out(output_geometry_file.c_str());
-//   out << "Nom_du_fichier\t\tCentroid_x\tCentroid_y\tAire\tAxe_Princ_x\tAxe_Princ_y\tFit(0-1)\n";
 
-// };
 
 bool erSolidificationAnalysis::doIt( std::string fich)
 {
@@ -722,9 +584,12 @@ bool erWeldPoolAnalysis::doItImage(erImage& ea)
   if( _with_calibration)
     {
       ec = _calibration.transform_image(eb);
-      std::string calib_name = dir_analysis+"/"+name+"_calib";
-      char* nomcalib = const_cast< char*>( calib_name.c_str());
-      erSaveImage(&ec,file_name, nomcalib);
+      if(outputIntermediateImages())
+	{
+	  std::string calib_name = dir_analysis+"/"+name+"_calib";
+	  char* nomcalib = const_cast< char*>( calib_name.c_str());
+	  erSaveImage(&ec,file_name, nomcalib);
+	}
   
     }
   else
@@ -809,24 +674,7 @@ bool erWeldPoolAnalysis::doItImage(erImage& ea)
  
 };
 
-/* On sauve garde les parammettres utilisé dans un ficher de backup */
-void erWeldPoolAnalysis::saveParameters( std::string file)
-{
-  std::string output_file = dir_analysis+"/"+file;
-  std::ofstream out( output_file.c_str());
-  out << "* Begin er WeldPool Analysis" << std::endl;
-  out << this->rectOI;
-  //out << this->param_white_blob;
-  out << this->param_canny;
-  //out << this->param_dilate;
-  out << this->param_smooth1;
-  out << this->param_smooth2;
-  //out << this->param_template;
-  //out << this->param_threshold;
-  out << this->param_canny;
-  //out << this->param_alpha_shape;
-  out << "* End er WeldPool Analysis" << std::endl;
-};
+
 
 
 /********************************************************************
@@ -843,73 +691,7 @@ erLaserPrototypageAnalysis::erLaserPrototypageAnalysis(){};
 erLaserPrototypageAnalysis::erLaserPrototypageAnalysis( std::string name, std::string infofile): 
   erAnalysis( name, infofile), rectOI( ), param_smooth1( ), param_smooth2( ), param_canny( ),  param_dilate( ), param_threshold( ), param_adaptive_threshold( ), param_template( ), param_alpha_shape( ){ }; 
 
-//** Boucle de execution du programe en utilisant le la user interface de openCv */
-bool erLaserPrototypageAnalysis::defineParametersUI( std::string firstImage) 
-{
-  std::cout <<"--------------------------------------------------\n\n";
-  std::cout <<"\tMagic treatment for metal transfert\ntBy Edward Romero\n\tMay 2010\n\tLMGC/UM2/UM5508\n\tANR-TEMMSA\n\n";
-  std::cout <<"-------------------------------------------------\n\n";
-  
-  /*Declaration de variables a utiliser par les fonctions */
-  INFOFILE = this->infoFile;
-  erImage ea, eb, ec, ed, ee;
-  CvRect rect;
-  erSmootP psmo1, psmo2;
-  erCannyP pcan;
-  erThresP pthr;
-  erTemplP ptem;
-  erDilatP pdil;
-  std::list< CvPoint> cvPts;
-  std::list< CgalPoint> cgalPts;
-  std::list< CgalSegmt> cgalSeg, bgraphSeg;
-  erAlphaP palp;
-  bool loaded;
-  
-  char* file_name = const_cast< char*>(firstImage.c_str());
-  
-  boost::tie( ea, loaded) = erLoadImage( file_name);
-  if(!loaded) return false;
-  
-  ed = erDef_ROIuser( &eb, &rect);
-  rectOI = rect;
 
-  erCvCannyUser( &ed, &pcan);
-  param_canny = pcan;
-  
-  erCvDilateUser( &ed, &pdil);
-  param_dilate = pdil;
-  
-  erCvSmoothUser( &ed, &psmo1);
-  param_smooth1 = psmo1;
-
-  erCvSmoothUser( &ed, &psmo2);
-  param_smooth2 = psmo2;
-
-  ee = erCvTemplateUser( &ed, &ptem);
-  param_template = ptem;
-  
-  erCvThresholdUser( &ee, &pthr);
-  param_threshold = pthr;
-  
-  erCvCannyUser( &ee, &pcan);
-  param_canny = pcan;
-  
-  IsEqualTo is_equal_255(255);
-  char* nom   = const_cast<char*>(name.c_str());
-  
-  erExtractCvPoints( cvPts, &ee, is_equal_255, rect);
-  convertCvToCgalpoints( cvPts, cgalPts);
-  
-  erAlphaEdges( cgalPts, cgalSeg, &palp);
-  
-  erLargestClosedPolygon( cgalSeg, bgraphSeg);
-
-  erPrintCgalPoint( bgraphSeg, file_name, nom);
-  
-  return true;
-};
-
-//void erWeldPoolAnalysis::defineParameters( CvRect rect, erSmootP smooth1, erSmootP smooth2, erEqualP equal, erCannyP canny, erAdThrP adthr, erTemplP templ, erAlphaP alphas, erFindcP findc)
 void erLaserPrototypageAnalysis::defineParameters_diffuse( CvRect rect, erSmootP smooth, erCannyP canny, erAdThrP adthr, erAlphaP alphas)
 {
   rectOI = rect;
@@ -920,7 +702,6 @@ void erLaserPrototypageAnalysis::defineParameters_diffuse( CvRect rect, erSmootP
 };
 
 
-//void erWeldPoolAnalysis::defineParameters( CvRect rect, erSmootP smooth1, erSmootP smooth2, erEqualP equal, erCannyP canny, erAdThrP adthr, erTemplP templ, erAlphaP alphas, erFindcP findc)
 void erLaserPrototypageAnalysis::defineParameters( CvRect rect, erSmootP smooth1, erSmootP smooth2, erCannyP canny, erDilatP dilate, erThresP thres, erTemplP templ, erAlphaP alphas)
 {
   rectOI = rect;
@@ -935,10 +716,6 @@ void erLaserPrototypageAnalysis::defineParameters( CvRect rect, erSmootP smooth1
 };
 
 
-
-//void erLaserPrototypageAnalysis::setOutputGeometryFile(std::string file) //** Le fichier existant est ecrase!!
-//{
-//};
 
 
 bool erLaserPrototypageAnalysis::doIt_diffuse(std::string fich)
@@ -1080,23 +857,4 @@ bool erLaserPrototypageAnalysis::doItImage(erImage& ea)
   //     ot << std::setprecision(10) << currentFileName() << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
   //   };
   return true;
-};
-
-/* On sauve garde les parammettres utilisé dans un ficher de backup */
-void erLaserPrototypageAnalysis::saveParameters( std::string file)
-{
-  std::string output_file = dir_analysis+"/"+file;
-  std::ofstream out( output_file.c_str());
-  out << "* Begin er LaserPrototypage Analysis" << std::endl;
-  out << this->rectOI;
-  //out << this->param_white_blob;
-  out << this->param_canny;
-  //out << this->param_dilate;
-  out << this->param_smooth1;
-  out << this->param_smooth2;
-  //out << this->param_template;
-  //out << this->param_threshold;
-  out << this->param_canny;
-  //out << this->param_alpha_shape;
-  out << "* End er WeldPool Analysis" << std::endl;
 };

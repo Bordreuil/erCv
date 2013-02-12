@@ -134,9 +134,9 @@ bool erCalibration::find_corners( IplImage *im, CornerContainer& corners_contain
 
   int found = erCvFindChessboardCorners( image, _board_sz, corners, &corner_count, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
 
-  std::cout << "corner_count: " << corner_count << std::endl;
+  std::cout << "corner_count: " << corner_count << std::boolalpha << " found: " << found << std::endl;
   std::cout << "_board_sz.x: " << _board_sz.width << "_board_sz.y: " << _board_sz.height <<  std::endl;
-  if(corner_count==0)
+  if(corner_count<4)
     {
       identified = false;
       std::cout << "...erCv : Les coins n ont pas ete detecte..\n";      
@@ -154,8 +154,9 @@ bool erCalibration::find_corners( IplImage *im, CornerContainer& corners_contain
 
 
 erImage erCalibration::transform_image( erImage ima)
-{ 
+{ CvSize   cs = cvGetSize(_image_patron);
   IplImage * ir = cvCreateImage( cvGetSize(_image_patron), ima.depth, ima.nChannels);
+  std::cout << cs.width << " " << cs.height << " " << ima.nChannels << std::endl;
   IplImage * im = &ima;
   if(_identified)
     {
@@ -165,7 +166,8 @@ erImage erCalibration::transform_image( erImage ima)
     {
       std::cout << "..Transformation impossible\n";
     }
-  
+  //CvSize   ci = cvGetSize(ir);
+  //std::cout << ci.width << " " << ci.height << " "<< ir->nChannels << std::endl;
   return erImage(ir);
 };
 

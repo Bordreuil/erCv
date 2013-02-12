@@ -9,6 +9,8 @@ extern void export_erCvBase();
 extern void export_erCvAnalysis();
 extern void export_erGeometricalParams();
 extern void export_erCvSegmentation();
+extern void export_erCalibration();
+
 
 BOOST_PYTHON_MODULE(PyerCv)
 { 
@@ -20,4 +22,5 @@ BOOST_PYTHON_MODULE(PyerCv)
   export_erCvAnalysis();
   export_erCvTools();
   export_erCvBase();
+  export_erCalibration();
 };

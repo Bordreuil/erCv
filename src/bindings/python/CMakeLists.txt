@@ -20,6 +20,7 @@ if(${ENABLE_PYTHON})
 		           Py_erCvFiltersParams
 			   Py_erCvTools
 			   Py_erCvAnalysis
+			   Py_erCalibration
 			   Py_erCvBase)
 
          SET_TARGET_PROPERTIES(PyerCv PROPERTIES PREFIX ""
