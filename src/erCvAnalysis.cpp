@@ -415,6 +415,105 @@ bool erMetalTransfertAnalysis::doItImage(erImage& ea)
   return true;
 };
 
+/* Analysis pour billes de plomb*/
+/********************************************************************
+
+                      CREATIS_ANALYSIS
+
+*********************************************************************/
+erCreatisAnalysis::erCreatisAnalysis(){ };
+
+erCreatisAnalysis::erCreatisAnalysis( std::string name, std::string infofile):
+  erAnalysis( name, infofile), rectOI( ), param_smooth1( ), param_smooth2( ), param_canny( ), 
+  param_adaptive_threshold( ), param_alpha_shape()
+{}; 
+
+
+
+void erCreatisAnalysis::defineParameters( CvRect rect, erSmootP smooth1, erSmootP smooth2, erCannyP cann, erAdThrP adthr, erAlphaP alphas)
+{
+                    rectOI = rect;
+             param_smooth1 = smooth1;
+             param_smooth2 = smooth2;
+               param_canny = cann;
+  param_adaptive_threshold = adthr;
+         param_alpha_shape = alphas;
+};
+
+
+bool erCreatisAnalysis::doIt( std::string fich)
+{
+  erImage ea;
+  bool loaded;
+  char* file_name         = const_cast< char*>( fich.c_str());
+  setCurrentFileName(file_name);
+  boost::tie(ea, loaded) = erLoadImage( file_name);
+  if( !loaded) return false;
+  return doItImage(ea);
+};
+bool erCreatisAnalysis::doItImage(erImage& ea)
+{
+  erImage eb, ec;
+  std::list< CvPoint>   cvPts;
+  std::list< CgalPoint> cgalPts;
+  std::list< CgalSegmt> cgalSeg, bgraphSeg;
+  erEqualP pequ;
+ 
+  output_name = (dir_analysis+"/"+name+"_creatis");
+  
+ 
+ 
+  eb = erConvertToBlackAndWhite( &ea);
+  if(outputIntermediateImages())
+    {
+      char* nomb= const_cast< char*>( (output_name+"_1_blackWhite").c_str());
+      erSaveImage( &eb, file_name, nomb);
+    };
+  ec = erDef_ROI( &eb, &rectOI);
+ 
+  erCvSmooth( &ec, &param_smooth1);
+  if(outputIntermediateImages())
+    {
+      char* nomc= const_cast< char*>( (output_name+"_2_smooth").c_str());
+      erSaveImage( &ec, file_name, nomc);
+    };
+  erCvAdaptiveThreshold( &ec, &param_adaptive_threshold);
+  if(outputIntermediateImages())
+    {
+      char* nomd= const_cast< char*>( (output_name+"_3_adaptive").c_str());
+      erSaveImage( &ec, file_name, nomd);
+    };
+  erCvSmooth( &ec, &param_smooth2);
+  if(outputIntermediateImages())
+    {
+      char* nome= const_cast< char*>( (output_name+"_4_smooth").c_str());
+      erSaveImage( &ec, file_name, nome);
+    };
+  erCvCanny( &ec, &param_canny);
+  if(outputIntermediateImages())
+    {
+      char* nomf= const_cast< char*>( (output_name+"_5_canny").c_str());
+      erSaveImage( &ec, file_name, nomf);
+    };
+
+  IsEqualTo is_equal_255( 255);
+  erExtractCvPoints( cvPts, &ec, is_equal_255, rectOI);
+  
+  convertCvToCgalpoints( cvPts, cgalPts);
+
+  erAlphaEdges( cgalPts, cgalSeg, &param_alpha_shape);
+
+  
+  //erLargestClosedPolygon( cgalSeg, bgraphSeg);
+  
+  //erPrintCgalPoint( bgraphSeg,currentFileName(), nom);
+  //writeOutGeometry(bgraphSeg);
+ 
+ 
+
+  return true;
+};
+
 
 /* Analysis pour la goutelette de metal de tranfer*/
 /********************************************************************
