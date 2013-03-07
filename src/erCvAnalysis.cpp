@@ -456,7 +456,8 @@ bool erCreatisAnalysis::doItImage(erImage& ea)
   erImage eb, ec;
   std::list< CvPoint>   cvPts;
   std::list< CgalPoint> cgalPts;
-  std::list< CgalSegmt> cgalSeg, bgraphSeg;
+  std::list< CgalSegmt> cgalSeg;
+  BgraphSegmtMap  connectedSegments; 
   erEqualP pequ;
  
   output_name = (dir_analysis+"/"+name+"_creatis");
@@ -504,7 +505,7 @@ bool erCreatisAnalysis::doItImage(erImage& ea)
   erAlphaEdges( cgalPts, cgalSeg, &param_alpha_shape);
 
   
-  //erLargestClosedPolygon( cgalSeg, bgraphSeg);
+  erClosedPolygons( cgalSeg, connectedSegments);
   
   //erPrintCgalPoint( bgraphSeg,currentFileName(), nom);
   //writeOutGeometry(bgraphSeg);

@@ -219,7 +219,7 @@ struct erCreatisAnalysis_wrapper : erCreatisAnalysis, bp::wrapper< erCreatisAnal
     const npy_intp* dims = arr.dims();
     int ncol = dims[0];
     int nlig = dims[1];
-    
+    //std::cout << ncol << " " << nlig << std::endl;
     unsigned short* storage = arr.data();
     char*  file_c   =   const_cast<char*>(file_name.c_str());
     setCurrentFileName(file_c);
@@ -230,13 +230,14 @@ struct erCreatisAnalysis_wrapper : erCreatisAnalysis, bp::wrapper< erCreatisAnal
 	  for(int j=0;j < nlig;j++)
 	  { 
 
-	    unsigned short va = storage[j+i*nlig]*256/65536;
+	    unsigned short va = storage[j+i*nlig];
+	    //std::cout << va << " ";
 	    CvScalar val      = cvScalarAll(va);
 	    cvSet2D(im,i,j,val);
 	  };
 
       }; 
-
+    //std::cout << std::endl;
 
     erImage eim(im);
     erCreatisAnalysis::doItImage(eim);
