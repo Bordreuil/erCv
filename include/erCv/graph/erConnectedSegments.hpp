@@ -210,7 +210,7 @@ void erLargestPolygon( Container cgalSegmts, Container2& bgraphSegmts)
   bgraphSegmts = filterLargestMapOfSegments( c_segment);
 };
 template< class Container>
-void erClosedPolygons( Container cgalSegmts, BgraphSegmtMap& c_segments)
+void erConnectedSegments( Container cgalSegmts, BgraphSegmtMap& c_segments)
 {
   c_segments = getConnectedSegments( cgalSegmts.begin(), cgalSegmts.end());
   std::cout << "Nbre de contours connectes:" << c_segments.size() << std::endl;

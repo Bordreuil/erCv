@@ -505,7 +505,7 @@ bool erCreatisAnalysis::doItImage(erImage& ea)
   erAlphaEdges( cgalPts, cgalSeg, &param_alpha_shape);
 
   
-  erClosedPolygons( cgalSeg, connectedSegments);
+  erConnectedSegments( cgalSeg, connectedSegments);
   
   //erPrintCgalPoint( bgraphSeg,currentFileName(), nom);
   //writeOutGeometry(bgraphSeg);
