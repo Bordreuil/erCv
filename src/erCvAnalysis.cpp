@@ -373,14 +373,30 @@ bool erMetalTransfertAnalysis::doItImage(erImage& ea)
   ec = erDef_ROI( &eb, &rectOI);
  
   erCvSmooth( &ec, &param_smooth1);
-  
+    if(outputIntermediateImages())
+    {
+      char* nomc= const_cast< char*>( (output_name+"_1_smooth").c_str());
+      erSaveImage( &ec, file_name, nomc);
+    };
   erCvAdaptiveThreshold( &ec, &param_adaptive_threshold);
-
+  if(outputIntermediateImages())
+    {
+      char* nomc= const_cast< char*>( (output_name+"_2_adaptThresh").c_str());
+      erSaveImage( &ec, file_name, nomc);
+    };
   erCvSmooth( &ec, &param_smooth2);
-  //erSaveImage2( &ec, file_name, nom, "sm2");
-
+  if(outputIntermediateImages())
+    {
+      char* nomc= const_cast< char*>( (output_name+"_3_smooth").c_str());
+      erSaveImage( &ec, file_name, nomc);
+    };
   erCvCanny( &ec, &param_canny);
-  //erSaveImage2( &ec, file_name, nom, "canny");
+   if(outputIntermediateImages())
+    {
+      char* nomc= const_cast< char*>( (output_name+"_4_canny").c_str());
+      erSaveImage( &ec, file_name, nomc);
+    };
+ 
   IsEqualTo is_equal_255( 255);
   erExtractCvPoints( cvPts, &ec, is_equal_255, rectOI);
   
@@ -567,52 +583,45 @@ bool erSolidificationAnalysis::doItImage(erImage& ea)
   char* nom = const_cast< char*>( output_name.c_str());
   
   erSaveImage( &ea,currentFileName(), nom);
-  //erShowImage("base",&ea);
-  eb = erConvertToBlackAndWhite( &ea);
-  //erShowImage("after conversion",&eb);
-  ec = erDef_ROI( &eb, &rectOI);
-  //erShowImage("ROI",&ec);
-  erCvSmooth( &ec, &param_smooth1);
-  //erShowImage( "smooth", &ec); 
-  // enum ThresholdType{ THRESH_BINARY_    = 1, /** < 1: Seuillage binaire  */
-  //		    THRESH_BINARY_INV_= 2, /** < 2: Seuilage binaire inverse  */
-  //		    THRESH_TRUNC_     = 3, /** < 3: Seuillage truncate  */
-  //		    THRESH_TOZERO_    = 4, /** < 4: Seuillage vers zero  */
-  //		    THRESH_TOZERO_INV_= 5  /** < 5: Seuillage vers le zero inverse  */
-  //erThresP param_threshold(THRESH_BINARY_INV_,35,255);
-  erCvThreshold( &ec, &param_threshold);
-  //erCvAdaptiveThreshold( &ec, &param_adaptive_threshold);
-  //erShowImage( "adapt", &ec); 
 
+  eb = erConvertToBlackAndWhite( &ea);
+
+  ec = erDef_ROI( &eb, &rectOI);
+ 
+  erCvSmooth( &ec, &param_smooth1);
+  if(outputIntermediateImages())
+    {
+      char* nomc= const_cast< char*>( (output_name+"_1_smooth").c_str());
+      erSaveImage( &ec, file_name, nomc);
+    };
+ 
+  erCvThreshold( &ec, &param_threshold);
+ if(outputIntermediateImages())
+    {
+      char* nomc= const_cast< char*>( (output_name+"_2_threshold").c_str());
+      erSaveImage( &ec, file_name, nomc);
+    };
+  
   erCvCanny( &ec, &param_canny);
-  //erShowImage( "canny", &ec);
-  //erSaveImage(&ec,"canny",nom);
+ if(outputIntermediateImages())
+    {
+      char* nomc= const_cast< char*>( (output_name+"_3_canny").c_str());
+      erSaveImage( &ec, file_name, nomc);
+    };
+  
   IsEqualTo is_equal_255( 255);
   erExtractCvPoints( cvPts, &ec, is_equal_255, rectOI);
-  //std::cout << "Nombre de points apres canny:" << cvPts.size() << std::endl;
+ 
   convertCvToCgalpoints( cvPts, cgalPts);
 
   erAlphaEdges( cgalPts, cgalSeg, &param_alpha_shape);
 
-  //std::list< CgalSegmt>::iterator dede=cgalSeg.begin();
-  //erPrintCgalPoint( cgalSeg, file_name, nom);
+
     
   erLargestClosedPolygon( cgalSeg, bgraphSeg);
   
   erPrintCgalPoint( bgraphSeg,currentFileName(), nom);
-  writeOutGeometry(bgraphSeg);
-  // if(output_geometry_characteristics && bgraphSeg.size() > 6)
-  //   {
-  //     std::list<CgalTrian> triangs=erGeometryExtractTriangles(bgraphSeg.begin(),bgraphSeg.end());
-  //     double area   = getArea(triangs.begin(),triangs.end());
-  //     CgalLine  line;
-  //     CgalPoint pt;
-  //     CgalFTrai fit = linear_least_squares_fitting_2(triangs.begin(),triangs.end(),line,pt,CGAL::Dimension_tag<2>());	
-  //     std::ofstream ot(output_geometry_file.c_str(),std::ios_base::app);
-  //     CgalVect vect=line.to_vector();
-  //     ot << std::setprecision(10) << currentFileName() << "\t" << pt.x() << "\t" << pt.y() << "\t" << area << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;    
-  //   };
- 
+  writeOutGeometry(bgraphSeg); 
 
   return true;
 };
