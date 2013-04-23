@@ -39,8 +39,9 @@ from   erCvTools import *
 ER_TOLER_GEO = 1.e-3
 
 class erGeometryDropletInformation:
-    def __init__(self,incTime,x,y,area,princ_x,princ_y,fit):
+    def __init__(self,incTime,cnb,x,y,area,princ_x,princ_y,fit):
         self._incTime = incTime
+        self._cnb     = cnb
         self._x       = x
         self._y       = y
         self._area    = area
@@ -49,6 +50,8 @@ class erGeometryDropletInformation:
         self._fit     = fit
     def incTime(self):
         return self._incTime
+    def contour(self):
+        return self._cnb
     def x(self):
         return self._x
     def y(self):
@@ -68,13 +71,15 @@ def erReadGeometryFile(fichier):
     for ligne in lignes[1:]:
         res = string.split(ligne)
         ind = erGetImageNumber(res[0])
+        cnb = erGetContourNumber(res[1])
         geoChar.append(erGeometryDropletInformation(int(ind),
-                                                  float(res[1]),
+                                                    int(cnb),
                                                   float(res[2]),
                                                   float(res[3]),
                                                   float(res[4]),
                                                   float(res[5]),
-                                                  float(res[6])))
+                                                  float(res[6]),
+                                                  float(res[7])))
     return geoChar
 
 def erFilterGeometry(geoChar,filtre):

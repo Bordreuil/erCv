@@ -88,7 +88,9 @@ def erCleanDir(name_analysis):
 def erGetImageNumber(fichier):
     res = re.split("_|\.",fichier)
     return res[-2]
-
+def erGetContourNumber(fichier):
+    res = re.split("_",fichier)
+    return res[-1]
 def erGetBaseImage(name_image):
     """
     permet d avoir le nom sans l extension ni les numero 

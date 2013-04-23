@@ -55,7 +55,7 @@
 #include<fstream>
 #include<iomanip>
 #include<boost/filesystem.hpp>
-
+#include<boost/lexical_cast.hpp>
 #include<CGAL/linear_least_squares_fitting_2.h>
 
 
@@ -113,9 +113,10 @@ bool        erAnalysis::outputGeometry()
 {
   return _output_geometry_characteristics;
 };
-void erAnalysis::writeOutGeometry(SegmentList& bgraphSeg)
-{ 
-  if( outputGeometry() && bgraphSeg.size() > 6)
+void erAnalysis::writeOutGeometry(SegmentList& bgraphSeg,std::string dataFile)
+{ //std::cout << outputGeometryFile().c_str() << std::endl;
+  //std::cout << bgraphSeg.size() << std::endl;
+  if( outputGeometry() && bgraphSeg.size() > 40)
     {
       std::list<CgalTrian> triangs;
       if(!outputAxisymmetricGeometry())
@@ -141,7 +142,7 @@ void erAnalysis::writeOutGeometry(SegmentList& bgraphSeg)
 	}
 	  std::ofstream ot(outputGeometryFile().c_str(),std::ios_base::app);
 
-	  ot << std::setprecision(10) << currentFileName() << "\t" << pt.x() << "\t" << pt.y() << "\t" << area  << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;        
+	  ot << std::setprecision(10) << currentFileName() << "\t" << dataFile << "\t" << pt.x() << "\t" << pt.y() << "\t" << area  << "\t" << vect.x() << "\t" << vect.y() <<"\t" << fit << std::endl;        
     }
 };
 
@@ -152,11 +153,11 @@ void         erAnalysis::setOutputGeometryFile(std::string outputgeometry)
   std::cout << "-----Fichier de stockage de la geometry:\t\t" << _output_geometry_file << std::endl;
   if(outputAxisymmetricGeometry())
     {
-       out << "Nom_du_fichier\t\tCentroid_x\tCentroid_y\tVolume\tAxe_Princ_x\tAxe_Princ_y\tFit(0-1)\n";
+       out << "Nom_du_fichier\tNom_du_contour\tCentroid_x\tCentroid_y\tVolume\tAxe_Princ_x\tAxe_Princ_y\tFit(0-1)\n";
     }
   else
     {
-      out << "Nom_du_fichier\t\tCentroid_x\tCentroid_y\tAire\tAxe_Princ_x\tAxe_Princ_y\tFit(0-1)\n";
+      out << "Nom_du_fichier\tNom_du_contour\tCentroid_x\tCentroid_y\tAire\tAxe_Princ_x\tAxe_Princ_y\tFit(0-1)\n";
     };
 };
 
@@ -430,6 +431,114 @@ bool erMetalTransfertAnalysis::doItImage(erImage& ea)
 
   return true;
 };
+/********************************************************************
+
+
+             MULTI_TRANSFERT_ANALYSIS
+
+
+ *******************************************************************/
+
+erMultiMetalTransfertAnalysis::erMultiMetalTransfertAnalysis(){ };
+
+erMultiMetalTransfertAnalysis::erMultiMetalTransfertAnalysis( std::string name, std::string infofile):
+  erAnalysis( name, infofile), rectOI( ), param_smooth1( ), param_smooth2( ), param_canny( ), 
+  param_adaptive_threshold( ), param_alpha_shape()
+{}; 
+
+
+
+void erMultiMetalTransfertAnalysis::defineParameters( CvRect rect, erSmootP smooth1, erSmootP smooth2, erCannyP cann, erAdThrP adthr, erAlphaP alphas)
+{
+                    rectOI = rect;
+             param_smooth1 = smooth1;
+             param_smooth2 = smooth2;
+               param_canny = cann;
+  param_adaptive_threshold = adthr;
+         param_alpha_shape = alphas;
+};
+
+
+bool erMultiMetalTransfertAnalysis::doIt( std::string fich)
+{
+  erImage ea;
+  bool loaded;
+  char* file_name         = const_cast< char*>( fich.c_str());
+  setCurrentFileName(file_name);
+  boost::tie(ea, loaded) = erLoadImage( file_name);
+  if( !loaded) return false;
+  return doItImage(ea);
+};
+bool erMultiMetalTransfertAnalysis::doItImage(erImage& ea)
+{
+  erImage eb, ec;
+  std::list< CvPoint>   cvPts;
+  std::list< CgalPoint> cgalPts;
+  std::list< CgalSegmt> cgalSeg;
+  BgraphSegmtMap  connectedSegments; 
+  erEqualP pequ;
+  //std::cout << name << std::endl;
+  output_name = dir_analysis+"/"+name+"_multi_mtl";
+  
+ 
+ 
+  eb = erConvertToBlackAndWhite( &ea);
+  if(outputIntermediateImages())
+    {
+      char* nomb= const_cast< char*>( (output_name+"_1_blackWhite").c_str());
+      erSaveImage( &eb, file_name, nomb);
+    };
+  ec = erDef_ROI( &eb, &rectOI);
+ 
+  erCvSmooth( &ec, &param_smooth1);
+  if(outputIntermediateImages())
+    {
+      char* nomc= const_cast< char*>( (output_name+"_2_smooth").c_str());
+      erSaveImage( &ec, file_name, nomc);
+    };
+  erCvAdaptiveThreshold( &ec, &param_adaptive_threshold);
+  if(outputIntermediateImages())
+    {
+      char* nomd= const_cast< char*>( (output_name+"_3_adaptive").c_str());
+      erSaveImage( &ec, file_name, nomd);
+    };
+  erCvSmooth( &ec, &param_smooth2);
+  if(outputIntermediateImages())
+    {
+      char* nome= const_cast< char*>( (output_name+"_4_smooth").c_str());
+      erSaveImage( &ec, file_name, nome);
+    };
+  erCvCanny( &ec, &param_canny);
+  if(outputIntermediateImages())
+    {
+      char* nomf= const_cast< char*>( (output_name+"_5_canny").c_str());
+      erSaveImage( &ec, file_name, nomf);
+    };
+
+  IsEqualTo is_equal_255( 255);
+  erExtractCvPoints( cvPts, &ec, is_equal_255, rectOI);
+  
+  convertCvToCgalpoints( cvPts, cgalPts);
+
+  erAlphaEdges( cgalPts, cgalSeg, &param_alpha_shape);
+
+  erConnectedSegments( cgalSeg, connectedSegments);
+  BgraphSegmtMap::iterator dede = connectedSegments.begin();
+  uint idf=0;
+  for(;dede!=connectedSegments.end();dede++)
+    { std::string num=boost::lexical_cast<std::string>(idf);
+      std::string fich=output_name+"_"+num;
+      char* fileOut = const_cast< char*>(fich.c_str());
+      erPrintCgalPoint( dede->second,currentFileName(), fileOut);
+      writeOutGeometry(dede->second,fich);
+      idf+=1;
+    }
+ 
+ 
+
+  return true;
+};
+
 
 /* Analysis pour billes de plomb*/
 /********************************************************************

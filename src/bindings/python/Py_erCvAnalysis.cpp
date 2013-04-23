@@ -165,6 +165,84 @@ struct erMetalTransfertAnalysis_wrapper : erMetalTransfertAnalysis, bp::wrapper<
     return true;
   }
 };
+//-----------------------------------------------------------------------
+//
+//    ER_MULTI_METAL_ANALYSIS_WRAPPER
+//
+//-----------------------------------------------------------------------
+
+
+struct erMultiMetalTransfertAnalysis_wrapper : erMultiMetalTransfertAnalysis, bp::wrapper< erMultiMetalTransfertAnalysis > {
+  
+  erMultiMetalTransfertAnalysis_wrapper(erMultiMetalTransfertAnalysis const & arg )
+    : erMultiMetalTransfertAnalysis( arg )
+    , bp::wrapper< erMultiMetalTransfertAnalysis >(){
+    // copy constructor
+    
+  }
+  
+  erMultiMetalTransfertAnalysis_wrapper( )
+    : erMultiMetalTransfertAnalysis( )
+    , bp::wrapper< erMultiMetalTransfertAnalysis >(){
+    // null constructor
+    
+  }
+  
+  erMultiMetalTransfertAnalysis_wrapper(std::string name, std::string infofile="info" )
+    : erMultiMetalTransfertAnalysis( name, infofile )
+    , bp::wrapper< erMultiMetalTransfertAnalysis >(){
+    // constructor
+    
+  };
+  
+  virtual bool doIt( std::string arg0 ) {
+    if( bp::override func_doIt = this->get_override( "doIt" ) )
+      return func_doIt( arg0 );
+    else
+      return this->erMultiMetalTransfertAnalysis::doIt( arg0 );
+  }
+  virtual bool doItImage( erImage& arg0 ) {
+    if( bp::override func_doItImage = this->get_override( "doItImage" ) )
+      return func_doItImage( arg0 );
+    else
+      return this->erMultiMetalTransfertAnalysis::doItImage( arg0 );
+  }
+  
+  bool default_doIt( std::string arg0 ) {
+    return erMultiMetalTransfertAnalysis::doIt( arg0 );
+  };
+
+  bool doItNumPy(pyublas::numpy_array<unsigned short>& arr,std::string file_name="test_1.bmp")
+  {
+     const npy_intp* dims = arr.dims();
+    int ncol = dims[0];
+    int nlig = dims[1];
+    
+    unsigned short* storage = arr.data();
+    char*  file_c   =   const_cast<char*>(file_name.c_str());
+    setCurrentFileName(file_c);
+    
+    IplImage* im = cvCreateImage(cvSize(nlig,ncol),IPL_DEPTH_8U,3);
+    for(int i=0;i<ncol;i++)
+       {
+	  for(int j=0;j < nlig;j++)
+	  { 
+
+	    unsigned short va = storage[j+i*nlig]*256/65536;
+	    CvScalar val      = cvScalarAll(va);
+	    cvSet2D(im,i,j,val);
+	  };
+
+      }; 
+
+
+    erImage eim(im);
+   
+    erMultiMetalTransfertAnalysis::doItImage(eim);
+
+    return true;
+  }
+};
 
 
 //-----------------------------------------------------------------------
@@ -623,6 +701,40 @@ void export_erCvAnalysis(){
     .def_readwrite( "param_smooth1",            &erMetalTransfertAnalysis::param_smooth1 )    
     .def_readwrite( "param_smooth2",            &erMetalTransfertAnalysis::param_smooth2 )    
     .def_readwrite( "rectOI",                   &erMetalTransfertAnalysis::rectOI );
+  //-----------------------------------------------------------------------------------------------------------
+  //
+  // 
+  // Python ::::   ER_MULTI_TRANSFERT_ANALYSIS
+  //
+  //
+  //-----------------------------------------------------------------------------------------------------------  
+
+  
+  bp::class_< erMultiMetalTransfertAnalysis_wrapper, bp::bases< erAnalysis > >( "erMultiMetalTransfertAnalysis", bp::init< >() )    
+    .def( bp::init< std::string, bp::optional< std::string > >(( bp::arg("name"), bp::arg("infofile")="info" )) )    
+    
+    .def( 
+	 "defineParameters"
+	 , (void ( ::erMultiMetalTransfertAnalysis::* )( ::CvRect,::erSmootP,::erSmootP,::erCannyP,::erAdThrP,::erAlphaP ) )( &::erMultiMetalTransfertAnalysis::defineParameters )
+	 , ( bp::arg("arg0"), bp::arg("arg1"), bp::arg("arg2"), bp::arg("arg3"), bp::arg("arg4"), bp::arg("arg5") ) )  
+    
+   
+    .def( 
+	 "doIt"
+	 , (bool ( ::erMultiMetalTransfertAnalysis::* )( std::string ) )(&::erMultiMetalTransfertAnalysis::doIt)
+	 , (bool ( erMultiMetalTransfertAnalysis_wrapper::* )( std::string ) )(&erMultiMetalTransfertAnalysis_wrapper::default_doIt)
+	 , ( bp::arg("arg0") ) )
+    .def(
+	 "doItNumPy"
+	 ,  (bool ( ::erMultiMetalTransfertAnalysis_wrapper::* )(boost::python::numeric::array& ,std::string ) )(&::erMultiMetalTransfertAnalysis_wrapper::doItNumPy))
+  
+   
+    .def_readwrite( "param_adaptive_threshold", &erMultiMetalTransfertAnalysis::param_adaptive_threshold )    
+    .def_readwrite( "param_alpha_shape",        &erMultiMetalTransfertAnalysis::param_alpha_shape )    
+    .def_readwrite( "param_canny",              &erMultiMetalTransfertAnalysis::param_canny )    
+    .def_readwrite( "param_smooth1",            &erMultiMetalTransfertAnalysis::param_smooth1 )    
+    .def_readwrite( "param_smooth2",            &erMultiMetalTransfertAnalysis::param_smooth2 )    
+    .def_readwrite( "rectOI",                   &erMultiMetalTransfertAnalysis::rectOI );
  //-----------------------------------------------------------------------------------------------------------
   //
   // 

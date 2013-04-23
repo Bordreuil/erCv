@@ -85,7 +85,7 @@ struct erAnalysis
   char*       currentFileName();
   void        setCurrentFileName(char*);
   void        setOutputGeometryFile(std::string);
-  void        writeOutGeometry(SegmentList&);
+  void        writeOutGeometry(SegmentList&,std::string dataFile="one contour");
   std::string outputGeometryFile();
   bool        outputGeometry();
   bool        outputConvex();
@@ -261,6 +261,96 @@ struct erMetalTransfertAnalysis:public erAnalysis
       \param std::string : nom de l image
    */
   bool doIt( std::string);
+  virtual bool doItImage(erImage&);
+  /** Enregistrement des parametres
+      \param std::string : nom de l image
+  */
+ 
+  //						          A chaque passage, l ancien fichier est ecrase      */
+  CvRect         rectOI;                           /** <  Position de la zone d etude dans l image */
+  erSmootP       param_smooth1, param_smooth2;     /**  
+							Premier lissage du type BLUR: Augmente ou diminue l homegenite de l image.
+							Valeurs possibles numeros impairs: 1, 3, 5, ..., 2n+1 avec n Naturel.						   
+							Pour    +> Uniformise les niveaux de gris a l interieur du la goutelette
+							Contre +> Rendre difficil la detection du bord entre
+							la goutelette et les zones dans l espace a faible contraste
+							Pour    <- Plus facil la detection du contour de la goutelette
+							dans les zones a faible contraste
+							Contre <- Reduit l unfirmite a l interieur de la goutelette, 
+							donc plus difficil de determiner quelle est la macro goutte
+							
+							Deuxieme lissage du type MEDIAN 
+							Valeurs possibles numeros impairs: 1, 3, 5, ..., 2n+1 avec n Naturel.
+							Pour    +> Unifie les zones a egal niveau de gris,
+							en reduisant les espace blanche entre les dites zones,
+							si celle-ci sont minoritaires et rares
+							
+							Contre +> Peut ajouter des elements externes a la goutelette
+							et modifier sa forme et taille, notament vers les extremites de l image
+							Pour    <- Ameliore la perception de la taille reel de la macro goutte
+							Contre <- Peut  modifier la forme de la goutelette
+						   */
+  erCannyP       param_canny;                      /**  
+							Valeurs pour discriminer les bordes principaux 
+							selon le filtre de canny (Threshold I et II):
+							Valeurs possibles [0, 500]						   
+							Pour    +> Reduit le nombre de bords secondaire
+							detectes par la filtre 
+							Contre +> Reduit la posibilite d obtenir un contour 
+							continue sur le profil de la goutelette ( si le bord n'est pas bien definie)
+							Pour    <- Ameliore la posibilite d obtenier un contour continue
+							Contre <- Augmente le nombre de bord secondaire qui 
+							aparetraint dans l image final
+						   */
+  erAdThrP       param_adaptive_threshold;         /**
+						      Seuil adaptative par zones
+						      Valeurs possibles [0, 255]
+						      
+						      Seuil applique par zones:
+						      Pour    +> Ameliore la detection de la gouttelette dans
+						      le zones de faible contraste (aux extremes et somet de la goutte)
+						      Contre +> Peut mixer le profil de la macroi goutte avec les
+						      zones a forte contraste dans l espace interelectrode
+						      
+						      Pour    <- Empeche la confusion du profil de la macro
+						      goutte avec des elements externes dans l espace interelectrode
+						      Contre <- 
+						      
+						      Zone d application du seuillage:
+						      Pour    +> Ameliore la densite de la macro goutte
+						      (reunis le zones non conexes de la macro goutte)
+						      Contre +> Reunis toutes le zones de l image dans une seule 
+						      niveau de gris (seuil maximal de gris)
+						      Pour    <- Permet de ajuster le mieu la taille reel de la macro goutte
+						      Contre <- Reunis toutes les zones de l image dans une seul niveau (blanche)
+						   */
+  erAlphaP       param_alpha_shape;                /** 
+						       Parametre pour travailler avec les alpha shape de CGAL 
+						       Valeurs possibles [ 1, ) 
+						   */  
+
+
+};
+
+struct erMultiMetalTransfertAnalysis:public erAnalysis
+{
+  /** Constructeur par defaul */
+  erMultiMetalTransfertAnalysis( );
+  /** Cosntructeur a partir du nom de l image 
+      \param std::string : nom de l image
+      \param std::string : nom des fichers sortie
+  */
+  erMultiMetalTransfertAnalysis( std::string name, std::string infofile = "info");
+    /** Definition des paramettres interactive
+      \param std::string : nom de l image
+  */     
+ 
+  void defineParameters( CvRect, erSmootP, erSmootP, erCannyP, erAdThrP, erAlphaP);
+
+  /** Application de l analyse
+      \param std::string : nom de l image
+   */
+  bool doIt( std::string);
   bool doItImage(erImage&);
   /** Enregistrement des parametres
       \param std::string : nom de l image
@@ -331,6 +421,8 @@ struct erMetalTransfertAnalysis:public erAnalysis
 
 
 };
+
+
 /** \brief  Analyse billes en plomb
 
 

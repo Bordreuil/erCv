@@ -167,6 +167,28 @@ BgraphSegmt filterMapOfSegments( BgraphSegmtMap& map_of_connected, Criteria& cri
   return output;
 };
 
+template< typename Criteria>
+BgraphSegmtMap filterMapOfSegmentsWithCriteria( BgraphSegmtMap& map_of_connected, Criteria& crit)
+{
+  BgraphSegmtMap::iterator deb,fi;
+  BgraphSegmtMap output;
+  uint nmax    = 0;
+  uint current = 0;
+  
+  for( deb = map_of_connected.begin(); deb != map_of_connected.end(); deb++)
+    
+    { 
+      bool Criterio = crit( deb->second.begin(), deb->second.end());
+ 
+      if( crit( deb->second.begin(), deb->second.end()))
+      	{	  
+	  output[deb->first] = deb->second;
+	};
+      
+    };
+  
+  return output;
+};
 
 BgraphSegmt filterLargestMapOfSegments( BgraphSegmtMap& map_of_connected)
 {
@@ -212,8 +234,10 @@ void erLargestPolygon( Container cgalSegmts, Container2& bgraphSegmts)
 template< class Container>
 void erConnectedSegments( Container cgalSegmts, BgraphSegmtMap& c_segments)
 {
-  c_segments = getConnectedSegments( cgalSegmts.begin(), cgalSegmts.end());
-  std::cout << "Nbre de contours connectes:" << c_segments.size() << std::endl;
+  BgraphSegmtMap c_segment = getConnectedSegments( cgalSegmts.begin(), cgalSegmts.end());
+  SegmentsSetIsClosed criteria;
+  c_segments = filterMapOfSegmentsWithCriteria( c_segment, criteria);
+  //std::cout << "Nbre de contours connectes:" << c_segments.size() << std::endl;
   
 };
 #endif
