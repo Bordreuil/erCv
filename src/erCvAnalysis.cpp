@@ -297,12 +297,20 @@ bool erWireAnalysis::doItImage(erImage& ea)
        erCvSmooth( &ec, &param_smooth1);
        
        erCvAdaptiveThreshold( &ec, &param_adaptive_threshold);
-       
+       if(outputIntermediateImages())
+	 {
+	   char* nomc= const_cast< char*>( (output_name+"_1_adp").c_str());
+	   erSaveImage( &ec, file_name, nomc);
+	 };
        erCvSmooth( &ec, &param_smooth2);
        
        erCvCanny( &ec, &param_canny);
-       
-       erSaveImage( &ec, currentFileName(), nom);
+         if(outputIntermediateImages())
+	 {
+	   char* nomc= const_cast< char*>( (output_name+"_2_can").c_str());
+	   erSaveImage( &ec, file_name, nomc);
+	 };
+	 //erSaveImage( &ec, currentFileName(), nom);
        IsEqualTo is_equal_255( 255); 
        erExtractCvPoints( cv_pts, &ec, is_equal_255, rectOI);
        convertCvToCgalpoints( cv_pts, cgal_pts);
@@ -478,14 +486,17 @@ bool erMultiMetalTransfertAnalysis::doItImage(erImage& ea)
   BgraphSegmtMap  connectedSegments; 
   erEqualP pequ;
   //std::cout << name << std::endl;
-  output_name = dir_analysis+"/"+name+"_multi_mtl";
+  output_name = dir_analysis+"/"+name+"_mult_mtl";
   
  
  
   eb = erConvertToBlackAndWhite( &ea);
   if(outputIntermediateImages())
     {
-      char* nomb= const_cast< char*>( (output_name+"_1_blackWhite").c_str());
+    
+      
+      char* nomb= const_cast<char*>( (output_name+"_1").c_str());
+    
       erSaveImage( &eb, file_name, nomb);
     };
   ec = erDef_ROI( &eb, &rectOI);
@@ -493,25 +504,33 @@ bool erMultiMetalTransfertAnalysis::doItImage(erImage& ea)
   erCvSmooth( &ec, &param_smooth1);
   if(outputIntermediateImages())
     {
-      char* nomc= const_cast< char*>( (output_name+"_2_smooth").c_str());
+    
+      char* nomc= const_cast< char*>( (output_name+"_2").c_str());
+    
       erSaveImage( &ec, file_name, nomc);
     };
   erCvAdaptiveThreshold( &ec, &param_adaptive_threshold);
   if(outputIntermediateImages())
     {
-      char* nomd= const_cast< char*>( (output_name+"_3_adaptive").c_str());
+     
+      char* nomd= const_cast< char*>( (output_name+"_3").c_str());
+   
       erSaveImage( &ec, file_name, nomd);
     };
   erCvSmooth( &ec, &param_smooth2);
   if(outputIntermediateImages())
     {
-      char* nome= const_cast< char*>( (output_name+"_4_smooth").c_str());
+    
+      char* nome= const_cast< char*>( (output_name+"_4").c_str());
+      
       erSaveImage( &ec, file_name, nome);
     };
   erCvCanny( &ec, &param_canny);
   if(outputIntermediateImages())
     {
-      char* nomf= const_cast< char*>( (output_name+"_5_canny").c_str());
+     
+      char* nomf= const_cast< char*>( (output_name+"_5").c_str());
+      
       erSaveImage( &ec, file_name, nomf);
     };
 
@@ -526,10 +545,17 @@ bool erMultiMetalTransfertAnalysis::doItImage(erImage& ea)
   BgraphSegmtMap::iterator dede = connectedSegments.begin();
   uint idf=0;
   for(;dede!=connectedSegments.end();dede++)
-    { std::string num=boost::lexical_cast<std::string>(idf);
+    { 
+      std::string num=boost::lexical_cast<std::string>(idf);
       std::string fich=output_name+"_"+num;
+      Graph localgraph;
+      PointVertexMap ptvmap;
       char* fileOut = const_cast< char*>(fich.c_str());
-      erPrintCgalPoint( dede->second,currentFileName(), fileOut);
+      //boost::tie(localgraph,ptvmap) = constructGraphFromSegments(dede->second.begin(),dede->second.end());
+      //std::cout << "nbre segments:" << dede->second.size() << " ";
+      //std::list<CgalPoint> contour  = erLinkedListOfVertex(localgraph);
+      //std::cout << "nbre de points:" << contour.size() << std::endl;
+      erPrintCgalPoint(dede->second,currentFileName(), fileOut);
       writeOutGeometry(dede->second,fich);
       idf+=1;
     }

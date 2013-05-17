@@ -36,7 +36,7 @@ import string
 import numpy
 from   erCvTools import *
 
-ER_TOLER_GEO = 1.e-3
+ER_TOLER_GEO = 1.e-5
 
 class erGeometryDropletInformation:
     def __init__(self,incTime,cnb,x,y,area,princ_x,princ_y,fit):
@@ -162,6 +162,35 @@ class erPoint:
 
     def __eq__(self,other):
         return abs(self.x()-other.x()) < ER_TOLER_GEO and abs(self.y()-other.y()) < ER_TOLER_GEO
+
+def erLinkedContour(X):
+        pts=[]
+        
+        for x,y in X[:,:]:
+            sp = erPoint(x,y)
+            if sp not in pts:
+                pts.append(sp)
+
+        ptts=[]
+        for pt in pts:
+            ptts.append([pt.x(),pt.y()])
+
+        Xn    = array(ptts,'d')
+        ind  = arange(0,Xn.shape[0])
+        ind  = list(ind)
+        mini = ind.pop(Xn[:,1].argmax())
+        indok= [mini]
+            
+        Xold = Xn[mini,0]
+        Yold = Xn[mini,1]
+
+        while(len(ind) > 0 ):
+                Xind = Xn[ind,:]
+                mini =  (sqrt((Xind[:,0]-Xold)**2.+(Xind[:,1]-Yold)**2.)).argmin()
+                Xold = Xind[mini,0]
+                Yold = Xind[mini,1]
+                indok.append(ind.pop(mini))
+        return Xn[indok,:]
 
 def erSmoothContour(X,window_len=6,window='hanning'):
     xx=scipySmooth(X[:,0],window_len=window_len,window=window)

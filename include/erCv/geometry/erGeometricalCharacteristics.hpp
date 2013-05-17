@@ -72,14 +72,14 @@ std::list< CgalTrian> erGeometryExtractTriangles( InputSegmentIterator debut, In
 };
 
 template<typename InputSegmentIterator>
- std::list< CgalTrian> erGeometryExtractTrianglesWithMesh( InputSegmentIterator debut, InputSegmentIterator fin)
+std::list< CgalTrian> erGeometryExtractTrianglesWithMesh( InputSegmentIterator debut, InputSegmentIterator fin,double mesh_angle=0.125,double mesh_size=4.)
  {
    CgalDT cgadt ;
    for( InputSegmentIterator icg=debut;icg!=fin;icg++)
      {
        cgadt.insert_constraint(icg->source(),icg->target());
      };
-   CGAL::refine_Delaunay_mesh_2(cgadt, Criteria(0.125, 2.));
+   CGAL::refine_Delaunay_mesh_2(cgadt, Criteria(mesh_angle,mesh_size));
    
    CgalDT::Finite_edges_iterator bed,nif;
    // std::cout << "Nbre de noeuds:" << cgadt.number_of_vertices() << std::endl;
@@ -160,11 +160,13 @@ template<typename InputGeoObjectIterator>
 double erGetAreaAxi(InputGeoObjectIterator debut,InputGeoObjectIterator fin,CgalPoint pt,CgalVect vect)
 {
   double area(0.);
+  CgalLine line(pt,vect);
   for(;debut!=fin;debut++)
     { double local_area = debut->area();
       CgalPoint centre_triangle = CGAL::centroid(*debut);
+      double dist=sqrt(CGAL::squared_distance(centre_triangle,line));
       // std::cout << centre_triangle.x() - pt.x() << " " << centre_triangle.y()-pt.y() << std::endl;
-      area+=local_area*3.14116*std::abs(centre_triangle.x() - pt.x());
+      area+=local_area*3.14116*dist;
     };
   return area;
 };

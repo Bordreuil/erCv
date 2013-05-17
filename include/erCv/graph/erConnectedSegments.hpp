@@ -238,6 +238,18 @@ void erConnectedSegments( Container cgalSegmts, BgraphSegmtMap& c_segments)
   SegmentsSetIsClosed criteria;
   c_segments = filterMapOfSegmentsWithCriteria( c_segment, criteria);
   //std::cout << "Nbre de contours connectes:" << c_segments.size() << std::endl;
-  
 };
+// std::vector<std::list<CgalPoint> > erConnectedLinkedPoints(Container cgalSegmts)
+// {
+//   BgraphSegmtMap bgraphsgmt;
+//   std::vector<std::list<CgalPoint> > contours;
+//   erConnectedSegments(cgalSegmts,bgraphsgmt);
+//   BgraphSegmtMap::iterator dede = bgraphsgmt.begin();
+//   uint idf=0;
+//   for(;dede!=bgraphsgmt.end();dede++)
+//     { 
+//       contours.push_back(erLinkedListOfVertex(bgraphsgmt));
+//     }
+//   return contours;
+// };
 #endif

@@ -38,6 +38,7 @@
 #include <boost/config.hpp>
 #include <boost/graph/adjacency_list.hpp>
 #include <erCv/geometry/erCgalBase.hpp>
+
 /** 
     Definition des types pour la gestion des graphes
 */
@@ -52,8 +53,23 @@ typedef boost::adjacency_list < boost::vecS, boost::vecS, boost::undirectedS,
 				boost::property<boost::edge_weight_t, int> > Graph;
 
 typedef boost::property_map< Graph, boost::vertex_name_t>::type                  Points_graph_map_t;
-//typedef boost::graph_traits< Graph>::vertex_descriptor                           Vertex;
-typedef std::map< CgalPoint, Vertex>                                             PointVertexMap;
+typedef boost::graph_traits< Graph>::vertex_descriptor                           Vertex;
+typedef boost::graph_traits<Graph>::adjacency_iterator                           NeighbourVertexIterator;
+
+class ComparePoint
+{
+public :
+bool operator()(CgalPoint pt1,CgalPoint pt)
+{
+  if(CGAL::squared_distance(pt1,pt) < 1.e-8) return false;
+  return CGAL::lexicographically_xy_smaller(pt1,pt);
+
+};
+};
+typedef std::map< CgalPoint, Vertex,ComparePoint>            PointVertexMap;
+
+
+//typedef std::map< CgalPoint, Vertex>                                             PointVertexMap;
 
 template<typename Iterator>
 std::pair<Graph,PointVertexMap> constructGraphFromSegments(Iterator debut,Iterator fin)
@@ -99,5 +115,47 @@ std::pair<Graph,PointVertexMap> constructGraphFromSegments(Iterator debut,Iterat
   return std::make_pair(graph,points);
 };
 
+std::list<CgalPoint> erLinkedListOfVertex(Graph& graph)
+{
+      std::list<CgalPoint> linkedPoints;
+      typedef boost::property_map<Graph,boost::vertex_name_t>::type VertexName;
+      Vertex depart             = boost::vertex(0,graph);
+ 
+      std::list<Vertex>           visitedVertices;
+      std::list<Vertex>::iterator iterg,iterd;
+      NeighbourVertexIterator     gauche,droite;
+
+      visitedVertices.push_back(depart);
+      boost::tie(gauche,droite) = boost::adjacent_vertices(depart,graph);
+
+      visitedVertices.push_back(*gauche);
+      depart = *gauche;
+      int num_loop=0;
+      while(visitedVertices.size() < boost::num_vertices(graph) && num_loop < 10000)
+	{
+	  num_loop++;
+	  boost::tie(gauche,droite) = boost::adjacent_vertices(depart,graph);
+	  iterg = std::find(visitedVertices.begin(),visitedVertices.end(),*gauche);
+	  iterd = std::find(visitedVertices.begin(),visitedVertices.end(),*(--droite));
+	  if (iterg != visitedVertices.end() and iterd == visitedVertices.end())
+	    {
+
+	      depart = *(droite);
+	      visitedVertices.push_back(depart);
+	    }
+	  if (iterg == visitedVertices.end() and iterd != visitedVertices.end())
+	    {
+	      visitedVertices.push_back(*gauche);
+	      depart = *gauche;
+	    }
+       
+     
+	}
+      for(iterg=visitedVertices.begin();iterg!=visitedVertices.end();iterg++)
+	{ CgalPoint pt = boost::get(boost::vertex_name,graph,*iterg);
+	  linkedPoints.push_back(pt);
+	}
+      return linkedPoints;
+};
 
 #endif

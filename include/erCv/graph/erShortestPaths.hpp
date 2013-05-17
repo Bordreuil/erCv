@@ -97,5 +97,46 @@ std::list<CgalPoint> erGetShortestPath(Iterator debut,Iterator fin,erCerc zone_d
   
 };
 
+template<typename Segments>
+std::list<CgalPoint> erGetLongestPath(Segments& segments)
+{
+  
+  typename Segments::iterator debut,fin;
+ 
 
+  std::list<CgalPoint> cgal_wire_points;
+  Graph                graph;
+  PointVertexMap       points;
+  
+  boost::tie(graph,points) = constructGraphFromSegments(debut,fin);
+
+  Vertex begin_vertex             = boost::vertex(0,graph);
+  Vertex end_vertex               = boost::vertex(1,graph);
+  
+  boost::property_map<Graph, boost::vertex_name_t>::type  cgp      = boost::get(boost::vertex_name, graph);
+  boost::property_map<Graph, boost::vertex_index_t>::type indexmap = boost::get(boost::vertex_index, graph);
+     
+  boost::graph_traits<Graph>::vertex_iterator ibeg,iend;
+
+  boost::property_map<Graph, boost::vertex_distance_t>::type    d         = boost::get(boost::vertex_distance, graph);
+  boost::property_map<Graph, boost::vertex_predecessor_t>::type p         = boost::get(boost::vertex_predecessor, graph);
+  boost::property_map<Graph, boost::edge_weight_t>::type        weightmap = boost::get(boost::edge_weight, graph);
+      
+  boost::dijkstra_shortest_paths(graph,begin_vertex, p, d, weightmap, indexmap, 
+			      std::less<int>(), boost::closed_plus<int>(), 
+                          (std::numeric_limits<int>::max)(), 0,
+			  boost::default_dijkstra_visitor());
+
+  Vertex current = end_vertex;
+  while(current != begin_vertex)
+	{
+	  cgal_wire_points.push_back(cgp[current]);
+	  current = p[current];
+	};
+      cgal_wire_points.reverse();
+  
+
+  return cgal_wire_points;
+  
+};
 #endif

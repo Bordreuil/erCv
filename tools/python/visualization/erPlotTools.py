@@ -67,7 +67,7 @@ def erTransformSegmentsToPointsList(x):
                pts.append(pt1)
            if pt2 not in pts:
                pts.append(pt2)
-    #ed  = edges.pop(0)
+    ed  = edges.pop(0)
     #pts.append(ed.target())
     #inc = 0 
     #while(len(edges) != 0 and inc < 250):
