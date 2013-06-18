@@ -65,9 +65,22 @@ erCalibration::erCalibration(const char* name_image_patron,const char* name_imag
       
       cvCvtColor( image_mesure_color, _image_mesure, CV_RGB2GRAY);
       cvCvtColor( image_patron_color, _image_patron, CV_RGB2GRAY);
-     
+      double cuadro_dim_x, cuadro_dim_y;
+      boost::tie( cuadro_dim_x, cuadro_dim_y) = real_dimensions( file_dimention);
+      detect_corners(cuadro_dim_x,cuadro_dim_y);
+    
+    }
+  else
+    {
+      std::cout << "...La calibration ne peut pas etre instancie\n";
+    };
+};
+
+
+void erCalibration::detect_corners(double cuadro_dim_x,double cuadro_dim_y)
+{
       _image_mesure->origin = _image_patron->origin;
-      _board_sz             = cvSize(board_w,board_h);
+      _board_sz             = cvSize(_board_w,_board_h);
       _warp_matrix          = cvCreateMat(3,3,CV_32FC1);
  
       bool idp              = find_corners(_image_patron,_corners_patron);
@@ -84,21 +97,22 @@ erCalibration::erCalibration(const char* name_image_patron,const char* name_imag
 	      corners_mesure[i] = _corners_mesure[i];
 	    }
 	  cvGetPerspectiveTransform( corners_mesure, corners_patron, _warp_matrix);
-	  double cuadro_dim_x, cuadro_dim_y;
-	  boost::tie( cuadro_dim_x, cuadro_dim_y) = real_dimensions( file_dimention);
+	 
+	 
 	  boost::tie( _mm_per_pixel_x, _mm_per_pixel_y) = compute_pixel_to_mm( corners_patron, cuadro_dim_x, cuadro_dim_y);
 	};
-    }
-  else
-    {
-      std::cout << "...La calibration ne peut pas etre instancie\n";
-    };
+
 };
 
+void erCalibration::set_patron(IplImage* patron)
+{
+  _image_patron = patron;
+}
 
-
-
-
+void erCalibration::set_mesure(IplImage* mesure)
+{
+  _image_mesure = mesure;
+};
 
 
 erCalibration::~erCalibration(){}; 
@@ -128,14 +142,30 @@ bool erCalibration::find_corners( IplImage *im, CornerContainer& corners_contain
 {
   int          corner_count=0;
   IplImage     *image ; 
-  CvPoint2D32f corners[_num_coins];
-  bool identified;
+  CvPoint2D32f corners[_num_coins],cornersTemp[_num_coins];
+  bool         identified;
   image = cvCloneImage(im);
 
-  int found = erCvFindChessboardCorners( image, _board_sz, corners, &corner_count, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
-
-  std::cout << "corner_count: " << corner_count << std::boolalpha << " found: " << found << std::endl;
-  std::cout << "_board_sz.x: " << _board_sz.width << "_board_sz.y: " << _board_sz.height <<  std::endl;
+  int found = erCvFindChessboardCorners( image, _board_sz, cornersTemp, &corner_count, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
+ 
+  if (found==0)
+    { double xmin = 1000.;
+      double ymax = -1000;
+      int start;
+      for(int i=0;i < _num_coins;i++)
+	if (cornersTemp[i].x <= xmin && cornersTemp[i].y >= ymax) {xmin=cornersTemp[i].x;ymax=cornersTemp[i].y;start=i;}
+     
+      for(int i=0;i < _num_coins;i++)
+	{int j = start-i;
+	  if (j < 0.){j+=_num_coins;}
+	  corners[j] = cornersTemp[i];
+	}			
+    
+    }
+  erCvDrawChessboardCorners(im,_board_sz,corners,corner_count,1);
+  //erShowImage("corners", im);
+  //std::cout << "corner_count: " << corner_count << std::boolalpha << " found: " << found << std::endl;
+  //std::cout << "_board_sz.x: " << _board_sz.width << "_board_sz.y: " << _board_sz.height <<  std::endl;
   if(corner_count<4)
     {
       identified = false;
@@ -156,7 +186,7 @@ bool erCalibration::find_corners( IplImage *im, CornerContainer& corners_contain
 erImage erCalibration::transform_image( erImage ima)
 { CvSize   cs = cvGetSize(_image_patron);
   IplImage * ir = cvCreateImage( cvGetSize(_image_patron), ima.depth, ima.nChannels);
-  std::cout << cs.width << " " << cs.height << " " << ima.nChannels << std::endl;
+  //std::cout << cs.width << " " << cs.height << " " << ima.nChannels << std::endl;
   IplImage * im = &ima;
   if(_identified)
     {
@@ -204,8 +234,8 @@ erFactorRealDimension erCalibration::real_dimensions( char* file_dim)
     }
   else
     {
-      std::cout << "Lecture de ficher pour le dimension du 'cuadro' imposible" << std::endl;
-      std::cout << "Facteur de conversion par defaut 1" << std::endl;
+      std::cerr << "--erCv::Lecture de ficher pour le dimension du 'cuadro' imposible" << std::endl;
+      std::cerr << "--erCv::Facteur de conversion par defaut 1" << std::endl;
       dim_x = 1;
       dim_y = 1;
       return std::make_pair( dim_x, dim_y);

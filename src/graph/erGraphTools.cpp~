@@ -1,0 +1,20 @@
+#include<erCv/graph/erGraphTools.hpp>
+
+std::pair<bool,Vertex> findVertexInCerc(PointVertexMap& pvm,erCerc& cerc)
+{
+  PointVertexMap::iterator fin,debut;
+  CgalPoint centre(cerc.centro.x,cerc.centro.y);
+  double    squared_radius = cerc.radio*cerc.radio;
+
+  debut = pvm.begin();
+  fin   = pvm.end()  ;
+  for(;debut!=fin;debut++)
+    {
+      if(squared_distance(centre,debut->first) < squared_radius)
+	{
+	  return std::make_pair(true,debut->second);
+	};
+      
+    };
+  return std::make_pair(false,Vertex());
+};

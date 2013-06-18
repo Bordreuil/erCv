@@ -32,30 +32,26 @@
 // 
 // The fact that you are presently reading this means that you have had
 // knowledge of the CeCILL license and that you accept its terms.
-#ifndef _ERCV_GRAPH_TOOLS_HPP_
-#define _ERCV_GRAPH_TOOLS_HPP_
 
+#include<erCv/graph/erGraphTools.hpp>
+#include<CGAL/squared_distance_2.h>
 
-#include "erGraph.hpp"
-#include <erCv/erCvBase.hpp>
+std::pair<bool,Vertex> findVertexInCerc(PointVertexMap& pvm,erCerc& cerc)
+{
+  PointVertexMap::iterator fin,debut;
+  CgalPoint centre(cerc.centro.x,cerc.centro.y);
+  double    squared_radius = cerc.radio*cerc.radio;
 
-std::pair<bool,Vertex> findVertexInCerc(PointVertexMap& pvm,erCerc& cerc);
-// {
-//   PointVertexMap::iterator fin,debut;
-//   CgalPoint centre(cerc.centro.x,cerc.centro.y);
-//   double    squared_radius = cerc.radio*cerc.radio;
+  debut = pvm.begin();
+  fin   = pvm.end()  ;
 
-//   debut = pvm.begin();
-//   fin   = pvm.end()  ;
-//   for(;debut!=fin;debut++)
-//     {
-//       if(squared_distance(centre,debut->first) < squared_radius)
-// 	{
-// 	  return std::make_pair(true,debut->second);
-// 	};
+  for(;debut!=fin;debut++)
+    {
+      if(squared_distance(centre,debut->first) < squared_radius)
+	{
+	  return std::make_pair(true,debut->second);
+	};
       
-//     };
-//   return std::make_pair(false,Vertex());
-// };
-
-#endif
+    };
+  return std::make_pair(false,Vertex());
+};

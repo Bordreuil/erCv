@@ -77,25 +77,35 @@ struct erAnalysis
   /**
      Methode permettant de creer l'analyse dans les classes derivees
    */
-  void  create( ); 
+  void        create( ); 
 
   /** Creation de la matrix de calibration pour les images
    */
   void        defineCalibration( std::string, std::string);
+  /* \brief permet d avoir le nom du fichier courant correspondant au traitement en cours */
   char*       currentFileName();
+  /* \brief affecte le nom de fichier pour le traitement en cours */
   void        setCurrentFileName(char*);
+  /* \brief affecte un nom au fichier de sortie pour les calculs geometriques, cette methode initialise le fichier*/
   void        setOutputGeometryFile(std::string);
+  /* \brief calcule et ecrit la liste de segments en sortie */
   void        writeOutGeometry(SegmentList&,std::string dataFile="one contour");
+  /* \brief recuper le nom du fichier affecte pour la geometrie */
   std::string outputGeometryFile();
+  /* \brief permet de savoir si on sort la geometrie ou pas */
   bool        outputGeometry();
+  void        setOuputGeometry(bool);
+  /* \brief permet de savoir si la geometrie est convexe ou pas */
   bool        outputConvex();
   void        setOutputConvex(bool);
-  void        setOuputGeometry(bool);
+  /* \brief permet de savoir si on sort la geometrie de maniere axisymmetrique */
   bool        outputAxisymmetricGeometry();
+  void        setOutputAxisymmetricGeometry(bool);
+  /* \brief sort ou non les images intermediares ( a utiliser en debuggage) */
   void        setOutputIntermediateImages(bool);
   bool        outputIntermediateImages();
-  void        setOutputAxisymmetricGeometry(bool);
-  /* \brief Application de l Analysis avec des parametres introduit dans le ficher de finition de l 'experiance.
+ 
+  /* \brief Application de l Analysis avec des parametres introduit dans le ficher de finition de l 'experience.
    */
   virtual bool doIt     ( std::string)=0; 
   virtual bool doItImage(erImage&)   =0;
@@ -111,6 +121,7 @@ struct erAnalysis
   bool                 _output_intermediate_images;
   std::string          _output_geometry_file;
   char* file_name;
+  //std::map<int,
 };
 
 

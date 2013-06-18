@@ -31,6 +31,15 @@ ADD_LIBRARY(erCv params
 		 erCvInfofile
 		 erCvTools
 		 erCvAnalysis
+		 analysis/erMacroDropAnalysis.cpp
+		 analysis/erWireAnalysis.cpp
+		 analysis/erMetalTransfertAnalysis.cpp
+		 analysis/erMultiMetalTransfertAnalysis.cpp
+		 analysis/erWeldPoolAnalysis.cpp
+		 graph/erConnectedSegments.cpp
+		 graph/erGraph.cpp
+		 graph/erGraphTools.cpp
+		 geometry/erConstrainedTriangulation.cpp
 		 #erCvMacroDropAnalysis
 	         Gui/erCvFiltersUser
 		 Gui/erCvUserInteraction

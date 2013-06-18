@@ -4,12 +4,12 @@
 
 #include "boost/python.hpp"
 #include "pyublas/numpy.hpp"
-
+#include <boost/numeric/ublas/storage.hpp>
 namespace bp = boost::python;
 
 //-----------------------------------------------------------------------
 //
-//    ER_ANALYSIS_WRAPPER
+//    ER_CALIBRATION_WRAPPER
 //
 //-----------------------------------------------------------------------
 
@@ -27,26 +27,28 @@ struct erCalibration_wrapper : erCalibration, bp::wrapper< erCalibration > {
     : erCalibration(src.c_str(),tar.c_str(),ncx,ncy )
   {
   }
-  pyublas::numpy_array<unsigned char> useCalibration(pyublas::numpy_array<unsigned short>& arr_in)
-		    
-		   
+
+  pyublas::numpy_array<unsigned char> useCalibration(pyublas::numpy_array<unsigned char> arr_in)		   
   {
     const npy_intp* dims = arr_in.dims();
     int ncol = dims[0];
     int nlig = dims[1];
+    //std::cout << ncol << " " << nlig << " " << arr_in.ndim()  << std::endl;
 
-    unsigned short* storage = arr_in.data();
-    IplImage* imref  = cvCreateImage(cvSize(nlig,ncol),IPL_DEPTH_8U,1);
-    
+    unsigned char * storage = arr_in.data();
+    IplImage*       imref   = cvCreateImage(cvSize(nlig,ncol),IPL_DEPTH_8U,1);
+    //std::ofstream out("test.dat");
     for(int i=0;i<ncol;i++)
        {
 	  for(int j=0;j < nlig;j++)
 	  { 
-
-	    unsigned short va = storage[j+i*ncol]*256/65536;
+	    
+	    unsigned char va = storage[j*3+i*nlig*3]; //*256/65536;
+	    //out << int(va) << " ";
 	    CvScalar val      = cvScalarAll(va);
 	    cvSet2D(imref,i,j,val);
 	  };
+	  //out << std::endl;
 	  
        };
 
@@ -62,22 +64,51 @@ struct erCalibration_wrapper : erCalibration, bp::wrapper< erCalibration > {
     pyublas::numpy_array<unsigned char> arr_out(cvs.width*cvs.height);
     unsigned char* storout  = arr_out.data();
     for(int i=0;i<cvs.height;i++)
-    	  {
-    	  for(int j=0;j < cvs.width;j++)
-    	  { 
+     	  {
+     	  for(int j=0;j < cvs.width;j++)
+     	  { 
 	
-	    CvScalar val      = cvGet2D(&eout,i,j);
+     	    CvScalar val      = cvGet2D(&eout,i,j);
 	   
-	    storout[j+i*cvs.height]     = val.val[0];
+     	    storout[j+i*cvs.width]     = val.val[0];
 	  
-	  };
-      };
+     	  };
+       };
    
-    npy_intp dimsout [2] = {cvs.width,cvs.height};
+    npy_intp dimsout [2] = {cvs.height,cvs.width};
     arr_out.reshape(2,dimsout);
     return arr_out;
   }
 };
+
+//   boost::python::numeric::array useCalibration(boost::python::numeric::array arr_in)		   
+//   {
+    
+//     IplImage*       imref   = cvCreateImage(cvSize(nlig,ncol),IPL_DEPTH_8U,1);
+    
+//     for(int i=0;i<ncol;i++)
+//        {
+// 	  for(int j=0;j < nlig;j++)
+// 	  { 
+	    
+// 	    unsigned char va = storage[j+i*nlig]; //*256/65536;
+// 	    //std::cout <<  i << " " << j  << " " << int(va) << " " << std::endl;
+// 	    CvScalar val      = cvScalarAll(va);
+// 	    cvSet2D(imref,i,j,val);
+// 	  };
+// 	  //std::cout << std::endl;
+	  
+//        };
+
+//     erImage eim(imref);
+    
+//     erImage eout;
+
+//     eout = this->transform_image(eim);
+//     boost::python::
+   
+//   }
+// };
 
 // Using =======================================================================
 //using namespace boost::python;

@@ -32,30 +32,67 @@
 // 
 // The fact that you are presently reading this means that you have had
 // knowledge of the CeCILL license and that you accept its terms.
-#ifndef _ERCV_GRAPH_TOOLS_HPP_
-#define _ERCV_GRAPH_TOOLS_HPP_
+//
+// This part of the code comes directly from an exercice of Andreas Fabri 
 
+#include<erCv/geometry/erConstrainedTriangulation2.hpp>
 
-#include "erGraph.hpp"
-#include <erCv/erCvBase.hpp>
+void
+initializeID(const CDT& ct)
+{
+  for(All_faces_iterator it = ct.all_faces_begin(); 
+      it != ct.all_faces_end(); 
+      ++it)
+    {
+    it->set_counter(-1);
+  }
+}
+void 
+discoverComponent(const CDT & ct, 
+		  Face_handle start, 
+		  int index, 
+		  std::list<CDT::Edge>& border )
+{
+  if(start->counter() != -1){
+    return;
+  }
+  std::list<Face_handle> queue;
+  queue.push_back(start);
 
-std::pair<bool,Vertex> findVertexInCerc(PointVertexMap& pvm,erCerc& cerc);
-// {
-//   PointVertexMap::iterator fin,debut;
-//   CgalPoint centre(cerc.centro.x,cerc.centro.y);
-//   double    squared_radius = cerc.radio*cerc.radio;
+  while(! queue.empty()){
+    Face_handle fh = queue.front();
+    queue.pop_front();
+    if(fh->counter() == -1){
+      fh->counter() = index;
+      fh->set_in_domain(index%2 == 1);
+      for(int i = 0; i < 3; i++){
+	CDT::Edge e(fh,i);
+	Face_handle n = fh->neighbor(i);
+	if(n->counter() == -1){
+	  if(ct.is_constrained(e)){
+	    border.push_back(e);
+	  } else {
+	    queue.push_back(n);
+	  }
+	}
+	
+      }
+    }
+  }
+}
 
-//   debut = pvm.begin();
-//   fin   = pvm.end()  ;
-//   for(;debut!=fin;debut++)
-//     {
-//       if(squared_distance(centre,debut->first) < squared_radius)
-// 	{
-// 	  return std::make_pair(true,debut->second);
-// 	};
-      
-//     };
-//   return std::make_pair(false,Vertex());
-// };
-
-#endif
+void 
+discoverComponents(const CDT & ct)
+{
+  int index = 0;
+  std::list<CDT::Edge> border;
+  discoverComponent(ct, ct.infinite_face(), index++, border);
+  while(! border.empty()){
+    CDT::Edge e = border.front();
+    border.pop_front();
+    Face_handle n = e.first->neighbor(e.second);
+    if(n->counter() == -1){
+      discoverComponent(ct, n, e.first->counter()+1, border);
+    }
+  }
+} 

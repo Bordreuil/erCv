@@ -99,7 +99,11 @@ public:
   erImage transform_image( erImage);
   /** \brief Permet d acceder au facteur de conversion */
   std::pair<double,double> mm_per_pixels();
- 
+  /** \brief detection des coins pour transformations */
+  void detect_corners(double,double);
+  /** \brief */
+  void set_patron(IplImage*);
+  void set_mesure(IplImage*);
 private:
   // Fonctions internes utilises par cette class
   bool  find_corners( IplImage*, CornerContainer&);

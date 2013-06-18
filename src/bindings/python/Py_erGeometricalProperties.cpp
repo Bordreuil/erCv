@@ -32,30 +32,55 @@
 // 
 // The fact that you are presently reading this means that you have had
 // knowledge of the CeCILL license and that you accept its terms.
-#ifndef _ERCV_GRAPH_TOOLS_HPP_
-#define _ERCV_GRAPH_TOOLS_HPP_
 
+#include "boost/python.hpp"
+#include "pyublas/numpy.hpp"
+#include<erCv/geometry/erCgalBase.hpp>
+#include <erCv/geometry/erGeometricalCharacteristics.hpp>
+#include<CGAL/linear_least_squares_fitting_2.h>
 
-#include "erGraph.hpp"
-#include <erCv/erCvBase.hpp>
+namespace bp = boost::python;
 
-std::pair<bool,Vertex> findVertexInCerc(PointVertexMap& pvm,erCerc& cerc);
-// {
-//   PointVertexMap::iterator fin,debut;
-//   CgalPoint centre(cerc.centro.x,cerc.centro.y);
-//   double    squared_radius = cerc.radio*cerc.radio;
+void erGetPrincipalAxis(boost::python::numeric::array arr,bp::list& point,bp::list& vector)
+{
+  
+  const bp::tuple& shapePts   = bp::extract<bp::tuple>(arr.attr("shape"));
+  
+  int          nbLig      = bp::extract<int>(shapePts[0]);
+ 
+  int          nbDim      = bp::extract<int>(shapePts[1]);
+ 
+  //std::cout << "nb lig:" << nbLig << std::endl;
+  
+  assert(nbDim == 4);
+ 
+  std::list<CgalSegmt> segs;
+  for(int i=0;i<nbLig;i++)
+  {
 
-//   debut = pvm.begin();
-//   fin   = pvm.end()  ;
-//   for(;debut!=fin;debut++)
-//     {
-//       if(squared_distance(centre,debut->first) < squared_radius)
-// 	{
-// 	  return std::make_pair(true,debut->second);
-// 	};
-      
-//     };
-//   return std::make_pair(false,Vertex());
-// };
-
-#endif
+    double x1 = bp::extract<double>(arr[i][0]);
+    double y1 =  bp::extract<double>(arr[i][1]);
+    double x2 =  bp::extract<double>(arr[i][2]);
+    double y2 =  bp::extract<double>(arr[i][3]);
+    CgalPoint source(x1,y1);
+    CgalPoint target(x2,y2);
+    CgalSegmt seg(source,target);
+    segs.push_back(seg);
+   };
+  //std::cout << "before :: triangs\n";
+  std::list<CgalTrian> triangs=erGeometryExtractTriangles(segs.begin(),segs.end());
+  //std::cout << "Taille trian:" << triangs.size() << std::endl;
+  CgalLine  line;
+  CgalPoint pt;
+  CgalFTrai fit  = linear_least_squares_fitting_2(triangs.begin(),triangs.end(),line,pt,CGAL::Dimension_tag<2>());
+  CgalVect vect  = line.to_vector();
+  point.append(pt.x());point.append(pt.y());
+  vector.append(vect.x());vector.append(vect.y());
+};
+void export_erGeometricalProperties()
+{
+    boost::python::numeric::array::set_module_and_type("numpy", "ndarray");
+    def("erGetPrincipalAxis",&erGetPrincipalAxis,
+	"Permet d obtenir l axe principale d un ensemble de segment");
+ 
+};
