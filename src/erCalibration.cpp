@@ -149,17 +149,48 @@ bool erCalibration::find_corners( IplImage *im, CornerContainer& corners_contain
   int found = erCvFindChessboardCorners( image, _board_sz, cornersTemp, &corner_count, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
  
   if (found==0)
-    { double xmin = 1000.;
-      double ymax = -1000;
+    { double xmin = 100000.;
+      double ymax = -100000.;
       int start;
       for(int i=0;i < _num_coins;i++)
-	if (cornersTemp[i].x <= xmin && cornersTemp[i].y >= ymax) {xmin=cornersTemp[i].x;ymax=cornersTemp[i].y;start=i;}
-     
+	{
+	if (cornersTemp[i].x  <= xmin)
+	  {
+	    xmin   = cornersTemp[i].x;
+	  };
+	};
       for(int i=0;i < _num_coins;i++)
-	{int j = start-i;
+	{
+	if (cornersTemp[i].y  >= ymax)
+	  {
+	    ymax   = cornersTemp[i].y;
+	  };
+	}
+      //std::cout << "----" << xmin << " " << ymax << std::endl;
+      double minDist=100000.;
+      for(int i=0;i < _num_coins;i++)
+	{
+	  double dist = std::sqrt(std::pow(cornersTemp[i].x-xmin,2)+std::pow(cornersTemp[i].y-ymax,2)); 
+	  //std::cout << i << " min dist :" << dist << " " << cornersTemp[i].x << " : " << cornersTemp[i].y << std::endl;
+	if ( dist < minDist)
+	  {
+	    //xmin   = cornersTemp[i].x;
+	    //ymax   = cornersTemp[i].y;
+	    minDist = dist;
+	    start  = i;
+	  };
+	}
+      for(int i=0;i < _num_coins;i++)
+	{
+	  int j = start-i;
 	  if (j < 0.){j+=_num_coins;}
 	  corners[j] = cornersTemp[i];
-	}			
+	}
+      //double signe=(corners[0].x-corners[1].x)*(corners[0].y-corners[3].y)
+      //	          -(corners[0].x-corners[3].x)*(corners[0].y-corners[1].y);
+      //std::cout << signe << std::endl;
+      //if (signe < 0)
+      //	std::reverse(corners.begin(),corners.end());
     
     }
   erCvDrawChessboardCorners(im,_board_sz,corners,corner_count,1);
