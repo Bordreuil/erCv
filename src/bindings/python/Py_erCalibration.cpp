@@ -33,7 +33,7 @@ struct erCalibration_wrapper : erCalibration, bp::wrapper< erCalibration > {
     const npy_intp* dims = arr_in.dims();
     int ncol = dims[0];
     int nlig = dims[1];
-    std::cout << ncol << " " << nlig << " " << arr_in.ndim()  << std::endl;
+    //std::cout << ncol << " " << nlig << " " << arr_in.ndim()  << std::endl;
 
     unsigned char * storage = arr_in.data();
     IplImage*       imref   = cvCreateImage(cvSize(nlig,ncol),IPL_DEPTH_8U,1);
@@ -89,6 +89,7 @@ pyublas::numpy_array<double> distanceBetweenReferenceCorner()
   return dists;
   
 }
+
 };
 //   boost::python::numeric::array useCalibration(boost::python::numeric::array arr_in)		   
 //   {
@@ -138,7 +139,9 @@ void export_erCalibration()
     		 "useCalibration"
     		 ,  (boost::python::numeric::array ( ::erCalibration_wrapper::* )(boost::python::numeric::array&  ) )(&::erCalibration_wrapper::useCalibration))
     .def("distanceBetweenReferenceCorner"
-	 ,  (boost::python::numeric::array ( ::erCalibration_wrapper::* )( ) )(&::erCalibration_wrapper::distanceBetweenReferenceCorner ));
-   
+	 ,  (boost::python::numeric::array ( ::erCalibration_wrapper::* )( ) )(&::erCalibration_wrapper::distanceBetweenReferenceCorner ))
+     
+    .def("setWrapOffset",
+	 &erCalibration::setWrapOffset);
 };
 

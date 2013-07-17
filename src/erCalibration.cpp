@@ -50,7 +50,8 @@ erCalibration::erCalibration(const char* name_image_patron,
 			     const char* name_image_mesure, 
 			     int         board_w, 
 			     int         board_h, 
-			     char*       file_dimention)
+			     char*       file_dimention):
+  _xoffset(0),_yoffset(0)
 { 
   _board_w              = board_w;
   _board_h              = board_h;
@@ -100,7 +101,7 @@ void erCalibration::detect_corners(double cuadro_dim_x,double cuadro_dim_y)
 	      corners_patron[i] = _corners_patron[i];
 	      corners_mesure[i] = _corners_mesure[i];
 	    }
-	  cvGetPerspectiveTransform( corners_mesure, corners_patron, _warp_matrix);
+	  cvGetPerspectiveTransform(  corners_patron,corners_mesure, _warp_matrix);
 	  //cvGetAffineTransform( corners_mesure, corners_patron, _warp_matrix);
 	 
 	  boost::tie( _mm_per_pixel_x, _mm_per_pixel_y) = compute_pixel_to_mm( corners_patron, cuadro_dim_x, cuadro_dim_y);
@@ -140,7 +141,11 @@ std::pair<double,double> erCalibration::mm_per_pixels()
 { 
   return std::make_pair( _mm_per_pixel_x, _mm_per_pixel_y);
 };
-
+void erCalibration::setWrapOffset(double x,double y)
+{
+  _xoffset = x;
+  _yoffset = y;
+}
 std::pair<double,double> erCalibration::distance_between_reference_corner()
 {
  
@@ -152,9 +157,13 @@ std::pair<double,double> erCalibration::distance_between_reference_corner()
   CvScalar cyz=cvGet2D(_warp_matrix,1,2); 
   CvScalar czz=cvGet2D(_warp_matrix,2,2);  
   CvScalar czx=cvGet2D(_warp_matrix,2,0);
-  CvScalar czy=cvGet2D(_warp_matrix,2,1);  
+  CvScalar czy=cvGet2D(_warp_matrix,2,1);
  
-
+  cxz.val[0]-=_xoffset;
+  cyz.val[0]-=_yoffset;
+  cvSet2D(_warp_matrix,0,2,cxz);
+  cvSet2D(_warp_matrix,1,2,cyz);
+  
 
   double xmr = (cxx.val[0]*_corners_mesure[0].x + cxy.val[0]*_corners_mesure[0].y + cxz.val[0]-_corners_patron[0].x)/
     (czx.val[0]*_corners_mesure[0].x+czy.val[0]*_corners_mesure[0].y+czz.val[0]);

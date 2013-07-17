@@ -105,6 +105,7 @@ public:
   void set_patron(IplImage*);
   void set_mesure(IplImage*);
   std::pair<double,double> distance_between_reference_corner();
+  void setWrapOffset(double,double);
 private:
   // Fonctions internes utilises par cette class
   bool  find_corners( IplImage*, CornerContainer&);
@@ -120,6 +121,7 @@ private:
   CvMat*          _warp_matrix;                    // Matrice de passage pour la transformation perspective
   CornerContainer _corners_patron,_corners_mesure; // Stocke les sommets
   CornerContainer _corners_patron3,_corners_mesure3;
+  double _xoffset,_yoffset;
 };
 /*@}*/
 #endif
