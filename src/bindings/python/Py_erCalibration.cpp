@@ -33,7 +33,7 @@ struct erCalibration_wrapper : erCalibration, bp::wrapper< erCalibration > {
     const npy_intp* dims = arr_in.dims();
     int ncol = dims[0];
     int nlig = dims[1];
-    //std::cout << ncol << " " << nlig << " " << arr_in.ndim()  << std::endl;
+    std::cout << ncol << " " << nlig << " " << arr_in.ndim()  << std::endl;
 
     unsigned char * storage = arr_in.data();
     IplImage*       imref   = cvCreateImage(cvSize(nlig,ncol),IPL_DEPTH_8U,1);
@@ -43,7 +43,7 @@ struct erCalibration_wrapper : erCalibration, bp::wrapper< erCalibration > {
 	  for(int j=0;j < nlig;j++)
 	  { 
 	    
-	    unsigned char va = storage[j*3+i*nlig*3]; //*256/65536;
+	    unsigned char va = storage[j+i*nlig]; //*256/65536;
 	    //out << int(va) << " ";
 	    CvScalar val      = cvScalarAll(va);
 	    cvSet2D(imref,i,j,val);
@@ -79,8 +79,17 @@ struct erCalibration_wrapper : erCalibration, bp::wrapper< erCalibration > {
     arr_out.reshape(2,dimsout);
     return arr_out;
   }
-};
 
+pyublas::numpy_array<double> distanceBetweenReferenceCorner()
+{
+  pyublas::numpy_array<double> dists(2);
+  std::pair<double,double> distRef = distance_between_reference_corner();
+  dists[0] = distRef.first;
+  dists[1] = distRef.second;
+  return dists;
+  
+}
+};
 //   boost::python::numeric::array useCalibration(boost::python::numeric::array arr_in)		   
 //   {
     
@@ -127,7 +136,9 @@ void export_erCalibration()
       //.def("transformImage",&erCalibration::transform_image)
       .def(
     		 "useCalibration"
-    		 ,  (boost::python::numeric::array ( ::erCalibration_wrapper::* )(boost::python::numeric::array&  ) )(&::erCalibration_wrapper::useCalibration));
+    		 ,  (boost::python::numeric::array ( ::erCalibration_wrapper::* )(boost::python::numeric::array&  ) )(&::erCalibration_wrapper::useCalibration))
+    .def("distanceBetweenReferenceCorner"
+	 ,  (boost::python::numeric::array ( ::erCalibration_wrapper::* )( ) )(&::erCalibration_wrapper::distanceBetweenReferenceCorner ));
    
 };
 

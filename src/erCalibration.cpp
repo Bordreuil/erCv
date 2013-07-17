@@ -46,7 +46,11 @@
 erCalibration::erCalibration(){};
 
 
-erCalibration::erCalibration(const char* name_image_patron,const char* name_image_mesure, int board_w, int board_h, char* file_dimention)
+erCalibration::erCalibration(const char* name_image_patron,
+			     const char* name_image_mesure, 
+			     int         board_w, 
+			     int         board_h, 
+			     char*       file_dimention)
 { 
   _board_w              = board_w;
   _board_h              = board_h;
@@ -82,7 +86,7 @@ void erCalibration::detect_corners(double cuadro_dim_x,double cuadro_dim_y)
       _image_mesure->origin = _image_patron->origin;
       _board_sz             = cvSize(_board_w,_board_h);
       _warp_matrix          = cvCreateMat(3,3,CV_32FC1);
- 
+      //_warp_matrix          = cvCreateMat(2,3,CV_32FC1);
       bool idp              = find_corners(_image_patron,_corners_patron);
       bool idm              = find_corners(_image_mesure,_corners_mesure);
       _identified = idp * idm;
@@ -97,7 +101,7 @@ void erCalibration::detect_corners(double cuadro_dim_x,double cuadro_dim_y)
 	      corners_mesure[i] = _corners_mesure[i];
 	    }
 	  cvGetPerspectiveTransform( corners_mesure, corners_patron, _warp_matrix);
-	 
+	  //cvGetAffineTransform( corners_mesure, corners_patron, _warp_matrix);
 	 
 	  boost::tie( _mm_per_pixel_x, _mm_per_pixel_y) = compute_pixel_to_mm( corners_patron, cuadro_dim_x, cuadro_dim_y);
 	};
@@ -137,6 +141,34 @@ std::pair<double,double> erCalibration::mm_per_pixels()
   return std::make_pair( _mm_per_pixel_x, _mm_per_pixel_y);
 };
 
+std::pair<double,double> erCalibration::distance_between_reference_corner()
+{
+ 
+  CvScalar cxx=cvGet2D(_warp_matrix,0,0);  
+  CvScalar cxy=cvGet2D(_warp_matrix,0,1); 
+  CvScalar cyx=cvGet2D(_warp_matrix,1,0);  
+  CvScalar cyy=cvGet2D(_warp_matrix,1,1);
+  CvScalar cxz=cvGet2D(_warp_matrix,0,2);  
+  CvScalar cyz=cvGet2D(_warp_matrix,1,2); 
+  CvScalar czz=cvGet2D(_warp_matrix,2,2);  
+  CvScalar czx=cvGet2D(_warp_matrix,2,0);
+  CvScalar czy=cvGet2D(_warp_matrix,2,1);  
+ 
+
+
+  double xmr = (cxx.val[0]*_corners_mesure[0].x + cxy.val[0]*_corners_mesure[0].y + cxz.val[0]-_corners_patron[0].x)/
+    (czx.val[0]*_corners_mesure[0].x+czy.val[0]*_corners_mesure[0].y+czz.val[0]);
+  double ymr = (cyx.val[0]*_corners_mesure[0].x + cyy.val[0]*_corners_mesure[0].y + cyz.val[0]-_corners_patron[0].y)/
+    (czx.val[0]*_corners_mesure[0].x+czy.val[0]*_corners_mesure[0].y+czz.val[0]);
+  // std::cout << cxz.val[0] << " " << cyz.val[0] << " " << czx.val[0]/
+  //    (czx.val[0]*_corners_mesure[0].x+czy.val[0]*_corners_mesure[0].y+czz.val[0]) << " " << czy.val[0]/
+  //    (czx.val[0]*_corners_mesure[0].x+czy.val[0]*_corners_mesure[0].y+czz.val[0])<< std::endl;
+  double dx = _corners_patron[0].x-xmr;
+  double dy = _corners_patron[0].y-ymr;
+  
+  return std::make_pair(dx,dy);
+}
+
 
 bool erCalibration::find_corners( IplImage *im, CornerContainer& corners_container)
 {
@@ -149,7 +181,8 @@ bool erCalibration::find_corners( IplImage *im, CornerContainer& corners_contain
   int found = erCvFindChessboardCorners( image, _board_sz, cornersTemp, &corner_count, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
  
   if (found==0)
-    { double xmin = 100000.;
+    { 
+      double xmin = 100000.;
       double ymax = -100000.;
       int start;
       for(int i=0;i < _num_coins;i++)
@@ -166,16 +199,14 @@ bool erCalibration::find_corners( IplImage *im, CornerContainer& corners_contain
 	    ymax   = cornersTemp[i].y;
 	  };
 	}
-      //std::cout << "----" << xmin << " " << ymax << std::endl;
       double minDist=100000.;
       for(int i=0;i < _num_coins;i++)
 	{
 	  double dist = std::sqrt(std::pow(cornersTemp[i].x-xmin,2)+std::pow(cornersTemp[i].y-ymax,2)); 
-	  //std::cout << i << " min dist :" << dist << " " << cornersTemp[i].x << " : " << cornersTemp[i].y << std::endl;
+
 	if ( dist < minDist)
 	  {
-	    //xmin   = cornersTemp[i].x;
-	    //ymax   = cornersTemp[i].y;
+
 	    minDist = dist;
 	    start  = i;
 	  };
@@ -186,17 +217,12 @@ bool erCalibration::find_corners( IplImage *im, CornerContainer& corners_contain
 	  if (j < 0.){j+=_num_coins;}
 	  corners[j] = cornersTemp[i];
 	}
-      //double signe=(corners[0].x-corners[1].x)*(corners[0].y-corners[3].y)
-      //	          -(corners[0].x-corners[3].x)*(corners[0].y-corners[1].y);
-      //std::cout << signe << std::endl;
-      //if (signe < 0)
-      //	std::reverse(corners.begin(),corners.end());
+      
     
     }
   erCvDrawChessboardCorners(im,_board_sz,corners,corner_count,1);
   //erShowImage("corners", im);
-  //std::cout << "corner_count: " << corner_count << std::boolalpha << " found: " << found << std::endl;
-  //std::cout << "_board_sz.x: " << _board_sz.width << "_board_sz.y: " << _board_sz.height <<  std::endl;
+  
   if(corner_count<4)
     {
       identified = false;
@@ -215,20 +241,18 @@ bool erCalibration::find_corners( IplImage *im, CornerContainer& corners_contain
 
 
 erImage erCalibration::transform_image( erImage ima)
-{ CvSize   cs = cvGetSize(_image_patron);
+{ CvSize   cs   = cvGetSize(_image_patron);
   IplImage * ir = cvCreateImage( cvGetSize(_image_patron), ima.depth, ima.nChannels);
-  //std::cout << cs.width << " " << cs.height << " " << ima.nChannels << std::endl;
   IplImage * im = &ima;
   if(_identified)
     {
-      cvWarpPerspective(im,ir,_warp_matrix);      
+      cvWarpPerspective(im,ir,_warp_matrix); 
+      //cvWarpAffine(im,ir,_warp_matrix);      
     }
   else
     {
       std::cout << "..Transformation impossible\n";
     }
-  //CvSize   ci = cvGetSize(ir);
-  //std::cout << ci.width << " " << ci.height << " "<< ir->nChannels << std::endl;
   return erImage(ir);
 };
 
