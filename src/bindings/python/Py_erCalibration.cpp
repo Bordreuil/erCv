@@ -88,37 +88,19 @@ pyublas::numpy_array<double> distanceBetweenReferenceCorner()
   dists[1] = distRef.second;
   return dists;
   
-}
+};
+
+pyublas::numpy_array<double> wrapPoint(double x,double y)
+{
+  pyublas::numpy_array<double> dists(2);
+  std::pair<double,double> distRef = transformPoint(x,y);
+  dists[0] = distRef.first;
+  dists[1] = distRef.second;
+  return dists;
+};
 
 };
-//   boost::python::numeric::array useCalibration(boost::python::numeric::array arr_in)		   
-//   {
-    
-//     IplImage*       imref   = cvCreateImage(cvSize(nlig,ncol),IPL_DEPTH_8U,1);
-    
-//     for(int i=0;i<ncol;i++)
-//        {
-// 	  for(int j=0;j < nlig;j++)
-// 	  { 
-	    
-// 	    unsigned char va = storage[j+i*nlig]; //*256/65536;
-// 	    //std::cout <<  i << " " << j  << " " << int(va) << " " << std::endl;
-// 	    CvScalar val      = cvScalarAll(va);
-// 	    cvSet2D(imref,i,j,val);
-// 	  };
-// 	  //std::cout << std::endl;
-	  
-//        };
 
-//     erImage eim(imref);
-    
-//     erImage eout;
-
-//     eout = this->transform_image(eim);
-//     boost::python::
-   
-//   }
-// };
 
 // Using =======================================================================
 //using namespace boost::python;
@@ -140,8 +122,11 @@ void export_erCalibration()
     		 ,  (boost::python::numeric::array ( ::erCalibration_wrapper::* )(boost::python::numeric::array&  ) )(&::erCalibration_wrapper::useCalibration))
     .def("distanceBetweenReferenceCorner"
 	 ,  (boost::python::numeric::array ( ::erCalibration_wrapper::* )( ) )(&::erCalibration_wrapper::distanceBetweenReferenceCorner ))
-     
+    .def("wrapPoint"
+	 ,  (boost::python::numeric::array ( ::erCalibration_wrapper::* )(double,double ) )(&::erCalibration_wrapper::wrapPoint    ) )
     .def("setWrapOffset",
-	 &erCalibration::setWrapOffset);
+	 &erCalibration::setWrapOffset)
+    .def("checkCorners",
+	 &erCalibration::checkCorners);
 };
 

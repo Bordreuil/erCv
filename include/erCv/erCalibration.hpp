@@ -105,8 +105,11 @@ public:
   void set_patron(IplImage*);
   void set_mesure(IplImage*);
   std::pair<double,double> distance_between_reference_corner();
-  void setWrapOffset(double,double);
+  void setWrapOffset(double,double,double,double,double);
+  void checkCorners();
+ std::pair<double,double> transformPoint(double,double);
 private:
+ 
   // Fonctions internes utilises par cette class
   bool  find_corners( IplImage*, CornerContainer&);
   std::pair<double,double> compute_pixel_to_mm( CvPoint2D32f*, double, double);

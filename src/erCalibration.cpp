@@ -41,7 +41,48 @@
 #include <cmath>
 #include <iostream>
 #include <fstream>
+#include<erCv/geometry/erCgalBase.hpp>
+#include<set>
+void _organizeCornersPoints(CvPoint2D32f* cornersTemp,CvPoint2D32f* corners,int _num_coins)
+{
 
+      std::set<double>    distances;
+      std::vector<double> vDistances;
+      double dist;
+      for(int i=0;i < _num_coins;i++)
+	{
+	  dist = std::sqrt(pow(cornersTemp[i].x,2)+pow(cornersTemp[i].y,2));
+	  distances.insert(dist);
+	  vDistances.push_back(dist);
+	};
+      
+      std::set<double>::iterator psbeg=distances.begin();
+      std::vector<double>::iterator found;
+      
+      found = std::find(vDistances.begin(),vDistances.end(),*psbeg);
+      std::size_t ind1 = std::distance(vDistances.begin(),found);
+      psbeg++;
+      found = std::find(vDistances.begin(),vDistances.end(),*psbeg);
+      std::size_t ind2 = std::distance(vDistances.begin(),found);
+      psbeg++;
+      found = std::find(vDistances.begin(),vDistances.end(),*psbeg);
+      std::size_t ind3 = std::distance(vDistances.begin(),found);
+      psbeg++;
+      found = std::find(vDistances.begin(),vDistances.end(),*psbeg);
+      std::size_t ind4 = std::distance(vDistances.begin(),found);
+      
+
+      corners[0].x = cornersTemp[ind1].x;
+      corners[0].y = cornersTemp[ind1].y;
+      corners[1].x = cornersTemp[ind2].x;
+      corners[2].x = cornersTemp[ind4].x;
+      corners[3].x = cornersTemp[ind3].x;
+      corners[1].y = cornersTemp[ind2].y;
+      corners[2].y = cornersTemp[ind4].y;
+      corners[3].y = cornersTemp[ind3].y;
+      
+
+};
 
 erCalibration::erCalibration(){};
 
@@ -101,8 +142,7 @@ void erCalibration::detect_corners(double cuadro_dim_x,double cuadro_dim_y)
 	      corners_patron[i] = _corners_patron[i];
 	      corners_mesure[i] = _corners_mesure[i];
 	    }
-	  cvGetPerspectiveTransform(  corners_patron,corners_mesure, _warp_matrix);
-	  //cvGetAffineTransform( corners_mesure, corners_patron, _warp_matrix);
+	  cvGetPerspectiveTransform(corners_mesure,corners_patron,_warp_matrix);
 	 
 	  boost::tie( _mm_per_pixel_x, _mm_per_pixel_y) = compute_pixel_to_mm( corners_patron, cuadro_dim_x, cuadro_dim_y);
 	};
@@ -141,37 +181,31 @@ std::pair<double,double> erCalibration::mm_per_pixels()
 { 
   return std::make_pair( _mm_per_pixel_x, _mm_per_pixel_y);
 };
-void erCalibration::setWrapOffset(double x,double y)
+void erCalibration::setWrapOffset(double x,double y,double scalex,double scaley,double scalez)
 {
   _xoffset = x;
   _yoffset = y;
+  CvScalar cxz=cvGet2D(_warp_matrix,0,2);  
+  CvScalar cyz=cvGet2D(_warp_matrix,1,2); 
+  CvScalar czx=cvGet2D(_warp_matrix,2,0);
+  CvScalar czy=cvGet2D(_warp_matrix,2,1);
+  CvScalar czz=cvGet2D(_warp_matrix,2,2);
+  cxz.val[0]-=_xoffset;
+  cyz.val[0]-=_yoffset;
+  czx.val[0]*= scalex;
+  czy.val[0]*= scaley;
+  czx.val[0]*= scalex;
+  czz.val[0]*= scalez;
+  cvSet2D(_warp_matrix,0,2,cxz);
+  cvSet2D(_warp_matrix,1,2,cyz);
+  cvSet2D(_warp_matrix,2,0,czx);
+  cvSet2D(_warp_matrix,2,1,czy);
+  cvSet2D(_warp_matrix,2,2,czz);
 }
 std::pair<double,double> erCalibration::distance_between_reference_corner()
 {
- 
-  CvScalar cxx=cvGet2D(_warp_matrix,0,0);  
-  CvScalar cxy=cvGet2D(_warp_matrix,0,1); 
-  CvScalar cyx=cvGet2D(_warp_matrix,1,0);  
-  CvScalar cyy=cvGet2D(_warp_matrix,1,1);
-  CvScalar cxz=cvGet2D(_warp_matrix,0,2);  
-  CvScalar cyz=cvGet2D(_warp_matrix,1,2); 
-  CvScalar czz=cvGet2D(_warp_matrix,2,2);  
-  CvScalar czx=cvGet2D(_warp_matrix,2,0);
-  CvScalar czy=cvGet2D(_warp_matrix,2,1);
- 
-  cxz.val[0]-=_xoffset;
-  cyz.val[0]-=_yoffset;
-  cvSet2D(_warp_matrix,0,2,cxz);
-  cvSet2D(_warp_matrix,1,2,cyz);
-  
-
-  double xmr = (cxx.val[0]*_corners_mesure[0].x + cxy.val[0]*_corners_mesure[0].y + cxz.val[0]-_corners_patron[0].x)/
-    (czx.val[0]*_corners_mesure[0].x+czy.val[0]*_corners_mesure[0].y+czz.val[0]);
-  double ymr = (cyx.val[0]*_corners_mesure[0].x + cyy.val[0]*_corners_mesure[0].y + cyz.val[0]-_corners_patron[0].y)/
-    (czx.val[0]*_corners_mesure[0].x+czy.val[0]*_corners_mesure[0].y+czz.val[0]);
-  // std::cout << cxz.val[0] << " " << cyz.val[0] << " " << czx.val[0]/
-  //    (czx.val[0]*_corners_mesure[0].x+czy.val[0]*_corners_mesure[0].y+czz.val[0]) << " " << czy.val[0]/
-  //    (czx.val[0]*_corners_mesure[0].x+czy.val[0]*_corners_mesure[0].y+czz.val[0])<< std::endl;
+  double xmr,ymr;
+  boost::tie(xmr,ymr) = transformPoint(_corners_mesure[0].x,_corners_mesure[0].y);
   double dx = _corners_patron[0].x-xmr;
   double dy = _corners_patron[0].y-ymr;
   
@@ -185,50 +219,16 @@ bool erCalibration::find_corners( IplImage *im, CornerContainer& corners_contain
   IplImage     *image ; 
   CvPoint2D32f corners[_num_coins],cornersTemp[_num_coins];
   bool         identified;
+
   image = cvCloneImage(im);
 
   int found = erCvFindChessboardCorners( image, _board_sz, cornersTemp, &corner_count, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
  
   if (found==0)
     { 
-      double xmin = 100000.;
-      double ymax = -100000.;
-      int start;
-      for(int i=0;i < _num_coins;i++)
-	{
-	if (cornersTemp[i].x  <= xmin)
-	  {
-	    xmin   = cornersTemp[i].x;
-	  };
-	};
-      for(int i=0;i < _num_coins;i++)
-	{
-	if (cornersTemp[i].y  >= ymax)
-	  {
-	    ymax   = cornersTemp[i].y;
-	  };
-	}
-      double minDist=100000.;
-      for(int i=0;i < _num_coins;i++)
-	{
-	  double dist = std::sqrt(std::pow(cornersTemp[i].x-xmin,2)+std::pow(cornersTemp[i].y-ymax,2)); 
-
-	if ( dist < minDist)
-	  {
-
-	    minDist = dist;
-	    start  = i;
-	  };
-	}
-      for(int i=0;i < _num_coins;i++)
-	{
-	  int j = start-i;
-	  if (j < 0.){j+=_num_coins;}
-	  corners[j] = cornersTemp[i];
-	}
-      
-    
+      _organizeCornersPoints(cornersTemp,corners,_num_coins);
     }
+  
   erCvDrawChessboardCorners(im,_board_sz,corners,corner_count,1);
   //erShowImage("corners", im);
   
@@ -253,10 +253,12 @@ erImage erCalibration::transform_image( erImage ima)
 { CvSize   cs   = cvGetSize(_image_patron);
   IplImage * ir = cvCreateImage( cvGetSize(_image_patron), ima.depth, ima.nChannels);
   IplImage * im = &ima;
+  //erShowImage("base",im);
   if(_identified)
     {
       cvWarpPerspective(im,ir,_warp_matrix); 
-      //cvWarpAffine(im,ir,_warp_matrix);      
+      //cvWarpAffine(im,ir,_warp_matrix);
+      //    erShowImage("transform",ir);
     }
   else
     {
@@ -306,4 +308,35 @@ erFactorRealDimension erCalibration::real_dimensions( char* file_dim)
     }
 };
 
+void erCalibration::checkCorners()
+{
+  double x,y;
+  std::cout << "--ercv::calibration::checkCorners\n";
+  for(int i=0;i< _num_coins;i++)
+    {
+    boost::tie(x,y) = transformPoint(_corners_mesure[i].x,_corners_mesure[i].y);
+    std::cout << "\tmesure init[" << i << "].x:" << _corners_mesure[i].x << " .y:" << _corners_mesure[i].y
+              << " mesure transformed["<<i<<"].x:" << x << " .y:" << y 
+	      << "---patron["<< i << "].x:" << _corners_patron[i].x << " .y:" << _corners_patron[i].y << std::endl;
+    }
+}
 
+std::pair<double,double> erCalibration::transformPoint(double x, double y)
+{
+  CvScalar cxx=cvGet2D(_warp_matrix,0,0);  
+  CvScalar cxy=cvGet2D(_warp_matrix,0,1); 
+  CvScalar cyx=cvGet2D(_warp_matrix,1,0);  
+  CvScalar cyy=cvGet2D(_warp_matrix,1,1);
+  CvScalar cxz=cvGet2D(_warp_matrix,0,2);  
+  CvScalar cyz=cvGet2D(_warp_matrix,1,2); 
+  CvScalar czz=cvGet2D(_warp_matrix,2,2);  
+  CvScalar czx=cvGet2D(_warp_matrix,2,0);
+  CvScalar czy=cvGet2D(_warp_matrix,2,1);
+ 
+  double xmr = (cxx.val[0]*x + cxy.val[0]*y + cxz.val[0])/
+    (czx.val[0]*x+czy.val[0]*y+czz.val[0]);
+  double ymr = (cyx.val[0]*x + cyy.val[0]*y + cyz.val[0])/ 
+    (czx.val[0]*x+czy.val[0]*y+czz.val[0]);
+ 
+  return std::make_pair(xmr,ymr);
+};
