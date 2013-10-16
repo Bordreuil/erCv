@@ -585,6 +585,83 @@ bool doItNumPy(pyublas::numpy_array<unsigned short>& arr,std::string file_name="
   }
   
 };
+
+//-----------------------------------------------------------------------
+//
+//    ER_WELD_ANALYSIS_SOLIDIFICATION_WRAPPER
+//
+//-----------------------------------------------------------------------
+
+struct erWeldPoolSolidificationAnalysis_wrapper : erWeldPoolSolidificationAnalysis, bp::wrapper< erWeldPoolSolidificationAnalysis > {
+  
+  erWeldPoolSolidificationAnalysis_wrapper(erWeldPoolSolidificationAnalysis const & arg )
+    : erWeldPoolSolidificationAnalysis( arg )
+    , bp::wrapper< erWeldPoolSolidificationAnalysis >(){
+    // copy constructor
+    
+  }
+  
+  erWeldPoolSolidificationAnalysis_wrapper( )
+    : erWeldPoolSolidificationAnalysis( )
+    , bp::wrapper< erWeldPoolSolidificationAnalysis >(){
+    // null constructor
+    
+  }
+  
+  erWeldPoolSolidificationAnalysis_wrapper(std::string name,std::string infofile="info" )
+    : erWeldPoolSolidificationAnalysis( name, infofile )
+    , bp::wrapper< erWeldPoolSolidificationAnalysis >(){
+    // constructor
+    
+  }
+  
+  virtual bool doIt(std::string arg0 ) {
+    if( bp::override func_doIt = this->get_override( "doIt" ) )
+      return func_doIt( arg0 );
+    else
+      return this->erWeldPoolSolidificationAnalysis::doIt( arg0 );
+  }
+  
+  
+  bool default_doIt(std::string arg0 ) {
+    return erWeldPoolSolidificationAnalysis::doIt( arg0 );
+  }
+bool doItNumPy(pyublas::numpy_array<unsigned short>& arr,std::string file_name="test_1.bmp")
+  {
+
+
+
+
+    const npy_intp* dims = arr.dims();
+
+    int ncol = dims[0];
+    int nlig = dims[1];
+    unsigned short* storage = arr.data();
+    char*  file_c   =   const_cast<char*>(file_name.c_str());
+    setCurrentFileName(file_c);
+    
+    IplImage* im = cvCreateImage(cvSize(nlig,ncol),IPL_DEPTH_8U,3);
+
+    for(int i=0;i<ncol;i++)
+      {
+	for(int j=0;j < nlig;j++)
+	  { 
+	    unsigned short va = storage[i*ncol+j]*256/65536;
+	    CvScalar val = cvScalarAll(va);
+	    cvSet2D(im,i,j,val);
+	  };
+      }; 
+
+
+
+
+    erImage eim(im);
+    erWeldPoolSolidificationAnalysis::doItImage(eim);
+
+    return true;
+  }
+  
+};
 //-----------------------------------------------------------------------
 //
 //    ER_LASER_PROTOTYPAGE_ANALYSIS_WRAPPER
@@ -904,7 +981,40 @@ void export_erCvAnalysis(){
     .def_readwrite( "param_template"    , &erWeldPoolAnalysis::param_template )  
     .def_readwrite( "param_threshold"   , &erWeldPoolAnalysis::param_threshold)
     .def_readwrite( "rectOI"            , &erWeldPoolAnalysis::rectOI );
+  //-----------------------------------------------------------------------------------------------------------
+  //
+  // 
+  // Python ::::   ER_WELD_POOL_SOLIDIFICATION_ANALYSIS
+  //
+  //
+  //-----------------------------------------------------------------------------------------------------------  
   
+  bp::class_< erWeldPoolSolidificationAnalysis_wrapper, bp::bases< erAnalysis > >( "erWeldPoolSolidificationAnalysis", bp::init< >() )    
+    .def( bp::init< std::string, bp::optional< std::string > >(( bp::arg("name"), bp::arg("infofile")="info" )) )    
+    .def( 
+	 "defineParameters"
+	 , (void ( ::erWeldPoolSolidificationAnalysis::* )( ::CvRect, ::erSmootP,::erCannyP,::erThresP,::erTemplP,::erAlphaP ) )( &::erWeldPoolSolidificationAnalysis::defineParameters )
+	 , ( bp::arg("arg0"), bp::arg("arg1"), bp::arg("arg2"), bp::arg("arg3"), bp::arg("arg4"), bp::arg("arg5") ) )    
+  
+    .def( 
+	 "doIt"
+	 , (bool ( ::erWeldPoolSolidificationAnalysis::* )( std::string ) )(&::erWeldPoolSolidificationAnalysis::doIt)
+	 , (bool ( erWeldPoolSolidificationAnalysis_wrapper::* )( std::string ) )(&erWeldPoolSolidificationAnalysis_wrapper::default_doIt)
+	 , ( bp::arg("arg0") ) )    
+    .def(
+	 "doItNumPy"
+	 ,  (bool ( ::erWeldPoolSolidificationAnalysis_wrapper::* )(boost::python::numeric::array& ,std::string ) )(&::erWeldPoolSolidificationAnalysis_wrapper::doItNumPy))
+  
+   
+    //        .def_readwrite( "param_adaptive_threshold", &erWeldPoolAnalysis::param_adaptive_threshold )    
+    .def_readwrite( "param_alpha_shape" , &erWeldPoolSolidificationAnalysis::param_alpha_shape )    
+    .def_readwrite( "param_canny"       , &erWeldPoolSolidificationAnalysis::param_canny )    
+
+    .def_readwrite( "param_smooth1"     , &erWeldPoolSolidificationAnalysis::param_smooth1 )    
+     
+    .def_readwrite( "param_template"    , &erWeldPoolSolidificationAnalysis::param_template )  
+    .def_readwrite( "param_threshold"   , &erWeldPoolSolidificationAnalysis::param_threshold)
+    .def_readwrite( "rectOI"            , &erWeldPoolSolidificationAnalysis::rectOI );
   //-----------------------------------------------------------------------------------------------------------
   //
   // 

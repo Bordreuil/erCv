@@ -33,34 +33,60 @@
 // The fact that you are presently reading this means that you have had
 // knowledge of the CeCILL license and that you accept its terms.
 
+#include<erCv/geometry/erCgalBase.hpp>
+#include<erCv/geometry/erCgalAlphaShape2.hpp>
+#include <erCv/graph/erConnectedSegments.hpp>
+#include<boost/python.hpp>
 
-#include "boost/python.hpp"
 
-//namespace bp = boost::python;
 
-extern void export_erCvFiltersParams();
-extern void export_erCvSegmentationParams();
-extern void export_erCvTools();
-extern void export_erCvBase();
-extern void export_erCvAnalysis();
-extern void export_erGeometricalParams();
-extern void export_erCvSegmentation();
-extern void export_erCalibration();
-extern void export_erGeometricalProperties();
-extern void export_erSkeleton();
-extern void export_erChainPoints();
-BOOST_PYTHON_MODULE(PyerCv)
-{ 
-  boost::python::numeric::array::set_module_and_type("numpy", "ndarray");
-  export_erGeometricalParams();
-  export_erCvFiltersParams();
-  export_erCvSegmentationParams();
-  export_erCvSegmentation();
-  export_erCvAnalysis();
-  export_erCvTools();
-  export_erCvBase();
-  export_erCalibration();
-  export_erGeometricalProperties();
-  export_erSkeleton();
-  export_erChainPoints();
+namespace bp = boost::python;
+
+bp::list erChainPoints(boost::python::list pts,double alphaShapeParam)
+{
+  int lpts              = bp::len(pts);
+  std::list< CgalPoint> cgalPts;
+  std::list< CgalSegmt> cgalSegs;
+  
+  for(int i=0;i<lpts;i++)
+    {
+      bp::list coord = bp::extract<bp::list>(pts[i]);
+      double x = bp::extract<double>(coord[0]);
+      double y = bp::extract<double>(coord[1]);
+      cgalPts.push_back(CgalPoint(x,y));
+    }
+   erAlphaP param_alpha_shape(alphaShapeParam);
+   erAlphaEdges( cgalPts, cgalSegs, &param_alpha_shape);
+   BgraphSegmtMap  connectedSegments = getConnectedSegments( cgalSegs.begin(), cgalSegs.end());
+   bp::list output;
+   BgraphSegmtMap::iterator debut,fin;
+   fin= connectedSegments.end();
+   for(debut=connectedSegments.begin();debut!=fin;debut++)
+     {
+       BgraphSegmt          sgs = debut->second;
+       BgraphSegmt::iterator ds,fs;
+       ds=sgs.begin();
+       fs=sgs.end();
+       bp::list conn_seg;
+       for(;ds!=fs;ds++)
+	 {
+	   CgalPoint src = ds->source();
+	   CgalPoint tar = ds->target();
+	   bp::list  psrc,ptar;
+	   psrc.append(src.x());psrc.append(src.y());
+	   ptar.append(tar.x());ptar.append(tar.y());
+	   bp::list seg;
+	   seg.append(psrc);seg.append(ptar);
+	   conn_seg.append(seg);
+	 };
+       output.append(conn_seg);
+     }
+   return output;
+};
+void export_erChainPoints()
+{
+    boost::python::numeric::array::set_module_and_type("numpy", "ndarray");
+    def("erChainPoints",&erChainPoints,
+	"Chaine les points suivant une methode de alpha shape");
+ 
 };

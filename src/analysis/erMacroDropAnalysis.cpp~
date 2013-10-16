@@ -34,7 +34,11 @@
 // knowledge of the CeCILL license and that you accept its terms.
 
 #include <erCv/erCvAnalysis.hpp>
-
+#include <erCv/erCvFilters.hpp>
+#include <erCv/erCvSegmentation.hpp>
+#include <erCv/utilities/erPredicates.hpp>
+#include <erCv/erCvExtract.hpp>
+#include <erCv/erCvToCgal.hpp>
 
 
 /********************************************************************

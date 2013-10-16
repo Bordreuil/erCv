@@ -180,6 +180,6 @@ bool erMultiMetalTransfertAnalysis::doItImage(erImage& ea)
       writeOutGeometry(dede->second,fich);
       idf+=1;
     } 
-
+  number_of_contours = idf;
   return true;
 };

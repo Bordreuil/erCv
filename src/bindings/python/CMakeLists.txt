@@ -57,7 +57,8 @@ if(${ENABLE_PYTHON})
 			   Py_erCalibration
 			   Py_erCvBase
 			   Py_erGeometricalProperties
-			   Py_erSkeleton)
+			   Py_erSkeleton
+			   Py_erChainPoints)
 
          SET_TARGET_PROPERTIES(PyerCv PROPERTIES PREFIX ""
 				            SUFFIX ".so")

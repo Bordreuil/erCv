@@ -50,30 +50,22 @@
 
 /********************************************************************
 
-                      WELD_POOL_ANALYSIS
+                      WELD_POOL_SOLIDIFICATION_ANALYSIS
 
 *********************************************************************/
 /* Constructeur par defaut */
-erWeldPoolAnalysis::erWeldPoolAnalysis(){};
+erWeldPoolSolidificationAnalysis::erWeldPoolSolidificationAnalysis(){};
 
 //** Constructeur avec des paramettres determines ailleurs */
-erWeldPoolAnalysis::erWeldPoolAnalysis( std::string name, std::string infofile): 
-  erAnalysis( name, infofile), rectOI( ), param_white_blob( ), param_smooth1( ), param_smooth2( ), param_dilate( ), param_canny( ), param_threshold( ), param_template( ), param_alpha_shape( ){setOutputConvex(true);setWhiteBlobDetection(true); }; 
-bool erWeldPoolAnalysis::whiteBlobDetection()
-{return white_blob_detection;};
-void erWeldPoolAnalysis::setWhiteBlobDetection(bool ii)
-{
-  white_blob_detection = ii;
-};
+erWeldPoolSolidificationAnalysis::erWeldPoolSolidificationAnalysis( std::string name, std::string infofile): 
+  erAnalysis( name, infofile), rectOI( ), param_smooth1( ), param_canny( ), param_threshold( ), param_template( ), param_alpha_shape( ){setOutputConvex(false); }; 
 
 
-void erWeldPoolAnalysis::defineParameters( CvRect rect, erWhitBP whiteb, erSmootP smooth1, erSmootP smooth2, erCannyP canny, erDilatP dilate, erThresP thres, erTemplP templ, erAlphaP alphas)
+
+void erWeldPoolSolidificationAnalysis::defineParameters( CvRect rect, erSmootP smooth1, erCannyP canny, erThresP thres, erTemplP templ, erAlphaP alphas)
 {
   rectOI = rect;
-  param_white_blob = whiteb;
   param_smooth1 = smooth1;
-  param_smooth2 = smooth2;
-  param_dilate = dilate;
   param_canny = canny;
   param_threshold = thres;
   param_template = templ;
@@ -83,7 +75,7 @@ void erWeldPoolAnalysis::defineParameters( CvRect rect, erWhitBP whiteb, erSmoot
 
 
 
-bool erWeldPoolAnalysis::doIt(std::string fich)
+bool erWeldPoolSolidificationAnalysis::doIt(std::string fich)
 { 
   bool loaded;
   char* file_name         = const_cast< char*>( fich.c_str());
@@ -96,7 +88,7 @@ bool erWeldPoolAnalysis::doIt(std::string fich)
   doItImage(ea);
 };
 
-bool erWeldPoolAnalysis::doItImage(erImage& ea)
+bool erWeldPoolSolidificationAnalysis::doItImage(erImage& ea)
 {
   erImage  eb, ec, ed, ee;
   std::list< CvPoint>   cvPts;
@@ -107,9 +99,7 @@ bool erWeldPoolAnalysis::doItImage(erImage& ea)
   char* nom = const_cast< char*>( output_name.c_str());
 
   eb = erConvertToBlackAndWhite( &ea); 
-  if (whiteBlobDetection()){
-    erWhiteBlobCorrection( &eb, &param_white_blob);};
-  std::cout << std::boolalpha << whiteBlobDetection() << " " << _with_calibration << std::endl;
+ 
   /** Jusque la */
   if( _with_calibration)
     {
@@ -128,27 +118,15 @@ bool erWeldPoolAnalysis::doItImage(erImage& ea)
     };
   
   ed = erDef_ROI( &ec, &rectOI);
-  erCvSmooth( &ed, &param_smooth1);
- if(outputIntermediateImages())
-    {
-      char* nomc= const_cast< char*>( (output_name+"_1_smooth").c_str());
-      erSaveImage( &ed, file_name, nomc);
-    };
+ //  erCvSmooth( &ed, &param_smooth1);
+ // if(outputIntermediateImages())
+ //    {
+ //      char* nomc= const_cast< char*>( (output_name+"_1_smooth").c_str());
+ //      erSaveImage( &ed, file_name, nomc);
+ //    };
  //erCvCanny( &ed, &param_canny);
   
   
-   erCvDilate( &ed, &param_dilate);
-   if(outputIntermediateImages())
-    {
-      char* nomc= const_cast< char*>( (output_name+"_2_dilate").c_str());
-      erSaveImage( &ed, file_name, nomc);
-    };
-   erCvSmooth( &ed, &param_smooth2); 
-   if(outputIntermediateImages())
-    {
-      char* nomc= const_cast< char*>( (output_name+"_3_smooth").c_str());
-      erSaveImage( &ed, file_name, nomc);
-    };
   
    
   ee = erCvTemplate( &ed, &param_template);

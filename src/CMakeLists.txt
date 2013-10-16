@@ -36,6 +36,7 @@ ADD_LIBRARY(erCv params
 		 analysis/erMetalTransfertAnalysis.cpp
 		 analysis/erMultiMetalTransfertAnalysis.cpp
 		 analysis/erWeldPoolAnalysis.cpp
+		 analysis/erWeldPoolSolidificationAnalysis.cpp
 		 graph/erConnectedSegments.cpp
 		 graph/erGraph.cpp
 		 graph/erGraphTools.cpp

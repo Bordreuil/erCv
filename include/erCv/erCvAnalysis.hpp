@@ -430,7 +430,7 @@ struct erMultiMetalTransfertAnalysis:public erAnalysis
 						       Valeurs possibles [ 1, ) 
 						   */  
 
-
+  uint          number_of_contours;
 };
 
 
@@ -782,7 +782,117 @@ struct erWeldPoolAnalysis:public erAnalysis
 
 
 
+struct erWeldPoolSolidificationAnalysis:public erAnalysis
+{
+  /** Constructeur par defaul */
+  erWeldPoolSolidificationAnalysis();
 
+  /** Cosntructeur a partir du nom de l image 
+      \param std::string : nom de l image
+      \param std::string : nom des fichers sortie
+  */
+  erWeldPoolSolidificationAnalysis( std::string name, std::string infofile = "info");
+ 
+  void defineParameters( CvRect, erSmootP, erCannyP, erThresP, erTemplP, erAlphaP); 
+ /** Passage des parametres dans le ficher a compiler fusion_bain_python.cpp 
+      \param CvRect       : rectangle de la zone d interet 
+      \param erWhitBP     : parametres pour l atenuations de taches blanches
+      \param erSmootP     : premier parametre de lissage
+      \param erSmootP     : seconde parametre de lissage
+      \param erCannyP     : parametre du filtre de canny
+      \param erDilatP     : parametre reduction des pixles noirs
+      \param erThresP     : parametre du seuil
+      \param erTemplP     : parametres pour la segmentation
+      \param erAlphaP     : parametre pour l alpha shape
+   */
+  bool doIt( std::string); /** < Analyse sur le ficher */
+  bool doItImage(erImage&);
+
+  
+  CvRect   rectOI;                                 /** < Position de la zone d etude dans l image */
+  
+  erSmootP param_smooth1;           /** 
+						       Premier lissage du type BLUR: Augmente ou diminue 
+						       l homegenite de l image.
+						       Valeurs possibles numeros impairs: 1, 3, 5, ..., 
+						       2n+1 avec n Naturel.						   
+						       Pour    +> Uniformise les niveaux de gris a l
+						       interieur du bain de fusion et a l exterieur
+						       Contre +> Rendre difficil la detection du bord entre
+						       le bain de fusion et le metal solide
+						       Pour    <- Plus facil la detection du contour du
+						       bain fusion si la difference de texture avec l exterieur est apreciable
+						       Contre <- Reduit l unformite a l interieur du bain
+						       fusion et a l exterieur, donc plus difficil de determiner le contour
+						       
+						       Deuxieme lissage du type MEDIAN 
+						       Valeurs possibles numeros impairs: 1, 3, 5, ..., 2n+1 avec n Naturel.
+						       Pour    +> Unifie les zones a egal niveau de gris,
+						       en reduisant les espace blanche entre les dites zones,
+						       si celle-ci sont minoritaires et rares
+						       Contre +> Peut ajouter des elements externes au bain
+						       de fusion et modifie sa forme et taille.
+						       Pour    <- Ameliore la perception de la taille reel
+						       de la macro goutte
+						       Contre <- Augmente la dificulte pour trouver un contour ferme						       
+						   */
+  
+  erCannyP param_canny;                            /** 
+						       Valeurs pour discriminer les bordes principaux selon
+						       le filtre de canny (Threshold I et II):
+						       Valeurs possibles [0, 500]						   
+						       Pour    +> Reduit le nombre de bords secondaire detectes
+						       par la filtre 
+						       Contre +> Reduit la posibilite d obtenir un contour
+						       continue sur le profil de la macro goutte ( si
+						       le bord n'est pas bien definie)
+						       Pour    <- Ameliore la posibilite d obtenier un contour continue
+						       Contre <- Augmente le nombre de bord secondaire qui aparetraint dans l image final
+						   */
+  erThresP param_threshold;                        /**
+						      Seuillage de l image
+						      Valeurs possibles [ 1, 255]
+
+						      Seuil maximal
+						      Pour     +> Augmente le contraste entre les zones 
+						      au dessu du seuil et les zones en desous
+						      Contre  +> 
+						      Pour     <-
+						      Contre  <- Reduit le contraste entre les zones au
+						      dessus du seuil et les zones en desous
+						      
+						      Seuil
+						      Pour     +> Permet de resortir le bain fusion du reste de l image
+						      Contre  +> Peut ajouter des elements externes au bain 
+						      Pour     <- Reduit la posibilite d'ajouter des
+						      elements externes du bain au bain
+						      Contre  <- Peut elever certain section de l
+						      image qui apartien au bain de fusion
+						   */
+  erTemplP param_template;                         /** 
+						       Paramettre pour segmenter l image a partir d un echantillon
+						       Plus grand est l echantillon moins definies seront
+						       les bordes dans l image segmente, plus reduit est 
+						       l echantillon mieu sera la resolution de l image.
+						       L echantillon doit etre choisit dans une region de
+						       texture representative de la zone exterieur au bain fusion.
+						       Plus grand est l echantillion, plus facil est pour 
+						       l algorithme pour trouver les zones que sont different, 
+						       notamment le bain fusion. Plus reduit est l echantillion ,
+						       plus dificile est pour l algorithme etablir la difference
+						       entre deux zones dans l image.
+						       Le rectangle est defini dans le nouveau repere
+						       de l image.
+						   */
+  erAlphaP param_alpha_shape;                      /**
+						      Paramettre pour la construction des alpha shape en CGAL 
+						   */
+  
+  bool           output_convex_polygon;            /**
+						      Si on veut extraire le domaine convexe initialiser a true au depart 
+						   */
+
+};
 
 
 
