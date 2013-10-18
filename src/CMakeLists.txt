@@ -6,14 +6,11 @@ cmake_minimum_required(VERSION 2.6)
 MESSAGE(${ERCV_INCLUDE_DIR})
 
 INCLUDE_DIRECTORIES(${ERCV_INCLUDE_DIR} 
-  ${OPENCV_INCLUDE_DIR})
+  ${CV_INCLUDE_DIR})
 
 
 
-LINK_LIBRARIES(${OpenCV_CV_LIBRARY} 
-               ${OpenCV_CVAUX_LIBRARY} 
-               ${OpenCV_HIGHGUI_LIBRARY} 
-               ${OpenCV_CXCORE_LIBRARY} 
+LINK_LIBRARIES(${CV_LIBRARIES} 
 	       ${Boost_FILESYSTEM_LIBRARY}
 	       ${Boost_SYSTEM_LIBRARY}
 	       )

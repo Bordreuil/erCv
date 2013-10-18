@@ -39,6 +39,7 @@
 #include "erCvSegmentationParams.hpp"
 #include "erCvFilters.hpp"
 #include "cv.h"
+#include <opencv2/legacy/legacy.hpp>
 #include<string>
 
 /** \defgroup segmentation erCvSegmentation */
