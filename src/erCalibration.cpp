@@ -51,7 +51,7 @@ void _organizeCornersPoints(CvPoint2D32f* cornersTemp,CvPoint2D32f* corners,int 
       double dist;
       for(int i=0;i < _num_coins;i++)
 	{
-	  dist = std::sqrt(pow(cornersTemp[i].x,2)+pow(cornersTemp[i].y,2));
+	  dist = sqrt(pow(cornersTemp[i].x,2)+pow(cornersTemp[i].y,2));
 	  distances.insert(dist);
 	  vDistances.push_back(dist);
 	};
