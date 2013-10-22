@@ -44,9 +44,9 @@ std::pair<bool,Vertex> findVertexInCerc(PointVertexMap& pvm,erCerc& cerc)
 
   debut = pvm.begin();
   fin   = pvm.end()  ;
-
+  
   for(;debut!=fin;debut++)
-    {
+    { 
       if(squared_distance(centre,debut->first) < squared_radius)
 	{
 	  return std::make_pair(true,debut->second);
