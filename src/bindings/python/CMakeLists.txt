@@ -58,7 +58,17 @@ if(${ENABLE_PYTHON})
 			   Py_erCvBase
 			   Py_erGeometricalProperties
 			   Py_erSkeleton
-			   Py_erChainPoints)
+			   Py_erChainPoints
+			   erConvertNumPyArrayToImage
+			   analysis/Py_erMacroDropAnalysis
+			   analysis/Py_erMetalTransfertAnalysis
+			   analysis/Py_erMultiTransfertAnalysis
+			   analysis/Py_erCreatisAnalysis
+			   analysis/Py_erSolidificationAnalysis
+			   analysis/Py_erWireAnalysis
+			   analysis/Py_erWeldPoolAnalysis
+			   analysis/Py_erWeldPoolSolidificationAnalysis
+			   analysis/Py_erLaserPrototypageAnalysis)
 
          SET_TARGET_PROPERTIES(PyerCv PROPERTIES PREFIX ""
 				            SUFFIX ".so")

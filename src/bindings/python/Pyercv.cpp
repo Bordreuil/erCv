@@ -43,12 +43,22 @@ extern void export_erCvSegmentationParams();
 extern void export_erCvTools();
 extern void export_erCvBase();
 extern void export_erCvAnalysis();
+extern void export_erMacroDropAnalysis();
+extern void export_erMetalTransfertAnalysis();
+extern void export_erMultiMetalTransfertAnalysis();
+extern void export_erCreatisAnalysis();
+extern void export_erSolidificationAnalysis();
+extern void export_erWireAnalysis();
+extern void export_erWeldPoolAnalysis();
 extern void export_erGeometricalParams();
 extern void export_erCvSegmentation();
 extern void export_erCalibration();
 extern void export_erGeometricalProperties();
 extern void export_erSkeleton();
 extern void export_erChainPoints();
+extern void export_erWeldPoolSolidificationAnalysis();
+extern void export_erLaserPrototypageAnalysis();
+
 BOOST_PYTHON_MODULE(PyerCv)
 { 
   boost::python::numeric::array::set_module_and_type("numpy", "ndarray");
@@ -63,4 +73,13 @@ BOOST_PYTHON_MODULE(PyerCv)
   export_erGeometricalProperties();
   export_erSkeleton();
   export_erChainPoints();
+  export_erMacroDropAnalysis();
+  export_erMetalTransfertAnalysis();
+  export_erMultiMetalTransfertAnalysis();
+  export_erCreatisAnalysis();
+  export_erSolidificationAnalysis();
+  export_erWireAnalysis();
+  export_erWeldPoolAnalysis();
+  export_erWeldPoolSolidificationAnalysis();
+  export_erLaserPrototypageAnalysis();
 };
