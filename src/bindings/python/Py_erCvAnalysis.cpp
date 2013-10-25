@@ -35,7 +35,16 @@
 #include "boost/python.hpp"
 #include "pyublas/numpy.hpp"
 #include "erCv/erCvAnalysis.hpp"
+#include <erCv/erCvFilters.hpp>
+#include <erCv/erCvSegmentation.hpp>
+#include <erCv/utilities/erPredicates.hpp>
+#include <erCv/erCvExtract.hpp>
+#include <erCv/erCvToCgal.hpp>
 
+#include <erCv/geometry/erCgalConvexPolygone.hpp>
+
+#include <erCv/graph/erConnectedSegments.hpp>
+#include <erCv/graph/erShortestPaths.hpp>
 namespace bp = boost::python;
 
 //-----------------------------------------------------------------------
@@ -660,7 +669,133 @@ bool doItNumPy(pyublas::numpy_array<unsigned short>& arr,std::string file_name="
 
     return true;
   }
+  bp::list getSegments(pyublas::numpy_array<unsigned short>& arr,std::string file_name="test_1.bmp")
+  {
+
+
+
+
+    const npy_intp* dims = arr.dims();
+
+    int ncol = dims[0];
+    int nlig = dims[1];
+    unsigned short* storage = arr.data();
+    char*  file_c   =   const_cast<char*>(file_name.c_str());
+    setCurrentFileName(file_c);
+    
+    IplImage* im = cvCreateImage(cvSize(nlig,ncol),IPL_DEPTH_8U,3);
+
+    for(int i=0;i<ncol;i++)
+      {
+	for(int j=0;j < nlig;j++)
+	  { 
+	    unsigned short va = storage[i*ncol+j]*256/65536;
+	    CvScalar val = cvScalarAll(va);
+	    cvSet2D(im,i,j,val);
+	  };
+      }; 
+
+
+
+
+    erImage ea(im);
+    //erWeldPoolSolidificationAnalysis::doItImage(eim);
+    erImage  eb, ec, ed, ee;
+    std::list< CvPoint>   cvPts;
+    std::list< CgalPoint> cgalPts, cgalPts2;
+    std::list< CgalSegmt> cgalSeg, bgraphSeg;
   
+    //output_name = dir_analysis+"/"+name+"_wep";
+    //char* nom = const_cast< char*>( output_name.c_str());
+
+    eb = erConvertToBlackAndWhite( &ea); 
+ 
+  /** Jusque la */
+    if( _with_calibration)
+    {
+      ec = _calibration.transform_image(eb);
+      if(outputIntermediateImages())
+	{
+	  std::string calib_name = dir_analysis+"/"+name+"_calib";
+	  char* nomcalib = const_cast< char*>( calib_name.c_str());
+	  erSaveImage(&ec,file_c, nomcalib);
+	}
+  
+    }
+    else
+    {
+      ec = eb;
+    };
+  
+    ed = erDef_ROI( &ec, &rectOI);
+ //  erCvSmooth( &ed, &param_smooth1);
+ // if(outputIntermediateImages())
+ //    {
+ //      char* nomc= const_cast< char*>( (output_name+"_1_smooth").c_str());
+ //      erSaveImage( &ed, file_name, nomc);
+ //    };
+ //erCvCanny( &ed, &param_canny);
+  
+  
+  
+   
+    ee = erCvTemplate( &ed, &param_template);
+    if(outputIntermediateImages())
+    {
+      
+      char* nomc= const_cast< char*>( (output_name+"_4_template").c_str());
+      
+      erSaveImage( &ee, file_c, nomc);
+    };
+    erCvThreshold( &ee, &param_threshold);
+  
+    if(outputIntermediateImages())
+    {
+      char* nomt= const_cast< char*>( (output_name+"_5_threshold").c_str());
+      erSaveImage( &ee, file_c, nomt);
+    }
+    erCvCanny( &ee, &param_canny);
+    if(outputIntermediateImages())
+    {
+      char* nomca= const_cast< char*>( (output_name+"_6_canny").c_str());
+      erSaveImage( &ee, file_c, nomca);
+    };
+    IsEqualTo is_equal_255(255);
+
+    erExtractCvPoints( cvPts, &ee, is_equal_255, rectOI);
+    //char * nomc;
+
+    convertCvToCgalpoints( cvPts, cgalPts);  
+  
+    erAlphaEdges( cgalPts, cgalSeg, &param_alpha_shape);
+     BgraphSegmtMap  connectedSegments = getConnectedSegments( cgalSeg.begin(), cgalSeg.end());
+     bp::list output;
+     BgraphSegmtMap::iterator debut,fin;
+     fin= connectedSegments.end();
+     for(debut=connectedSegments.begin();debut!=fin;debut++)
+     {
+       BgraphSegmt          sgs = debut->second;
+       BgraphSegmt::iterator ds,fs;
+       ds=sgs.begin();
+       fs=sgs.end();
+       bp::list conn_seg;
+       for(;ds!=fs;ds++)
+	 {
+	   CgalPoint src = ds->source();
+	   CgalPoint tar = ds->target();
+	   bp::list  psrc,ptar;
+	   psrc.append(src.x());psrc.append(src.y());
+	   ptar.append(tar.x());ptar.append(tar.y());
+	   bp::list seg;
+	   seg.append(psrc);seg.append(ptar);
+	   conn_seg.append(seg);
+	 };
+       output.append(conn_seg);
+     }
+     return output;
+
+   //    return true;
+  };
 };
 //-----------------------------------------------------------------------
 //
@@ -872,7 +1007,7 @@ void export_erCvAnalysis(){
     .def(
 	 "doItNumPy"
 	 ,  (bool ( ::erCreatisAnalysis_wrapper::* )(boost::python::numeric::array& ,std::string ) )(&::erCreatisAnalysis_wrapper::doItNumPy))
-  
+ 
    
     .def_readwrite( "param_adaptive_threshold", &erCreatisAnalysis::param_adaptive_threshold )    
     .def_readwrite( "param_alpha_shape",        &erCreatisAnalysis::param_alpha_shape )    
@@ -1005,7 +1140,9 @@ void export_erCvAnalysis(){
 	 "doItNumPy"
 	 ,  (bool ( ::erWeldPoolSolidificationAnalysis_wrapper::* )(boost::python::numeric::array& ,std::string ) )(&::erWeldPoolSolidificationAnalysis_wrapper::doItNumPy))
   
-   
+   .def(
+	 "getSegments"
+	 ,  (bp::list ( ::erWeldPoolSolidificationAnalysis_wrapper::* )(boost::python::numeric::array& ,std::string ) )(&::erWeldPoolSolidificationAnalysis_wrapper::getSegments))
     //        .def_readwrite( "param_adaptive_threshold", &erWeldPoolAnalysis::param_adaptive_threshold )    
     .def_readwrite( "param_alpha_shape" , &erWeldPoolSolidificationAnalysis::param_alpha_shape )    
     .def_readwrite( "param_canny"       , &erWeldPoolSolidificationAnalysis::param_canny )    
