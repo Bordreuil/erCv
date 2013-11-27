@@ -118,7 +118,7 @@ struct erMultiMetalTransfertAnalysis_wrapper : erMultiMetalTransfertAnalysis, bp
   //
   //-----------------------------------------------------------------------------------------------------------  
 
-void export_erMultiMetalTransfertAnalysi()
+void export_erMultiMetalTransfertAnalysis()
 {
   bp::class_< erMultiMetalTransfertAnalysis_wrapper, bp::bases< erAnalysis > >( "erMultiMetalTransfertAnalysis", bp::init< >() )    
     .def( bp::init< std::string, bp::optional< std::string > >(( bp::arg("name"), bp::arg("infofile")="info" )) )    

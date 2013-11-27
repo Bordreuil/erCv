@@ -47,69 +47,6 @@
 typedef CGAL::Polygon_2<K> Polygon_2;
 typedef Polygon_2::Vertex_iterator Polygon_vertex_iterator;
 
-
-template< class Container, class Container2>
-void polygon_creation_user( Container cgalSegments, Container2& cgalPoints)
-{
-  std::list<CgalPoint> cgalPoints2;
-  erAlignementSegmentContour( cgalSegments);
-  cgalPoints2 = erCgalConvertSegmentToPoint( cgalSegments); 
-  Polygon_2 P( cgalPoints2.begin(), cgalPoints2.end());    
-  for( Polygon_vertex_iterator it = P.vertices_begin(); it != P.vertices_end(); ++it)
-    {
-      cgalPoints.push_back( *it);
-    }		    
-};
-
-
-template< typename Container>
-void erAlignementSegmentContour( Container &seg)
-{
-  typename Container::iterator itseg, itseg_chain, itseg_chain2;
-  Container seg_chain;
-  itseg = seg.begin( );
-  seg_chain.push_back( *itseg);
-  do 
-    { 
-      itseg_chain2 = seg_chain.end();
-      CgalPoint prt = (*itseg_chain2).target();
-      itseg_chain = erFindCgalSegment( seg.begin( ), seg.end( ), prt); 
-      seg_chain.push_back( *itseg_chain);
-    }
-  while( (*itseg_chain).target() == (*itseg).source());
-  seg = seg_chain;
-};
-
-
-template< typename Container>
-std::list<CgalPoint> erCgalConvertSegmentToPoint( Container bgraphSgm)
-{
-  typename Container::iterator itContainer, itContainer2;
-  std::list< CgalPoint> cgalPts;
-  std::list<CgalPoint>::iterator itcgalPts;
-
-  cgalPts.push_back( (*bgraphSgm.begin()).source());
-  //cgalPts.push_back( bgraphSgm.begin()->target); 
-  itContainer2 = bgraphSgm.begin();
-  itContainer2++;
-  for( itContainer = itContainer2; itContainer != bgraphSgm.end(); itContainer++)
-    {
-      itcgalPts = erFindCgalPoint( cgalPts.begin(), cgalPts.end(), (*itContainer).source());
-      if( itcgalPts == cgalPts.end())
-	{
-	  cgalPts.push_back( (*itContainer).source());
-	}
-      //itcgalPts = erFindCgalPoint( cgalPts.begin(), cgalPts.end(), itContainer->target);
-      //if( itcgalPts == cgalPts.end())
-      //{
-      //  cgalPts.push_back( itContainer->target);
-      //}
-    }  
-  return cgalPts;
-};
-
-
-
 template< typename Iterator>
 Iterator erFindCgalSegment( Iterator p1, Iterator p2, CgalPoint punto)
 {
@@ -146,6 +83,76 @@ Iterator erFindCgalPoint( Iterator p1, Iterator p2, CgalPoint punto)
     }
   return p2;
 };
+
+
+template< typename Container>
+std::list<CgalPoint> erCgalConvertSegmentToPoint( Container bgraphSgm)
+{
+  typename Container::iterator itContainer, itContainer2;
+  std::list< CgalPoint> cgalPts;
+  std::list<CgalPoint>::iterator itcgalPts;
+
+  cgalPts.push_back( (*bgraphSgm.begin()).source());
+  //cgalPts.push_back( bgraphSgm.begin()->target); 
+  itContainer2 = bgraphSgm.begin();
+  itContainer2++;
+  for( itContainer = itContainer2; itContainer != bgraphSgm.end(); itContainer++)
+    {
+      itcgalPts = erFindCgalPoint( cgalPts.begin(), cgalPts.end(), (*itContainer).source());
+      if( itcgalPts == cgalPts.end())
+	{
+	  cgalPts.push_back( (*itContainer).source());
+	}
+      //itcgalPts = erFindCgalPoint( cgalPts.begin(), cgalPts.end(), itContainer->target);
+      //if( itcgalPts == cgalPts.end())
+      //{
+      //  cgalPts.push_back( itContainer->target);
+      //}
+    }  
+  return cgalPts;
+};
+
+
+
+template< typename Container>
+void erAlignementSegmentContour( Container &seg)
+{
+  typename Container::iterator itseg, itseg_chain, itseg_chain2;
+  Container seg_chain;
+  itseg = seg.begin( );
+  seg_chain.push_back( *itseg);
+  do 
+    { 
+      itseg_chain2 = seg_chain.end();
+      CgalPoint prt = (*itseg_chain2).target();
+      itseg_chain = erFindCgalSegment( seg.begin( ), seg.end( ), prt); 
+      seg_chain.push_back( *itseg_chain);
+    }
+  while( (*itseg_chain).target() == (*itseg).source());
+  seg = seg_chain;
+};
+
+
+template< class Container, class Container2>
+void polygon_creation_user( Container cgalSegments, Container2& cgalPoints)
+{
+  std::list<CgalPoint> cgalPoints2;
+  erAlignementSegmentContour( cgalSegments);
+  cgalPoints2 = erCgalConvertSegmentToPoint( cgalSegments); 
+  Polygon_2 P( cgalPoints2.begin(), cgalPoints2.end());    
+  for( Polygon_vertex_iterator it = P.vertices_begin(); it != P.vertices_end(); ++it)
+    {
+      cgalPoints.push_back( *it);
+    }		    
+};
+
+
+
+
+
+
+
+
 
 /*@}*/
 #endif

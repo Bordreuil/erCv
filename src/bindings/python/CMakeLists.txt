@@ -35,7 +35,7 @@
 # Created by the script cgal_create_cmake_script
 # This is the CMake script for compiling a CGAL application.
 
-if(${ENABLE_PYTHON})
+if(ENABLE_PYTHON)
 	FIND_PACKAGE(PythonLibs REQUIRED)
 	MESSAGE(STATUS "Python Libs :" ${PythonLibs_FOUND})
 	INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR}
@@ -76,7 +76,8 @@ if(${ENABLE_PYTHON})
          TARGET_LINK_LIBRARIES(PyerCv 
 	       ${PYTHON_LIBRARIES}
 	       ${Boost_PYTHON_LIBRARY} 
-	       erCv)
+	       erCv
+	       ${CGAL_Core_LIBRARY})
 	 install(TARGETS PyerCv DESTINATION lib 
 	                        COMPONENT Runtime
 				EXPORT erCv-targets)

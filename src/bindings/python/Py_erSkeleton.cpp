@@ -64,11 +64,12 @@ void erGetSkeleton(boost::python::numeric::array arr,bp::list& skeleton)
   for(int i=0;i<nbLig;i++)
   {
 
-    double x1 = bp::extract<double>(arr[i][0]);
+    double x1 =  bp::extract<double>(arr[i][0]);
     double y1 =  bp::extract<double>(arr[i][1]);
    
     points.push_back(CgalPoint(x1,y1));
    };
+
   Polygon input(points.begin(),points.end());
   Straight_skeleton_ptr ss = CGAL::create_interior_straight_skeleton_2(input);
 
