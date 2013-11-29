@@ -96,9 +96,6 @@ bool doItNumPy(pyublas::numpy_array<unsigned short>& arr,std::string file_name="
     setCurrentFileName(file_c);
 
 
-
-
-
     erImage eim = erConvertNumpyArray16ToImage(arr);
 
 
