@@ -102,15 +102,18 @@ void export_erCvAnalysis(){
     .def( 
 	 "defineCalibration"
 	 , (void ( ::erAnalysis::* )(std::string,std::string) )( &::erAnalysis::defineCalibration )
-	 , ( bp::arg("arg0"), bp::arg("arg1") ) )    
+     , ( bp::arg("arg0"), bp::arg("arg1") ) ,
+              "Definition de la calibration a partir de deux images")
     .def(
 		 "setOutputGeometryFile"
 		 ,(void  (::erAnalysis::*)(std::string) )( &::erAnalysis::setOutputGeometryFile)
-		 ,(bp::arg("arg0") ))
+         ,(bp::arg("arg0") ),
+              "affecte le nom d un fichier pour la sortie des donnees post traite ")
     .def(
 		 "setOutputAxisymmetricGeometry"
 		 ,(void  (::erAnalysis::*)(bool) )( &::erAnalysis::setOutputAxisymmetricGeometry)
-		 ,(bp::arg("arg0") ))
+         ,(bp::arg("arg0") )
+         ,"permet de signaler si on veut que le calcul de la geometrie se fasse en supposant une forme axisymmetrique"     )
     .def(
 		 "setOutputIntermediateImages"
 		 ,(void  (::erAnalysis::*)(bool) )( &::erAnalysis::setOutputIntermediateImages)
@@ -120,8 +123,12 @@ void export_erCvAnalysis(){
 	 "doIt"
 	 , bp::pure_virtual( (bool ( ::erAnalysis::* )( std::string ) )(&::erAnalysis::doIt) )
 	 , ( bp::arg("arg0") ) )
-   .def_readwrite( "dir_analysis",                  &erAnalysis::dir_analysis )
-   .def_readwrite( "name",                  &erAnalysis::name)
+   .def_readwrite( "dir_analysis",
+                   &erAnalysis::dir_analysis ,
+                   "permet d afecter le repertoire d analyse")
+   .def_readwrite( "name",
+                   &erAnalysis::name,
+                   "permet d affecter le nom de l analyse")
    .def_readwrite( "output_name",                  &erAnalysis::output_name);
  
 };

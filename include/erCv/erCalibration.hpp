@@ -70,6 +70,12 @@ class erCalibration
 */
 {
 public:
+   /**
+    *
+    * METHODES PUBLICS
+    *
+    *
+    **/
   // Quelques definitions de type utile par la suite
   typedef std::vector<CvPoint2D32f>   CornerContainer;
   typedef CornerContainer::iterator   CornerIterator;
@@ -85,11 +91,11 @@ public:
       \param int           : nombre des carres de l echequier a prendre en compte (hauteur)
       \param char*         : nom du ficher avec les facteurs de conversion
   */
+    /** \brief Constructeur */
   erCalibration( const char*,const char*, int, int, char* file_dimention = "cuadro_size.dat");
 
   /** \brief Destructeur */
-  ~erCalibration(); 
-  
+  ~erCalibration();  
   // Methodes d acces
   /** \brief Permet d extraire l image patron */
   erImage get_patron(); 
@@ -101,13 +107,22 @@ public:
   std::pair<double,double> mm_per_pixels();
   /** \brief detection des coins pour transformations */
   void detect_corners(double,double);
-  /** \brief */
+  /** \brief permet d'affecter les images patrons et mesures */
   void set_patron(IplImage*);
   void set_mesure(IplImage*);
+  /** \brief permet de trouver la distance entre du point de reference en haut à gauche */
   std::pair<double,double> distance_between_reference_corner();
+  /** \brief permet d affecter manuellement les termes de la matrice affine de passage */
   void setWrapOffset(double,double,double,double,double);
   void checkCorners();
- std::pair<double,double> transformPoint(double,double);
+  /** \brief permet de transformer un point a l'aide de la calibration */
+  std::pair<double,double> transformPoint(double,double);
+
+/**
+ *
+ *       METHODES PRIVEES
+ *
+ **/
 private:
  
   // Fonctions internes utilises par cette class

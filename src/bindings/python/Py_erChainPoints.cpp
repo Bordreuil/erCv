@@ -94,59 +94,6 @@ bp::list erChainPoints(boost::python::list pts,double alphaShapeParam)
 };
 
 
-
-//template<typename Graph>
-// class graphIsClosed
-// {
-// public:
-//   typedef typename  boost::graph_traits<Graph>::vertex_descriptor Vertex;
-//   typedef typename  std::pair<Vertex,Vertex> Output;
-//   graphIsClosed(Graph& gr)
-//   {
-//     _gr = gr;
-//   }
-//   bool is_closed()
-//   {
-//     typename boost::graph_traits<Graph>::edge_iterator ebeg,eend;
-    
-//     typename std::map<Vertex,uint> ncount;
-//     boost::tie(ebeg,eend) = boost::edges(_gr);
-//     for(;ebeg!=eend;ebeg++)
-//       {
-// 	ncount[boost::source(*ebeg,_gr)]++;
-// 	ncount[boost::target(*ebeg,_gr)]++;
-//       }
-//     _ncount = ncount;
-//     typename std::map< Vertex, uint>::iterator dede=ncount.begin();
-//     while( dede != ncount.end())
-//       {
-// 	if( dede->second < 2) return false;
-// 	dede++;
-//       };
-    
-//     return true;
-//   }
-//  Output borders()
-//   {
-//     typename std::map< Vertex, uint>::iterator dede=_ncount.begin();
-//     typename std::pair<Vertex,Vertex> borders;
-//     bool first(true);
-//     while( dede != _ncount.end())
-//       {  //std::cout << dede->first << " " << dede->second << std::endl;
-// 	if( dede->second < 2)
-// 	  { 
-// 	    if(first){borders.first = dede->first;first=false;}
-// 	    else{borders.second = dede->first;}
-// 	  }
-// 	  dede++;
-//       };
-//     return borders;
-//   };
-// private:
-//   Graph _gr;
-//   std::map<Vertex,uint> _ncount;
-// };
-
 bp::list erShortestPathInSegments(bp::list edges,bp::list startPoint,bp::list endPoint,int radius)
 {
   int nlist = boost::python::len(edges);

@@ -93,8 +93,8 @@ struct erAnalysis
   /* \brief recuper le nom du fichier affecte pour la geometrie */
   std::string outputGeometryFile();
   /* \brief permet de savoir si on sort la geometrie ou pas */
-  bool        outputGeometry();
-  void        setOuputGeometry(bool);
+  bool       outputGeometry();
+  void       setOuputGeometry(bool);
   /* \brief permet de savoir si la geometrie est convexe ou pas */
   bool        outputConvex();
   void        setOutputConvex(bool);
