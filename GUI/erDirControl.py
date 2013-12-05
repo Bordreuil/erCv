@@ -84,4 +84,5 @@ class erFileWidget(QWidget):
         return u"%s" % self._line.text()
     def set(self,fname):
         self._line.setText(fname)
+        self.emit(SIGNAL("fileChanged"),fname)
 
