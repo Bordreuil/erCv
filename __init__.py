@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
-
 # Copyright Universite Montpellier 2/CNRS 
 # Contributor(s) : 
-#         Julien Chapuis
+#         Edward Romero 
 #         Cyril Bordreuil
 # Contact: cyril.bordreuil@univ-montp2.fr
 # 
@@ -35,44 +33,4 @@
 # The fact that you are presently reading this means that you have had
 # knowledge of the CeCILL license and that you accept its terms.
 
-
-from mplwidget     import *
-from PyQt4.QtCore  import *
-from PyQt4.QtGui   import *
-from erCv          import * 
-
-# class erSmootWidget(QWidget):
- #    def __init__(self,parent=None,default='BLUR'):
- #        super(erSmootWidget,self).__init__(parent)
- #        self._comboType = QComboBox()
- #        smt=SmoothType.names.keys()
- #        self._comboType.addItems(smt)
- #        self._comboType.setCurrentIndex(smt.index(default))
- #        layout = QHBoxLayout()
- #        layout.addWidget(QLabel('Smooth Filter Type:'))
- #        layout.addWidget(self._comboType)
- #        layout.addWidget(QLabel('Smooth zone :'))
- #        self._valueROI = QSpinBox()
- #        self._valueROI.setValue(5)
- #        layout.addWidget(self._valueROI)
- #        self.setLayout(layout)
- #    def erParam(self):
- #        size = int(self._valueROI.value())
- #        tipe = self._comboType.currentText()
- #        return erSmootP(SmoothType.names[str(self._comboType.currentText())],size)
-
-
-class erAlphaShapeWidget(QWidget):
-    def __init__(self,parent=None):
-        super(erAlphaShapeWidget,self).__init__(parent)
-        layout = QHBoxLayout()
-        layout.addWidget(QLabel(' Alpha shape distance :'))
-        self._p = QSpinBox()
-        self._p.setValue(4)
-        layout.addWidget(self._p)
-        self.setLayout(layout)
-    def setErParam(self,alp):
-        self._p.setValue(alp.alpha)
-    def erParam(self):
-        r = int(self._p.value())
-        return erAlphaP(r)
+__all__=['GUI']

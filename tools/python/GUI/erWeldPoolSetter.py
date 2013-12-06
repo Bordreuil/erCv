@@ -300,6 +300,7 @@ class erWeldPoolSetter(QMainWindow):
         self._params.setErSmooth2(p2)
         self._params.setErCanny(cann)
         self._params.setErDilate(dil)
+        print temp.type
         self._params.setErTemplate(temp)
         self._params.setErAlpha(alp)
 def mainErWeldPoolSetter(fichier=None,*params):
@@ -322,6 +323,8 @@ def mainErWeldPoolSetter(fichier=None,*params):
        dil=params[3]
        templ=params[4]
        alp=params[5]
+       thr=params[6]
+
        frame.setParams(p1,p2,thr,cann,dil,templ,alp)
        splash.finish(frame)
 
@@ -337,9 +340,9 @@ if __name__=="__main__":
     cann  = erCannyP(500,500);
     dil   = erDilatP(2)
     rec_tem=CvRect()
-    rec_tem.x = 253; rec_tem.y = 253; rec_tem.width = 7; rec_tem.height = 7;
+    rec_tem.x = 100; rec_tem.y = 100; rec_tem.width = 7; rec_tem.height = 7;
     templ = erTemplP(SQDIFF_NORMED, rec_tem, True);
     alp   = erAlphaP(1);
-    mainErWeldPoolSetter(fichier,p1,p2,cann,dil,templ,alp)
+    mainErWeldPoolSetter(fichier,p1,p2,cann,dil,templ,alp,thr)
                     
 ##@}

@@ -36,24 +36,39 @@
 # knowledge of the CeCILL license and that you accept its terms.
 
 
-from mplwidget     import *
+#from mplwidget     import *
 from PyQt4.QtCore  import *
 from PyQt4.QtGui   import *
 from erCv          import * 
 
-class erDilateWidget(QWidget):
-    def __init__(self,parent=None,default='BLUR'):
-        super(erDilateWidget,self).__init__(parent)
-      
-        layout = QHBoxLayout()
-        layout.addWidget(QLabel('Dilate zone :'))
-        self._valueROI = QSpinBox()
-        self._valueROI.setValue(5)
-        layout.addWidget(self._valueROI)
-        self.setLayout(layout)
-    def setErParam(self,dil):
-        self._valueROI.setValue(dil.iter)
-    def erParam(self):
-        size = int(self._valueROI.value())
-        return erDilatP(size)
 
+class erThresholdWidget(QWidget):
+    def __init__(self,parent=None):
+        super(erThresholdWidget,self).__init__(parent)
+        self._comboType = QComboBox()
+        self._att = ThresholdType.names.keys()
+        self._comboType.addItems(self._att)
+        self._comboType.setCurrentIndex(self._att.index('THRESH_BINARY_'))
+        layout = QHBoxLayout()
+        layout.addWidget(QLabel('Threshold Type:'))
+        layout.addWidget(self._comboType)
+        layout.addWidget(QLabel(' Threshold 1:'))
+        self._p1 = QSpinBox()
+        self._p1.setValue(50)
+        layout.addWidget(self._p1)
+        layout.addWidget(QLabel(' Threshold 2:'))
+        self._p2 = QSpinBox()
+        self._p2.setRange(1,255)
+        self._p2.setValue(5.)
+        layout.addWidget(self._p2)
+        self.setLayout(layout)
+    def setErParam(self,param):
+        #att = ThresholdType.names.keys()
+        self._comboType.setCurrentIndex(self._att.index(str(param.type)))
+        self._p1.setValue(param.trh1)
+        self._p2.setValue(param.trh2)                 
+    def erParam(self):
+        tipe = ThresholdType.names[str(self._comboType.currentText())]
+        p1   = int(self._p1.value())
+        p2   = int(self._p2.value())
+        return erThresP(tipe,p1,p2)

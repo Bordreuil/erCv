@@ -39,3 +39,5 @@ from erCvTools    import *
 from erCvGeometry import *
 from visualization.erPlotTools import *
 from PyerCv       import *
+from GUI.erWeldPoolSetter          import *
+from GUI.erTransfertSetter import *

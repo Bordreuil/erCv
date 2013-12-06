@@ -36,46 +36,43 @@
 # knowledge of the CeCILL license and that you accept its terms.
 
 
-from mplwidget     import *
+#from mplwidget     import *
 from PyQt4.QtCore  import *
 from PyQt4.QtGui   import *
-from erCv          import * 
+from erCv import *
 
 
-class erAdaptiveThresholdWidget(QWidget):
-    def __init__(self,parent=None):
-        super(erAdaptiveThresholdWidget,self).__init__(parent)
-        self._comboType = QComboBox()
-        att = AdaptiveThresholdType.names.keys()
-        self._comboType.addItems(att)
-        self._comboType.setCurrentIndex(att.index('THRESH_BINARY'))
-        layout = QHBoxLayout()
-        layout.addWidget(QLabel('Adaptive Threshold Type:'))
-        layout.addWidget(self._comboType)
-        self._comboMethod = QComboBox()
-        amt = AdaptiveMethodType.names.keys()
-        self._comboMethod.addItems(amt)
-        self._comboMethod.setCurrentIndex(amt.index('AM_MEAN'))
-        layout.addWidget(QLabel('Adaptive Method Type:'))
-        layout.addWidget(self._comboMethod)
-        layout.addWidget(QLabel(' Threshold 1:'))
-        self._p1 = QSpinBox()
-        self._p1.setValue(57)
-        layout.addWidget(self._p1)
-        layout.addWidget(QLabel(' Neighbour:'))
-        self._neigh = QSpinBox()
-        self._neigh.setValue(39)
-        layout.addWidget(self._neigh)
-        layout.addWidget(QLabel(' Threshold 2:'))
-        self._p2 = QSpinBox()
-        self._p2.setRange(1,255)
-        self._p2.setValue(255)
-        layout.addWidget(self._p2)
+class erRectWidget(QWidget):
+     def __init__(self,parent=None,default='BLUR'):
+        super(erRectWidget,self).__init__(parent)
+        layout = QVBoxLayout()
+        layout1 = QHBoxLayout()
+        layout1.addWidget(QLabel('x:'))
+        self._x = QSpinBox();self._x.setRange(0,1000)
+        layout1.addWidget(self._x)
+        layout1.addWidget(QLabel('y:'))
+        self._y = QSpinBox();self._y.setRange(0,1000)
+        layout1.addWidget(self._y)
+        layout2 = QHBoxLayout()
+        layout2.addWidget(QLabel('width:'))
+        self._width = QSpinBox();self._width.setRange(0,1000)
+        layout2.addWidget(self._width)
+        layout2.addWidget(QLabel('height:'))
+
+        self._height = QSpinBox();self._height.setRange(0,1000)
+        layout2.addWidget(self._height)
+        layout.addLayout(layout1)
+        layout.addLayout(layout2)
         self.setLayout(layout)
-    def erParam(self):
-        tipe = AdaptiveThresholdType.names[str(self._comboType.currentText())]
-        meth = AdaptiveMethodType.names[str(self._comboMethod.currentText())]
-        p1   = int(self._p1.value())
-        nei  = int(self._neigh.value())
-        p2   = int(self._p2.value())
-        return erAdThrP(tipe,meth,p1,nei,p2)
+     def erParam(self):
+         rect       =  CvRect()
+         rect.x     = int(self._x.value())
+         rect.y     = int(self._y.value())
+         rect.width = int(self._width.value())
+         rect.height= int(self._height.value()) 
+         return rect
+     def setRoi(self,x,y,w,h):
+         self._x.setValue(x)
+         self._y.setValue(y)
+         self._width.setValue(w)
+         self._height.setValue(h)

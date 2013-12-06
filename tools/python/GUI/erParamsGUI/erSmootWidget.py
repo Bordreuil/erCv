@@ -36,39 +36,31 @@
 # knowledge of the CeCILL license and that you accept its terms.
 
 
-from mplwidget     import *
+#from mplwidget     import *
 from PyQt4.QtCore  import *
 from PyQt4.QtGui   import *
 from erCv          import * 
 
-
-class erThresholdWidget(QWidget):
-    def __init__(self,parent=None):
-        super(erThresholdWidget,self).__init__(parent)
+class erSmootWidget(QWidget):
+    def __init__(self,parent=None,default='BLUR'):
+        super(erSmootWidget,self).__init__(parent)
         self._comboType = QComboBox()
-        att = ThresholdType.names.keys()
-        self._comboType.addItems(att)
-        self._comboType.setCurrentIndex(att.index('THRESH_BINARY_'))
+        self._smt=SmoothType.names.keys()
+        self._comboType.addItems(self._smt)
+        self._comboType.setCurrentIndex(self._smt.index(default))
         layout = QHBoxLayout()
-        layout.addWidget(QLabel('Threshold Type:'))
+        layout.addWidget(QLabel('Smooth Filter Type:'))
         layout.addWidget(self._comboType)
-        layout.addWidget(QLabel(' Threshold 1:'))
-        self._p1 = QSpinBox()
-        self._p1.setValue(50)
-        layout.addWidget(self._p1)
-        layout.addWidget(QLabel(' Threshold 2:'))
-        self._p2 = QSpinBox()
-        self._p2.setRange(1,255)
-        self._p2.setValue(5.)
-        layout.addWidget(self._p2)
+        layout.addWidget(QLabel('Smooth zone :'))
+        self._valueROI = QSpinBox()
+        self._valueROI.setValue(5)
+        layout.addWidget(self._valueROI)
         self.setLayout(layout)
     def setErParam(self,param):
-        #att = ThresholdType.names.keys()
-        self._comboType.setCurrentIndex(param.type)
-        self._p1.setValue(param.trh1)
-        self._p2.setValue(param.trh2)                 
+        self._comboType.setCurrentIndex(self._smt.index(str(param.type)))
+        self._valueROI.setValue(param.size)
     def erParam(self):
-        tipe = ThresholdType.names[str(self._comboType.currentText())]
-        p1   = int(self._p1.value())
-        p2   = int(self._p2.value())
-        return erThresP(tipe,p1,p2)
+        size = int(self._valueROI.value())
+        tipe = self._comboType.currentText()
+        return erSmootP(SmoothType.names[str(self._comboType.currentText())],size)
+

@@ -36,32 +36,24 @@
 # knowledge of the CeCILL license and that you accept its terms.
 
 
-from mplwidget     import *
+#from mplwidget     import *
 from PyQt4.QtCore  import *
 from PyQt4.QtGui   import *
 from erCv          import * 
-from erRectWidget  import *
 
-class erTemplateWidget(QWidget):
-    def __init__(self,parent=None,default='SQDIFF_NORMED'):
-        super(erTemplateWidget,self).__init__(parent)
-        self._comboType = QComboBox()
-        smt=MatchTemplateType.names.keys()
-        self._comboType.addItems(smt)
-        self._comboType.setCurrentIndex(smt.index(default))
+class erDilateWidget(QWidget):
+    def __init__(self,parent=None,default='BLUR'):
+        super(erDilateWidget,self).__init__(parent)
+      
         layout = QHBoxLayout()
-        layout.addWidget(QLabel('Template Type:'))
-        layout.addWidget(self._comboType)
-        layout.addWidget(QLabel('Rect template :'))
-        self._rect = erRectWidget()
-        layout.addWidget(self._rect)
+        layout.addWidget(QLabel('Dilate zone :'))
+        self._valueROI = QSpinBox()
+        self._valueROI.setValue(5)
+        layout.addWidget(self._valueROI)
         self.setLayout(layout)
-    def setErParam(self,temp):
-        self._comboType.setCurrentIndex(temp.type)
-        self._rect.setRoi(temp.rectan.x,temp.rectan.y,temp.rectan.width,temp.rectan.height)
+    def setErParam(self,dil):
+        self._valueROI.setValue(dil.iter)
     def erParam(self):
-        rect = self._rect.erParam()
-        return erTemplP(MatchTemplateType.names[str(self._comboType.currentText())],
-                       rect,
-                       True)
+        size = int(self._valueROI.value())
+        return erDilatP(size)
 

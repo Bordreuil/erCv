@@ -36,41 +36,33 @@
 # knowledge of the CeCILL license and that you accept its terms.
 
 
-from mplwidget     import *
+#from mplwidget     import *
 from PyQt4.QtCore  import *
 from PyQt4.QtGui   import *
 from erCv          import * 
+from erRectWidget  import *
 
-
-class erWhiteBlobWidget(QWidget):
-    def __init__(self,parent=None):
-        super(erWhiteBlobWidget,self).__init__(parent)
-        
+class erTemplateWidget(QWidget):
+    def __init__(self,parent=None,default='SQDIFF_NORMED'):
+        super(erTemplateWidget,self).__init__(parent)
+        self._comboType = QComboBox()
+        self._smt=MatchTemplateType.names.keys()
+        self._comboType.addItems(self._smt)
+        self._comboType.setCurrentIndex(self._smt.index(default))
         layout = QHBoxLayout()
-        
-        layout.addWidget(QLabel('White Threshold:'))
-        self._p1 = QSpinBox()
-        self._p1.setValue(50)
-        layout.addWidget(self._p1)
-        layout.addWidget(QLabel(' Black Threshold:'))
-        self._p2 = QSpinBox()
-        self._p2.setRange(1,255)
-        self._p2.setValue(5.)
-        layout.addWidget(self._p2)
-        layout.addWidget(QLabel(' Distance for border:'))
-        self._p3 = QSpinBox()
-        self._p3.setValue(50)
-        layout.addWidget(self._p3)
-        layout.addWidget(QLabel(' Size of Blob:'))
-        self._p4 = QSpinBox()
-        self._p4.setValue(50)
-        layout.addWidget(self._p4)
+        layout.addWidget(QLabel('Template Type:'))
+        layout.addWidget(self._comboType)
+        layout.addWidget(QLabel('Rect template :'))
+        self._rect = erRectWidget()
+        layout.addWidget(self._rect)
         self.setLayout(layout)
-
+    def setErParam(self,temp):
+ 
+        self._comboType.setCurrentIndex(self._smt.index(str(temp.type)))
+        self._rect.setRoi(temp.rectan.x,temp.rectan.y,temp.rectan.width,temp.rectan.height)
     def erParam(self):
-        
-        p1   = int(self._p1.value())
-        p2   = int(self._p2.value())
-        p3   = int(self._p3.value())
-        p4   = int(self._p4.value())
-        return erWhitBP(p1,p2,p3,p4)
+        rect = self._rect.erParam()
+        return erTemplP(MatchTemplateType.names[str(self._comboType.currentText())],
+                       rect,
+                       True)
+

@@ -36,35 +36,43 @@
 # knowledge of the CeCILL license and that you accept its terms.
 
 
-from mplwidget     import *
+#from mplwidget     import *
 from PyQt4.QtCore  import *
 from PyQt4.QtGui   import *
-from erCv          import *
+from erCv          import * 
+
+# class erSmootWidget(QWidget):
+ #    def __init__(self,parent=None,default='BLUR'):
+ #        super(erSmootWidget,self).__init__(parent)
+ #        self._comboType = QComboBox()
+ #        smt=SmoothType.names.keys()
+ #        self._comboType.addItems(smt)
+ #        self._comboType.setCurrentIndex(smt.index(default))
+ #        layout = QHBoxLayout()
+ #        layout.addWidget(QLabel('Smooth Filter Type:'))
+ #        layout.addWidget(self._comboType)
+ #        layout.addWidget(QLabel('Smooth zone :'))
+ #        self._valueROI = QSpinBox()
+ #        self._valueROI.setValue(5)
+ #        layout.addWidget(self._valueROI)
+ #        self.setLayout(layout)
+ #    def erParam(self):
+ #        size = int(self._valueROI.value())
+ #        tipe = self._comboType.currentText()
+ #        return erSmootP(SmoothType.names[str(self._comboType.currentText())],size)
 
 
-class erCannyWidget(QWidget):
+class erAlphaShapeWidget(QWidget):
     def __init__(self,parent=None):
-        super(erCannyWidget,self).__init__(parent)
-
+        super(erAlphaShapeWidget,self).__init__(parent)
         layout = QHBoxLayout()
-
-        layout.addWidget(QLabel('Canny Threshold 1:'))
-        self._value1 = QSpinBox()
-        self._value1.setRange(1,255)
-        self._value1.setValue(255)
-        layout.addWidget(self._value1)
-        layout.addWidget(QLabel('Canny Threshold 2:'))
-        self._value2 = QSpinBox()
-        self._value2.setRange(1,255)
-        self._value2.setValue(255)
-        layout.addWidget(self._value2)
+        layout.addWidget(QLabel(' Alpha shape distance :'))
+        self._p = QSpinBox()
+        self._p.setValue(4)
+        layout.addWidget(self._p)
         self.setLayout(layout)
-
-    def setErParam(self,param):
-        self._value1.setValue(param.trh1)
-        self._value2.setValue(param.trh2)
-
+    def setErParam(self,alp):
+        self._p.setValue(alp.alpha)
     def erParam(self):
-        l1 = int(self._value1.value())
-        l2 = int(self._value2.value())
-        return erCannyP(l1,l2)
+        r = int(self._p.value())
+        return erAlphaP(r)

@@ -36,43 +36,41 @@
 # knowledge of the CeCILL license and that you accept its terms.
 
 
-from mplwidget     import *
+#from mplwidget     import *
 from PyQt4.QtCore  import *
 from PyQt4.QtGui   import *
-from erCv import *
+from erCv          import * 
 
 
-class erRectWidget(QWidget):
-     def __init__(self,parent=None,default='BLUR'):
-        super(erRectWidget,self).__init__(parent)
-        layout = QVBoxLayout()
-        layout1 = QHBoxLayout()
-        layout1.addWidget(QLabel('x:'))
-        self._x = QSpinBox();self._x.setRange(0,1000)
-        layout1.addWidget(self._x)
-        layout1.addWidget(QLabel('y:'))
-        self._y = QSpinBox();self._y.setRange(0,1000)
-        layout1.addWidget(self._y)
-        layout2 = QHBoxLayout()
-        layout2.addWidget(QLabel('width:'))
-        self._width = QSpinBox();self._width.setRange(0,1000)
-        layout2.addWidget(self._width)
-        layout2.addWidget(QLabel('height:'))
-
-        self._height = QSpinBox();self._height.setRange(0,1000)
-        layout2.addWidget(self._height)
-        layout.addLayout(layout1)
-        layout.addLayout(layout2)
+class erWhiteBlobWidget(QWidget):
+    def __init__(self,parent=None):
+        super(erWhiteBlobWidget,self).__init__(parent)
+        
+        layout = QHBoxLayout()
+        
+        layout.addWidget(QLabel('White Threshold:'))
+        self._p1 = QSpinBox()
+        self._p1.setValue(50)
+        layout.addWidget(self._p1)
+        layout.addWidget(QLabel(' Black Threshold:'))
+        self._p2 = QSpinBox()
+        self._p2.setRange(1,255)
+        self._p2.setValue(5.)
+        layout.addWidget(self._p2)
+        layout.addWidget(QLabel(' Distance for border:'))
+        self._p3 = QSpinBox()
+        self._p3.setValue(50)
+        layout.addWidget(self._p3)
+        layout.addWidget(QLabel(' Size of Blob:'))
+        self._p4 = QSpinBox()
+        self._p4.setValue(50)
+        layout.addWidget(self._p4)
         self.setLayout(layout)
-     def erParam(self):
-         rect       =  CvRect()
-         rect.x     = int(self._x.value())
-         rect.y     = int(self._y.value())
-         rect.width = int(self._width.value())
-         rect.height= int(self._height.value()) 
-         return rect
-     def setRoi(self,x,y,w,h):
-         self._x.setValue(x)
-         self._y.setValue(y)
-         self._width.setValue(w)
-         self._height.setValue(h)
+
+    def erParam(self):
+        
+        p1   = int(self._p1.value())
+        p2   = int(self._p2.value())
+        p3   = int(self._p3.value())
+        p4   = int(self._p4.value())
+        return erWhitBP(p1,p2,p3,p4)
